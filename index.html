@@ -124,16 +124,19 @@
         ].filter(function (url, index, list) {
           return url && list.indexOf(url) === index;
         });
-        Promise.all(requests.map(function (url) {
-          return fetch(url, {
-            method: 'GET',
-            cache: 'force-cache',
-          }).catch(function () {});
-        })).catch(function () {});
+        requests.forEach(function (url) {
+          var link = document.createElement('link');
+          link.rel = 'preload';
+          link.as = 'fetch';
+          link.href = url;
+          link.setAttribute('data-dpr-docsify-preload', '1');
+          document.head.appendChild(link);
+        });
       } catch {
         // ignore
       }
     };
+    window.DPRPrefetchDocsifyShell();
     document.addEventListener('dpr-docsify-ready', window.DPRHideInitialSplash);
     window.addEventListener('load', function () {
       window.setTimeout(window.DPRHideInitialSplash, 300);
@@ -355,10 +358,6 @@
       },
       window.DPR_RUNTIME_SOURCE_BACKENDS || {},
     );
-
-    if (typeof window.DPRPrefetchDocsifyShell === 'function') {
-      window.DPRPrefetchDocsifyShell();
-    }
 
     window.DPRLoadAssets([
       { type: 'style', path: 'app/vendor/docsify/4/lib/themes/vue.css' },
