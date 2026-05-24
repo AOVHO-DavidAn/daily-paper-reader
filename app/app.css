@@ -1029,7 +1029,7 @@ body.sidebar-resizing .sidebar::after {
     (100% - var(--sidebar-width, 260px)) / 2
   );
   transform: translateX(-50%);
-  bottom: 103px; /* 对齐输入区按钮的上边沿 */
+  bottom: 105px; /* 对齐输入区按钮的上边沿 */
   max-width: min(var(--dpr-paper-content-max-width), calc(100% - var(--sidebar-width, 260px) - 40px));
   width: min(var(--dpr-paper-content-max-width), calc(100% - var(--dpr-paper-content-gap-desktop)));
   max-height: 46vh;
