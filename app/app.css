@@ -515,7 +515,7 @@ body.close #paper-chat-container::after {
   max-width: min(var(--dpr-paper-content-max-width), calc(100% - var(--sidebar-width, 260px) - 40px));
   width: min(var(--dpr-paper-content-max-width), calc(100% - var(--dpr-paper-content-gap-desktop)));
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   gap: 12px;
   padding: 12px 20px;
   margin-top: 0;
@@ -965,11 +965,12 @@ body.sidebar-resizing .sidebar::after {
   border-radius: 0;
   resize: none;
   background: transparent;
-  max-height: 160px;
-  min-height: 24px;
+  box-sizing: border-box;
+  max-height: 180px;
+  min-height: 42px;
   line-height: 1.6;
   font-size: 15px;
-  overflow-y: auto;
+  overflow-y: hidden;
   color: #1f1f1f;
 }
 #paper-chat-container #user-input:focus {
