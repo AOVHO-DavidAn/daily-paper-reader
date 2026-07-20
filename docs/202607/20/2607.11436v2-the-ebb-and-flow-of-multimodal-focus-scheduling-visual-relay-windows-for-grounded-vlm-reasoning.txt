@@ -1,0 +1,736 @@
+Title: The Ebb and Flow of Multimodal Focus: Scheduling Visual Relay Windows for Grounded VLM Reasoning
+
+URL Source: https://arxiv.org/pdf/2607.11436v2
+
+Published Time: Mon, 20 Jul 2026 01:17:58 GMT
+
+Number of Pages: 15
+
+Markdown Content:
+# The Ebb and Flow of Multimodal Focus: Scheduling Visual Relay Windows for Grounded VLM Reasoning 
+
+Wencheng Ye 1, Yi Bin 1*, Yujuan Ding 2, Hongye Fang 1, Zheng Wang 1, Xing Xu 1,Jingkuan Song 1, Yun Zhang 3, Sirui Da 1, Heng Tao Shen 1
+
+> 1
+
+School of Computer Science and Technology, Tongji University 
+
+> 2
+
+Department of Computing, The Hong Kong Polytechnic University 
+
+> 3
+
+School of Artificial Intelligence, Shanghai Jiao Tong University 
+
+Abstract 
+
+Vision-language models increasingly succeed on multimodal reasoning benchmarks, yet their visual evidence often becomes unstable once it enters the language stack, weakening evidence-grounded rea-soning. To understand this fragility, we examine the internal dynamics of VLMs through a mechanistic lens and uncover a stable three-stage redistribution of multimodal attention focus across depth: an early question-conditioned organization, a critical middle visual-dominant relay, and a late return to answer formation. We operationalize the middle phase as the Visual Relay Window (VRW), and show that its geometry varies with task demand, is causally tied to grounded generation, and distinguishes unsup-ported answers from stronger reasoning trajectories. Guided by this internal rhythm, we propose TRACE, a task-adaptive inference-time control framework with lightweight trained modules. It reshapes relay allocation during prefill and preserves assembled vi-sual support after handoff during decoding. Across four open-weight VLM backbones and seven bench-marks, TRACE delivers large gains on grounding-sensitive settings, improving them by 4.33 points on average and by up to 6.6 points, while also im-proving reasoning-heavy tasks. These results show that explicitly controlling multimodal focus across depth offers a unified and effective mechanism for strengthening evidence-grounded multimodal rea-soning. The code is available at: https://github. com/gooogleshanghai/visual-relay-window .
+
+Keywords: Vision-language models, multimodal rea-soning, hallucination mitigation. 
+
+1 Introduction 
+
+Vision-language models (VLMs) have advanced rapidly in both scale and capability, with recent systems show-ing competitive reasoning ability and strong perfor-
+
+> *Corresponding author.
+
+mance on broad multimodal benchmarks (Zhang et al., 2024a; Bai et al., 2025; Wang et al., 2025b; Yue et al., 2024; Lu et al., 2024; Thawakar et al., 2025). Yet this progress also sharpens a central requirement: visual evidence must remain available across multiple infer-ence steps and be reorganized into answer-relevant struc-ture (Li et al., 2025; Liu et al., 2024a). This is difficult because once visual information is absorbed into the language stack, its influence can attenuate with depth, become entangled with language organization, or drift as generation unfolds (Zhong et al., 2024; Xu et al., 2026). Recent methods improve visual evidence support in VLMs through diverse control handles anchored to dif-ferent actionable signals: contrastive decoding exploits the sensitivity of generation to visual perturbation (Leng et al., 2024; Zhao et al., 2024a), attention reallocation tar-gets insufficient attention paid to visual tokens (Liu et al., 2024c; Zhang et al., 2026a), and activation steering tar-gets activation patterns associated with ungrounded gen-eration (Wu et al., 2025; Su et al., 2025; Liu et al., 2025; Yin et al., 2026). Together, these advances show that fail-ures of visual evidence support can often be mitigated at inference time once the right signal is acted on at the right place. What remains less clear is how these signals, each anchored to a different point of computation, relate to one another over the course of inference: whether they should be treated as separate cues calling for sep-arate fixes, or as partial snapshots of a single evolving process governing how visual evidence is organized and used. As a result, it remains difficult to tell how interven-tion should track the changing role of visual evidence as reasoning unfolds. Addressing this requires a more explicit account of multimodal computation during inference. Prior mechanistic studies show that attention-based analy-sis can reveal functionally meaningful structure in-1arXiv:2607.11436v2 [cs.AI] 17 Jul 2026 Question-conditioned 
+
+> Organization
+> How many
+> people are
+> holding
+> umbrellas?
+
+Visual Relay 
+
+Window   
+
+> Focus shifts to visual stream.
+> Evidence is gathered and structured.
+> Intergrate Gather Based on evidence,
+> the answer is: 5.
+> Retr ieve
+> Reasoning
+> Linguistic Answer
+> Formation
+> Normalized Attention Figure 1: A unified three-stage relay pattern across vision-language models. Across ten open VLMs, the jointly normalized Answer →Query and Image →Image trajectories show a consistent depth-wise redistribution of multimodal focus: early layers emphasize question-conditioned response organization, middle layers allocate computation to visual consolidation, and later layers shift back toward answer formation. The horizontal bracket marks the relay interval, while paired markers match individual models to their trajectories.
+
+side VLMs, identifying how visual information is re-distributed across layers, token groups, and compo-nents (Basu et al., 2024; Zhang et al., 2025b; Li et al., 2026; Jiang et al., 2025; Shanbhag et al.). Through such analyses, they find that visually relevant transfer is concentrated in a subset of middle layers and fine-grained details are retrieved more locally from image tokens (Zhang et al., 2025b; Kaduri et al., 2025; Jiang et al., 2025). We therefore ask a more structural ques-tion: how does multimodal focus evolve over the course of inference as a VLM reasons toward an answer? 
+
+To answer it, we track two attention probes across layers: an answer-side probe measuring how strongly answer tokens look back to the question, and a visual-side probe measuring how strongly visual tokens attend to one another. Aggregated attention mass under these two probes gives a compact proxy for how multimodal interaction is redistributed. What emerges is a clear three-stage pattern, where the two probes behave like opposing currents over depth. In the early layers, atten-tion remains dominated by question-conditioned organi-zation: the model is still aligning the visual input with the query and establishing an answer-relevant frame, so the question-directed probe rises while intra-visual at-tention falls. Midway through the network, the balance shifts toward intra-visual consolidation and attention to the question recedes, where visual tokens interact more strongly with one another and answer-relevant evidence is actively assembled. In the later layers, computation returns to language-side answer formation, where the assembled support is handed off to generation. Fig-ure 1 sketches this progression and shows that the same three-stage pattern appears consistently across models, marking a limited interval in which visual consolidation dominates before computation returns to language side. Crucially, this relay geometry is not fixed. Our anal-ysis suggests that it shifts with the evidence demands of the question: tasks that require broader visual aggre-gation such as counting tend to exhibit longer and later relay phases, whereas tasks that place greater weight on downstream reasoning tend to exhibit earlier handoff from visual consolidation to answer formation. Success therefore depends not only on whether relevant visual content is present, but also on whether the timing of relay match the computation the task requires. Mismatch can arise in either direction. If relay ends too early, answer-relevant evidence may remain only partially assembled before generation begins; if it persists too long, compu-tation that would otherwise support later reasoning will be occupied by unneeded visual processing. This inter-pretation is further supported by causal analyses: per-turbing states within the relay interval changes whether later responses remain grounded far more strongly than comparable perturbations outside it. Stronger Thinking variants likewise exhibit more stable relay matching and stronger post-handoff anchoring, suggesting that part of their advantage may lie in allocating this intermediate stage more appropriately. 2These findings make relay geometry a natural target for intervention. We therefore propose TRACE ( Task-adaptive Relay Anchoring and Controlled Evidence Scheduling, an inference-time control framework with lightweight trained modules that regulates how visual support is assembled before handoff and retained after-ward. TRACE first uses lightweight prefill-time atten-tion statistics to predict which layers are likely to partic-ipate in relay, then adaptively expands or contracts relay allocation through task-aware scheduling, and finally anchors the selected visual support after handoff so that relevant evidence remains available during decoding. We evaluate TRACE on four open-weight VLM back-bones from two families across seven benchmarks span-ning document understanding, visual reasoning, and hallucination-sensitive grounding. It delivers large gains on grounding-sensitive settings, with an average im-provement of 4.33 points and gains of up to 6.6 points, while also improving reasoning-heavy settings consis-tently. The intervention also produces the intended in-ternal shifts: grounding-sensitive benchmarks benefit from broader, later relay phases, whereas reasoning-heavy cases improve when relay becomes shorter and hands off earlier. This highlights the unified feature of our approach: rather than designing separate fixes for hallucination mitigation or logical reasoning, we cast the diverse demands of downstream tasks into a single underlying mechanism. Our contributions are threefold: • We identify a stable stage-wise redistribution of multimodal focus across depth and operationalize its middle relay phase as the Visual Relay Window 
+
+(VRW), establishing a structural measure for inter-nal evidence assembly. • We demonstrate that this geometry dynamically adapts to specific task demands, and establish a causal link between optimal relay timing and grounded generation, offering a mechanistic ex-planation for typical hallucinations and capability differences across models. • We introduce TRACE, an intervention framework that reshapes relay allocation during prefill and preserves assembled support during decoding. By viewing the diverse demands of downstream tasks through a single computational lens, it addresses both hallucination mitigation and complex reason-ing under a unified control principle. 
+
+2 Related Work 
+
+2.1 Visual Evidence Degradation in Multimodal Reasoning 
+
+Vision-language models (VLMs) have increasingly shifted from perception-oriented tasks toward multi-step, evidence-dependent reasoning(Zhang et al., 2024a; Thawakar et al., 2025; Zhou et al., 2026). This tran-sition is especially visible on benchmarks such as MMMU(Yue et al., 2024) and MathVista(Lu et al., 2024), where success depends on carrying visual ev-idence across multiple inference steps, and is widely tied to a persistent modality gap between visual and lan-guage representations(Bai et al., 2024; Liu et al., 2024a). Since visual tokens are projected into the language stack through a lightweight connector, they often behave as weakly aligned soft prompts whose influence degrades with depth and generation length(Li et al., 2025; Chen et al., 2026). Modern VLMs therefore frequently fall back to language priors over visual evidence, leading to visual neglect across perception, spatial understanding, and long-form reasoning settings(Zhao et al., 2024b; Chandhok et al., 2025; Alam et al., 2026; Xi et al., 2026; Xu et al., 2026; Zhong et al., 2024). These findings shift attention from visual access alone to how visual evidence is maintained through reasoning. 
+
+2.2 Mechanistic Analysis of Multimodal Computation 
+
+To understand why generation becomes less visually grounded during reasoning, recent work has increasingly used attention patterns and token-group interactions as informative probes of multimodal computation inside VLMs (Shanbhag et al.; Zhang et al., 2025b; Saporita et al., 2026). Through these analyses, several studies show that intermediate layers play an especially impor-tant role in consolidating visual evidence and aligning it with language representations (Yang et al., 2026; Kaduri et al., 2025; Jiang et al., 2025). Causal tracing and circuit-level analyses further suggest that object repre-sentations and image-to-text transfer pathways are often concentrated in a subset of layers and components (Li et al., 2026; Zhang et al., 2025a; Basu et al., 2024). Several works also report failure sources such as repre-sentational interference, attention sinks, and visual infor-mation dilution (Kang et al., 2025; Chen et al.; Savietto et al., 2026; Zhang et al., 2024b). These findings to-gether suggest that visual information is redistributed non-uniformly across depth, but the stage-wise structure that governs evidence buildup remains less explicitly characterized. Using attention as a lens on how interac-tion is redistributed across token groups and depth, our 3analysis reveals a relay pattern in which visual consol-idation and language-side organization exhibit a clear stage-wise trade-off, and operationalizes this structure as the Visual Relay Window. 
+
+2.3 Inference-Time Control for Vision-Language Models 
+
+A large body of previous work attempts to mitigate failures of visual evidence support through inference-time intervention. One prominent direction is con-trastive decoding, including VCD(Leng et al., 2024), MARINE(Zhao et al., 2024a), and several perturbation-based variants(Park et al., 2025; Jiang et al., 2026), which contrast original and perturbed visual represen-tations to suppress unsupported generations. These ap-proaches mainly operate at the final decoding stage, therefore cannot directly repair upstream evidence for-mation errors. Another line of work intervenes in latent representations through activation steering or hidden-state editing(Wu et al., 2025; Wang et al., 2025a; Su et al., 2025; Liu et al., 2025), which may alter en-tangled reasoning-relevant representations(Sivakumar et al., 2025; Cheng et al., 2026; Yin et al., 2026). More recently, attention-level and prefill-stage interventions have emerged as a promising alternative. Methods such as PTI(Zhang et al., 2026a), PAI(Liu et al., 2024c), and AVAM(Zeng et al., 2025) show that earlier intervention points can improve visual evidence support by reallo-cating attention or preserving visual context before de-coding begins(Zhang et al., 2026b; Fu et al., 2026). Our work builds on these advances by explicitly modeling relay geometry and using it as a unified control target. This intervention improves grounded reasoning directly, while hallucination reduction emerges from the same mechanism. 
+
+3 Structure-Aware Control in VLMs 
+
+We first identify a relay structure that organizes multi-modal evidence flow and establish it as a measurable tar-get for grounded generation. We then show how TRACE operationalizes this structure as an inference-time con-trol mechanism. 
+
+3.1 Attention Probes for Depth-Wise Multimodal Focus 
+
+Our goal is to examine how multimodal focus evolves across depth as a VLM reasons. To do so, we track a small set of token-group attention flows that capture complementary aspects of this process. One reflects question-conditioned response organization, while the other reflects consolidation within the visual stream. Consider a vision-language model that takes an image-question pair (I, q ) as input and autoregressively gen-erates an answer sequence y = ( y1, . . . , y T ). Let the model contain L Transformer layers, and let A(l) ∈
+
+RN ×N denote the self-attention matrix at layer l. We partition the sequence into three groups, 
+
+V ∪ Q ∪ Y = {1, . . . , N }, (1) where V, Q, and Y respectively denote visual, question, and answer tokens. We first define an answer-side probe that measures how strongly the model refers back to the question while forming a response: 
+
+M (l)A→Q = 1
+
+|Y| 
+
+X
+
+> i∈Y
+
+X
+
+> j∈Q
+
+A(l) 
+
+> ij
+
+, (2) We next define a visual-side probe for intra-visual con-solidation: 
+
+M (l)I→I = 1
+
+|V| 
+
+X
+
+> i∈V
+
+X
+
+> j∈V
+
+A(l) 
+
+> ij
+
+. (3) For autoregressive decoding, the answer-side probe aggregates the corresponding attention mass over answer-generation steps, yielding a layerwise estimate of question-conditioned response formation. The visual probe is computed within each layer as a summary of intra-visual consolidation. Together, these two probes provide a compact view of how multimodal computation is distributed between language-side organization and visual evidence assembly across depth. 
+
+3.2 A Shared Relay Structure Across VLMs 
+
+Cognitive accounts of scene understanding describe a stage-wise progression, which moves from percep-tual encoding to evidence integration and response se-lection (Van Maanen et al., 2021; Epstein and Baker, 2019). Consistent with this view, after aligning lay-ers by relative depth and jointly normalizing the two relay channels, the balance between the two probes like-wise reveals a three-stage trajectory: an early question-conditioned regime, a middle visual-dominant regime, and a late return to response formation. Figure 1 shows that this three-stage pattern survives substantial archi-tectural variation, covering ten checkpoints from Qwen-VL(Qwen et al., 2025; Bai et al., 2025), InternVL(Wang et al., 2025b), and LLaVA(Liu et al., 2024b) on a bal-anced probing set of 2,000 image-question pairs span-ning four task families. Despite large differences in model size, tokenizer layout, and absolute attention scale, the same phase ordering persists. What changes across models is the geometry of the middle visual-dominant segment, especially its extent and termination 4Table 1: Top probe pairs ranked by reciprocal correlation on the probing split. Lower correlation indicates a stronger reciprocal trend.                
+
+> Probe pair Source relation Corr. ↓
+> Answer →Query /Image →Image Disjoint-source -0.93
+> Answer →Query /Answer →Image Same-source -0.87
+> Query →Query /Image →Image Disjoint-source -0.84
+> Answer →Query /Query →Image Disjoint-source -0.73
+
+depth. We therefore isolate this segment and operational-ize it as the Visual Relay Window (VRW). 
+
+3.3 Operationalizing the Visual Relay Window 
+
+We formalize the VRW as an operationally estimated middle-layer segment in which visual evidence domi-nates before answer commitment. Among non-identical probe pairs, Answer →Query and Image →Image exhibit the clearest reciprocal depth-wise structure on the prob-ing split (Table 1), which makes them a suitable basis for this operational summary. To compare samples and model families, we jointly normalize the two relay chan-nels within each sample, and define the relay-dominance score 
+
+R(l) = M (l)I→I − M (l)A→Q. (4) Higher values indicate stronger visual consolida-tion, while lower values indicate stronger question-conditioned response organization. Intuitively, R(l) is a signed summary of which side currently dominates the computation at layer l. In practice, before comput-ing R(l), we jointly normalize M (l)I→I and M (l)A→Q within each sample by min-max scaling them over layers to 
+
+[0 , 1] .To focus on the middle relay phase, we define the relative depth ρl = l/L and use the heuristic setting 
+
+ρl ∈ [0 .2, 0.8] together with a tolerance margin δ = 0 .1.This restricts the estimate to the network interior and suppresses small local ripples. We then define the relay peak as 
+
+l⋆ = arg max   
+
+> l:ρl∈[0 .2,0.8]
+
+R(l). (5) The candidate interval [s0, e 0] is the maximal contiguous interval containing l⋆ such that 
+
+R(l) ≥ R(l⋆) − δ, ∀l ∈ [s0, e 0]. (6) This candidate interval permits local fluctuations while requiring the retained segment to remain close to the middle-layer relay peak. The final VRW is the longest contiguous sub-interval [s, e ] ⊆ [s0, e 0] that still con-tains l⋆ and preserves the global handoff trend: 
+
+M (e)I→I − M (s)I→I > 0, M (e)A→Q − M (s)A→Q < 0. (7) (A) 
+
+> (B)
+
+Figure 2: Task-dependent geometry of the Visual Relay Win-dow on Qwen3-VL-4B. (A) Distributions of VRW-End and 
+
+VRW-Width across task families. (B) Task-wise mean relay curves for four task families. 
+
+From the final VRW boundaries, we derive two statis-tics used throughout the paper: 
+
+VRW-Width = e − s + 1 
+
+L , VRW-End = eL . (8) 
+
+VRW-Width measures the relative extent of the relay phase, while VRW-End measures the depth at which it terminates. 
+
+3.4 Task-Dependent Relay Geometry 
+
+The cross-model regularity above motivates an immedi-ate question: is the relay window fixed or highly adap-tive? To answer this, we group evaluation samples into four families—detail-heavy perception, recognition, re-lation/spatial reasoning, and high-level reasoning—and test whether relay geometry shifts systematically with evidence demand. As Figure 2 shows, relay geometry is strongly task-dependent (one-way ANOVA, p < 0.005 ). Detail-heavy tasks tend to produce broader windows and later relay termination, indicating that visual evidence continues to be assembled deeper into the stack. High-level reason-ing tasks, by contrast, often exhibit shorter windows and earlier handoff, while recognition and relation-oriented tasks occupy intermediate regimes. Taken together, these patterns show that the redistribution of multimodal focus is itself task-sensitive, which reflects a control policy that the model may have acquired during massive 5A1: It looks more     
+
+> like a stool .The
+> seat appears small,
+> backless and
+> made of wood.
+> A2: It appears to be
+> achair . The person
+> is making music and
+> seems to be seated
+> on a supported seat.
+> Grounded Unsupported Question: Is the man sitting on a
+> stool or a chair?
+> Answer —>Query
+> Image —>Image
+
+Figure 3: Case study of relay bifurcation for the same image-question pair. The grounded trajectory sustains a broader re-lay phase and remains visually supported, whereas the unsup-ported trajectory exits earlier and drifts toward language-side priors. Lower overlays visualize answer-to-visual attention after relay termination. 
+
+training, allocating relay length and termination depth to match what each task’s evidence-gathering process requires. 
+
+3.5 Relay Mismatch as an Evidence Assembly Failure 
+
+Task-dependent relay geometry suggests a natural fail-ure mode: the relay can be mismatched to the evidence demand of the question. Under this view, unsupported generation arises when the model begins linguistic com-mitment before the necessary visual structure has been fully consolidated. To probe this mismatch, we use HaloQuest(Wang et al., 2024) under repeated decoding with temperature 1.0, sampling 5 continuations for each of 200 image-question pairs. We classify each continu-ation according to the HaloQuest correctness criterion. To quantify whether answer formation remains tied to visual evidence after relay handoff, we measure answer-to-visual attention at each layer: 
+
+M (l)A→V = 1
+
+|Y| 
+
+X
+
+i∈Y 
+
+X
+
+j∈V 
+
+A(l)
+
+ij . (9) We then define AnchorStrength as the average of this quantity after the relay window terminates: 
+
+AnchorStrength = 1
+
+|Lpost |
+
+X
+
+> l∈Lpost
+
+M (l)A→V, Lpost = { l | l > e }.
+
+(10) 
+
+where e denotes the VRW end layer. Figure 3 shows a representative split. The grounded branch sustains a broader relay phase and stronger vi-sual anchoring after relay. The same pattern appears at the population level: Figure 4 shows that unsupported samples concentrate in a regime of narrower relay win-dows, earlier relay termination, and weaker post-handoff anchoring ( t-test, all p < 0.01 ). These case-level and population-level differences establish a consistent corre-lation. 
+
+Table 2: Relay patching controls. Pre- and post-relay denote the full ranges before and after the estimated VRW, while shifted controls preserve the VRW width. Recovery denotes the fraction of unsupported branches that become supported after patching. 
+
+Patched range Recovery (%) Pre-relay range 8.7 Post-relay range 11.2 Mean over same-width shifts 27.6 ± 3.3 
+
+Estimated VRW 41.4 Grounded Hallucinated   
+
+> 0.10
+> 0.15
+> 0.20
+> 0.25
+> 0.30
+> 0.35
+> 0.40
+> 0.45
+> VRW Width
+> Grounded Hallucinated
+> 0.4
+> 0.5
+> 0.6
+> 0.7
+> 0.8
+> VRW End
+> Grounded Hallucinated
+> 0.020
+> 0.025
+> 0.030
+> 0.035
+> 0.040
+> 0.045
+> 0.050
+> 0.055
+> Post-Handoff Anchor Strength
+> Hallucinated Cases Exhibit Degraded Relay Behavior
+
+Figure 4: Unsupported answers are associated with narrower relay windows, earlier relay termination, and weaker post-handoff visual anchoring than grounded samples on Qwen3-VL-4B. 
+
+To test whether this interval is causally important, we construct grounded–unsupported continuation pairs from repeated decodes of the same input and define tdiv 
+
+as the first generated token position at which the two answers diverge. For each pair, we treat the grounded branch as the source branch and the unsupported branch as the target branch. At all aligned decoding steps 
+
+t ≥ tdiv , we patch the target branch by replacing the visual-token residual activations at layers in a selected range L with the corresponding activations from the source branch. We compare the estimated VRW with the full pre-relay and post-relay ranges, as well as with same-width shifted controls. For each sample, let [s, e ]
+
+denote the estimated VRW and w = e − s + 1 its width. We also evaluate width-matched shifted windows of the form [s + ∆ , e + ∆] with ∆ ∈ {− 2, −1, +1 , +2 }. Ta-ble 2 reports the recovery rates, defined as the fraction of unsupported target branches that are reassigned to grounded after patching. Patching the estimated VRW recovers grounded responses in 41.4% of unsupported cases, compared with 8.7% for the pre-relay range and 11.2% for the post-relay range. The same advantage persists after averaging over same-width shifts, indicat-ing that the effect is specific to relay geometry rather than a nearby window of comparable size, validating VRW as a functionally important middle-layer interval for grounded generation. 6Table 3: Relay match and anchoring in Instruct and Thinking variants. Entries report Instruct → Thinking.                     
+
+> Model Width dev. ↓End dev. ↓Anchor ↑
+> Qwen3-VL-4B 0.084 →0.053 0 .061 →0.048 0 .031 →0.074
+> Qwen3-VL-8B 0.059 →0.030 0 .106 →0.074 0 .067 →0.081
+
+3.6 Thinking Models Improve Relay Match and Anchoring 
+
+The analyses above suggest a capability-level question: why are stronger reasoning models stronger? We exam-ine this by comparing the Instruct and Thinking variants of Qwen3-VL-4B and 8B. For each task family t, let 
+
+μ(w) 
+
+> t
+
+and μ(e) 
+
+> t
+
+denote the family mean of VRW-Width and 
+
+VRW-End under the Instruct condition. For a sample i in family t(i), we define task-conditioned relay mismatch as            
+
+> ∆(i)width =VRW-Width (i)−μ(w)
+> t(i),∆(i)end =VRW-End (i)−μ(e)
+> t(i).
+> (11)
+
+Lower values indicate that a sample’s relay geometry is closer to the task-typical regime. Table 3 shows a consistent pattern across both scales. Thinking variants reduce both relay-geometry devia-tions, indicating better alignment with the task-typical relay regime. They also increase post-handoff anchoring, suggesting stronger retention of the evidence assembled during relay. The gain does not come from uniformly widening the relay window. Instead, Thinking models improve both relay matching and evidence carryover into answer formation. A plausible explanation is that Thinking-style training encourages delayed answer com-mitment and more explicit use of intermediate evidence, favoring more stable relay allocation and stronger post-handoff visual support. 
+
+3.7 TRACE: Instantiating Relay-Aware Control 
+
+Building on the relay geometry identified above, Fig-ure 5 presents an overview of TRACE, which instan-tiates this target through three components: a learned relay predictor, a task-aware prefill scheduler with dy-namic evidence selection, and a post-handoff anchoring module. 
+
+3.8 A Learned Relay Predictor 
+
+A lightweight relay predictor Dϕ assigns each prefill layer a relay score. Causally, the relay score for layer l
+
+is predicted from the statistics observed after layer l − 1,namely pl = Dϕ
+
+ h(l−1)  for l ≥ 2, with p1 = 0 . It operates on compact prefill-time statistics and recovers the relay geometry identified above. The feature vector 
+
+h(l) contains the visual self-attention mass M (l)I→I, its layerwise change ∆−M (l)I→I, the mean question-to-visual attention ¯a(l)Q→V, and the relative layer depth ρl:
+
+h(l) =
+
+h
+
+M (l)I→I, ∆−M (l)I→I, ¯a(l)Q→V, ρ l
+
+i
+
+, (12) where ¯a(l)Q→V = 1
+
+> |Q|
+
+P
+
+> i∈Q
+
+P 
+
+> j∈V
+
+A(l) 
+
+> ij
+
+and ∆−M (l)I→I =
+
+M (l)I→I − M (l−1) I→I . We implement Dϕ as a two-layer MLP with sigmoid output. The predictor is trained from pseudo labels induced by the offline VRW definition in Section 3.3. For each image-question pair, the rule-based estimator yields a relay interval [s, e ], which is converted into layerwise labels 
+
+zl =
+
+(
+
+1, l ∈ [s, e ],
+
+0, otherwise . (13) We then optimize 
+
+Ldet = 1
+
+L
+
+> L
+
+X
+
+> l=1
+
+BCE( pl, z l). (14) This objective trains the predictor to recover relay struc-ture from prefill-time signals alone. 
+
+3.9 Task-Aware Relay Scheduling 
+
+Given the relay profile, the scheduler determines where to intervene and which visual content to preserve. 
+
+Layerwise scheduling Let S(l)pf denote the pre-softmax attention logits at prefill layer l. From the predictor output we derive a soft relay gate rl =
+
+σ α(pl − β), where α controls sharpness and β speci-fies the operating point. A layerwise scheduling strength 
+
+g(l) 
+
+> θ
+
+∈ [−1, 1] is then computed by conditionally mod-ulating the relay context c(l) with the mean-pooled previous-layer representation of question tokens q. Here 
+
+c(l) contains ρl, the predictor confidence pl, and the lo-cal relay statistics above. The question branch produces feature-wise scaling terms, 
+
+[γq, βq] = Wqq, ec(l) = γq ⊙ c(l) + βq, (15) and the scheduler predicts 
+
+g(l) 
+
+> θ
+
+= tanh  MLP( ec(l)). (16) Positive values of g(l) 
+
+> θ
+
+broaden or strengthen visual con-solidation, while negative values contract over-extended relay phases and move handoff earlier. 7Answer Tokens 
+
+> Image Tokens
+> Query Tokens
+> Question:
+> What color are
+> the girl's earrings?
+
+1 2 �
+
+Visual Relay Window 
+
+VRW Predictor 
+
+> Attention
+> Statistics
+> Learned Relay
+> Predictor
+> Relay Score
+> Predicted
+> Window
+
+Task-Aware Relay Scheduling 
+
+> Scheduling Strength
+> Add Additional Visual Bias
+
+Post-Handoff Anchoring   
+
+> Predictive entropy Decay over layers
+> Answer: The girl isn't
+> wearing earrings...
+> Add
+> Anchor
+> Bias
+> Layer Depth
+> Dynamic
+> Selection
+> Contract Expand
+
+Figure 5: Overview of TRACE . TRACE first predicts a task-specific Visual Relay Window from attention statistics. Within the predicted window, it dynamically schedules visual-to-visual attention bias to reinforce evidence relay. After the relay stage ends, it gradually shifts to answer-to-visual anchoring with a depth-decayed bias, preserving grounded visual evidence while supporting stable multimodal reasoning throughout generation. 
+
+Dynamic evidence selection Within predicted relay layers, the scheduler maintains a task-relevant visual support set, concentrating the intervention on the subset of visual content currently recruited by the question. At each relay-active layer, question-to-visual attention defines a relevance score 
+
+a(l) 
+
+> j
+
+= 1
+
+|Q| 
+
+X
+
+> i∈Q
+
+A(l) 
+
+> ij
+
+, j ∈ V , (17) which updates a running score via u(l) 
+
+> j
+
+= (1 −μ)u(l−1)  
+
+> j
+
++
+
+μa (l−1)  
+
+> j
+
+for l ≥ 2, with u(1)  
+
+> j
+
+= 0 . We then keep the top-p
+
+fraction of visual tokens: 
+
+S(l)vis = TopP( u(l), p ), (18) During prefill, we maintain an online support mask 
+
+m(l) 
+
+> j
+
+= I[j ∈ S(l)vis ] updated from accumulated question-to-visual relevance and apply it immediately at layer 
+
+l. After prefill, we freeze the final support set Svis 
+
+for decode-time anchoring, with corresponding mask 
+
+mj = I[j ∈ Svis ].During prefill, the scheduler directly reshapes visual-to-visual interactions in relay layers: 
+
+bS(l) 
+
+> ij
+
+= S(l)pf ,ij + λ g (l) 
+
+> θ
+
+rl m(l) 
+
+> i
+
+m(l) 
+
+> j
+
+, i, j ∈ V , (19) where λ is a global prefill scheduling scale. All other entries are left unchanged. The resulting bias broadens, contracts, or stabilizes the relay phase according to task demand before answer generation begins. 
+
+3.10 Post-Handoff Anchoring for Evidence Preservation 
+
+Relay shaping alone is not sufficient: once the relay phase ends, the model must still retain stable access to the visual support it has already assembled. We there-fore introduce a post-handoff anchoring mechanism that carries the selected support into answer generation. Us-ing the relay gate rl, we identify relay exit from the prefill profile with a thresholded stopping rule, and take the deepest layer with sustained relay confidence as the handoff point: 
+
+ˆe = max { l | rl ≥ τr }. (20) The frozen support set Svis is then carried into the post-handoff stage. We define 
+
+Anchor (l) = 1
+
+|Y| 
+
+X
+
+> i∈Y
+
+P 
+
+> j∈Svis
+
+A(l)
+
+> ij
+
+P 
+
+> k∈V
+
+A(l) 
+
+> ik
+
++ ϵ , (21) which measures how much of the answer-side visual attention remains concentrated on task-relevant content. During training, Y denotes the teacher-forced target answer positions; at inference, the same anchoring bias is applied one decoding step at a time. Anchoring is implemented as a weak additive bias on decode-time answer-to-visual logits. The bias is strongest immediately after handoff and then gradually relaxes in deeper layers. We further modulate it by the log-normalized predictive entropy from the previous 8decoding step, denoted ξt−1 ∈ [0 , 1] , so that uncertain generations retain stronger access to the visual support. Let S(l)dec denote the native decode-time logits at layer 
+
+l, with j indexing cached visual tokens. During training, anchoring uses the soft post-handoff weight 1 − rl; at inference, the same bias is applied stepwise with the hard mask I[l > ˆe]:            
+
+> eS(l)dec ,ij =S(l)dec ,ij +ωlγl(1 + ξt−1)mj,j∈ V ,(22)
+
+where ωl = 1 − rl during training and ωl = I[l > 
+
+ˆe] at inference, and γl = γ0 exp( −κ(l/L )) with fixed 
+
+γ0, κ > 0.
+
+3.11 Initialization and Joint Optimization 
+
+We first warm-start the relay predictor with Ldet , and then jointly optimize the predictor, scheduler, and an-choring module on supervised image-question-answer triples, while keeping the base VLM parameters frozen. During training, discrete support selection is replaced by a differentiable soft mask and post-handoff behavior is weighted by the soft complement 1 − rl; at inference, these relaxations revert to the hard top-p support set and the handoff point ˆe. The overall objective is 
+
+Lint = Ltask + λanchor Lanchor , (23) where Ltask is the standard next-token objective and 
+
+Lanchor encourages post-handoff evidence retention dur-ing answer formation: 
+
+Lanchor = 1
+
+L
+
+> L
+
+X
+
+> l=1
+
+(1 − rl) max  0, η − Anchor (l).
+
+(24) 
+
+4 Experiments 
+
+4.1 Models, Datasets, and Evaluation Protocols 
+
+We evaluate four representative vision-language mod-els from two mainstream families: Qwen3-VL-4B, Qwen3-VL- 8B(Bai et al., 2025), InternVL3.5-4B, and InternVL3.5-8B(Wang et al., 2025b). Each backbone is trained separately with its own TRACE modules. Our evaluation covers seven bench-marks: HallusionBench(Guan et al., 2024),VlmsAre-Blind(Rahmanzadehgervi et al., 2024), and Count-Bench(Amini-Naieni et al., 2024) for grounding-sensitive settings; DocVQA(Mathew et al., 2021), ChartQA(Masry et al., 2022), and RealWorldQA(xAI, 2024) for fine-grained evidence settings; and Math-Vista(Lu et al., 2024) for reasoning-heavy settings. We compare against eight baselines: vanilla inference, self-consistency / best-of-N (N =10, temperature=0.7)(Wang et al., 2022), chain-of-thought prompting (CoT)(Wei et al., 2022), Visual Contrastive Decoding (VCD)(Leng et al., 2024), Paying More Attention to Image (PAI)(Liu et al., 2024c), MARINE(Zhao et al., 2024a), Prefill-Time Intervention (PTI)(Zhang et al., 2026a), and Dy-namic Multimodal Activation Steering (DMAS)(Yin et al., 2026). The relay predictor is trained on 2,000 image-question pairs, constructed by uniformly sampling 500 exam-ples each from Visual Genome(Krishna et al., 2017), VQA(Antol et al., 2015), AI2D(Hiippala et al., 2021), and ScienceQA(Lu et al., 2022) to respectively cover the four relay-demand categories; pseudo labels are induced automatically by the VRW estimator in Section 3.3. The full intervention module is then optimized on 20,000 samples from FineVision(Wiedmann et al., 2026). We exclude training samples from datasets that overlap with downstream benchmarks to avoid data contamination. Table 5 summarizes the trainable TRACE compo-nents and their parameter budgets. The predictor size is constant across backbones. The scheduler differs only in the dimension of the pooled question representation, which is 2560 for the 4B backbones and 4096 for the 8B backbones. We report standard accuracy metrics and implement all baselines using their official code-bases. We use greedy decoding with temperature = 0 ,
+
+do _sample = False , and max _new _tokens = 4096 .Visual inputs are processed with each model’s official processor under dynamic-resolution settings. We retain the top p = 0 .3 fraction of visual tokens in the support set, use a relay-exit threshold of τr = 0 .7, and set the post-handoff evidence-retention loss to λanchor = 0 .05 .Other control hyperparameters are fixed: α = 13 ,
+
+β = 0 .5, μ = 0 .15 , η = 0 .7, λ = 0 .6, γ0 = 0 .4,and κ = 2 .0. We train for 3 epochs in Stage 1 and 2 epochs in Stage 2 on four NVIDIA RTX 5090 GPUs. The full training process takes approximately 8 hours, and the base VLM parameters remain frozen throughout. We use separate optimization settings for the two stages. Stage 1 warm-starts the relay predictor with learning rate 1 × 10 −4 and batch size 32. Stage 2 performs joint optimization with learning rate 5 × 10 −5 and batch size 64. Both stages use AdamW and a linear warmup over the first 100 steps. 
+
+4.2 Main Benchmark Results 
+
+Table 4 summarizes the main benchmark results across four model backbones. TRACE improves performance consistently. The clearest improvements appear on grounding-sensitive settings: averaged over Hallusion-Bench, VlmsAreBlind, and CountBench across all four backbones, TRACE improves over vanilla by 4.33 9Table 4: Main benchmark results across four model backbones. Values in parentheses indicate absolute change relative to the corresponding vanilla model. The best result in each model–benchmark row is shown in bold, and the second-best result is underlined. The Average row reports the unweighted mean over the seven benchmarks for each backbone. 
+
+Model Benchmark Vanilla Best-of-N
+
+arXiv’22 
+
+CoT 
+
+NeurIPS’22 
+
+VCD 
+
+CVPR’24 
+
+PAI 
+
+ECCV’24 
+
+MARINE 
+
+arXiv’24 
+
+PTI 
+
+CVPR’26 
+
+DMAS 
+
+ICLR’26 
+
+TRACE 
+
+Ours 
+
+Qwen3-VL-4B 
+
+DocVQA 95.3 94.8(-0.5) 95.9 (+0.6) 94.9(-0.4) 94.8(-0.5) 93.5(-1.8) 95.4(+0.1) 94.7(-0.6) 95.6(+0.3) ChartQA 84.6 84.9(+0.3) 85.1(+0.5) 84.2(-0.4) 84.6(+0.0) 84.8(+0.2) 84.8(+0.2) 84.9(+0.3) 87.3 (+2.7) MathVista 73.7 77.3 (+3.6) 75.8(+2.1) 73.3(-0.4) 74.1(+0.4) 74.6(+0.9) 74.4(+0.7) 76.0(+2.3) 76.8(+3.1) RealWorldQA 70.9 73.3(+2.4) 72.2(+1.3) 71.1(+0.2) 71.7(+0.8) 71.6(+0.7) 73.4(+2.5) 72.0(+1.1) 73.7 (+2.8) HallusionBench 57.6 57.0(-0.6) 56.8(-0.8) 60.9(+3.3) 62.5(+4.9) 62.1(+4.5) 62.7(+5.1) 63.0(+5.4) 63.4 (+5.8) VlmsAreBlind 71.9 72.4(+0.5) 71.2(-0.7) 75.3(+3.4) 76.3(+4.4) 76.1(+4.2) 76.4(+4.5) 76.1(+4.2) 76.8 (+4.9) CountBench 84.9 85.4(+0.5) 84.1(-0.8) 85.9(+1.0) 87.4(+2.5) 88.2 (+3.3) 87.6(+2.7) 86.9(+2.0) 87.6(+2.7) 
+
+Average 76.99 77.87(+0.88) 77.30(+0.31) 77.94(+0.95) 78.77(+1.78) 78.70(+1.71) 79.24(+2.25) 79.09(+2.10) 80.17 (+3.18) 
+
+Qwen3-VL-8B 
+
+DocVQA 96.1 96.0(-0.1) 95.4(-0.7) 96.5(+0.4) 95.6(-0.5) 95.7(-0.4) 96.1(+0.0) 95.6(-0.5) 96.7 (+0.6) ChartQA 89.6 89.4(-0.2) 89.0(-0.6) 88.8(-0.8) 89.1(-0.5) 89.2(-0.4) 89.3(-0.3) 90.5 (+0.9) 90.1(+0.5) MathVista 77.2 81.6 (+4.4) 79.1(+1.9) 77.2(+0.0) 77.9(+0.7) 77.6(+0.4) 78.6(+1.4) 79.1(+1.9) 80.0(+2.8) RealWorldQA 71.5 73.4(+1.9) 73.0(+1.5) 71.5(+0.0) 72.5(+1.0) 72.2(+0.7) 72.4(+0.9) 72.8(+1.3) 74.2 (+2.7) HallusionBench 61.1 61.3(+0.2) 60.7(-0.4) 64.4(+3.3) 65.0(+3.9) 65.4(+4.3) 65.2(+4.1) 65.8(+4.7) 66.1 (+5.0) VlmsAreBlind 74.0 74.4(+0.4) 74.3(+0.3) 76.3(+2.3) 78.1(+4.1) 78.0(+4.0) 78.5 (+4.5) 78.4(+4.4) 78.5 (+4.5) CountBench 80.5 82.1(+1.6) 80.1(-0.4) 84.7(+4.2) 84.0(+3.5) 84.9 (+4.4) 84.3(+3.8) 84.7(+4.2) 84.4(+3.9) 
+
+Average 78.57 79.74(+1.17) 78.80(+0.23) 79.91(+1.34) 80.31(+1.74) 80.43(+1.86) 80.63(+2.06) 80.99(+2.42) 81.43 (+2.86) 
+
+InternVL3.5-4B 
+
+DocVQA 92.4 92.9(+0.5) 93.2 (+0.8) 91.8(-0.6) 92.0(-0.4) 92.1(-0.3) 92.2(-0.2) 92.6(+0.2) 92.7(+0.3) ChartQA 86.2 87.1(+0.9) 87.8 (+1.6) 86.0(-0.2) 87.2(+1.0) 86.3(+0.1) 86.3(+0.1) 86.5(+0.3) 87.5(+1.3) MathVista 71.4 74.6(+3.2) 72.6(+1.2) 71.1(-0.3) 72.1(+0.7) 71.9(+0.5) 72.3(+0.9) 73.6(+2.2) 74.9 (+3.5) RealWorldQA 66.3 67.9(+1.6) 67.6(+1.3) 66.7(+0.4) 67.3(+1.0) 67.3(+1.0) 67.9(+1.6) 68.2(+1.9) 70.3 (+4.0) HallusionBench (Guan et al., 2024) 44.8 43.1(-1.7) 44.3(-0.5) 47.8(+3.0) 48.4(+3.6) 49.1(+4.3) 48.8(+4.0) 49.0(+4.2) 49.3 (+4.5) VlmsAreBlind 64.8 65.2(+0.4) 64.9(+0.1) 68.3(+3.5) 68.7(+3.9) 69.2 (+4.4) 69.0(+4.2) 68.9(+4.1) 68.3(+3.5) CountBench 85.6 86.4(+0.8) 85.9(+0.3) 87.0(+1.4) 88.3(+2.7) 88.8 (+3.2) 87.4(+1.8) 88.1(+2.5) 88.4(+2.8) 
+
+Average 73.07 73.89(+0.81) 73.76(+0.69) 74.10(+1.03) 74.86(+1.79) 74.96(+1.89) 74.84(+1.77) 75.27(+2.20) 75.91 (+2.84) 
+
+InternVL3.5-8B 
+
+DocVQA 92.3 93.0 (+0.7) 92.0(-0.3) 92.3(+0.0) 92.0(-0.3) 92.1(-0.2) 91.9(-0.4) 92.1(-0.2) 92.7(+0.4) ChartQA 86.7 87.1(+0.4) 87.4(+0.7) 86.0(-0.7) 86.8(+0.1) 87.0(+0.3) 86.9(+0.2) 87.0(+0.3) 88.0 (+1.3) MathVista 74.2 77.9 (+3.7) 76.4(+2.2) 73.8(-0.4) 75.0(+0.8) 74.2(+0.0) 75.0(+0.8) 76.2(+2.0) 77.0(+2.8) RealWorldQA 67.5 69.2(+1.7) 69.4(+1.9) 67.8(+0.3) 68.3(+0.8) 68.3(+0.8) 68.8(+1.3) 68.6(+1.1) 69.8 (+2.3) HallusionBench 54.5 54.8(+0.3) 54.0(-0.5) 58.1(+3.6) 59.6(+5.1) 59.3(+4.8) 59.2(+4.7) 59.9(+5.4) 61.1 (+6.6) VlmsAreBlind 66.1 66.0(-0.1) 65.6(-0.5) 68.5(+2.4) 69.1(+3.0) 70.3(+4.2) 70.8(+4.7) 70.1(+4.0) 70.9 (+4.8) CountBench 86.2 87.1(+0.9) 87.0(+0.8) 88.5(+2.3) 88.3(+2.1) 89.3 (+3.1) 89.0(+2.8) 89.0(+2.8) 89.2(+3.0) 
+
+Average 75.36 76.44(+1.08) 75.97(+0.61) 76.43(+1.07) 77.01(+1.65) 77.21(+1.85) 77.37(+2.01) 77.56(+2.20) 78.39 (+3.03) 
+
+Table 5: Trainable TRACE modules. 
+
+Module Structure Hidden size Params (4B)Params (8B) Predictor 2-layer MLP on 4-d relay statistics 128 17,281 17,281 Scheduler Question projection, affine modula-tion, 2-layer MLP control head 128 181,963 280,267 Anchoring Structured decode-time bias – 0 0
+
+Total TRACE controller 199,244 297,548 
+
+points, with a largest single gain of 6.6 points on Hallu-sionBench for InternVL3.5-8B. On the fine-grained set-tings DocVQA, ChartQA, and RealWorldQA, TRACE yields a mean gain of 1.60 points. On the reasoning-heavy setting MathVista, it improves over vanilla on all four backbones, with an average gain of 3.05 points. Across all 28 model–benchmark pairs, TRACE im-proves over vanilla by 2.98 points on average. Overall, Best-of-N and CoT are strongest when explicit search is especially helpful, while VCD, PAI, MARINE, PTI, and DMAS are more competitive on visually sensitive benchmarks. Against these strong baselines, TRACE maintains a strong overall trade-off across grounded gen-eration, reasoning, and fine-grained evidence extraction. 
+
+4.3 Mechanism-Level Analysis of Relay Reshaping 
+
+Beyond benchmark gains, we ask whether the interven-tion reshapes computation in the intended way. Figure 6 shows a clear task dependence. On grounding-sensitive benchmarks including HallusionBench and VlmsAre-Blind, the intervention broadens the relay phase and de-lays handoff. On DocVQA, ChartQA and RealWorldQA the shift is milder but still positive, reflecting the need to preserve fine-grained local evidence through final answer generation. On reasoning-heavy benchmarks such as MathVista, the pattern reverses: the relay win-dow often becomes shorter and ends earlier, leaving more depth for language-side reasoning once the rel-evant visual evidence has already been organized. In other words, TRACE improves performance by reshap-ing the same relay redistribution pattern identified in analysis, rather than by uniformly amplifying visual influence. 10 Grounding and   
+
+> Anti-Hallucination
+> Fine-Grained
+> Evidence
+> Reasoning-Heavy
+> Tasks
+> -0.03
+> -0.02
+> -0.01
+> 0.00
+> 0.01
+> 0.02
+> 0.03
+> 0.04
+> 0.05
+> Shift Magnitude
+> VRW Width Shift VRW End Shift Post-Handoff Anchor Shift
+
+Figure 6: Task-wise relay reshaping on Qwen3-VL-4B. Posi-tive values indicate a broader or later relay phase and stronger post- handoff visual retention. Table 6: Comparison with lightweight learned adaptation on representative benchmarks.                          
+
+> Method HallusionBench VlmsAreBlind MathVista DocVQA Avg. Vanilla 57.6 71.9 73.7 95.3 74.6 Generic Controller 61.9 71.0 75.6 95.1 75.9 Attention-LoRA 61.6 75.8 72.1 95.4 76.2 TRACE 63.4 76.8 76.8 95.6 78.2
+
+4.4 Comparison with Lightweight Learned Adaptation 
+
+We further test whether TRACE helps simply by adding a small amount of trainable adaptation. We compare TRACE with two lightweight learned baselines under the same training pipeline. The first baseline is a Generic Controller. It retains the same intervention interface as TRACE, but removes the relay-specific structure. Con-cretely, it predicts one per-layer prefill bias and one per-layer decode bias from the pooled question rep-resentation and relative layer depth through a shared controller with a 64-dimensional question projection, a 64-dimensional layer embedding, a 128-dimensional hidden state, and two scalar output heads. This gives 199,746 trainable parameters on 4B backbones and 298,050 on 8B backbones, closely matching TRACE. The second is an Attention-LoRA variant. It inserts LoRA adapters into the q- and v-projection matrices of all self-attention layers while keeping the backbone otherwise frozen. We use rank r = 4 for the 4B back-bones and r = 8 for the 8B backbones. Table 6 shows that lightweight learned adaptation helps, but does not match TRACE. The Generic Con-troller improves over vanilla by only 1.3 points on av-erage while Attention-LoRA remains 2.0 points below TRACE. This indicates that the remaining advantage of TRACE lies not in adaptation capacity alone, but in how that capacity is organized around model’s internal structure. 
+
+Table 7: Component ablations on Qwen3-VL-4B. The blue row denotes the full model. The best result in each column is shown in bold, and the second-best result is underlined.                                         
+
+> Method HallusionBench VlmsAreBlind MathVista DocVQA Avg. Vanilla 57.6 71.9 73.7 95.3 74.6 w/o Predictor 61.8 75.1 75.4 95.8 77.0 w/o Scheduler 59.7 75.8 75.2 95.2 76.5 w/o Anchoring 61.4 74.7 77.6 95.1 77.2 Positive-only scheduler 63.0 76.2 74.6 95.3 77.3 No entropy modulation 62.8 76.0 76.4 95.4 77.7 TRACE (Full) 63.4 76.8 76.8 95.6 78.2
+
+4.5 Component Ablations and Control Sensitivity 
+
+We ablate the three major components as well as two auxiliary design choices, and vary the key control hyper-parameters p, τr, and λanchor . For ‘w/o Predictor’, we replace the learned predictor with the rule-based VRW estimator via a preliminary forward pass; for ‘w/o Sched-uler’, we remove the prefill-time V → V relay bias; for ‘w/o Anchoring’, we remove both the decode-time an-choring bias and the anchoring loss; for ‘Positive-only scheduler’, we clamp negative scheduler outputs to zero; for ‘No entropy modulation’, we remove the (1 + ξt−1)
+
+factor from decode-time anchoring. Table 7 shows that the three original components play distinct roles. Removing the predictor causes a consis-tent drop from the full model but still preserves most of the gain over vanilla, because the rule-based VRW esti-mator provides a usable coarse relay location while the learned predictor mainly improves input-specific stabil-ity. Removing the scheduler hurts HallusionBench most directly, as it is the component that reshapes relay before handoff and determines whether enough visual evidence is assembled for grounding-sensitive cases. Removing anchoring leaves MathVista highest among the ablations, but weakens the grounding benchmarks relative to the full model, because anchoring mainly preserves visual support after handoff instead of determining how long relay should last. ‘Positive-only scheduler’ shows that contraction is necessary when later language-side rea-soning should take over, while ‘No entropy modulation’ indicates that the dynamic decode-time bias is helpful. Averaged over the four reported benchmarks, the full model remains best. Table 8 shows that the method is stable but clearly non-monotonic. For the support ratio p, increasing p
+
+first helps because more relevant visual evidence is retained, but beyond the optimum it starts to hurt be-cause the selected support set becomes less selective. The relay threshold τr shows the same trade-off: mov-ing from 0.50 to 0.80 improves the reported bench-marks substantially, but pushing to 0.90 degrades all metrics, because overly aggressive thresholding can ter-11 Table 8: Sensitivity to key control hyperparameters on Qwen3-VL-4B. The blue row in each block marks the default setting. Within each block, the best value in each column is shown in bold and the second-best value is underlined.                                                                                               
+
+> Setting HallusionBench VlmsAreBlind MathVista DocVQA Avg. AnchorStrength Support ratio p
+> 0.15 61.4 74.9 75.0 94.2 76.4 0.066 0.20 62.6 75.8 76.0 95.1 77.4 0.071 0.30 63.4 76.8 76.8 95.6 78.2 0.074 0.40 63.9 76.3 76.1 95.0 77.8 0.077 0.50 62.7 76.0 76.5 94.7 77.5 0.079
+> Relay threshold τr
+> 0.50 61.8 75.1 75.4 94.8 76.8 0.068 0.60 62.9 75.9 76.2 95.2 77.6 0.072 0.70 63.4 76.8 76.8 95.6 78.2 0.074
+> 0.80 63.1 76.2 77.1 95.3 77.9 0.070 0.90 61.7 74.8 75.2 94.5 76.6 0.064
+> Anchoring weight λanchor
+> 0.01 62.2 75.2 75.6 94.9 77.0 0.066 0.02 62.8 75.9 76.1 95.2 77.5 0.070 0.05 63.4 76.8 76.8 95.6 78.2 0.074 0.10 63.7 76.1 76.2 95.1 77.8 0.078 0.20 62.5 75.8 75.8 94.6 77.2 0.081
+
+Table 9: Robustness of VRW estimation on the probing set. Higher rank correlation ρ, lower mean boundary drift |∆|,and a larger fraction of resolved multi-layer windows indicate greater stability.                                        
+
+> Variant ρ(Width )↑ρ(End )↑| ∆Width | ↓| ∆End | ↓ Resolvable (%) z-score normalization 0.94 0.96 0.018 0.021 97.6 rank normalization 0.92 0.95 0.021 0.023 96.9 search range [0 .15 ,0.85] 0.97 0.98 0.012 0.015 98.8 search range [0 .10 ,0.90] 0.95 0.97 0.017 0.019 98.1
+> δ= 0 .05 0.93 0.96 0.020 0.023 94.7
+> δ= 0 .15 0.94 0.96 0.019 0.022 97.2
+
+minate relay before visual evidence has been fully or-ganized. The anchoring weight λanchor shows a similar phenomenon: although λanchor = 0 .20 yields the largest 
+
+AnchorStrength , its four-benchmark average is below the default, because stronger post-handoff visual support eventually begins to constrain normal answer formation. Overall, the default configuration gives the best balance across grounding, reasoning, and visual retention. 
+
+4.6 Robustness of VRW Estimation 
+
+Since VRW is an operational estimate, we test whether its geometry remains stable under reasonable changes to the estimation protocol. Analysis is conducted on the task-balanced 2,000-sample probing set. We vary the channel normalization, the middle-layer search range, and the tolerance δ, and compare each variant against the default protocol in three ways: the sample-wise Spearman rank correlation ρ of VRW-Width and VRW-End , the mean absolute boundary drift |∆| of the same two quantities, and the fraction of samples for which the estimator still returns a multi-layer window. Table 9 shows that the induced relay geometry is stable across reasonable variants. The rank ordering of samples by window width and end depth remains close to the default estimate, the boundary shifts stay small, and the estimator continues to return a multi-layer window for nearly all samples. Taken together, these results indicate that VRW captures a stable geometric structure. 
+
+5 Conclusion 
+
+In this work, we present a relay-based view of multi-modal reasoning in VLMs. Our analysis identifies a stable three-stage redistribution of multimodal focus across depth and operationalizes its middle phase as the Visual Relay Window. Building on this analysis, we in-troduce TRACE, which reshapes relay allocation during prefill and preserves assembled support after handoff during decoding. Across four open-weight VLM back-bones and seven benchmarks, TRACE delivers consis-tent gains. However, the current analysis relies primarily on attention-derived probes, and our experiments focus on single-image settings. These limitations suggest sev-eral promising future directions: extending relay anal-ysis beyond attention alone, studying relay control in longer and more dynamic generation settings, and turn-ing relay-aware allocation into a more direct training objective. We hope this work motivates further research as a general paradigm for more reliable and efficient multimodal reasoning. 
+
+References 
+
+Nahid Alam, Leema Krishna Murali, Siddhant Bharadwaj, Patrick Liu, Timothy Chung, Drishti Sharma, Kranthi Ki-ran, Wesley Tam, Bala Krishna S Vegesna, et al. 2026. The spatial blindspot of vision-language models. arXiv preprint arXiv:2601.09954 .Niki Amini-Naieni, Tengda Han, and Andrew Zisserman. 2024. Countgd: Multi-modal open-world counting. 
+
+Advances in Neural Information Processing Systems ,37:48810–48837. Stanislaw Antol, Aishwarya Agrawal, Jiasen Lu, Margaret Mitchell, Dhruv Batra, C Lawrence Zitnick, and Devi Parikh. 2015. Vqa: Visual question answering. In Pro-ceedings of the IEEE international conference on computer vision , pages 2425–2433. Shuai Bai, Yuxuan Cai, Ruizhe Chen, Keqin Chen, Xionghui Chen, Zesen Cheng, Lianghao Deng, Wei Ding, Chang Gao, Chunjiang Ge, et al. 2025. Qwen3-vl technical report. 
+
+arXiv preprint arXiv:2511.21631 .Zechen Bai, Pichao Wang, Tianjun Xiao, Tong He, Zongbo Han, Zheng Zhang, and Mike Zheng Shou. 2024. Hallu-cination of multimodal large language models: A survey. 
+
+arXiv preprint arXiv:2404.18930 .
+
+12 Samyadeep Basu, Martin Grayson, Cecily Morrison, Besmira Nushi, Soheil Feizi, and Daniela Massiceti. 2024. Under-standing information storage and transfer in multi-modal large language models. Advances in Neural Information Processing Systems , 37:7400–7426. Shivam Chandhok, Wan-Cyuan Fan, Vered Shwartz, Vi-neeth N Balasubramanian, and Leonid Sigal. 2025. Re-sponse wide shut? surprising observations in basic vision language model capabilities. In Proceedings of the 63rd Annual Meeting of the Association for Computational Lin-guistics (Volume 1: Long Papers) , pages 25530–25545. Liang Chen, Weichu Xie, Yiyan Liang, Hongfeng He, Hans Zhao, Zhibo Yang, Zhiqi Huang, Haoning Wu, Haoyu Lu, Yiping Bao, et al. 2026. Babyvision: Visual reasoning beyond language. arXiv preprint arXiv:2601.06521 .Yangneng Chen, Junlin Li, Xilai Ma, Guodong DU, Fang-ming Liu, Min Zhang, and Jing Li. Vocabulary fixation reveals visual attention sink for hallucination mitigation in lvlms. Junyu Cheng, Zhibiao Liang, Yidong Chen, and Shuangyin Li. 2026. Rfi: Rectified flow intervention for mitigating object hallucination in large vision-language models. In 
+
+Proceedings of the AAAI Conference on Artificial Intelli-gence , volume 40, pages 3255–3263. Russell A Epstein and Chris I Baker. 2019. Scene percep-tion in the human brain. Annual review of vision science ,5(1):373–397. Jinhu Fu, Yihang Lou, Qingyi Si, Shudong Zhang, and Sen Su. 2026. Diagnosing and repairing unsafe channels in vision-language models via causal discovery and dual-modal safety subspace projection. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 31693–31702. Tianrui Guan, Fuxiao Liu, Xiyang Wu, Ruiqi Xian, Zongxia Li, Xiaoyu Liu, Xijun Wang, Lichang Chen, Furong Huang, Yaser Yacoob, et al. 2024. Hallusionbench: an advanced diagnostic suite for entangled language halluci-nation and visual illusion in large vision-language models. In Proceedings of the IEEE/CVF conference on computer vision and pattern recognition , pages 14375–14385. Tuomo Hiippala, Malihe Alikhani, Jonas Haverinen, Timo Kalliokoski, Evanfiya Logacheva, Serafina Orekhova, Aino Tuomainen, Matthew Stone, and John A Bateman. 2021. Ai2d-rst. Language Resources and Evaluation ,55(3):661–688. Siyu Jiang, Feiyang Chen, Xiaojin Zhang, and Kun He. 2026. Kvsmooth: Mitigating hallucination in multi-modal large language models through key-value smoothing. arXiv preprint arXiv:2602.04268 .Zhangqi Jiang, Junkai Chen, Beier Zhu, Tingjin Luo, Yankun Shen, and Xu Yang. 2025. Devils in middle layers of large vision-language models: Interpreting, detecting and mitigating object hallucinations via attention lens. In Pro-ceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 25004–25014. Omri Kaduri, Shai Bagon, and Tali Dekel. 2025. What’s in the image? a deep-dive into the vision of vision lan-guage models. In Proceedings of the Computer Vision and Pattern Recognition Conference , pages 14549–14558. Seil Kang, Jinyeong Kim, Junhyeok Kim, and Seong Jae Hwang. 2025. See what you are told: Visual atten-tion sink in large multimodal models. arXiv preprint arXiv:2503.03321 .Ranjay Krishna, Yuke Zhu, Oliver Groth, Justin Johnson, Kenji Hata, Joshua Kravitz, Stephanie Chen, Yannis Kalan-tidis, Li-Jia Li, David A Shamma, et al. 2017. Visual genome: Connecting language and vision using crowd-sourced dense image annotations. International journal of computer vision , 123(1):32–73. Sicong Leng, Hang Zhang, Guanzheng Chen, Xin Li, Shi-jian Lu, Chunyan Miao, and Lidong Bing. 2024. Mitigat-ing object hallucinations in large vision-language models through visual contrastive decoding. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 13872–13882. Qiming Li, Zekai Ye, Xiaocheng Feng, Weihong Zhong, Weitao Ma, and Xiachong Feng. 2026. Causal tracing of object representations in large vision language models: Mechanistic interpretability and hallucination mitigation. In Proceedings of the AAAI Conference on Artificial Intel-ligence , volume 40, pages 31645–31653. Wenyan Li, Raphael Tang, Chengzu Li, Caiqi Zhang, Ivan Vulic, and Anders Søgaard. 2025. Lost in embeddings: Information loss in vision-language models. arXiv preprint arXiv:2509.11986 , 2. Hanchao Liu, Wenyuan Xue, Yifei Chen, Dapeng Chen, Xiu-tian Zhao, Ke Wang, Liping Hou, Rongjun Li, and Wei Peng. 2024a. A survey on hallucination in large vision-language models. arXiv preprint arXiv:2402.00253 .Haotian Liu, Chunyuan Li, Yuheng Li, and Yong Jae Lee. 2024b. Improved baselines with visual instruction tuning. In Proceedings of the IEEE/CVF conference on computer vision and pattern recognition , pages 26296–26306. Sheng Liu, Haotian Ye, and James Y Zou. 2025. Reducing hallucinations in large vision-language models via latent space steering. In International Conference on Learning Representations , volume 2025, pages 72402–72419. Shi Liu, Kecheng Zheng, and Wei Chen. 2024c. Paying more attention to image: A training-free method for alleviat-ing hallucination in lvlms. In European Conference on Computer Vision , pages 125–140. Springer. Pan Lu, Hritik Bansal, Tony Xia, Jiacheng Liu, Chunyuan Li, Hannaneh Hajishirzi, Hao Cheng, Kai-Wei Chang, Michel Galley, and Jianfeng Gao. 2024. Mathvista: Evaluating mathematical reasoning of foundation models in visual contexts. In International Conference on Learning Repre-sentations , volume 2024, pages 23439–23554. Pan Lu, Swaroop Mishra, Tanglin Xia, Liang Qiu, Kai-Wei Chang, Song-Chun Zhu, Oyvind Tafjord, Peter Clark, and 
+
+13 Ashwin Kalyan. 2022. Learn to explain: Multimodal rea-soning via thought chains for science question answer-ing. Advances in neural information processing systems ,35:2507–2521. Ahmed Masry, Xuan Long Do, Jia Qing Tan, Shafiq Joty, and Enamul Hoque. 2022. Chartqa: A benchmark for question answering about charts with visual and logical reasoning. In Findings of the association for computational linguis-tics: ACL 2022 , pages 2263–2279. Minesh Mathew, Dimosthenis Karatzas, and CV Jawahar. 2021. Docvqa: A dataset for vqa on document images. In Proceedings of the IEEE/CVF winter conference on applications of computer vision , pages 2200–2209. Woohyeon Park, Woojin Kim, Jaeik Kim, and Jaeyoung Do. 2025. Second: Mitigating perceptual hallucination in vision-language models via selective and contrastive decoding. arXiv preprint arXiv:2506.08391 .Qwen, :, An Yang, Baosong Yang, Beichen Zhang, Binyuan Hui, Bo Zheng, Bowen Yu, Chengyuan Li, Dayiheng Liu, Fei Huang, Haoran Wei, Huan Lin, Jian Yang, Jianhong Tu, Jianwei Zhang, Jianxin Yang, Jiaxi Yang, Jingren Zhou, and 25 others. 2025. Qwen2.5 technical report. Preprint ,arXiv:2412.15115. Pooyan Rahmanzadehgervi, Logan Bolton, Mohammad Reza Taesiri, and Anh Totti Nguyen. 2024. Vision language models are blind. In Proceedings of the Asian Conference on Computer Vision , pages 18–34. Alessia Saporita, Vittorio Pipoli, Federico Bolelli, Lorenzo Baraldi, Andrea Acquaviva, Elisa Ficarra, et al. 2026. Fg-tracer: Tracing information flow in multimodal large lan-guage models in free-form generation. In Winter Confer-ence on Applications of Computer Vision 2026 .Daniele Savietto, Declan Campbell, André Panisson, Marco Nurisso, Giovanni Petri, Jonathan D Cohen, and Alan Perotti. 2026. The geometry of representational failures in vision language models. arXiv preprint arXiv:2602.07025 .Arpita A Shanbhag, Julia Tran, Dhruv Reddy Mandala, and Ayda Sultan. Process-then-retrieve: A mechanistic study of cross-modal alignment in vision-language models. In 
+
+Workshop on Scientific Methods for Understanding Deep Learning .Anushka Sivakumar, Andrew Zhang, Zaber Hakim, and Chris Thomas. 2025. Steervlm: Robust model control through lightweight activation steering for vision language models. In Findings of the Association for Computational Linguis-tics: EMNLP 2025 , pages 23640–23665. Jingran Su, Jingfan Chen, Hongxin Li, Yuntao Chen, Li Qing, and Zhaoxiang Zhang. 2025. Activation steering decoding: Mitigating hallucination in large vision-language models through bidirectional hidden state intervention. In Pro-ceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) ,pages 12964–12974. Omkar Thawakar, Dinura Dissanayake, Ketan Pravin More, Ritesh Thawkar, Ahmed Heakl, Noor Ahsan, Yuhao Li, Il-muz Zaman Mohammed Zumri, Jean Lahoud, Rao Muham-mad Anwer, et al. 2025. Llamav-o1: Rethinking step-by-step visual reasoning in llms. In Findings of the Associ-ation for Computational Linguistics: ACL 2025 , pages 24290–24315. Leendert Van Maanen, Oscar Portoles, and Jelmer P Borst. 2021. The discovery and interpretation of evidence ac-cumulation stages. Computational brain & behavior ,4(4):395–415. Tianlong Wang, Xianfeng Jiao, Yinghao Zhu, Zhongzhi Chen, Yifan He, Xu Chu, Junyi Gao, Yasha Wang, and Liantao Ma. 2025a. Adaptive activation steering: A tuning-free llm truthfulness improvement method for diverse halluci-nations categories. In Proceedings of the ACM on Web Conference 2025 , pages 2562–2578. Weiyun Wang, Zhangwei Gao, Lixin Gu, Hengjun Pu, Long Cui, Xingguang Wei, Zhaoyang Liu, Linglin Jing, Sheng-long Ye, Jie Shao, et al. 2025b. Internvl3. 5: Advancing open-source multimodal models in versatility, reasoning, and efficiency. arXiv preprint arXiv:2508.18265 .Xuezhi Wang, Jason Wei, Dale Schuurmans, Quoc Le, Ed Chi, Sharan Narang, Aakanksha Chowdhery, and Denny Zhou. 2022. Self-consistency improves chain of thought reason-ing in language models. arXiv preprint arXiv:2203.11171 .Zhecan Wang, Garrett Bingham, Adams Wei Yu, Quoc V Le, Thang Luong, and Golnaz Ghiasi. 2024. Haloquest: A visual hallucination dataset for advancing multimodal reasoning. In European Conference on Computer Vision ,pages 288–304. Springer. Jason Wei, Xuezhi Wang, Dale Schuurmans, Maarten Bosma, Fei Xia, Ed Chi, Quoc V Le, Denny Zhou, et al. 2022. Chain-of-thought prompting elicits reasoning in large lan-guage models. Advances in neural information processing systems , 35:24824–24837. Luis Wiedmann, Orr Zohar, Amir Mahla, Xiaohan Wang, Rui Li, Thibaud Frere, Leandro von Werra, Aritra Roy Gosthipaty, and Andrés Marafioti. 2026. Finevision: Open data is all you need. Preprint , arXiv:2510.17269. Junfei Wu, Yue Ding, Guofan Liu, Tianze Xia, Ziyue Huang, Dianbo Sui, Qiang Liu, Shu Wu, Liang Wang, and Tieniu Tan. 2025. Sharp: Steering hallucination in lvlms via representation engineering. In Proceedings of the 2025 Conference on Empirical Methods in Natural Language Processing , pages 14357–14372. xAI. 2024. Grok-1.5 vision preview: Connecting the digi-tal and physical worlds with our first multimodal model. 
+
+https://x.ai/blog/grok-1.5v . Accessed: 2026-06-14. Gongli Xi, Ye Tian, Mengyu Yang, Huahui Yi, Liang Lin, Xiaoshuai Hao, Kun Wang, and Wendong Wang. 2026. Large vision-language models get lost in attention. arXiv preprint arXiv:2605.05668 .
+
+14 Zhongxing Xu, Chengzhi Liu, Qingyue Wei, Juncheng Wu, James Zou, Xin Wang, Yuyin Zhou, and Sheng Liu. 2026. More thinking, less seeing? assessing amplified hallucina-tion in multimodal reasoning models. Advances in Neural Information Processing Systems , 38:82878–82905. Jingcheng Yang, Tianhu Xiong, Shengyi Qian, Klara Nahrst-edt, and Mingyuan Wu. 2026. Circuit tracing in vision-language models: Understanding the internal mechanisms of multimodal thinking. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition ,pages 3322–3331. Jianghao Yin, Qin Chen, Kedi Chen, Jie Zhou, Xingjiao Wu, and Liang He. 2026. Dynamic multimodal activation steer-ing for hallucination mitigation in large vision-language models. In The Fourteenth International Conference on Learning Representations .Xiang Yue, Yuansheng Ni, Kai Zhang, Tianyu Zheng, Ruoqi Liu, Ge Zhang, Samuel Stevens, Dongfu Jiang, Weiming Ren, Yuxuan Sun, et al. 2024. Mmmu: A massive multi-discipline multimodal understanding and reasoning bench-mark for expert agi. In Proceedings of the IEEE/CVF conference on computer vision and pattern recognition ,pages 9556–9567. Kang Zeng, Guojin Zhong, Jintao Cheng, Jin Yuan, and Zhiy-ong Li. 2025. Avam: a universal training-free adaptive visual anchoring embedded into multimodal large language model for multi-image question answering. In Proceedings of the IEEE/CVF International Conference on Computer Vision , pages 2292–2302. Chengsheng Zhang, Chenghao Sun, Xinyan Jiang, Wei Li, and Xinmei Tian. 2026a. Prefill-time intervention for miti-gating hallucination in large vision-language models. In 
+
+Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 25293–25303. Feiran Zhang, Yixin Wu, Zhenghua Wang, Xiaohua Wang, Changze Lv, Xuanjing Huang, and Xiaoqing Zheng. 2026b. Vib-probe: Detecting and mitigating hallucinations in vision-language models via variational information bot-tleneck. arXiv preprint arXiv:2601.05547 .Jingyi Zhang, Jiaxing Huang, Sheng Jin, and Shijian Lu. 2024a. Vision-language models for vision tasks: A sur-vey. IEEE transactions on pattern analysis and machine intelligence , 46(8):5625–5644. Xiaofeng Zhang, Yihao Quan, Chaochen Gu, Chen Shen, Xiaosong Yuan, Shaotian Yan, Hao Cheng, Kaijie Wu, and Jieping Ye. 2024b. Seeing clearly by layer two: Enhancing attention heads to alleviate hallucination in lvlms. arXiv preprint arXiv:2411.09968 .Xiaofeng Zhang, Yihao Quan, Chen Shen, Xiaosong Yuan, Shaotian Yan, Liang Xie, Wenxiao Wang, Chaochen Gu, Hao Tang, and Jieping Ye. 2025a. From redundancy to rel-evance: Information flow in lvlms across reasoning tasks. In Proceedings of the 2025 Conference of the Nations of the Americas Chapter of the Association for Computational Linguistics: Human Language Technologies (Volume 1: Long Papers) , pages 2289–2299. Zhi Zhang, Srishti Yadav, Fengze Han, and Ekaterina Shutova. 2025b. Cross-modal information flow in multimodal large language models. In Proceedings of the Computer Vision and Pattern Recognition Conference , pages 19781–19791. Linxi Zhao, Yihe Deng, Weitong Zhang, and Quanquan Gu. 2024a. Mitigating object hallucination in large vision-language models via classifier-free guidance. arXiv e-prints , pages arXiv–2402. Sihang Zhao, Youliang Yuan, Xiaoying Tang, and Pinjia He. 2024b. Difficult task yes but simple task no: Unveiling the laziness in multimodal llms. In Findings of the association for computational linguistics: emnlp 2024 , pages 7535– 7548. Weihong Zhong, Xiaocheng Feng, Liang Zhao, Qiming Li, Lei Huang, Yuxuan Gu, Weitao Ma, Yuan Xu, and Bing Qin. 2024. Investigating and mitigating the multimodal hallucination snowballing in large vision-language models. In Proceedings of the 62nd Annual Meeting of the Asso-ciation for Computational Linguistics (Volume 1: Long Papers) , pages 11991–12011. Yiyang Zhou, Haoqin Tu, Zijun Wang, Zeyu Wang, Niklas Muennighoff, Fan Nie, Chaorui Deng, Shen Yan, Haoqi Fan, Yejin Choi, et al. 2026. When visualizing is the first step to reasoning: Mira, a benchmark for visual chain-of-thought. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 26154– 26164. 
+
+15
