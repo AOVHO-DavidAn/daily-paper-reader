@@ -1,0 +1,33 @@
+{
+  "version": 2,
+  "extractor": "papercropper",
+  "tables": [
+    {
+      "url": "assets/tables/cvpr-2025-accepted/cvpr-2025-bigverdi-perception-tokens-enhance-visual-reasoning-in-multimodal-language-models-cvpr-2025-paper/table-001.webp",
+      "caption": "",
+      "page": 0,
+      "index": 1,
+      "width": 1733,
+      "height": 520,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/cvpr-2025-accepted/cvpr-2025-bigverdi-perception-tokens-enhance-visual-reasoning-in-multimodal-language-models-cvpr-2025-paper/table-002.webp",
+      "caption": "",
+      "page": 0,
+      "index": 2,
+      "width": 1481,
+      "height": 450,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/cvpr-2025-accepted/cvpr-2025-bigverdi-perception-tokens-enhance-visual-reasoning-in-multimodal-language-models-cvpr-2025-paper/table-003.webp",
+      "caption": "",
+      "page": 0,
+      "index": 3,
+      "width": 1470,
+      "height": 332,
+      "label": "Table"
+    }
+  ]
+}

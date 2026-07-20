@@ -1,0 +1,78 @@
+{
+  "version": 2,
+  "extractor": "papercropper",
+  "figures": [
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-han-groundingface-fine-grained-face-understanding-via-pixel-grounding-multimodal-large-language-cvpr-2025-paper/fig-001.webp",
+      "caption": "",
+      "page": 0,
+      "index": 1,
+      "width": 1785,
+      "height": 815,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-han-groundingface-fine-grained-face-understanding-via-pixel-grounding-multimodal-large-language-cvpr-2025-paper/fig-002.webp",
+      "caption": "",
+      "page": 0,
+      "index": 2,
+      "width": 1299,
+      "height": 928,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-han-groundingface-fine-grained-face-understanding-via-pixel-grounding-multimodal-large-language-cvpr-2025-paper/fig-003.webp",
+      "caption": "",
+      "page": 0,
+      "index": 3,
+      "width": 1808,
+      "height": 280,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-han-groundingface-fine-grained-face-understanding-via-pixel-grounding-multimodal-large-language-cvpr-2025-paper/fig-004.webp",
+      "caption": "",
+      "page": 0,
+      "index": 4,
+      "width": 1815,
+      "height": 958,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-han-groundingface-fine-grained-face-understanding-via-pixel-grounding-multimodal-large-language-cvpr-2025-paper/fig-005.webp",
+      "caption": "",
+      "page": 0,
+      "index": 5,
+      "width": 504,
+      "height": 268,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-han-groundingface-fine-grained-face-understanding-via-pixel-grounding-multimodal-large-language-cvpr-2025-paper/fig-006.webp",
+      "caption": "",
+      "page": 0,
+      "index": 6,
+      "width": 1698,
+      "height": 563,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-han-groundingface-fine-grained-face-understanding-via-pixel-grounding-multimodal-large-language-cvpr-2025-paper/fig-007.webp",
+      "caption": "",
+      "page": 0,
+      "index": 7,
+      "width": 845,
+      "height": 321,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-han-groundingface-fine-grained-face-understanding-via-pixel-grounding-multimodal-large-language-cvpr-2025-paper/fig-008.webp",
+      "caption": "",
+      "page": 0,
+      "index": 8,
+      "width": 1704,
+      "height": 416,
+      "label": "Figure"
+    }
+  ]
+}

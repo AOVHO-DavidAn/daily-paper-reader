@@ -1,0 +1,69 @@
+{
+  "version": 2,
+  "extractor": "papercropper",
+  "figures": [
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-man-argus-vision-centric-reasoning-with-grounded-chain-of-thought-cvpr-2025-paper/fig-001.webp",
+      "caption": "",
+      "page": 0,
+      "index": 1,
+      "width": 1766,
+      "height": 654,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-man-argus-vision-centric-reasoning-with-grounded-chain-of-thought-cvpr-2025-paper/fig-002.webp",
+      "caption": "",
+      "page": 0,
+      "index": 2,
+      "width": 862,
+      "height": 844,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-man-argus-vision-centric-reasoning-with-grounded-chain-of-thought-cvpr-2025-paper/fig-003.webp",
+      "caption": "",
+      "page": 0,
+      "index": 3,
+      "width": 1800,
+      "height": 660,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-man-argus-vision-centric-reasoning-with-grounded-chain-of-thought-cvpr-2025-paper/fig-004.webp",
+      "caption": "",
+      "page": 0,
+      "index": 4,
+      "width": 868,
+      "height": 610,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-man-argus-vision-centric-reasoning-with-grounded-chain-of-thought-cvpr-2025-paper/fig-005.webp",
+      "caption": "",
+      "page": 0,
+      "index": 5,
+      "width": 536,
+      "height": 438,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-man-argus-vision-centric-reasoning-with-grounded-chain-of-thought-cvpr-2025-paper/fig-006.webp",
+      "caption": "",
+      "page": 0,
+      "index": 6,
+      "width": 580,
+      "height": 439,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-man-argus-vision-centric-reasoning-with-grounded-chain-of-thought-cvpr-2025-paper/fig-007.webp",
+      "caption": "",
+      "page": 0,
+      "index": 7,
+      "width": 551,
+      "height": 437,
+      "label": "Figure"
+    }
+  ]
+}

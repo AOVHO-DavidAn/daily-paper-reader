@@ -1,0 +1,87 @@
+{
+  "version": 2,
+  "extractor": "papercropper",
+  "tables": [
+    {
+      "url": "assets/tables/cvpr-2025-accepted/cvpr-2025-gong-the-devil-is-in-temporal-token-high-quality-video-reasoning-cvpr-2025-paper/table-001.webp",
+      "caption": "",
+      "page": 0,
+      "index": 1,
+      "width": 1513,
+      "height": 616,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/cvpr-2025-accepted/cvpr-2025-gong-the-devil-is-in-temporal-token-high-quality-video-reasoning-cvpr-2025-paper/table-002.webp",
+      "caption": "",
+      "page": 0,
+      "index": 2,
+      "width": 1591,
+      "height": 578,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/cvpr-2025-accepted/cvpr-2025-gong-the-devil-is-in-temporal-token-high-quality-video-reasoning-cvpr-2025-paper/table-003.webp",
+      "caption": "",
+      "page": 0,
+      "index": 3,
+      "width": 1673,
+      "height": 435,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/cvpr-2025-accepted/cvpr-2025-gong-the-devil-is-in-temporal-token-high-quality-video-reasoning-cvpr-2025-paper/table-004.webp",
+      "caption": "",
+      "page": 0,
+      "index": 4,
+      "width": 466,
+      "height": 167,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/cvpr-2025-accepted/cvpr-2025-gong-the-devil-is-in-temporal-token-high-quality-video-reasoning-cvpr-2025-paper/table-005.webp",
+      "caption": "",
+      "page": 0,
+      "index": 5,
+      "width": 566,
+      "height": 170,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/cvpr-2025-accepted/cvpr-2025-gong-the-devil-is-in-temporal-token-high-quality-video-reasoning-cvpr-2025-paper/table-006.webp",
+      "caption": "",
+      "page": 0,
+      "index": 6,
+      "width": 563,
+      "height": 193,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/cvpr-2025-accepted/cvpr-2025-gong-the-devil-is-in-temporal-token-high-quality-video-reasoning-cvpr-2025-paper/table-007.webp",
+      "caption": "",
+      "page": 0,
+      "index": 7,
+      "width": 512,
+      "height": 218,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/cvpr-2025-accepted/cvpr-2025-gong-the-devil-is-in-temporal-token-high-quality-video-reasoning-cvpr-2025-paper/table-008.webp",
+      "caption": "",
+      "page": 0,
+      "index": 8,
+      "width": 541,
+      "height": 170,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/cvpr-2025-accepted/cvpr-2025-gong-the-devil-is-in-temporal-token-high-quality-video-reasoning-cvpr-2025-paper/table-009.webp",
+      "caption": "",
+      "page": 0,
+      "index": 9,
+      "width": 559,
+      "height": 144,
+      "label": "Table"
+    }
+  ]
+}

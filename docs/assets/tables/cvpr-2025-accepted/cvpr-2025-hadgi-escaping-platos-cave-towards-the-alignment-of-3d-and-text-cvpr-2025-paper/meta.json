@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "extractor": "papercropper",
+  "tables": [
+    {
+      "url": "assets/tables/cvpr-2025-accepted/cvpr-2025-hadgi-escaping-platos-cave-towards-the-alignment-of-3d-and-text-cvpr-2025-paper/table-001.webp",
+      "caption": "",
+      "page": 0,
+      "index": 1,
+      "width": 1815,
+      "height": 596,
+      "label": "Table"
+    }
+  ]
+}

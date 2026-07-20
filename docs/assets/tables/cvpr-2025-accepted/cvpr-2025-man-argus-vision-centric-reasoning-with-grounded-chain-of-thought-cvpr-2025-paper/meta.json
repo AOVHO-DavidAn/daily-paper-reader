@@ -1,0 +1,60 @@
+{
+  "version": 2,
+  "extractor": "papercropper",
+  "tables": [
+    {
+      "url": "assets/tables/cvpr-2025-accepted/cvpr-2025-man-argus-vision-centric-reasoning-with-grounded-chain-of-thought-cvpr-2025-paper/table-001.webp",
+      "caption": "",
+      "page": 0,
+      "index": 1,
+      "width": 1808,
+      "height": 772,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/cvpr-2025-accepted/cvpr-2025-man-argus-vision-centric-reasoning-with-grounded-chain-of-thought-cvpr-2025-paper/table-002.webp",
+      "caption": "",
+      "page": 0,
+      "index": 2,
+      "width": 867,
+      "height": 647,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/cvpr-2025-accepted/cvpr-2025-man-argus-vision-centric-reasoning-with-grounded-chain-of-thought-cvpr-2025-paper/table-003.webp",
+      "caption": "",
+      "page": 0,
+      "index": 3,
+      "width": 854,
+      "height": 235,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/cvpr-2025-accepted/cvpr-2025-man-argus-vision-centric-reasoning-with-grounded-chain-of-thought-cvpr-2025-paper/table-004.webp",
+      "caption": "",
+      "page": 0,
+      "index": 4,
+      "width": 855,
+      "height": 335,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/cvpr-2025-accepted/cvpr-2025-man-argus-vision-centric-reasoning-with-grounded-chain-of-thought-cvpr-2025-paper/table-005.webp",
+      "caption": "",
+      "page": 0,
+      "index": 5,
+      "width": 850,
+      "height": 185,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/cvpr-2025-accepted/cvpr-2025-man-argus-vision-centric-reasoning-with-grounded-chain-of-thought-cvpr-2025-paper/table-006.webp",
+      "caption": "",
+      "page": 0,
+      "index": 6,
+      "width": 838,
+      "height": 176,
+      "label": "Table"
+    }
+  ]
+}
