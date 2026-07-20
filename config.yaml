@@ -60,7 +60,45 @@ subscriptions:
           enabled: true
           source: manual
           note: ''
-      updated_at: '2026-07-20T09:22:24.365Z'
+      updated_at: '2026-07-20T09:28:04.867Z'
+    - tag: seg-llm
+      description: 请帮我搜集有关语义分割和大模型推理结合的论文
+      enabled: true
+      paper_sources:
+        - arxiv
+      keywords:
+        - keyword: semantic segmentation
+          keyword_cn: 语义分割
+          query: semantic segmentation
+        - keyword: large language model
+          keyword_cn: 大语言模型
+          query: large language model reasoning
+        - keyword: vision language model
+          keyword_cn: 视觉语言模型
+          query: vision language model segmentation
+        - keyword: segmentation reasoning
+          keyword_cn: 分割推理
+          query: segmentation with language model reasoning
+        - keyword: semantic segmentation language model
+          keyword_cn: 语言模型引导的语义分割
+          query: semantic segmentation guided by language model
+      intent_queries:
+        - query: semantic segmentation with large language model reasoning
+          query_cn: 语义分割与大语言模型推理结合
+          enabled: true
+          source: manual
+          note: ''
+        - query: use large language model to enhance semantic segmentation
+          query_cn: 使用大语言模型增强语义分割
+          enabled: true
+          source: manual
+          note: ''
+        - query: reasoning based semantic segmentation using vision language models
+          query_cn: 基于推理的语义分割使用视觉语言模型
+          enabled: true
+          source: manual
+          note: ''
+      updated_at: '2026-07-20T09:27:43.975Z'
 source_backends:
   arxiv:
     papers_table: arxiv_papers
