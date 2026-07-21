@@ -1,0 +1,769 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-21T21:45:19.607794+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 2,
+    "deep_divecandidates": 8,
+    "deep_cap": 7,
+    "deep_selected": 7,
+    "quick_candidates": 11,
+    "quick_skim_target": 12,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2607.16327v1",
+      "source": "arxiv",
+      "title": "Localization-Infused Vision-Language Semantic Fusion for Text-Guided Medical Image Segmentation",
+      "abstract": "Medical image segmentation is essential for modern computer-aided medicine. Recently, text-guided segmentation has shown promise by incorporating clinician-formulated textual reports as semantic guidance for image segmentation. These reports describe target appearance, location, and neighboring anatomy, providing explicit guidance for localization and delineation. Existing text-guided segmentation methods typically extract textual semantics implicitly through a pretrained text encoder and then integrate vision-language semantics via straightforward image-text feature fusion. However, these methods do not explicitly capture target-oriented information embedded in textual reports, particularly target location, and do not explore multi-level information fusion strategies beyond basic feature-level fusion, limiting the extraction and integration of critical textual semantics. In this study, we propose LoG, a localization-infused vision-language fusion framework for text-guided medical image segmentation. By jointly performing multi-scale target localization tasks, LoG explicitly captures target-oriented vision-language semantics and enables three-level localization-infused semantic fusion: (i) localization-guided feature fusion that directly infuses location-relevant semantics into visual features, (ii) localization-gated attention fusion that redirects multi-scale localization predictions to reinforce critical regions, and (iii) localization-constrained loss fusion that supervises segmentation based on spatial consistency with target localization. Extensive experiments on three benchmark datasets, involving three medical imaging modalities with paired textual reports, demonstrate that LoG achieves Dice scores of 91.59%, 80.71%, and 94.59% on QaTa-COV19, MosMedData+, and Kvasir-SEG, respectively, consistently outperforming state-of-the-art medical image segmentation methods.",
+      "authors": [
+        "Songyue Han",
+        "Mingye Zou",
+        "Shuchang Ye",
+        "Lei Bi",
+        "Mingyuan Meng"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-15T14:06:17+00:00",
+      "link": "https://arxiv.org/pdf/2607.16327v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "text-guided medical image segmentation using vision-language fusion with explicit location guidance",
+      "llm_evidence_cn": "使用视觉语言融合和显式位置引导的文本驱动医学图像分割",
+      "llm_evidence": "使用视觉语言融合和显式位置引导的文本驱动医学图像分割",
+      "canonical_evidence": "使用视觉语言融合和显式位置引导的文本驱动医学图像分割",
+      "llm_tldr_en": "Proposes a localization-infused vision-language semantic fusion method for text-guided medical image segmentation, explicitly incorporating target location from textual reports to improve segmentation accuracy.",
+      "llm_tldr_cn": "针对现有文本引导分割方法未能充分利用文本中目标位置信息的问题，本文提出融合定位信息的视觉语言语义融合框架，通过显式提取报告中的位置描述来增强分割性能。在医学图像分割基准上，该方法显著提高了分割精度，展示了利用语言模型推理指导分割的有效性。",
+      "llm_tldr": "针对现有文本引导分割方法未能充分利用文本中目标位置信息的问题，本文提出融合定位信息的视觉语言语义融合框架，通过显式提取报告中的位置描述来增强分割性能。在医学图像分割基准上，该方法显著提高了分割精度，展示了利用语言模型推理指导分割的有效性。",
+      "llm_tags": [
+        "query:seg-llm"
+      ],
+      "matched_query_tag": "query:seg-llm",
+      "matched_query_text": "semantic segmentation guided by language model",
+      "matched_requirement_id": "req-11",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.16806v1",
+      "source": "arxiv",
+      "title": "Token-Wise Latent Streaming from Slow Reasoners to Fast Planners for Dynamic Vision Language Navigation",
+      "abstract": "Vision-Language Navigation in dynamic, human-centric environments exposes a fundamental tension: linguistic reasoning is slow and deliberative, whereas safe, socially compliant planning should be instant and reactive. The resulting observation staleness is safety-critical: a maneuver chosen during inference can already be unsafe by the time it executes. We observe that, long before a VLM finishes its inference, its intermediate hidden states already encode action-relevant intent. We propose SPARK-VLN, a dual-system framework for dynamic social VLN that streams the slow VLM reasoner's knowledge to a fast flow-matching expert planner throughout token generation, providing fresh and evolving guidance during inference. This design is realized by three modules: a Token-Wise Hidden Streamer that extracts intermediate hidden states along the token generation process, a Sequence-to-Slot Latent Bridge that projects them into fixed-size latent slots, and an Evolving Latent Conditioner that infuses them into the expert planner. We also introduce a human-centric benchmark suite for dynamic social vision-language navigation that keeps pedestrians and the robot active throughout inference and reports navigation success, social compliance, human collisions, and explicit staleness statistics. Across these settings, SPARK-VLN mproves navigation success and social compliance while sustaining inference efficiency. Webpage: https://hutslib.github.io/SPARK-VLN/.",
+      "authors": [
+        "Tianshuai Hu",
+        "Yangyi Zhong",
+        "Zeying Gong",
+        "Lingdong Kong",
+        "Xiaodong Mei",
+        "Guoyang Zhao",
+        "Xiaolu Liu",
+        "Song Wang",
+        "Rong Li",
+        "Junwei Liang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-18T12:55:40+00:00",
+      "link": "https://arxiv.org/pdf/2607.16806v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "latent streaming of intermediate hidden states from VLM to planner",
+      "llm_evidence_cn": "将VLM的中间隐状态流式传输给规划器",
+      "llm_evidence": "将VLM的中间隐状态流式传输给规划器",
+      "canonical_evidence": "将VLM的中间隐状态流式传输给规划器",
+      "llm_tldr_en": "Proposes SPARK-VLN which streams intermediate latent representations from a slow VLM reasoner to a fast planner, enabling real-time adaptive navigation in dynamic environments.",
+      "llm_tldr_cn": "该论文针对动态视觉语言导航中推理速度慢与规划实时性的矛盾，提出SPARK-VLN双系统框架。在VLM推理过程中，将其中间隐状态（蕴含动作意图）持续流式传输给快速专家规划器，提供即时更新的引导。实验证明该方法在动态社交导航中显著提升安全性和效率。",
+      "llm_tldr": "该论文针对动态视觉语言导航中推理速度慢与规划实时性的矛盾，提出SPARK-VLN双系统框架。在VLM推理过程中，将其中间隐状态（蕴含动作意图）持续流式传输给快速专家规划器，提供即时更新的引导。实验证明该方法在动态社交导航中显著提升安全性和效率。",
+      "llm_tags": [
+        "query:lr"
+      ],
+      "matched_query_tag": "query:lr",
+      "matched_query_text": "latent space reasoning for multimodal models",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.18112v1",
+      "source": "arxiv",
+      "title": "Occlusion-Aware Panoptic Segmentation with Joint Position Embedding and Occlusion-Level Attention",
+      "abstract": "Panoptic segmentation in complex scenes remains challenging because of occlusions, yet modern approaches often neglect occlusion modelling. In this paper, we propose \\textbf{P}osition \\textbf{E}mbedding \\textbf{M}odulation with \\textbf{O}cclusion-\\textbf{L}evel \\textbf{A}ttention (PEMOLA), a novel occlusion-aware module that can be seamlessly integrated into transformer-based panoptic segmentation. To obtain occlusion cues, we train an occlusion classifier on the COCO-OLAC dataset. The classifier derives the occlusion-level attention, which serves as spatial guidance, while the occlusion labels are encoded into a learnable embedding to produce channel-wise weights. Through joint modulation, PEMOLA elegantly introduces the occlusion priors into the position embedding, thereby improving the occlusion modelling. We further annotate the Cityscapes dataset with occlusion levels, termed Cityscapes Occlusion Labels for All Computer Vision Tasks (Cityscapes-OLAC), following the same labelling protocol as COCO-OLAC, to evaluate the cross-dataset generalisation ability of PEMOLA. Extensive experiments on COCO-OLAC and Cityscapes-OLAC demonstrate that PEMOLA consistently improves panoptic segmentation quality while introducing minimal computational overhead. These results highlight the importance of occlusion modelling, where incorporating occlusion-level attention helps deliver robust panoptic segmentation under occlusion. Code and dataset are available at https://github.com/wenbo-wei/PEMOLA.",
+      "authors": [
+        "Wenbo Wei",
+        "Jun Wang",
+        "Shan Raza",
+        "Abhir Bhalerao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-20T16:08:57+00:00",
+      "link": "https://arxiv.org/pdf/2607.18112v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "occlusion-aware panoptic segmentation",
+      "llm_evidence_cn": "遮挡感知全景分割",
+      "llm_evidence": "遮挡感知全景分割",
+      "canonical_evidence": "遮挡感知全景分割",
+      "llm_tldr_en": "PEMOLA introduces occlusion-level attention and position embedding modulation for transformer-based panoptic segmentation, effectively handling occlusions.",
+      "llm_tldr_cn": "针对复杂场景中遮挡导致的全景分割困难问题，本文提出PEMOLA模块，通过训练遮挡分类器获取遮挡线索，并设计位置嵌入调制与遮挡级注意力，实现对遮挡区域的空间引导。该模块可无缝集成到Transformer分割网络中，在COCO-OLAC数据集上显著提升了遮挡区域的分割精度，为遮挡感知分割提供了实用解决方案。",
+      "llm_tldr": "针对复杂场景中遮挡导致的全景分割困难问题，本文提出PEMOLA模块，通过训练遮挡分类器获取遮挡线索，并设计位置嵌入调制与遮挡级注意力，实现对遮挡区域的空间引导。该模块可无缝集成到Transformer分割网络中，在COCO-OLAC数据集上显著提升了遮挡区域的分割精度，为遮挡感知分割提供了实用解决方案。",
+      "llm_tags": [
+        "query:seg-llm"
+      ],
+      "matched_query_tag": "query:seg-llm",
+      "matched_query_text": "semantic segmentation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.18153v1",
+      "source": "arxiv",
+      "title": "Robust Multimodal Dynamic Object Segmentation",
+      "abstract": "Dynamic object segmentation plays a critical role in many visual applications such as static scene reconstruction from dynamic videos. However, existing optical flow-based methods fail to ensure consistent static/dynamic segmentation along object boundaries, while 3D reconstruction-based approaches are highly sensitive to reconstruction errors. To address these limitations, we present a dynamic object segmentation framework that can generate both precise and complete dynamic masks by integrating multimodal cues including 2D point tracks, 3D reconstruction, and semantic information. We design a network combining Transformer architectures with feature clustering aggregation modules to perform static/dynamic classification of multimodal feature trajectories. It enables the model to adaptively determine which type of feature should dominate based on the characteristics of each scene, while also mitigating the impact of feature degradation. Additionally, we introduce a novel point-query-based SAM post-processing method capable of handling multiple objects within a single mask. Extensive experiments demonstrate that our approach achieves state-of-the-art performance in both dynamic object segmentation and static scene reconstruction tasks.",
+      "authors": [
+        "Zhe Xin",
+        "Hanzhi Chang",
+        "Penghui Huang",
+        "Yinian Mao",
+        "Guoquan Huang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-20T16:51:48+00:00",
+      "link": "https://arxiv.org/pdf/2607.18153v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "multimodal dynamic object segmentation",
+      "llm_evidence_cn": "多模态动态目标分割",
+      "llm_evidence": "多模态动态目标分割",
+      "canonical_evidence": "多模态动态目标分割",
+      "llm_tldr_en": "Proposes a robust multimodal dynamic object segmentation framework integrating 2D tracks, 3D reconstruction and semantic cues via Transformer and clustering.",
+      "llm_tldr_cn": "该论文针对动态场景中目标分割不一致的问题，提出融合多模态线索（2D点轨迹、3D重建、语义信息）的框架。设计结合Transformer与特征聚类聚合模块的网络，对多模态特征轨迹进行静动态分类。实验表明该方法在复杂动态场景中生成精确且完整的动态掩码，优于纯光流或3D重建方法。",
+      "llm_tldr": "该论文针对动态场景中目标分割不一致的问题，提出融合多模态线索（2D点轨迹、3D重建、语义信息）的框架。设计结合Transformer与特征聚类聚合模块的网络，对多模态特征轨迹进行静动态分类。实验表明该方法在复杂动态场景中生成精确且完整的动态掩码，优于纯光流或3D重建方法。",
+      "llm_tags": [
+        "query:seg-llm"
+      ],
+      "matched_query_tag": "query:seg-llm",
+      "matched_query_text": "semantic segmentation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.17674v1",
+      "source": "arxiv",
+      "title": "Uncovering Latent Reasoning Strategies in Language Models",
+      "abstract": "A language model $p_θ(y \\mid x)$ trained on reasoning tasks learns to solve problems via multiple distinct strategies, yet these strategies are implicit and entangled within the model's response distribution. We study the problem of decomposing the response distribution of a given pretrained language model into a structured, strategy-conditioned representation. Specifically, we learn a latent-variable factorization $p_θ(y \\mid x) \\leadsto (r_φ(z \\mid x), g_φ(y \\mid x,z))$, where a router $r$ maps each input to a distribution over latent strategies $z$ and a generator $g$ produces the response conditioned on that strategy. A key challenge is that the generator, initialized from the base model, already represents $p_θ(y \\mid x)$ without using $z$. Standard variational inference therefore gives the model no incentive to route information through $z$ and can yield a severe form of posterior collapse. To address this, we propose a variational objective that measures fractional information gain relative to the base model's response loss and concentrates reconstruction pressure on tokens with high base model surprisal, encouraging $z$ to encode strategy-relevant response variation. We introduce a benchmark of multi-strategy algorithmic tasks and show that this objective recovers latent codes aligned with distinct reference strategies while preserving the base model's response distribution.",
+      "authors": [
+        "Awni Altabaa",
+        "John Lafferty"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-07-20T08:27:02+00:00",
+      "link": "https://arxiv.org/pdf/2607.17674v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "latent-variable factorization to uncover reasoning strategies in LMs",
+      "llm_evidence_cn": "通过隐变量分解揭示语言模型中的推理策略",
+      "llm_evidence": "通过隐变量分解揭示语言模型中的推理策略",
+      "canonical_evidence": "通过隐变量分解揭示语言模型中的推理策略",
+      "llm_tldr_en": "Uncovers latent reasoning strategies in language models by learning a router-generator factorization, enabling structured decomposition of response distributions.",
+      "llm_tldr_cn": "该论文研究如何将预训练语言模型的响应分布分解为结构化的策略条件表示。通过学习一个路由器-生成器因子分解，将输入映射到隐策略分布并在其条件下生成响应。实验揭示了语言模型中存在多种隐式推理策略，且该方法能有效解耦这些策略。这项工作为理解和大模型隐空间推理提供了新视角和工具。",
+      "llm_tldr": "该论文研究如何将预训练语言模型的响应分布分解为结构化的策略条件表示。通过学习一个路由器-生成器因子分解，将输入映射到隐策略分布并在其条件下生成响应。实验揭示了语言模型中存在多种隐式推理策略，且该方法能有效解耦这些策略。这项工作为理解和大模型隐空间推理提供了新视角和工具。",
+      "llm_tags": [
+        "query:lr"
+      ],
+      "matched_query_tag": "query:lr",
+      "matched_query_text": "reasoning in latent space of large models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.11089v1",
+      "source": "arxiv",
+      "title": "OS-Pruner: Pruning Chains-of-Thought of Reasoning Models via Optimal Stopping",
+      "abstract": "Large Language Models (LLMs) have achieved remarkable success in complex reasoning tasks through Chain-of-Thought (CoT) prompting. However, these models often exhibit \"computational overthinking,\" generating redundant reasoning steps that increase latency and cost without improving accuracy. Recent studies suggest that CoT trajectories can be significantly pruned, yet existing methods often rely on forcing a static thinking budget, heuristic filtering, sub-optimal early exit via classification, or expensive re-training. In this paper, we introduce OS-Pruner, a lightweight plug-in framework that formulates chain-of-thought pruning as an optimal stopping problem. Given a reasoning prefix, OS-Pruner learns whether further reasoning is worth its token cost by optimizing an explicit utility that trades off final-answer accuracy against generated length. Our novel formulation enables the model to dynamically assess the sufficient point of termination for a reasoning chain. OS-Pruner is designed to be lightweight during both training and inference, and to provide users with fine-grained control over the reasoning-effort vs. accuracy trade-off. On diverse reasoning benchmarks and base models, OS-Pruner achieves 20-60\\% reduction in generation length with minimal accuracy sacrifice.",
+      "authors": [
+        "Mohammed Ehab",
+        "Aymane El Gadarri",
+        "Vivek F. Farias",
+        "Adam Jozefiak",
+        "Ciamac C. Moallemi"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-13T04:57:22+00:00",
+      "link": "https://arxiv.org/pdf/2607.11089v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "chain-of-thought pruning for LLM reasoning",
+      "llm_evidence_cn": "LLM推理链裁剪优化",
+      "llm_evidence": "LLM推理链裁剪优化",
+      "canonical_evidence": "LLM推理链裁剪优化",
+      "llm_tldr_en": "OS-Pruner prunes CoT reasoning steps via optimal stopping, reducing latency without sacrificing accuracy.",
+      "llm_tldr_cn": "大型语言模型在复杂推理中常产生冗余思维链步骤，导致计算浪费。本文提出OS-Pruner，将思维链剪枝建模为最优停止问题，通过在推理前缀阶段学习判断是否继续推理，实现自适应裁剪。实验表明，在保持推理准确性的同时显著减少推理步骤和延迟，为轻量级推理优化提供了高效框架。",
+      "llm_tldr": "大型语言模型在复杂推理中常产生冗余思维链步骤，导致计算浪费。本文提出OS-Pruner，将思维链剪枝建模为最优停止问题，通过在推理前缀阶段学习判断是否继续推理，实现自适应裁剪。实验表明，在保持推理准确性的同时显著减少推理步骤和延迟，为轻量级推理优化提供了高效框架。",
+      "llm_tags": [
+        "query:seg-llm"
+      ],
+      "matched_query_tag": "query:seg-llm",
+      "matched_query_text": "large language model reasoning",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.17386v1",
+      "source": "arxiv",
+      "title": "SkyVLaM: Multimodal Large Language Model for UAV Video Understanding in Remote Sensing",
+      "abstract": "Recent advances in Multimodal Large Language Models (MLLMs) have significantly improved remote sensing (RS) multimodal understanding. Language-conditioned segmentation is crucial for fine-grained target understanding in Unmanned Aerial Vehicle (UAV) videos. However, this task remains challenging due to the prevalence of small, visually ambiguous targets and dynamic aerial perspectives. In this paper, we propose SkyVLaM, a multimodal large language model for UAV video understanding. SkyVLaM constructs sparse tokens directly from patch-level video representations through a temporal basis perceiver, regularizes the sparse basis to encourage complementary temporal cues, and adaptively selects a temporally coherent dense segment for high-resolution inspection. The resulting sparse and dense tokens are jointly processed by a large language model for query-conditioned segmentation. We further build SkyVid, consisting of SkyVid-VGCG and SkyVid-RVOS for video grounded conversation generation and referring video object segmentation, respectively. SkyVid contains 101 videos, 33.6K frames, and 1.53M pixel-level object instances. Experiments show that SkyVLaM provides a more effective allocation of the visual token budget and improves language-conditioned video segmentation in UAV scenarios.",
+      "authors": [
+        "Kaiwen Jing",
+        "Ruixu Jia",
+        "Bingyao Li",
+        "Ruizhe Ou",
+        "Ming Wu",
+        "Chuang Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-19T19:07:19+00:00",
+      "link": "https://arxiv.org/pdf/2607.17386v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "language-conditioned segmentation for UAV video using MLLM",
+      "llm_evidence_cn": "用多模态大模型进行无人机视频语言条件分割",
+      "llm_evidence": "用多模态大模型进行无人机视频语言条件分割",
+      "canonical_evidence": "用多模态大模型进行无人机视频语言条件分割",
+      "llm_tldr_en": "SkyVLaM uses a multimodal large language model for UAV video understanding with language-conditioned segmentation, constructing sparse tokens via a temporal basis perceiver and selecting temporally coherent dense segments.",
+      "llm_tldr_cn": "本文提出SkyVLaM，一个用于无人机视频理解的多模态大模型，通过时间基感知器构建稀疏令牌，并自适应选择时间连贯的密集段实现语言条件分割。该方法有效处理了无人机视频中小目标、视角动态等挑战，在遥感视频理解任务上取得优秀性能，展示了语言模型引导分割在复杂场景中的应用。",
+      "llm_tldr": "本文提出SkyVLaM，一个用于无人机视频理解的多模态大模型，通过时间基感知器构建稀疏令牌，并自适应选择时间连贯的密集段实现语言条件分割。该方法有效处理了无人机视频中小目标、视角动态等挑战，在遥感视频理解任务上取得优秀性能，展示了语言模型引导分割在复杂场景中的应用。",
+      "llm_tags": [
+        "query:seg-llm"
+      ],
+      "matched_query_tag": "query:seg-llm",
+      "matched_query_text": "semantic segmentation guided by language model",
+      "matched_requirement_id": "req-11",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.17693v1",
+      "source": "arxiv",
+      "title": "Memory-Supported Synergistic Adaptation for Training-Free Test-Time Medical Image Segmentation",
+      "abstract": "Test-time adaptation (TTA) aims to mitigate distribution shifts by adapting models with unlabeled target data at inference time. While TTA with vision-language models (VLMs) has shown promising results in classification, extending it to medical image segmentation remains challenging. In this setting, the adaptation gains from optimizing on VLM-generated predictions are often outweighed by the degradation to the VLM's strong pretrained features caused by noisy, update-driven learning, resulting in limited and unstable improvements. We therefore propose Memory-Supported Synergistic Adaptation (MSSA), a novel training-free TTA framework for medical image segmentation. Without updating model parameters, MSSA dynamically selects reliable image-text predictions to construct an online memory, uses them as text-guided semantic priors, and couples them with cross-image structural alignment for robust adaptation. Specifically, MSSA consists of (i) a noise-aware memory construction module that filters and stabilizes cross-modal predictions, and (ii) a relevance-driven prototype alignment module that aligns the target sample with structurally consistent memory samples and their reliable predictions to improve adaptation. Extensive experiments on multiple medical segmentation benchmarks demonstrate that MSSA consistently improves VLM-based segmentation models and outperforms existing fine-tuning-based TTA methods by a clear margin, with gains of up to 12.2% DSC and 11.7% mIoU. Project page: https://lingrayy.github.io/MSSA/ .",
+      "authors": [
+        "Lingrui Li",
+        "Nan Pu",
+        "Dong Zhao",
+        "Wenjing Li",
+        "Andrew P French",
+        "Zhun Zhong",
+        "Xin Chen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-20T08:41:47+00:00",
+      "link": "https://arxiv.org/pdf/2607.17693v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "training-free test-time medical image segmentation with VLM adaptation",
+      "llm_evidence_cn": "无训练测试时医学图像分割与VLM自适应",
+      "llm_evidence": "无训练测试时医学图像分割与VLM自适应",
+      "canonical_evidence": "无训练测试时医学图像分割与VLM自适应",
+      "llm_tldr_en": "MSSA enables training-free test-time medical image segmentation by dynamically selecting reliable VLM predictions without updating parameters, achieving stable improvements over noisy adaptation.",
+      "llm_tldr_cn": "该论文针对测试时自适应中VLM微调导致特征退化的问题，提出记忆支持协同自适应（MSSA），一种无训练的测试时医学图像分割框架。MSSA不更新模型参数，而是动态选择可靠的VLM预测结果进行融合。在医疗图像分割任务上，MSSA避免了噪声更新带来的不稳定，实现了稳定且显著的性能提升，推动了VLM在分割任务中的落地应用。",
+      "llm_tldr": "该论文针对测试时自适应中VLM微调导致特征退化的问题，提出记忆支持协同自适应（MSSA），一种无训练的测试时医学图像分割框架。MSSA不更新模型参数，而是动态选择可靠的VLM预测结果进行融合。在医疗图像分割任务上，MSSA避免了噪声更新带来的不稳定，实现了稳定且显著的性能提升，推动了VLM在分割任务中的落地应用。",
+      "llm_tags": [
+        "query:seg-llm"
+      ],
+      "matched_query_tag": "query:seg-llm",
+      "matched_query_text": "vision language model segmentation",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.11008v1",
+      "source": "arxiv",
+      "title": "SynCLIP: Synonym-Coherent Language-Image Pretraining for Robust Open-Vocabulary Dense Perception",
+      "abstract": "Open-vocabulary dense perception (OVDP) aims to localize objects unseen during training by leveraging textual knowledge. Despite the remarkable progress of recent CLIP-based approaches, we identify a critical limitation: synonym-induced grounding inconsistency, where semantically equivalent expressions yield disparate spatial attention patterns. This inconsistency undermines the robustness and performance of existing methods in real-world OVDP applications. To address this issue, we propose SynCLIP, a Synonym-Coherent Language-Image Pretraining framework that enhances synonym-robust grounding for OVDP. SynCLIP introduces a Semantic-consistent Spatial Attention alignment (SSA) module to enhance spatial attention consistency by minimizing discrepancies between attention maps of original and synonymous expressions. Furthermore, a Spatial Attention Refinement (SAR) module selectively strengthens the most semantically relevant spatial regions within aligned maps for more precise and stable grounding. To support synonym-coherent pretraining, we also construct a Synonym-Enriched Visual Corpus (SEViC), which augments each category with multiple synonyms and textual definitions. Extensive experiments on multiple benchmarks demonstrate that SynCLIP substantially improves grounding consistency under diverse linguistic variants and achieves state-of-the-art performance among CLIP-based OVDP methods. Code is available at https://github.com/Justlovesmile/SynCLIP.",
+      "authors": [
+        "Mingjie Xie",
+        "Guangjun He",
+        "Dongli Xu",
+        "Youtian Lin",
+        "Hongjue Li",
+        "Pengming Feng",
+        "Jian Guan",
+        "Yue Deng"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-13T02:16:17+00:00",
+      "link": "https://arxiv.org/pdf/2607.11008v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "addresses synonym inconsistency in open-vocabulary dense perception including segmentation",
+      "llm_evidence_cn": "解决开放词汇密集感知中的同义词不一致问题，包括分割任务",
+      "llm_evidence": "解决开放词汇密集感知中的同义词不一致问题，包括分割任务",
+      "canonical_evidence": "解决开放词汇密集感知中的同义词不一致问题，包括分割任务",
+      "llm_tldr_en": "SynCLIP enhances synonym-robust grounding for open-vocabulary dense perception by aligning spatial attention consistency.",
+      "llm_tldr_cn": "本文针对开放词汇密集感知中同义词导致的空间注意力不一致问题，提出同义词连贯的语言-图像预训练框架SynCLIP。通过语义一致的空间注意力对齐模块，增强模型对同义词组的稳健性，在多个密集预测基准上提升性能。",
+      "llm_tldr": "本文针对开放词汇密集感知中同义词导致的空间注意力不一致问题，提出同义词连贯的语言-图像预训练框架SynCLIP。通过语义一致的空间注意力对齐模块，增强模型对同义词组的稳健性，在多个密集预测基准上提升性能。",
+      "llm_tags": [
+        "query:seg-llm"
+      ],
+      "matched_query_tag": "query:seg-llm",
+      "matched_query_text": "semantic segmentation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.11106v1",
+      "source": "arxiv",
+      "title": "Beyond the Eye: Efficient Multimodal Reasoning via Self-Regulated Implicit Visual Tools",
+      "abstract": "Recent multimodal large language models (MLLMs) have made remarkable progress on fine-grained perception tasks under the \"Thinking with Images\" (TwI) paradigm by iteratively performing various visual tool operations. However, this paradigm relies heavily on frequent external tool calls and repeated image re-encoding, which leads to substantial computational overhead and inference latency. To address these issues, we propose Beyond the Eye (BEE), a novel implicit visual tool paradigm centered on self-regulated capability. BEE directly incorporates visual tool invocation behaviors into the training objective and encourages the model to develop a self-regulated invocation mechanism. This design enables the model to adaptively balance internal knowledge and implicit tools, avoiding redundant tool usage while substantially reducing inference latency. Specifically, BEE involves a two-stage training process: (1) Formalized Chain-of-Thought (CoT) Supervised Fine-tuning (SFT). We construct CoT trajectories with structured tool slots and mixed invocation states. This stage activates the model's implicit tool representations and adaptive switching capability. (2) Self-regulated Reward-Driven Alignment. To address redundant tool usage caused by ambiguous cognitive boundaries, we first introduce the Net Tool Gain (NTG) metric to quantify this phenomenon. Based on this observation, we further propose a self-regulated reward mechanism. This mechanism penalizes ineffective tool dependency and encourages the model to perform knowledge routing, ensuring that implicit tools are invoked only when the model's internal knowledge is insufficient. BEE achieves state-of-the-art performance in fine-grained visual perception while remaining competitive in general reasoning tasks and achieving substantial gains in inference efficiency.",
+      "authors": [
+        "Xiuwei Chen",
+        "Quanlin Chen",
+        "Wentao Hu",
+        "Zisheng Chen",
+        "Kun Xiang",
+        "Zehua Ma",
+        "Mingyang Zhang",
+        "Jianhua Han",
+        "Hanhui Li",
+        "Hang Xu",
+        "Xiaodan Liang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-13T05:32:00+00:00",
+      "link": "https://arxiv.org/pdf/2607.11106v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "efficient multimodal reasoning via self-regulated implicit visual tools",
+      "llm_evidence_cn": "通过自调节隐式视觉工具实现高效多模态推理",
+      "llm_evidence": "通过自调节隐式视觉工具实现高效多模态推理",
+      "canonical_evidence": "通过自调节隐式视觉工具实现高效多模态推理",
+      "llm_tldr_en": "BEE introduces an implicit visual tool paradigm for MLLMs, adapting internal reasoning steps to balance efficiency and performance without external calls.",
+      "llm_tldr_cn": "多模态大模型在精细感知任务中依赖频繁的外部工具调用，导致高计算开销。提出Beyond the Eye (BEE)，一种以自调节能力为中心的隐式视觉工具范式，将工具调用行为直接融入训练目标。模型学习自适应平衡内部推理与外部工具使用，在多个感知基准上达到相当性能的同时显著降低延迟。",
+      "llm_tldr": "多模态大模型在精细感知任务中依赖频繁的外部工具调用，导致高计算开销。提出Beyond the Eye (BEE)，一种以自调节能力为中心的隐式视觉工具范式，将工具调用行为直接融入训练目标。模型学习自适应平衡内部推理与外部工具使用，在多个感知基准上达到相当性能的同时显著降低延迟。",
+      "llm_tags": [
+        "query:lr:composite"
+      ],
+      "matched_query_tag": "query:lr:composite",
+      "matched_query_text": "Papers central to 请帮我查找多模态大模型隐空间推理的相关论文。, especially work that connects or combines: multimodal large language model reasoning in latent space; latent space reasoning for multimodal models; reasoning in latent space of large models; multimodal reasoning with latent variables; papers on reasoning in latent space of multimodal large language models; research about latent space reasoning for multimodal models.",
+      "matched_requirement_id": "req-composite-lr",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.14149v1",
+      "source": "arxiv",
+      "title": "Enhancing Small Language Models Reasoning through Knowledge Graph Grounding",
+      "abstract": "Although large language models (LLMs) have set benchmarks for zero-shot reasoning, their deployment remains cost-prohibitive and environmentally taxing. Small Language Models (SLMs) offer a sustainable alternative, but prone to errors, on tasks requiring complex, multi-hop logical grounding. We investigate a neuro-symbolic agentic framework to enhance the reasoning capabilities of SLMs, specifically Gemma 3 (1B, 4B) and Llama 3.2 (3B), using the CLUTRR kinship benchmark. Our approach transforms the SLM into a minimalist agent utilizing two specialized tool calls: extract_facts for symbolic triplet extraction and get_hint for expert reasoning via a Relational Graph Convolutional Network (RGCN). We evaluate these models across two configurations, both in an Oracle scenario with ground-truth triplets and a Realistic scenario relying on self-extracted knowledge. Our results reveal that while RGCN-derived hints provide a 1.5 - 2x performance gain over story-only baselines, the system is constrained by the extraction bottleneck and sequential deductive fragility, where early extraction errors compound over multi-hop chains. Furthermore, we identify a \"distraction effect\" in specific architectures where noisy, self-generated facts degrade performance despite the presence of expert hints. This work characterizes the challenges of symbolic grounding in low-resource agentic systems and provides a roadmap for iterative verification in neuro-symbolic agentic pipelines.",
+      "authors": [
+        "Dimitrios Kelesis",
+        "Konstantinos Bougiatiotis",
+        "Georgios Paliouras"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-07-14T13:07:46+00:00",
+      "link": "https://arxiv.org/pdf/2607.14149v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "enhancing SLM reasoning with knowledge graph grounding",
+      "llm_evidence_cn": "通过知识图谱增强小语言模型推理",
+      "llm_evidence": "通过知识图谱增强小语言模型推理",
+      "canonical_evidence": "通过知识图谱增强小语言模型推理",
+      "llm_tldr_en": "A neuro-symbolic agentic framework enhances SLM reasoning by combining symbolic fact extraction and RGCN-based expert reasoning.",
+      "llm_tldr_cn": "小语言模型在复杂多跳推理任务中容易出错，但部署成本低。本文提出神经符号代理框架，将SLM转变为使用两个工具调用的智能体：用于符号三元组提取和基于关系图卷积网络的专家推理。在CLUTRR基准上，该框架显著提升了Gemma 3和Llama 3.2等小模型的推理准确性，展示了符号分支增强语言模型推理的潜力。",
+      "llm_tldr": "小语言模型在复杂多跳推理任务中容易出错，但部署成本低。本文提出神经符号代理框架，将SLM转变为使用两个工具调用的智能体：用于符号三元组提取和基于关系图卷积网络的专家推理。在CLUTRR基准上，该框架显著提升了Gemma 3和Llama 3.2等小模型的推理准确性，展示了符号分支增强语言模型推理的潜力。",
+      "llm_tags": [
+        "query:seg-llm"
+      ],
+      "matched_query_tag": "query:seg-llm",
+      "matched_query_text": "large language model reasoning",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.11581v1",
+      "source": "arxiv",
+      "title": "Actor as Its Own Critic: Unifying Region Understanding and Localization via CycleGRPO",
+      "abstract": "This paper introduces Actor as Its Own Critic, a unified reinforcement learning framework, Cycle Group Relative Policy Optimization (CycleGRPO), that jointly optimizes region understanding and localization for Multimodal Large Language Models (MLLMs). Unlike existing separate pipelines, we leverage the inherent duality between the two tasks to construct a self-evaluating reinforcement learning paradigm: \"region $\\to$ text $\\to$ region''. Specifically, a single MLLM first acts as the actor to generate region captions, then immediately transitions to a critic to ground its generated text back in the spatial domain. Therefore, CycleGRPO requires only region inputs, e.g., masks or bounding boxes, entirely bypassing the need for textual ground truths. A quality-aware token-level cycle-consistency reward is employed to assess the semantic discriminability of text captions via their physical localization accuracy. Empirically, built upon SAMTok, our CycleGRPO framework successfully bootstraps both capabilities simultaneously. Without any task-specific fine-tuning, the framework yields consistent performance gains across a wide range of benchmarks, including region captioning, region VQA, grounded dialogue, and referring segmentation. Overall, CycleGRPO offers a straightforward and scalable way to advance pixel-level capabilities in MLLMs. Code and models are released at https://github.com/devinxzhang/CycleGRPO.",
+      "authors": [
+        "Xin Zhang",
+        "Haochen Wang",
+        "Yikang Zhou",
+        "Jason Li",
+        "Robby T. Tan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-13T14:00:57+00:00",
+      "link": "https://arxiv.org/pdf/2607.11581v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "unifies region understanding and localization for MLLMs using RL",
+      "llm_evidence_cn": "使用强化学习统一MLLM的区域理解与定位",
+      "llm_evidence": "使用强化学习统一MLLM的区域理解与定位",
+      "canonical_evidence": "使用强化学习统一MLLM的区域理解与定位",
+      "llm_tldr_en": "Introduces CycleGRPO, a reinforcement learning framework that jointly optimizes region understanding and localization for MLLMs by using a self-evaluating cycle of region-to-text-to-region, bypassing textual ground truth.",
+      "llm_tldr_cn": "针对多模态大模型（MLLM）的区域理解与定位任务，提出统一强化学习框架CycleGRPO。利用任务间的内在对偶性构建自评估循环：模型先生成区域描述，再作为评论家将文本回锚定到空间区域，从而仅需区域输入（掩码或边界框）即可联合优化。在多个基准上显著提升了MLLM的区域理解和定位能力。",
+      "llm_tldr": "针对多模态大模型（MLLM）的区域理解与定位任务，提出统一强化学习框架CycleGRPO。利用任务间的内在对偶性构建自评估循环：模型先生成区域描述，再作为评论家将文本回锚定到空间区域，从而仅需区域输入（掩码或边界框）即可联合优化。在多个基准上显著提升了MLLM的区域理解和定位能力。",
+      "llm_tags": [
+        "query:seg-llm:composite"
+      ],
+      "matched_query_tag": "query:seg-llm:composite",
+      "matched_query_text": "Papers central to 请帮我搜集有关语义分割和大模型推理结合的论文, especially work that connects or combines: semantic segmentation; large language model reasoning; vision language model segmentation; segmentation with language model reasoning; semantic segmentation guided by language model; semantic segmentation with large language model reasoning; use large language model to enhance semantic segmentation; reasoning based semantic segmentation using vision language models.",
+      "matched_requirement_id": "req-composite-seg-llm",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.14349v1",
+      "source": "arxiv",
+      "title": "HABIB_TAZ at SemEval-2026 Task 11: Disentangling Formal Logic from Content via Synthetic Training and Multi-Objective Optimization",
+      "abstract": "While Large Language Models (LLMs) excel in many general NLP tasks, their formal reasoning capabilities are often compromised by content effects, demonstrating a measurable bias towards real-world plausibility. In this paper, we present our system for SemEval-2026 Task 11, which evaluates the ability of models to disentangle formal logic from content across 12 languages with and without distractor premises. We address this challenge using mDeBERTa-v3 networks fine-tuned on a synthetic, rule-based dataset of syllogistic schemes to avoid the semantic noise of LLM-augmented data. To explicitly decouple plausibility from logical structure, our training pipeline employs a multi-objective loss function combining Adaptive Group Distributionally Robust Optimization (DRO), a scheduled differentiable bias penalty, and KL-Divergence consistency regularization. Our system achieved #1 ranks and perfect Ranking Scores (100.0) with 0.00% bias and 100.0% accuracy on Subtask 1 (English), Subtask 2 (Noisy English), and Subtask 3 (Multilingual). On the highly complex Subtask 4 (Noisy Multilingual), the system achieved the 6th rank with 89.06% Accuracy and F1-score, alongside a limited 2.89% Bias and a 37.78 Ranking Score. Our dataset generation engine and codebase are publicly available to facilitate future work on robust logical reasoning.",
+      "authors": [
+        "Abdullah Shaikh",
+        "Zain Naqi",
+        "Taha Zahid",
+        "Sandesh Kumar",
+        "Abdul Samad"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "published": "2026-07-15T20:24:26+00:00",
+      "link": "https://arxiv.org/pdf/2607.14349v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "disentangling formal logic from content for LLM reasoning",
+      "llm_evidence_cn": "分离形式逻辑与内容提升LLM推理",
+      "llm_evidence": "分离形式逻辑与内容提升LLM推理",
+      "canonical_evidence": "分离形式逻辑与内容提升LLM推理",
+      "llm_tldr_en": "Uses synthetic syllogistic data and multi-objective loss to train mDeBERTa-v3 for logic reasoning free from content bias.",
+      "llm_tldr_cn": "大型语言模型在形式推理中常受内容偏见影响，偏好现实合理的结论而非逻辑正确。本文利用合成生成的规则化三段论数据，避免LLM生成数据的语义噪声，并采用多目标损失函数训练mDeBERTa-v3网络，显式分离逻辑结构与内容。在SemEval-2026跨语言任务上，该系统有效降低了内容干扰，提高了形式推理的鲁棒性。",
+      "llm_tldr": "大型语言模型在形式推理中常受内容偏见影响，偏好现实合理的结论而非逻辑正确。本文利用合成生成的规则化三段论数据，避免LLM生成数据的语义噪声，并采用多目标损失函数训练mDeBERTa-v3网络，显式分离逻辑结构与内容。在SemEval-2026跨语言任务上，该系统有效降低了内容干扰，提高了形式推理的鲁棒性。",
+      "llm_tags": [
+        "query:seg-llm"
+      ],
+      "matched_query_tag": "query:seg-llm",
+      "matched_query_text": "large language model reasoning",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.15374v1",
+      "source": "arxiv",
+      "title": "Reasoning-Guided Part-Level Visual Grounding via Reinforcement Learning",
+      "abstract": "Multimodal large language models (MLLMs) ground whole objects well from free-form language queries, but they struggle when the query names a part rather than the object. We trace this to a missing object-part hierarchy, since parts are localized in the same single step used for objects. We propose Object-Part Hierarchical Reflective Grounding (OP-HRG), a coarse-to-fine reasoning-guided grounding strategy that first localizes the parent object and then the part within it. A self-check then reflects on the result, with an extension to re-encode the predicted crop to inspect the region it is correcting. We introduce a part-aware GRPO framework to train our pipeline with stage-wise rewards. A 4B model trained this way outperforms 7B grounding LLMs and SAM3 across PascalPart, PartImageNet, and InstructPart, and transfers to reasoning segmentation.",
+      "authors": [
+        "Kazi Sajeed Mehrab",
+        "Hani Alomari",
+        "Najibul Haque Sarker",
+        "Chia-Wei Tang",
+        "Zaber Ibn Abdul Hakim",
+        "Anuj Karpatne",
+        "Chris Thomas"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-16T18:18:31+00:00",
+      "link": "https://arxiv.org/pdf/2607.15374v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "reasoning-guided part-level visual grounding using MLLM and reinforcement learning",
+      "llm_evidence_cn": "使用多模态大模型和强化学习进行推理引导的部件级视觉定位",
+      "llm_evidence": "使用多模态大模型和强化学习进行推理引导的部件级视觉定位",
+      "canonical_evidence": "使用多模态大模型和强化学习进行推理引导的部件级视觉定位",
+      "llm_tldr_en": "Proposes OP-HRG, a coarse-to-fine reasoning-guided grounding strategy with part-aware GRPO, enabling MLLMs to accurately localize object parts.",
+      "llm_tldr_cn": "该论文针对多模态大模型在部件级视觉定位中的不足，提出对象-部件分层反射式定位（OP-HRG）。采用由粗到细的推理引导策略：先定位父对象，再精确定位部件，并通过自检反馈修正。引入部件感知的GRPO强化学习框架，以分阶段奖励训练。4B模型性能超越7B模型和SAM，展现推理引导的细粒度定位能力。",
+      "llm_tldr": "该论文针对多模态大模型在部件级视觉定位中的不足，提出对象-部件分层反射式定位（OP-HRG）。采用由粗到细的推理引导策略：先定位父对象，再精确定位部件，并通过自检反馈修正。引入部件感知的GRPO强化学习框架，以分阶段奖励训练。4B模型性能超越7B模型和SAM，展现推理引导的细粒度定位能力。",
+      "llm_tags": [
+        "query:seg-llm"
+      ],
+      "matched_query_tag": "query:seg-llm",
+      "matched_query_text": "vision language model segmentation",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.16560v1",
+      "source": "arxiv",
+      "title": "From Modalities to Propositions: A Language-Centric Framework for Multimodal Intelligence",
+      "abstract": "We propose a language representation for multimodal data in which any observation, whether image, video, or text, is expressed as a bag of atomic propositions, simple statements about the entities, actions, and relations in a scene. A global semantic codebook unifies these into a shared vocabulary of canonical atomic propositions, placing every modality and observation into one interpretable space that spans fine grained facts to high level concepts and composes into richer ones. This brings interpretability with reasoning, cross-modal understanding and retrieval, and compositionality that enables complex multimodal understanding, rich data curation and complex structured retrieval. We demonstrate the framework on autonomous driving and open-world data.",
+      "authors": [
+        "Nadine Chang",
+        "Maying Shen",
+        "Shizhe Diao",
+        "Jialiang Wang",
+        "Jingde Chen",
+        "Thomas Breuel",
+        "Pavlo Molchanov",
+        "Rafid Mahmood",
+        "Jose M. Alvarez"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CV",
+        "cs.LG",
+        "cs.MM"
+      ],
+      "published": "2026-07-18T00:08:47+00:00",
+      "link": "https://arxiv.org/pdf/2607.16560v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Proposes a shared semantic space for multimodal reasoning",
+      "llm_evidence_cn": "提出一个共享语义空间用于多模态推理",
+      "llm_evidence": "提出一个共享语义空间用于多模态推理",
+      "canonical_evidence": "提出一个共享语义空间用于多模态推理",
+      "llm_tldr_en": "The paper introduces a language representation that maps multimodal observations into atomic propositions, unified in a shared semantic codebook. This enables interpretable reasoning, cross-modal retrieval, and compositionality. Demonstrated on autonomous driving, it shows effective multimodal understanding and reasoning in a common interpretable space.",
+      "llm_tldr_cn": "该论文针对多模态数据推理困难的问题，提出将任何观测表示为原子命题，并使用全局语义码本统一到规范命题的共享可解释空间。该方法实现了可解释推理、跨模态理解与检索以及组合性。在自动驾驶任务上的实验表明，该框架能有效进行多模态理解与复杂推理，为多模态智能提供了语言中心的统一范式。",
+      "llm_tldr": "该论文针对多模态数据推理困难的问题，提出将任何观测表示为原子命题，并使用全局语义码本统一到规范命题的共享可解释空间。该方法实现了可解释推理、跨模态理解与检索以及组合性。在自动驾驶任务上的实验表明，该框架能有效进行多模态理解与复杂推理，为多模态智能提供了语言中心的统一范式。",
+      "llm_tags": [
+        "query:lr"
+      ],
+      "matched_query_tag": "query:lr",
+      "matched_query_text": "multimodal reasoning with latent variables",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.17884v1",
+      "source": "arxiv",
+      "title": "ST-Veto: Spatio-Temporal Token Veto for Diffusion MLLMs via Taylor Prediction and Visual Grounding",
+      "abstract": "Vision Language Models (VLMs) achieve strong reasoning with Chain-of-Thought (CoT) prompting but incur high sequential-generation cost, error accumulation, and limited self-correction. Diffusion Multimodal Large Language Models (dMLLMs) unmask tokens in an order-agnostic process, improving efficiency and enabling iterative refinement, yet their reasoning and how to enhance it remain underexplored. We propose a training-free method, Spatio-Temporal Token Veto (ST-Veto), which leverages the ability to observe all token positions at each diffusion step. Rather than relying only on current-step confidence, ST-Veto vetoes temporally unstable tokens via second-order Taylor prediction of confidence dynamics and filters weakly grounded tokens using image-attention mass, swapping them with safer candidates. Across multiple dMLLMs and multimodal reasoning benchmarks, ST-Veto consistently outperforms standard decoding policies and prior VLM reasoning methods, improving accuracy by up to 9% with no additional training or generation cost. Analyses show that ST-Veto steers generation toward higher-confidence, better-grounded paths.",
+      "authors": [
+        "Keuntae Kim",
+        "Beomseok Lee",
+        "Hyunwoo Kim",
+        "Yong Suk Choi"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-20T12:35:05+00:00",
+      "link": "https://arxiv.org/pdf/2607.17884v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "improves reasoning in diffusion multimodal large language models",
+      "llm_evidence_cn": "改进扩散多模态大模型的推理能力",
+      "llm_evidence": "改进扩散多模态大模型的推理能力",
+      "canonical_evidence": "改进扩散多模态大模型的推理能力",
+      "llm_tldr_en": "ST-Veto proposes a training-free method that vetoes unstable tokens in diffusion MLLMs using Taylor prediction and visual grounding to enhance reasoning.",
+      "llm_tldr_cn": "本文针对扩散多模态大模型推理不足的问题，提出无训练方法ST-Veto，利用二阶泰勒预测过滤时间不稳定令牌，并通过视觉接地增强推理。实验表明该方法在多个基准上提升了推理准确性，且无需额外训练，为扩散模型推理提供了高效改进方案。",
+      "llm_tldr": "本文针对扩散多模态大模型推理不足的问题，提出无训练方法ST-Veto，利用二阶泰勒预测过滤时间不稳定令牌，并通过视觉接地增强推理。实验表明该方法在多个基准上提升了推理准确性，且无需额外训练，为扩散模型推理提供了高效改进方案。",
+      "llm_tags": [
+        "query:seg-llm"
+      ],
+      "matched_query_tag": "query:seg-llm",
+      "matched_query_text": "large language model reasoning",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.16727v1",
+      "source": "arxiv",
+      "title": "Constraint-Anchored Reasoning Traces",
+      "abstract": "Autoregressive multimodal large language models (MLLMs) suffer from error snowballing: a single incorrect inference early in a chainof-thought (CoT) trace corrupts all downstream reasoning. We find that in state-of-the-art open-source MLLMs, once the first error occurs, the reasoning cascades into failure across all remaining steps in 65% of such cases (a metric we term the snowball rate). Existing mitigations-sampling multiple chains, post-hoc self-verification, or full program synthesis-either lack symbolic grounding, catch errors too late, or sacrifice the flexibility of natural language reasoning. We propose Constraint-Anchored Reasoning Traces (CART), a neuro-symbolic framework that trains MLLMs to interleave natural language reasoning steps with symbolic constraint assertions: lightweight, machine-checkable statements about visual content (e.g., count(red_objects) = 3). A dual-pronged Constraint Propagation Module-combining a learned neural grounding head with Boolean Constraint Propagation-continuously verifies these anchors against extracted visual features and checks their mutual logical consistency. When a contradiction is detected, a backtrack controller halts generation and reverts to the last consistent checkpoint, preventing error propagation. A variable-frequency emission mechanism allows the model to adaptively control anchor density, avoiding trace bloat. We construct 218K training instances by augmenting GQA, CLEVR-CoGenT, and VCR with ground-truth constraint annotations derived from scene graphs, and fine-tune open-source MLLMs (LLaVA-NeXT, Qwen2-VL) via LoRA. On five benchmarks, CART reduces the snowball rate from 0.65 to 0.14, improves GQA accuracy by +4.6 percentage points over trainingonly baselines, and achieves 89.1 F1 on POPE-all with at most 18% inference overhead.",
+      "authors": [
+        "Zehua Cheng",
+        "Wei Dai",
+        "Jiahao Sun"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CV"
+      ],
+      "published": "2026-07-18T09:24:45+00:00",
+      "link": "https://arxiv.org/pdf/2607.16727v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "neuro-symbolic reasoning traces to prevent error snowballing in MLLMs",
+      "llm_evidence_cn": "用神经符号推理轨迹防止多模态大模型错误级联",
+      "llm_evidence": "用神经符号推理轨迹防止多模态大模型错误级联",
+      "canonical_evidence": "用神经符号推理轨迹防止多模态大模型错误级联",
+      "llm_tldr_en": "CART trains MLLMs to interleave natural language reasoning with symbolic constraint assertions, mitigating error snowballing in multimodal chain-of-thought.",
+      "llm_tldr_cn": "本文针对多模态大模型链式推理中的错误级联问题，提出约束锚定推理轨迹框架，训练模型在自然语言推理步骤间插入符号约束断言。实验表明该方法将错误级联率从65%大幅降低，且保持了自然语言推理的灵活性，为多模态推理可靠性提供了有效方案。",
+      "llm_tldr": "本文针对多模态大模型链式推理中的错误级联问题，提出约束锚定推理轨迹框架，训练模型在自然语言推理步骤间插入符号约束断言。实验表明该方法将错误级联率从65%大幅降低，且保持了自然语言推理的灵活性，为多模态推理可靠性提供了有效方案。",
+      "llm_tags": [
+        "query:seg-llm"
+      ],
+      "matched_query_tag": "query:seg-llm",
+      "matched_query_text": "large language model reasoning",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.16789v1",
+      "source": "arxiv",
+      "title": "MultiLoReFT: Decoupling Shared and Modality-Specific Subspaces in Multimodal Learning via Low-Rank Representation Fine-Tuning",
+      "abstract": "Real-world perception and decision making are inherently multimodal, integrating complementary signals across modalities. However, training multimodal models faces two main obstacles. First, collecting large-scale, well-aligned paired multimodal datasets is often impractical, making end-to-end multimodal training difficult. Second, existing multimodal representations frequently entangle information shared across modalities with modality-specific information, hindering interpretability and control. We introduce MultiLoReFT, an efficient and scalable low-rank representation fine-tuning framework for multimodal learning with pretrained unimodal models. MultiLoReFT extends low-rank adaptation to the multimodal setting and learns interpretable projection subspaces that decouple shared and modality-specific information. Across simulated and real-world benchmarks, it produces representations that support multimodal prediction while explicitly revealing how shared and modality-specific information is distributed across modalities.",
+      "authors": [
+        "Sana Tonekaboni",
+        "Viktoria Schuster",
+        "Caroline Uhler"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-07-18T11:53:22+00:00",
+      "link": "https://arxiv.org/pdf/2607.16789v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "decouples shared and modality-specific subspaces in multimodal learning",
+      "llm_evidence_cn": "在多模态学习中解耦共享和模态特定子空间",
+      "llm_evidence": "在多模态学习中解耦共享和模态特定子空间",
+      "canonical_evidence": "在多模态学习中解耦共享和模态特定子空间",
+      "llm_tldr_en": "Introduces MultiLoReFT, a low-rank representation fine-tuning framework for multimodal learning that decouples shared and modality-specific subspaces, enabling efficient adaptation of pretrained unimodal models.",
+      "llm_tldr_cn": "针对多模态表示中共享信息与模态特定信息纠缠的问题，提出MultiLoReFT框架。通过低秩表示微调，将共享子空间与模态特定子空间解耦，实现仅用预训练单模态模型的高效多模态学习。实验表明该方法在多个多模态任务中性能优于全微调，且参数量大幅减少。",
+      "llm_tldr": "针对多模态表示中共享信息与模态特定信息纠缠的问题，提出MultiLoReFT框架。通过低秩表示微调，将共享子空间与模态特定子空间解耦，实现仅用预训练单模态模型的高效多模态学习。实验表明该方法在多个多模态任务中性能优于全微调，且参数量大幅减少。",
+      "llm_tags": [
+        "query:lr:composite"
+      ],
+      "matched_query_tag": "query:lr:composite",
+      "matched_query_text": "Papers central to 请帮我查找多模态大模型隐空间推理的相关论文。, especially work that connects or combines: multimodal large language model reasoning in latent space; latent space reasoning for multimodal models; reasoning in latent space of large models; multimodal reasoning with latent variables; papers on reasoning in latent space of multimodal large language models; research about latent space reasoning for multimodal models.",
+      "matched_requirement_id": "req-composite-lr",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
