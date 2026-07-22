@@ -1,0 +1,1247 @@
+THE HYPERSPHERICAL GEOMETRY OF CLIP LATENT
+SPACE: A SEMANTIC MIXTURE MODEL
+Zijie Yu1, Gaowen Liu2, Ramana Rao Kompella2, Philip S. Yu3, Yue Song1∗
+1Tsinghua University, 2Cisco Research, 3University of Illinois Chicago
+ABSTRACT
+Contrastive Language–Image Pretraining (CLIP) representations form a seman-
+tic embedding space governed by cosine similarity, reflecting an intrinsic hyper-
+spherical geometry. However, existing probabilistic interpretations typically rely
+on Gaussian assumptions, which fail to capture this directional and multimodal
+structure. We propose a principled density model for the CLIP latent space based
+on Mixtures of von Mises–Fisher (MovMF) distributions defined on the unit hy-
+persphere. Using the Expectation–Maximization (EM) algorithm, we efficiently
+learn a probabilistic model in which each mixture component corresponds to a
+coherent semantic concept. This formulation yields a closed-form likelihood nat-
+urally aligned with hyperspherical geometry, enabling accurate and interpretable
+density estimation. Empirically, our model significantly improves long-tailed and
+out-of-distribution detection and provides a natural semantic decomposition, rep-
+resenting each embedding as a sparse probabilistic combination of interpretable
+concepts. These results suggest that CLIP latent space is more faithfully char-
+acterized as a hyperspherical semantic mixture rather than an isotropic Gaussian,
+establishing a simple and geometrically consistent probabilistic framework for
+modeling and understanding multimodal representations. Project page is avail-
+able at https://xiaoyuzhizi.github.io/movmf-clip/.
+1
+INTRODUCTION
+Contrastive Language–Image Pre-training (CLIP) (Radford et al., 2021) has become the founda-
+tion of modern vision–language models (VLMs). By aligning visual and textual representations in
+a shared embedding space, CLIP enables a broad range of downstream tasks, including zero-shot
+recognition (Radford et al., 2021) and text-to-image generation (Ramesh et al., 2022). Since se-
+mantic similarity is measured by cosine distance, the latent space is often idealized as a normalized
+hypersphere with isotropic geometry.
+Despite this theoretical simplicity, the empirical geometry of CLIP representations deviates substan-
+tially from the isotropic ideal. Prior studies reveal pronounced structural irregularities, including
+the Modality Gap (Liang et al., 2022) and the so-called Cone Effect (Liang et al., 2022), where em-
+beddings concentrate within restricted angular regions. Such anisotropy distorts angular similarity,
+biases representations toward dominant concepts such as large objects or spurious background fea-
+tures, and degrades robustness across long-tail categories (Abbasi et al., 2025; Wang et al., 2024;
+Shao et al., 2024).
+To enable probabilistic reasoning in this space, recent work has proposed transforming CLIP em-
+beddings into a Gaussianized coordinate system. In particular, Whitened CLIP (W-CLIP) (Betser
+et al., 2025) applies an invertible whitening transformation and models the resulting features with a
+single isotropic Gaussian, yielding a tractable likelihood based on Euclidean magnitude. While ef-
+fective, this unimodal assumption is fundamentally misaligned with the directional and multimodal
+nature of contrastive embeddings. Natural semantic concepts form multiple structured regions on the
+hypersphere. Modeling the space with a single Gaussian inevitably conflates semantic rarity with
+distributional abnormality, assigning low likelihood to rare but valid concepts and treating them
+similarly to true out-of-distribution (OOD) samples. Moreover, a global scalar likelihood provides
+∗Denotes corresponding author.
+1
+arXiv:2607.13660v1  [cs.LG]  15 Jul 2026
+
+
+(a) Global Gaussian in Rd
+(b) MovMF-CLIP on Sd−1
+Figure 1: Density modeling of CLIP latent space (visualized via dimensionality reduction on
+real data). (a) Gaussian-based approaches such as W-CLIP model the latent space with a single
+global distribution, which can assign low likelihood to valid long-tail concepts due to their distance
+from the global mean. (b) MovMF-CLIP models the space as a hyperspherical semantic mixture,
+capturing the multimodal structures and providing density estimates aligned with semantic clusters.
+limited interpretability of the underlying semantic structure. It can only indicate how typical a sam-
+ple is with respect to the entire distribution, but does not reveal which semantic modes contribute to
+that score or how the representation decomposes across distinct concepts.
+In this work, we propose MovMF-CLIP, a geometrically consistent probabilistic framework that
+models CLIP latent space as a hyperspherical semantic mixture. We first perform covariance-based
+geometric calibration via whitening to remove global anisotropy while preserving semantic rela-
+tionships. Then we model the normalized representations using a Mixture of von Mises–Fisher
+(MovMF) distributions, estimated efficiently via the Expectation–Maximization (EM) algorithm.
+Unlike Gaussian approximations that rely on magnitude, MovMF components are defined intrinsi-
+cally on the unit hypersphere and capture the multimodal directional structures (see Fig. 1). Each
+mixture component corresponds to a coherent semantic prototype, yielding a closed-form likelihood
+that respects the geometry of contrastive embeddings. This probabilistic formulation supports two
+complementary capabilities. First, it provides a principled density estimate for likelihood-based
+evaluation, decoupling semantic rarity from low probability and improving robustness in long-tailed
+and OOD settings. Second, the mixture structure enables intrinsic interpretability: embeddings can
+be decomposed into sparse probabilistic combinations of semantic prototypes.
+Empirically, we validate MovMF-CLIP across long-tailed fairness analysis, OOD detection, se-
+mantic decomposition, and semantic stability under iterative generative drift. For OOD detection,
+MovMF-CLIP reduces FPR95 from 67.76% to 48.00% on MS-COCO, and from 75.05% to 33.48%
+solely on tail concepts. For semantic decomposition, MovMF-CLIP achieves the highest Semantic
+Relevance of 0.673 while achieving a 13 × speedup in inference time compared to the second-best
+method. Across tasks, modeling the latent space as a hyperspherical semantic mixture consistently
+improves robustness, interpretability, and stability.
+Our main contributions are summarized as follows:
+• We offer a geometric re-interpretation of CLIP latent space, arguing that unimodal Gaus-
+sian modeling is inherently inconsistent with its directional hypersphere geometry and mul-
+timodal semantic structure.
+• We propose MovMF-CLIP, an elegant and principled density modeling framework that in-
+tegrates covariance-based geometric calibration with von Mises–Fisher mixture estimation
+on the unit sphere.
+2
+
+
+• We show that this unified geometric–probabilistic formulation simultaneously enables
+(i) calibrated likelihood estimation robust to long-tail and OOD settings, (ii) intrinsic
+and efficient probabilistic semantic decomposition without auxiliary decoders, and (iii) a
+lightweight geometric prior for stabilizing multimodal representations under iterative gen-
+erative drift.
+2
+RELATED WORK
+2.1
+GEOMETRY AND ANISOTROPY IN CLIP
+CLIP and related multimodal contrastive models (Radford et al., 2021; Li et al., 2022; Yu et al., 2022)
+embed images and text into a shared latent space optimized under cosine similarity. This objective
+implicitly normalizes embeddings onto a hypersphere and is often interpreted as encouraging an
+isotropic and uniformly distributed representation geometry (Wang & Isola, 2022). However, a
+growing body of empirical evidence demonstrates that the actual geometry of CLIP latent space
+deviates substantially from this idealized picture.
+One prominent deviation is the Modality Gap, wherein image and text embeddings occupy distinct
+regions of the hypersphere rather than forming a fully overlapping distribution (Liang et al., 2022;
+Levi & Gilboa, 2025). While initially viewed as a deficiency in cross-modal alignment, subsequent
+studies suggest that such separation may serve functional roles, including improved robustness and
+mitigation of catastrophic forgetting (Huang et al., 2025). Beyond modality-level separation, CLIP
+representations also exhibit significant anisotropy and uneven semantic coverage. Embeddings tend
+to concentrate around dominant visual patterns, such as large foreground objects or frequently co-
+occurring features, while underrepresenting rare or fine-grained concepts (Abbasi et al., 2025; Wang
+et al., 2024; Lan et al., 2024). The anisotropic structure leads to substantial performance variability
+across semantics, particularly on long-tailed and rare concepts (Tu et al., 2023; Shao et al., 2024).
+These observations indicate that CLIP latent space possesses structured and non-uniform density
+rather than a single homogeneous distribution. Consequently, cosine similarity alone cannot fully
+capture semantic relationships, as it ignores variations in representation density and concentra-
+tion (Steck et al., 2024; Kang et al., 2025). Several works have therefore explored alternative ge-
+ometric perspectives, including cycle-consistency constraints (Goel et al., 2022) and optimal trans-
+port formulations (Shi et al., 2024). More recent analyses explicitly characterize CLIP geometry
+as structured anisotropy, such as the “double-ellipsoid” structure separating common and rare con-
+cepts (Levi & Gilboa, 2025; Wen et al., 2024). Collectively, these findings suggest that CLIP latent
+space exhibits an inherently multimodal semantic organization.
+To enable likelihood-based reasoning and improve calibration, recent work has proposed geometric
+normalization techniques. W-CLIP (Betser et al., 2025), for example, applies a whitening transfor-
+mation to normalize second-order statistics and estimate likelihood under a Gaussian assumption.
+Related approaches similarly attempt to regularize representation geometry through linear normal-
+ization (Chung & Kim, 2026). While effective for calibration, such methods rely on unimodal
+approximations of the latent space. In contrast, our work directly models CLIP latent space as a
+mixture of hyperspherical semantic components, providing a probabilistic formulation that better
+captures its intrinsic multimodal structure.
+2.2
+LIKELIHOOD ESTIMATION IN LATENT SPACE
+Estimating likelihood directly in pixel space is computationally challenging and often poorly aligned
+with semantic similarity, motivating likelihood estimation in learned representation spaces. Recent
+work has explored using pretrained multimodal encoders such as CLIP to define semantically mean-
+ingful likelihood surrogates. In particular, W-CLIP (Betser et al., 2025) projects embeddings into
+a whitened space and estimates likelihood under a Gaussian assumption, providing a tractable like-
+lihood proxy. However, modeling the latent space with a single Gaussian imposes a unimodal as-
+sumption that conflicts with the inherently multimodal structure of semantic representations. Natural
+image distributions consist of multiple semantic modes corresponding to different objects, attributes,
+and compositions. Under a unimodal Gaussian model, rare but valid concepts may be assigned ar-
+tificially low likelihood, conflating semantic rarity with distributional abnormality. Alternative ap-
+proaches, such as retrieval-based similarity (He et al., 2025), prompt adaptation (Zhou et al., 2024;
+3
+
+
+Figure 2: Overview of the MovMF-CLIP Framework. We first extract raw embeddings using
+the CLIP encoder, which exhibit severe anisotropy. To address this, we apply geometric calibration
+via whitening (˜z = W(z −µ)) and normalize the features onto a unit hypersphere (u = ˜z/∥˜z∥2).
+Finally, we fit a MovMF distributions on the hypersphere using the EM algorithm, yielding a prin-
+cipled multimodal density model.
+Cao et al., 2024b), or architectural modifications (Gong et al., 2025), can improve robustness but do
+not provide a unified probabilistic formulation.
+In contrast, we model the CLIP latent distribution using a Mixture of von Mises–Fisher distribu-
+tions, which naturally respects the hyperspherical geometry of CLIP embeddings. This formulation
+captures multiple semantic modes while retaining analytical tractability for likelihood estimation.
+2.3
+INTERPRETABILITY OF MULTIMODAL REPRESENTATIONS
+Understanding and interpreting dense representations learned by multimodal models has become an
+important area of research. Prior work has explored sparse linear decompositions that express em-
+beddings as combinations of interpretable concepts drawn from predefined vocabularies or learned
+dictionaries (Bhalla et al., 2024; Hoang-Xuan et al., 2025; Parekh et al., 2024). Other approaches
+investigate internal model structure, including attention mechanisms and sparse autoencoders, to
+identify latent features and disentangle semantic factors within CLIP representations (Gandelsman
+et al., 2024; Kempf et al., 2025; Zaigrajew et al., 2025; Dhimo¨ıla et al., 2026). While these meth-
+ods provide valuable insights, they often require training auxiliary models, introducing additional
+complexity and dependence on external supervision or architectural modifications.
+In contrast, our approach derives interpretability directly from probabilistic modeling of the latent
+space. By representing embeddings as a mixture of hyperspherical distributions, each component
+corresponds to a coherent semantic mode, and individual embeddings can be interpreted through
+their probabilistic associations with these components. The mixture centers naturally act as semantic
+prototypes, enabling semantic explanations and likelihood estimation within a unified framework,
+without auxiliary decoders or external concept dictionaries.
+3
+MOVMF-CLIP: HYPERSPHERICAL DENSITY MODELING OF CLIP
+LATENT SPACE
+We model CLIP latent space as a geometrically calibrated hyperspherical density framework. As
+shown in Fig. 2, our framework proceeds in three stages: (i) metric normalization via whitening
+to remove global anisotropy (Sec. 3.1); (ii) multimodal directional density modeling using MovMF
+with EM estimation (Secs. 3.2–3.3); and (iii) probabilistic inference enabling likelihood-based eval-
+uation and semantic attribution (Sec. 3.4). Together, these components form a unified geomet-
+ric–probabilistic framework for modeling CLIP representations.
+3.1
+GEOMETRIC CALIBRATION OF CLIP LATENT SPACE
+We consider a dataset D = {(ximg
+i
+, xtext
+i
+)}N
+i=1 consisting of image–text pairs. A pre-trained CLIP
+model provides two encoders, fimg(·) and ftext(·), which map each modality into a shared d-
+dimensional embedding space. We denote by z ∈Rd the latent representation produced by either
+encoder. Our geometric calibration and density modeling are applied independently to each modality
+within this shared space. Although CLIP is trained with cosine similarity and is interpreted as op-
+erating on a hypersphere, the raw latent distribution is empirically far from geometrically isotropic.
+4
+
+
+In particular, the embeddings exhibit strong second-order anisotropy and dominant covariance di-
+rections, reflecting dataset bias and representation artifacts. As a result, angular distances in the raw
+space are distorted by global variance structure, potentially obscuring the true semantic organization
+of the data.
+Geometric Calibration via Whitening. To remove global anisotropy while preserving semantic
+structure, we first apply a whitening transformation in Rd. Let µ denote the empirical mean and
+Σ the covariance matrix computed over the reference dataset (e.g. 5k validation samples of MS-
+COCO). We construct a whitening operator W = Σ−1/2 and define the calibrated embedding
+˜z = W(z −µ).
+(1)
+This transformation standardizes second-order statistics so that Cov(˜z) ≈I. Unlike likelihood-
+based approaches such as W-CLIP (Betser et al., 2025), we do not assume that the whitened repre-
+sentations follow a Gaussian distribution. Instead, whitening serves purely as a metric normalization
+step: it removes nuisance covariance structure and induces an intrinsic Mahalanobis geometry in
+the original latent space (see Appendix B). Consequently, directional comparisons are no longer
+dominated by high-variance axes unrelated to semantic content.
+Hyperspherical Geometry. CLIP representations are inherently interpreted through cosine simi-
+larity, meaning that their semantics are encoded directionally on the unit hypersphere. Accordingly,
+after geometric calibration, we operate on normalized embeddings
+u =
+˜z
+∥˜z∥2
+,
+u ∈Sd−1,
+(2)
+which respects the intrinsic hyperspherical geometry imposed by contrastive training. This step
+does not introduce an additional modeling assumption; rather, it aligns our probabilistic framework
+with the geometry already underlying CLIP. By separating global covariance normalization in Rd
+from directional modeling on Sd−1, we obtain a geometrically consistent representation that isolates
+semantic structure from nuisance anisotropy. This calibrated hyperspherical representation forms
+the foundation for our mixture-based density modeling.
+3.2
+MODELING LATENT DENSITY VIA MOVMF
+Following the geometric calibration defined in Sec. 3.1, we operate on whitened and normalized
+embeddings U = {u1, . . . , uN} ⊂Sd−1. Since CLIP encodes semantics directionally and compares
+representations via cosine similarity, the natural probability model on Sd−1 is the von Mises–Fisher
+(vMF) distribution.
+Single vMF Distribution. For a unit vector u ∈Sd−1, the density of a vMF distribution with mean
+direction µ ∈Sd−1 and concentration κ ≥0 is
+fvMF(u; µ, κ) = Cd(κ) exp(κµ⊤u),
+(3)
+where the normalization constant is
+Cd(κ) =
+κd/2−1
+(2π)d/2Id/2−1(κ).
+(4)
+and Iν(·) denotes the modified Bessel function of the first kind. The mean direction µ identifies
+the center of a semantic cluster on the hypersphere, while κ controls its concentration. Larger κ
+corresponds to tighter clustering around µ, whereas κ = 0 reduces to the uniform distribution on
+Sd−1.
+Mixture Model. Natural image and text distributions are inherently multimodal, containing distinct
+semantic regions (e.g., animals, vehicles, landscapes). To capture this structure, we model the latent
+density as a mixture of K independent vMF components:
+p(u | Θ) =
+K
+X
+k=1
+πk fvMF(u; µk, κk),
+(5)
+where Θ = {(πk, µk, κk)}K
+k=1 are the set parameters that need to be learned, and the mixing coeffi-
+cients satisfy πk ≥0 and PK
+k=1 πk = 1. Each component corresponds to a coherent semantic mode
+on the hypersphere, and the resulting density naturally reflects the multimodal organization of the
+CLIP latent space.
+5
+
+
+3.3
+PARAMETER ESTIMATION VIA EM
+We estimate the parameters Θ by maximizing the log-likelihood
+L(Θ) =
+N
+X
+i=1
+log p(ui | Θ),
+using the Expectation–Maximization (EM) algorithm for vMF distributions (Banerjee et al., 2005).
+The EM procedure alternates between computing the vMF posterior assignments (E-step) and up-
+dating the model parameters (M-step).
+E-Step. Given current parameters, we compute the normalized responsibility
+γik = p(k | ui, Θ) =
+πkfvMF(ui; µk, κk)
+PK
+j=1 πjfvMF(ui; µj, κj)
+.
+For numerical stability in high dimensions, we evaluate this expression in the log-domain: log γik ∝
+log πk + κkµ⊤
+k ui + log Cd(κk). These responsibilities quantify the soft assignment of each embed-
+ding to semantic components.
+M-Step.
+In this step, we update the parameters to maximize the expected complete-data log-
+likelihood based on responsibilities computed in the E-step.
+Mixing Coefficients and Mean Directions.
+The mixing coefficients are updated as the fraction
+of total mass assigned to each cluster:
+πnew
+k
+= Nk
+N ,
+where Nk =
+N
+X
+i=1
+γik.
+(6)
+Then the weighted resultant vector and updated mean for cluster k are:
+rk =
+N
+X
+i=1
+γikui,
+µnew
+k
+=
+rk
+∥rk∥2
+.
+(7)
+Concentration Parameter Update.
+Let ¯Rk = ∥rk∥2/Nk denote the mean resultant length. The
+maximum-likelihood estimate of κk involves
+Ad(κk) = ¯Rk,
+where
+Ad(κ) =
+Id/2(κ)
+Id/2−1(κ).
+Direct inversion is computationally expensive, particularly in high-dimensional settings (d ≥512).
+We therefore adopt the accurate approximation from Banerjee et al. (2005):
+κnew
+k
+≈
+¯Rk(d −¯R2
+k)
+1 −¯R2
+k
+.
+(8)
+This approximation yields stable and efficient updates suitable for large-scale CLIP embeddings
+while maintaining sufficient accuracy.
+3.4
+INFERENCE: DENSITY EVALUATION AND SEMANTIC DECOMPOSITION
+After estimating the movMF parameters Θ = {(πk, µk, κk)}K
+k=1 via EM, the learned model defines
+an explicit probability density on the hypersphere. Inference therefore reduces to evaluating this
+density and its associated posterior structure. Importantly, since CLIP maps both images and text
+into a shared embedding space, the same probabilistic framework applies to either modality.
+Likelihood as a Geometric Density Score. For a query sample u ∈Sd−1, the log-likelihood score
+S(u) under the learned mixture is
+S(u) = log P(u|Θ) = log
+ K
+X
+k=1
+πkCd(κk) exp(κkµ⊤
+k u)
+!
+.
+(9)
+6
+
+
+This quantity measures how well the sample aligns with the learned semantic modes of the latent
+space. Unlike Gaussian-based scoring, the likelihood here reflects proximity to multiple semantic
+directions rather than distance from a single global center. Since the model captures multimodal
+density structure, low likelihood indicates that a sample lies outside established semantic regions
+rather than merely being far from an average embedding. This enables principled evaluation of
+representation quality, distribution shift in image and text domains, and long-tail behavior within a
+unified probabilistic framework.
+Posterior Structure and Semantic Attribution.
+Beyond scalar likelihood scoring, the mixture
+structure provides a richer, interpretable decomposition. For a given embedding u, we can compute
+the posterior responsibility
+γk(u) = P(k | u) =
+πkfvMF(u; µk, κk)
+PK
+j=1 πjfvMF(u; µj, κj)
+.
+(10)
+This posterior distribution quantifies the degree to which the sample is explained by each semantic
+component. Each mixture component corresponds to a coherent directional mode on the hyper-
+sphere. By associating mixture centers with representative samples or textual descriptions from the
+training data, these components can be interpreted as semantic prototypes. The posterior vector
+{γk(u)}K
+k=1 therefore provides a soft semantic decomposition of the embedding:
+u ≈
+K
+X
+k=1
+γk(u) µk,
+where we can interpret the representation as a weighted combination of latent semantic modes.
+This interpretation arises directly from the probabilistic structure of the model and does not require
+auxiliary decoders or external supervision. Our MovMF-CLIP framework yields both accurate
+density estimation and intrinsic semantic attribution within a unified hyperspherical geometry.
+4
+EXPERIMENTS
+4.1
+EXPERIMENTAL SETUP
+Datasets. We adopt MS-COCO 2017 as the primary in-distribution (ID) dataset. Its validation split
+is used for both density estimation and long-tailed evaluation across semantic categories. For OOD
+evaluation, we use a cleaned subset of OpenImages (Kuznetsova et al., 2020), following VOS (Du
+et al., 2022) to remove overlapping categories.
+Long-tailed and OOD Detection. We assess likelihood robustness by measuring how well the
+learned density distinguishes ID samples from OOD data and how it behaves across frequent versus
+rare semantic categories. This setup allows us to evaluate whether hyperspherical mixture modeling
+mitigates the common conflation between semantic rarity and distributional abnormality.
+Interpretable Semantic Decomposition.
+To evaluate interpretability, we compare against
+SPLICE (Bhalla et al., 2024), MSAE (Zaigrajew et al., 2025), and TextSpan (Gandelsman et al.,
+2024) by measuring alignment between mixture-based semantic decomposition and ground-truth
+captions. This metric evaluates whether the posterior responsibilities of mixture components corre-
+spond to meaningful linguistic concepts in the annotations.
+Semantic Stability Under Iterative Generative Drift. To study generative robustness, we simulate
+semantic drift through iterative encoding–decoding cycles using the pipeline of CLIP + UnCLIP1.
+At each iteration, images are re-encoded into CLIP space, allowing us to track density and semantic
+changes. We compare against W-CLIP (Betser et al., 2025) in terms of semantic stability.
+Implementation Details.
+For experiments on semantic decomposition, following Bhalla et al.
+(2024), all methods use the same OpenCLIP ViT-B/32 backbone trained on LAION-400M. By con-
+trast, the pre-trained CLIP ViT-L/14 backbone is used for all the other experiments. Following
+Betser et al. (2025), we estimate the whitening transformation from MS-COCO validation set. The
+hyperparameters of our method are fixed across tasks. Additional qualitative analyses and extended
+results on BLIP-2 (Li et al., 2023) and CoCa (Yu et al., 2022) are provided in Appendices C and E.
+1https://huggingface.co/sd2-community/stable-diffusion-2-1-unclip-small
+7
+
+
+Table 1: Long-tail likelihood fairness. AUROC for separating head and tail categories using likeli-
+hood scores (ideal →0.5). Lower values indicate reduced bias against rare concepts. MovMF-CLIP
+substantially improves fairness compared to W-CLIP.
+Method
+W-CLIP (Betser et al., 2025)
+MovMF-CLIP (Ours)
+AUROC
+0.7826
+0.5819
+Table 2: Out-of-distribution detection. FPR95 (↓) and AUROC (↑) on MS-COCO (full set and
+tail-only subset) versus OpenImages OOD samples. MovMF-CLIP improves both detection perfor-
+mance and maintains robustness on long-tail subsets.
+Method
+ID: Full COCO
+ID: Tail Subset Only
+FPR95 (↓)
+AUROC (↑)
+FPR95 (↓)
+AUROC (↑)
+MCM (Ming et al., 2022)
+84.50%
+0.8204
+62.90%
+0.8754
+EOE (Cao et al., 2024a)
+83.91%
+0.7926
+75.54%
+0.8364
+NegLabel (Jiang et al., 2024)
+56.48%
+0.8564
+38.77%
+0.9135
+W-CLIP (Betser et al., 2025)
+67.76%
+0.8600
+75.05%
+0.7842
+MovMF-CLIP (Ours)
+48.00%
+0.8952
+33.48%
+0.9157
+4.2
+LONG-TAILED AND OOD DETECTION
+A key limitation of unimodal latent density modeling (e.g., W-CLIP) is the conflation of semantic
+rarity with distributional abnormality. Under a single isotropic Gaussian assumption, valid but
+infrequent long-tail concepts tend to receive low likelihood simply due to their distance from the
+global mean, making them indistinguishable from true OOD samples. In contrast, MovMF-CLIP
+models the latent space as a hyperspherical mixture, allowing rare but semantically coherent regions
+to be represented by dedicated mixture components. We evaluate this property through long-tail
+likelihood fairness and OOD detection.
+Long-Tailed Likelihood Fairness (texts). We analyze captions of MS-COCO, partitioning into
+head and tail groups based on concept frequency statistics. To quantify bias against rare semantics,
+we measure how well likelihood scores separate head from tail samples using AUROC. A value
+closer to 0.5 indicates fairness, meaning likelihood does not systematically penalize rare concepts.
+As shown in Table 1, W-CLIP exhibits strong discrimination against tail samples (AUROC > 0.78),
+confirming that a global Gaussian prior treats long-tail concepts as outliers. In contrast, MovMF-
+CLIP substantially reduces this bias (AUROC closer to 0.5), indicating that multimodal hyperspher-
+ical modeling assigns calibrated likelihoods across semantic frequency groups.
+Out-of-Distribution Detection (images). Table 2 shows that MovMF-CLIP consistently outper-
+forms all competing approaches. On the full ID set, FPR95 is reduced from 67.76% to 48.00%
+compared with W-CLIP. When restricting ID samples to the pure tail subset, the degradation ob-
+served in W-CLIP becomes pronounced (FPR95 increases from 67.76% to 75.05%), while MovMF-
+CLIP remains stable and improves FPR95 to 33.48%. This demonstrates that separating semantic
+multimodality from global density structure improves both fairness to long-tail concepts and ro-
+bustness to distributional shifts. Consistent improvements are also observed on BLIP-2 (Li et al.,
+2023)/CoCa (Yu et al., 2022) backbones (see Appendix C).
+4.3
+INTERPRETABLE SEMANTIC DECOMPOSITION
+We evaluate whether the learned mixture structure learned yields semantically meaningful and
+human-aligned decompositions of visual representations.
+Evaluation Metric. Following SPLICE, we adopt the Semantic Relevance metric to quantify align-
+ment between model-derived concepts and ground-truth captions. Higher values indicate stronger
+semantic agreement. Detailed formulations are kindly referred to Appendix C.
+8
+
+
+Table 3: Semantic Relevance and inference efficiency. Comparison with concept-based decom-
+position methods using the same OpenCLIP ViT-B/32 backbone. MovMF-CLIP achieves higher
+semantic alignment with ground-truth captions while reducing per-image inference time through its
+closed-form posterior computation.
+Method
+Semantic Relevance (↑)
+Inference Time (ms) (↓)
+MSAE (Zaigrajew et al., 2025)
+0.530
+14.6
+TextSpan (Gandelsman et al., 2024)
+0.538
+29.4
+CLIP + Sparse Decomposition (Bhalla et al., 2024)
+0.585
+112.2
+Negative Concept Weights (Bhalla et al., 2024)
+0.635
+102.8
+SPLICE (Bhalla et al., 2024)
+0.655
+132.7
+MovMF-CLIP (Ours)
+0.673
+9.8
+Experimental Setup. For all projection-based baselines, we report results using their officially
+recommended optimal sparsity settings. As for our MovMF-CLIP, we use K = 500 mixture com-
+ponents and retain the top N = 10 keywords per component. Ablation studies over K and N are
+provided in Appendix D.
+Results and Efficiency. Table 3 shows that MovMF-CLIP achieves the highest Semantic Relevance
+score, outperforming projection-based baselines. Beyond accuracy, MovMF-CLIP offers a substan-
+tial computational advantage. Compared to the second best method, MovMF-CLIP significantly
+reduces per-image inference time from 132.7 ms to 9.8 ms, achieving over a 13× speedup. This is
+because projection-based methods require solving a sparse regression problem over large concept
+dictionaries for each image, typically involving iterative CPU-based solvers. In contrast, semantic
+decomposition in MovMF-CLIP reduces to evaluating posterior responsibilities γk(u) = P(k | u)
+which requires only a matrix multiplication with the learned cluster centers.
+Figure 3: Concept localization. MovMF-CLIP
+represents each image as a sparse mixture of se-
+mantic prototypes.
+Concept-specific heatmaps
+highlight image regions associated with each se-
+mantic component.
+Qualitative Analysis. To provide an intuitive
+illustration of the learned semantic structure,
+we visualize and compare the decompositions
+produced by MovMF-CLIP and SPLICE on
+several complex real-world scenes (see fig. 4).
+Projection-based methods often yield broad or
+loosely related concepts when representing im-
+ages as sparse combinations over large dictio-
+naries. For example, in the fruit bowl scene,
+SPLICE primarily identifies generic terms such
+as “fruit” or “vitamin”, without resolving more
+specific semantics. Our MovMF-CLIP decom-
+poses each image into a sparse probabilistic
+combination of hyperspherical semantic proto-
+types. The resulting components tend to align
+with more precise and fine-grained visual con-
+cepts in the scene. This behavior is consistent
+with the multimodal structure induced by hyperspherical mixture modeling. Fig. 3 further visual-
+izes the concept-specific heatmaps produced by our model, where the highlighted regions closely
+correspond to the underlying objects associated with each semantic component.
+Semantic Direction Intervention. Beyond decomposing embeddings into interpretable concepts,
+the learned vMF components can also be used as explicit semantic directions. Given a target compo-
+nent center µk, we manipulate the whitened embedding by subtracting or amplifying its projection
+along µk, while keeping the overall embedding norm fixed before mapping it back for UnCLIP
+decoding. As shown in Fig. 5, removing the cat-associated direction suppresses the cat semantics,
+whereas amplifying the same direction progressively strengthens them. This provides qualitative
+evidence that the mixture components capture controllable semantic factors rather than merely im-
+proving aggregate likelihood scores.
+9
+
+
+Figure 4: Qualitative comparison of semantic decomposition. Concept extraction results for
+SPLICE and MovMF-CLIP on representative scenes. Projection-based methods may emphasize
+generic or context-dependent terms, whereas our MovMF-CLIP produces a sparse probabilistic
+combination of semantically coherent cluster prototypes aligned with object-centric content.
+Figure 5: Directional semantic intervention in CLIP latent space. We identify a vMF component
+associated with the cat concept and directly manipulate its direction in the whitened CLIP space
+before UnCLIP decoding. Removing the component suppresses the cat from the generated image,
+while amplifying the same direction strengthens the corresponding visual semantics. This illustrates
+that MovMF-CLIP learns semantically meaningful and controllable directions.
+4.4
+SEMANTIC STABILITY UNDER ITERATIVE GENERATIVE DRIFT
+We simulate a process of iterative generative drift by constructing the encoding–decoding pipeline
+in Fig. 6, which involves conducting CLIP encoding and UnCLIP decoding repeatedly. When an
+image is projected into the latent space and decoded back to the pixel domain iteratively, small per-
+turbations accumulate, gradually shifting the embedding toward low-density regions between valid
+semantic modes. This semantic drift manifests as progressive degradation in both visual fidelity
+and semantic consistency. We evaluate whether the hyperspherical mixture structure learned by
+MovMF-CLIP can serve as a geometric prior to stabilize CLIP latent representations during such
+iterative processes.
+10
+
+
+Figure 6: Pipeline for iterative generative drift analysis. We insert MovMF-
+CLIP into the encoding-decoding loop to stabilize the underlying semantics.
+Semantic Stabilization via Hyperspherical Mixture Projection. Given a whitened embedding ˜z,
+we first normalize it onto the hypersphere and compute its posterior responsibilities {γk}. Compo-
+nents with negligible posterior mass are discarded, and the embedding is reconstructed as a weighted
+combination of the retained mixture centers. The reconstructed direction is then rescaled to match
+the original whitened norm and mapped back to the original space via inverse whitening. This op-
+eration projects drifting embeddings toward high-density semantic regions while preserving their
+magnitudes. The resulting embedding is then fed into the next UnCLIP decoding step.
+Experimental Setup. We mainly compare MovMF-CLIP against W-CLIP (Betser et al., 2025),
+which regularizes embeddings by projecting them onto a fixed-radius hypersphere in whitened space
+without directional correction. To quantify semantic stability, we measure two metrics between the
+original image and the image obtained after six iterations: LPIPS (AlexNet) (Zhang et al., 2018) for
+perceptual distortion (↓better) and CLIP cosine similarity for semantic retention (↑better).
+Quantitative Results. As shown in Table 4, MovMF-CLIP consistently improves both perceptual
+quality and semantic stability. While W-CLIP constrains embedding magnitude, it does not regu-
+late directional drift on the hypersphere, leading to gradual semantic degradation. In contrast, our
+mixture-based method explicitly anchors embeddings to high-density semantic modes, resulting in
+improved cosine similarity and reduced perceptual distortion.
+Table 4: Iterative CLIP–UnCLIP generation. Average LPIPS (↓) and CLIP cosine similarity (↑)
+over 1, 000 MS-COCO images after k = 6 encode–decode iterations. MovMF-CLIP improves both
+perceptual consistency and semantic retention.
+Method
+LPIPS (↓)
+CLIP Cosine (↑)
+Vanilla CLIP-UnCLIP
+0.7733
+0.5911
+W-CLIP (Betser et al., 2025)
+0.7678
+0.6171
+MovMF-CLIP (Ours)
+0.7357
+0.6710
+Qualitative Analysis. Fig. 7 visualizes representative iterative trajectories. For W-CLIP, embed-
+dings progressively drift away from coherent semantic regions, leading to noticeable degradation.
+Instead, our MovMF-CLIP maintains alignment with semantically meaningful prototypes through-
+out the iterations, yielding more stable visual and semantic evolution.
+Figure 7: Qualitative comparison under iterative generative drift. For each example, the
+original image is followed by its evolution over six encoding-decoding iterations. The three
+rows demonstrate the trajectories using vanilla CLIP-UnCLIP (top), W-CLIP (middle), and
+MovMF-CLIP (bottom). Our hyperspherical mixture aligns well with coherent semantic
+prototypes, resulting in more stable semantic trajectories.
+11
+
+
+5
+CONCLUSION
+We revisited CLIP latent space through a geometric lens and argued that it is more faithfully mod-
+eled as a hyperspherical semantic mixture rather than a unimodal Gaussian. By separating global
+covariance anisotropy from directional multimodality, MovMF-CLIP provides a simple and prin-
+cipled density model aligned with the intrinsic structure of contrastive embeddings. This unified
+geometric–probabilistic framework enables calibrated likelihood estimation, intrinsic semantic de-
+composition, and improved semantic stability under iterative generative drift. Our findings under-
+score the central role of representation geometry in probabilistic modeling of foundation models and
+point toward structured, geometry-aware probabilistic frameworks for future multimodal learning.
+REFERENCES
+Reza Abbasi, Ali Nazari, Aminreza Sefid, Mohammadali Banayeeanzade, Mohammad Hossein Ro-
+hban, and Mahdieh Soleymani Baghshah. Clip under the microscope: A fine-grained analysis of
+multi-object representation. CVPR, 2025. URL https://arxiv.org/abs/2502.19842.
+Arindam Banerjee, Inderjit S. Dhillon, Joydeep Ghosh, and Suvrit Sra. Clustering on the unit hyper-
+sphere using von mises-fisher distributions. JMLR, 2005. URL http://jmlr.org/papers/
+v6/banerjee05a.html.
+Roy Betser, Meir Yossef Levi, and Guy Gilboa. Whitened clip as a likelihood surrogate of images
+and captions. ICML, 2025. URL https://arxiv.org/abs/2505.06934.
+Usha Bhalla, Alex Oesterling, Suraj Srinivas, Flavio P. Calmon, and Himabindu Lakkaraju. In-
+terpreting clip with sparse linear concept embeddings (splice). Neurips, 2024. URL https:
+//arxiv.org/abs/2402.10376.
+Valentin De Bortoli, Emile Mathieu, Michael Hutchinson, James Thornton, Yee Whye Teh, and
+Arnaud Doucet. Riemannian score-based generative modelling. NeurIPS, 2022. URL https:
+//arxiv.org/abs/2202.02763.
+Chentao Cao, Zhun Zhong, Zhanke Zhou, Yang Liu, Tongliang Liu, and Bo Han. Envisioning
+outlier exposure by large language models for out-of-distribution detection. ICML, 2024a. URL
+https://arxiv.org/abs/2406.00806.
+Yunkang Cao, Jiangning Zhang, Luca Frittoli, Yuqi Cheng, Weiming Shen, and Giacomo Boracchi.
+Adaclip: Adapting clip with hybrid learnable prompts for zero-shot anomaly detection. ECCV,
+2024b. URL http://dx.doi.org/10.1007/978-3-031-72761-0_4.
+Jiwan Chung and Seon Joo Kim. Global geometry is not enough for vision representations, 2026.
+URL https://arxiv.org/abs/2602.03282.
+Gr´egoire Dhimo¨ıla, Thomas Fel, Victor Boutin, and Agustin Picard.
+Cross-modal redundancy
+and the geometry of vision-language embeddings, 2026. URL https://arxiv.org/abs/
+2602.06218.
+Xuefeng Du, Zhaoning Wang, Mu Cai, and Yixuan Li. Vos: Learning what you don’t know by
+virtual outlier synthesis. ICLR, 2022. URL https://arxiv.org/abs/2202.01197.
+Yossi Gandelsman, Alexei A. Efros, and Jacob Steinhardt. Interpreting clip’s image representa-
+tion via text-based decomposition. ICLR, 2024. URL https://arxiv.org/abs/2310.
+05916.
+Shashank Goel, Hritik Bansal, Sumit Bhatia, Ryan A. Rossi, Vishwa Vinay, and Aditya Grover.
+Cyclip: Cyclic contrastive language-image pretraining. Neurips, 2022. URL https://arxiv.
+org/abs/2205.14459.
+Tao Gong, Qi Chu, Bin Liu, Zhou Wei, and Nenghai Yu. Fe-clip: Frequency enhanced clip model for
+zero-shot anomaly detection and segmentation. ICCV, 2025. URL https://iccv.thecvf.
+com/virtual/2025/poster/2571.
+12
+
+
+Jianfang He, Min Cao, Silong Peng, and Qiong Xie. Rareclip: Rarity-aware online zero-shot indus-
+trial anomaly detection. In Proceedings of the IEEE/CVF International Conference on Computer
+Vision (ICCV), pp. 24478–24487, October 2025.
+Nhat Hoang-Xuan, Xiyuan Wei, Wanli Xing, Tianbao Yang, and My T. Thai.
+Advancing in-
+terpretability of CLIP representations with concept surrogate model.
+Neurips, 2025.
+URL
+https://openreview.net/forum?id=KxoPiQ03BT.
+Chin-Wei Huang, Milad Aghajohari, Avishek Joey Bose, Prakash Panangaden, and Aaron Courville.
+Riemannian diffusion models. NeurIPS, 2022. URL https://arxiv.org/abs/2208.
+07949.
+Linlan Huang, Xusheng Cao, Haori Lu, Yifan Meng, Fei Yang, and Xialei Liu. Mind the gap:
+Preserving and compensating for the modality gap in clip-based continual learning. ICCV, 2025.
+URL https://arxiv.org/abs/2507.09118.
+Xue Jiang, Feng Liu, Zhen Fang, Hong Chen, Tongliang Liu, Feng Zheng, and Bo Han. Negative
+label guided ood detection with pretrained vision-language models. ICLR, 2024. URL https:
+//arxiv.org/abs/2403.20078.
+Raphi Kang, Yue Song, Georgia Gkioxari, and Pietro Perona. Is clip ideal? no. can we fix it? yes!
+ICCV, 2025. URL https://arxiv.org/abs/2503.08723.
+Elias Kempf, Simon Schrodi, Max Argus, and Thomas Brox. When and how does clip enable
+domain and compositional generalization? ICML, 2025. URL https://arxiv.org/abs/
+2502.09507.
+Alina Kuznetsova, Hassan Rom, Neil Alldrin, Jasper Uijlings, Ivan Krasin, Jordi Pont-Tuset, Shahab
+Kamali, Stefan Popov, Matteo Malloci, Alexander Kolesnikov, Tom Duerig, and Vittorio Ferrari.
+The open images dataset v4: Unified image classification, object detection, and visual relation-
+ship detection at scale. International Journal of Computer Vision, 128(7):1956–1981, March
+2020. ISSN 1573-1405. doi: 10.1007/s11263-020-01316-z. URL http://dx.doi.org/
+10.1007/s11263-020-01316-z.
+Mengcheng Lan, Chaofeng Chen, Yiping Ke, Xinjiang Wang, Litong Feng, and Wayne Zhang.
+Clearclip: Decomposing clip representations for dense vision-language inference. ECCV, 2024.
+URL https://arxiv.org/abs/2407.12442.
+Meir Yossef Levi and Guy Gilboa. The double-ellipsoid geometry of clip. ICML, 2025. URL
+https://arxiv.org/abs/2411.14517.
+Junnan Li, Dongxu Li, Caiming Xiong, and Steven Hoi. Blip: Bootstrapping language-image pre-
+training for unified vision-language understanding and generation. ICML, 2022. URL https:
+//arxiv.org/abs/2201.12086.
+Junnan Li, Dongxu Li, Silvio Savarese, and Steven Hoi. Blip-2: Bootstrapping language-image
+pre-training with frozen image encoders and large language models. ICML, 2023. URL https:
+//arxiv.org/abs/2301.12597.
+Weixin Liang, Yuhui Zhang, Yongchan Kwon, Serena Yeung, and James Zou. Mind the gap: Un-
+derstanding the modality gap in multi-modal contrastive representation learning. Neurips, 2022.
+URL https://arxiv.org/abs/2203.02053.
+Yifei Ming, Ziyang Cai, Jiuxiang Gu, Yiyou Sun, Wei Li, and Yixuan Li. Delving into out-of-
+distribution detection with vision-language representations. Advances in neural information pro-
+cessing systems, 35:35087–35102, 2022.
+Jayneel Parekh, Pegah Khayatan, Mustafa Shukor, Alasdair Newson, and Matthieu Cord. A concept-
+based explainability framework for large multimodal models. Neurips, 2024. URL https:
+//arxiv.org/abs/2406.08074.
+13
+
+
+Alec Radford, Jong Wook Kim, Chris Hallacy, Aditya Ramesh, Gabriel Goh, Sandhini Agar-
+wal, Girish Sastry, Amanda Askell, Pamela Mishkin, Jack Clark, Gretchen Krueger, and Ilya
+Sutskever. Learning transferable visual models from natural language supervision. ICML, 2021.
+URL https://arxiv.org/abs/2103.00020.
+Aditya Ramesh, Prafulla Dhariwal, Alex Nichol, Casey Chu, and Mark Chen. Hierarchical text-
+conditional image generation with clip latents, 2022.
+URL https://arxiv.org/abs/
+2204.06125.
+Robin Rombach, Andreas Blattmann, Dominik Lorenz, Patrick Esser, and Bj¨orn Ommer. High-
+resolution image synthesis with latent diffusion models. CVPR, 2022. URL https://arxiv.
+org/abs/2112.10752.
+Jie-Jing Shao, Jiang-Xin Shi, Xiao-Wen Yang, Lan-Zhe Guo, and Yu-Feng Li.
+Examining the
+achilles’ heel of CLIP models: The worst-performing categories, 2024.
+URL https://
+openreview.net/forum?id=0S0CgZEYxR.
+Liangliang Shi, Jack Fan, and Junchi Yan. OT-CLIP: Understanding and generalizing CLIP via opti-
+mal transport. ICML, 2024. URL https://openreview.net/forum?id=X8uQ1TslUc.
+Yang Song, Jascha Sohl-Dickstein, Diederik P. Kingma, Abhishek Kumar, Stefano Ermon, and Ben
+Poole. Score-based generative modeling through stochastic differential equations. ICLR, 2021.
+URL https://arxiv.org/abs/2011.13456.
+Harald Steck, Chaitanya Ekanadham, and Nathan Kallus. Is cosine-similarity of embeddings re-
+ally about similarity?
+WWW, 2024. URL http://dx.doi.org/10.1145/3589335.
+3651526.
+Weijie Tu, Weijian Deng, and Tom Gedeon. A closer look at the robustness of contrastive language-
+image pre-training (clip). Neurips, 2023. URL https://arxiv.org/abs/2402.07410.
+Arash Vahdat, Karsten Kreis, and Jan Kautz.
+Score-based generative modeling in latent space.
+NeurIPS, 2021. URL https://arxiv.org/abs/2106.05931.
+Qizhou Wang, Yong Lin, Yongqiang Chen, Ludwig Schmidt, Bo Han, and Tong Zhang. A sober
+look at the robustness of clips to spurious features. Neurips, 2024. URL https://arxiv.
+org/abs/2403.11497.
+Tongzhou Wang and Phillip Isola. Understanding contrastive representation learning through align-
+ment and uniformity on the hypersphere. ICML, 2022. URL https://arxiv.org/abs/
+2005.10242.
+Xin Wen, Bingchen Zhao, Yilun Chen, Jiangmiao Pang, and Xiaojuan Qi. What makes clip more
+robust to long-tailed pre-training data? a controlled study for transferable insights. Neurips, 2024.
+URL https://arxiv.org/abs/2405.21070.
+Jiahui Yu, Zirui Wang, Vijay Vasudevan, Legg Yeung, Mojtaba Seyedhosseini, and Yonghui Wu.
+Coca: Contrastive captioners are image-text foundation models. TMLR, 2022. URL https:
+//arxiv.org/abs/2205.01917.
+Vladimir Zaigrajew, Hubert Baniecki, and Przemyslaw Biecek. Interpreting clip with hierarchical
+sparse autoencoders. ICML, 2025. URL https://arxiv.org/abs/2502.20578.
+Richard Zhang, Phillip Isola, Alexei A. Efros, Eli Shechtman, and Oliver Wang. The unreasonable
+effectiveness of deep features as a perceptual metric. CVPR, 2018. URL https://arxiv.
+org/abs/1801.03924.
+Qihang Zhou, Guansong Pang, Yu Tian, Shibo He, and Jiming Chen. Anomalyclip: Object-agnostic
+prompt learning for zero-shot anomaly detection. ICLR, 2024. URL https://arxiv.org/
+abs/2310.18961.
+14
+
+
+A
+FUTURE WORK
+A.1
+CONNECTION WITH SCORE-BASED GENERATIVE MODELS
+Beyond density estimation, the hyperspherical density learned by MovMF-CLIP may provide a use-
+ful geometric prior for generative modeling. Modern latent diffusion and score-based models (Song
+et al., 2021; Rombach et al., 2022; Vahdat et al., 2021) typically assume simple Gaussian priors in
+the latent space. In contrast, the movMF mixture defines a directional density on the hypersphere,
+which naturally yields a closed-form score function on the manifold. This observation suggests a
+potential connection between hyperspherical density modeling and Riemannian score-based genera-
+tive models (Bortoli et al., 2022; Huang et al., 2022). In particular, the learned density could provide
+a geometry-aware guidance signal that encourages latent trajectories to remain within semantically
+meaningful regions of the representation space. Exploring such integrations with latent diffusion or
+unCLIP-style generation pipelines is an interesting direction for future work.
+A.2
+HIERARCHICAL MODELING OF SEMANTIC STRUCTURE
+Our MovMF-CLIP currently models CLIP latent space using a flat mixture with a fixed number
+of components. While this formulation already captures multimodal structure, semantic concepts
+in natural data often exhibit hierarchical organization. A natural extension is therefore to explore
+hierarchical mixture formulations that allow components to be organized across multiple semantic
+levels. For example, Bayesian nonparametric approaches such as hierarchical Dirichlet processes
+could allow the number of semantic components to adapt to the data automatically. Such hierarchical
+modeling may provide a coarse-to-fine representation of semantic structure and could potentially
+improve robustness to long-tail concepts by allowing rare categories to share statistical strength with
+related parent clusters. Investigating hierarchical extensions of our hyperspherical mixture models
+remains an important and interesting future direction.
+B
+WHY WHITENING Before HYPERSPHERICAL MIXTURE MODELING?
+CLIP embeddings are compared by cosine similarity, which motivates modeling their directions on
+a hypersphere. However, the raw latent distribution is typically far from isotropic: second-order
+anisotropy introduces dominant covariance directions that can distort angular geometry and con-
+found hyperspherical clustering. Let z ∈Rd denote CLIP embeddings with mean µ and covariance
+Σ = E
+
+(z −µ)(z −µ)⊤
+.
+Empirically, Σ̸ = I, reflecting global variations induced by dataset bias, frequent concepts, and
+representation artifacts.
+Whitening as metric normalization. We first apply a whitening transform in Rd:
+y = W(z −µ),
+W ≈Σ−1/2,
+so that y has approximately standardized second-order statistics:
+E[y] ≈0,
+Cov(y) ≈I.
+This step removes nuisance anisotropy and defines an intrinsic Mahalanobis geometry in the orig-
+inal space. In particular, the angular similarity in whitened space corresponds to a Mahalanobis
+cosine similarity in the original coordinates:
+y⊤
+i yj
+∥yi∥∥yj∥=
+(zi −µ)⊤Σ−1(zj −µ)
+∥zi −µ∥Σ−1 ∥zj −µ∥Σ−1 .
+Thus, whitening calibrates directions according to the covariance structure of the latent distribution
+rather than letting a few high-variance directions dominate. This ensures that the resultant hyper-
+sphere is defined under the intrinsic second-order geometry of the data.
+Normalization and hyperspherical density. After whitening, we normalize to the unit hyper-
+sphere:
+u =
+y
+∥y∥∈Sd−1,
+15
+
+
+and model the directional density with a mixture of von Mises–Fisher distributions:
+p(u) =
+K
+X
+k=1
+πk Cd(κk) exp
+ κk µ⊤
+k u
+
+,
+∥µk∥= 1.
+Why not fit movMF directly on z/∥z∥? If we normalize first, u0 = z/∥z∥, the subsequent movMF
+fit must simultaneously explain (i) global anisotropic scaling and (ii) genuine semantic multimodal-
+ity. In practice, this causes mixture components to align with dominant covariance directions rather
+than semantic modes, leading to redundant components, unstable concentration estimates, and de-
+graded likelihood calibration. Whitening before normalization removes global second-order effects
+in Rd and yields a hyperspherical representation whose angular geometry better reflects true density
+structure.
+Importantly, whitening does not impose Gaussianity. Unlike approaches that use whitening to
+justify a unimodal Gaussian likelihood, we use whitening only to normalize second-order geome-
+try. The distribution on the hypersphere remains explicitly multimodal and is captured by the vMF
+mixture. This separation between global covariance normalization and multimodal semantic density
+improves identifiability, statistical efficiency of EM, and interpretability of mixture components as
+semantic prototypes.
+C
+EXTENDED EXPERIMENTAL RESULTS
+C.1
+IMPLEMENTATION DETAILS.
+Details of the Semantic Relevance Metric. For a given image, let Wcluster denote the set of key-
+words extracted from the most activated mixture components, and let Wcaption denote the content
+words (nouns and verbs) in the ground-truth caption. We compute the Hausdorff distance dH be-
+tween the two embedding sets and define
+Semantic Relevance = 1 −dH
+ E(Wcluster), E(Wcaption)
+
+,
+(11)
+where E(·) denotes the text encoder. Higher values indicate stronger semantic agreement between
+the decomposed representation and the annotations.
+Inference Measurement Details. All inference speeds are measured as the average per-image infer-
+ence time on a workstation equipped with a single NVIDIA A100 GPU and an Intel Xeon Platinum
+8468 CPU.
+C.2
+LONG-TAILED AND OOD DETECTION FOR OTHER VLMS
+To verify that the conflation of semantic rarity and distributional abnormality is a universal geometric
+flaw and that our MovMF-CLIP provides a universal remedy, we extend our experiments to two other
+popular VLMs: BLIP-2 and CoCa. We evaluate these models using the same long-tailed fairness
+and OOD detection protocols established in Section 4.2.
+Long-Tailed Fairness across VLMs. As shown in table 5, the unimodal Gaussian assumption
+used in W-CLIP consistently exhibits bias against tail categories across different VLM architectures,
+producing high AUROC values when separating head and tail samples. In contrast, MovMF-CLIP
+substantially reduces this bias, bringing the AUROC closer to the ideal value of 0.5. These results
+suggest that modeling the latent space as a hyperspherical mixture provides a more balanced density
+estimate across semantic frequencies, and the improvements remain consistent across models such
+as BLIP-2 and CoCa.
+OOD Detection across VLMs. table 6 reports OOD detection results using the OpenImages subset
+as the OOD dataset. Across both BLIP-2 and CoCa, MovMF-CLIP consistently improves over W-
+CLIP on both the full ID set and the tail-only subset. The improvements remain pronounced on the
+tail subset, where unimodal Gaussian modeling tends to misclassify rare but valid samples as OOD.
+For example, on CoCa the FPR95 on tail samples decreases from 92.12% to 80.02%, indicating
+that hyperspherical mixture modeling better preserves long-tail semantics while maintaining strong
+OOD detection performance.
+16
+
+
+Table 5: Long-tailed fairness across VLMs. AUROC (→0.5) for distinguishing head and tail
+categories using likelihood scores. MovMF-CLIP consistently reduces bias against tail concepts
+compared with W-CLIP across BLIP-2 and CoCa.
+Model
+BLIP-2
+CoCa
+Method
+W-CLIP
+MovMF-CLIP
+W-CLIP
+MovMF-CLIP
+AUROC
+0.6809
+0.5172
+0.8308
+0.5465
+Table 6: OOD detection across VLMs. AUROC (↑) and FPR95 (↓) on BLIP-2 and CoCa using
+OpenImages as the OOD dataset. MovMF-CLIP consistently improves detection performance and
+significantly reduces false rejection of tail samples.
+Model
+Method
+ID: Full COCO
+ID: Tail Subset Only
+AUROC (↑)
+FPR95 (↓)
+AUROC (↑)
+FPR95 (↓)
+BLIP-2
+W-CLIP
+0.9352
+32.02%
+0.8473
+46.65%
+MovMF-CLIP
+0.9522
+25.32%
+0.9197
+45.57%
+CoCa
+W-CLIP
+0.8195
+86.23%
+0.6588
+92.12%
+MovMF-CLIP
+0.8586
+66.14%
+0.8068
+80.02%
+C.3
+VISUALIZATION OF LIKELIHOOD DISTRIBUTIONS FOR OOD DETECTION
+To provide further intuition for the OOD detection results, we visualize the empirical log-likelihood
+distributions of ID and OOD samples in Fig. 8. The top row shows the distributions when the full
+MS-COCO is used as the ID dataset, while the bottom row restricts the ID samples to the tail subset
+containing rare concepts. In both settings, MovMF-CLIP produces a clearer separation between ID
+and OOD samples compared with W-CLIP. The improvement is particularly evident when the ID
+set contains only tail samples, where unimodal Gaussian modeling tends to assign low likelihood to
+rare but valid data.
+D
+ABLATION STUDIES OF HYPERPARAMETERS
+In Sec. 4.3 of the main text, we showed that MovMF-CLIP outperforms the SPLICE baseline (Bhalla
+et al., 2024) in terms of Semantic Relevance. To evaluate the robustness of our approach, we conduct
+a grid search over two key hyperparameters: the number of mixture components (K) and the number
+of top-frequency keywords extracted per cluster (N).
+The results are summarized in table 7. Overall, MovMF-CLIP demonstrates stable performance
+across a broad range of configurations. Increasing the number of keywords N consistently improves
+Semantic Relevance, as richer vocabularies better describe the semantic content of each cluster.
+Regarding the number of clusters K, performance improves when moving from small values to
+moderate values, reflecting the benefit of capturing more fine-grained semantic structure. When K
+becomes very large (e.g., K ≥800), the improvement saturates and slightly decreases, likely due
+to over-fragmentation of the latent space. The best performance is achieved with K = 500 and
+N = 10, reaching a Semantic Relevance of 0.6726. Importantly, even small configurations (e.g.,
+K = 70, N = 3) remain competitive, indicating that the learned hyperspherical mixture structure is
+robust across different sets of hyperparameters.
+E
+EXTENDED QUALITATIVE ANALYSES
+We provide extensive results to further demonstrate the robustness, fine-grained interpretability of
+concept localization, and semantic stability under generative drifts of our MovMF-CLIP framework.
+17
+
+
+2000
+1800
+1600
+1400
+1200
+1000
+Log-Likelihood
+0.0000
+0.0005
+0.0010
+0.0015
+0.0020
+0.0025
+0.0030
+0.0035
+0.0040
+Histogram
+W-CLIP
+COCO (ID)
+COCO (ID)
+OpenImages (OOD)
+0
+10
+20
+30
+40
+50
+Log-Likelihood
+0.00
+0.02
+0.04
+0.06
+0.08
+0.10
+0.12
+0.14
+Histogram
+MovMF-CLIP
+COCO (ID)
+COCO (ID)
+OpenImages (OOD)
+(a) ID: Full COCO vs. OOD: OpenImages
+2000
+1800
+1600
+1400
+1200
+1000
+Log-Likelihood
+0.000
+0.001
+0.002
+0.003
+0.004
+0.005
+Histogram
+W-CLIP
+COCO (ID)
+COCO (ID)
+OpenImages (OOD)
+5
+10
+15
+20
+25
+30
+Log-Likelihood
+0.00
+0.02
+0.04
+0.06
+0.08
+0.10
+0.12
+0.14
+Histogram
+MovMF-CLIP
+COCO (ID)
+COCO (ID)
+OpenImages (OOD)
+(b) ID: Tail Subset Only vs. OOD: OpenImages
+Figure 8: Likelihood distributions for OOD detection. Histograms of log-likelihood scores for
+ID and OOD samples. Left: W-CLIP exhibits substantial overlap between ID and OOD distribu-
+tions, particularly when the ID set contains rare concepts. Right: MovMF-CLIP produces better
+separation, reflecting improved robustness to long-tail semantics while maintaining strong OOD
+discrimination.
+18
+
+
+Table 7: Grid Search for Semantic Relevance. We report the Semantic Relevance (1 −dH) on
+the MS-COCO validation set using OpenCLIP ViT-B/32, varying the number of clusters (K) and
+keywords per cluster (N).
+Number of Clusters (K)
+Top-N Keywords per Cluster
+N = 3
+N = 5
+N = 7
+N = 10
+70
+0.6434
+0.6552
+0.6612
+0.6695
+100
+0.6443
+0.6563
+0.6624
+0.6700
+300
+0.6445
+0.6565
+0.6640
+0.6722
+500
+0.6442
+0.6566
+0.6653
+0.6726
+800
+0.6423
+0.6561
+0.6644
+0.6706
+1000
+0.6425
+0.6565
+0.6638
+0.6711
+E.1
+SEMANTIC DECOMPOSITION COMPARISON
+To further validate our semantic decomposition capabilities (extending Fig. 4 of the main text), we
+present 6 additional comparison cases against the SPLICE baseline in Fig. 9.
+The results clearly demonstrate that SPLICE frequently suffers from hallucinated or overly generic
+descriptions. For instance, given an image of a person holding a laptop (top-right), SPLICE outputs
+irrelevant terms like “protester”, “chimney”, or “hvac”. In contrast, MovMF-CLIP precisely ex-
+tracts fine-grained semantic prototypes such as “laptop”, “table”, and “people”. This confirms that
+our hyperspherical mixture successfully maps complex visual scenes to highly accurate linguistic
+concepts without cross-modal contamination.
+E.2
+CONCEPT LOCALIZATION
+In Fig. 10, we provide 6 additional examples of concept localization. Our MovMF-CLIP is able to
+successfully localize the semantic concepts. For example, in the outdoor street scene (Row 4), our
+method cleanly separates the “fire hydrant” from the “dog”. Similarly, it perfectly distinguishes a
+“bird” perched on a “cow” (Row 5), and accurately localizes specific objects in complex environ-
+ments, such as isolating “wine” from a “pizza” on a dining table (Row 3), or a “man” from boxes
+of “bananas” (Row 6). This robust spatial grounding verifies that our learned mixture components
+effectively capture orthogonal semantic concepts.
+E.3
+SEMANTIC STABILITY UNDER ITERATIVE GENERATIVE DRIFT
+We further analyze semantic stability under the iterative generative drift across 6 consecutive steps.
+We begin by evaluating the quantitative degradation of the semantic representations, followed by a
+detailed visual analysis.
+As shown in Fig. 11, we track the quantitative degradation across 1,000 COCO images. Vanilla
+CLIP-UnCLIP and W-CLIP initially show slightly lower LPIPS and higher cosine similarity in the
+first round. However, their representations rapidly deteriorate in subsequent iterations, reflected by
+a sharp, accelerating drop in CLIP Cosine Similarity and a continuous spike in LPIPS distance. In
+contrast, our MovMF-CLIP effectively stabilizes the semantic trajectory. By dynamically pulling
+the latent embeddings toward high-density semantic prototypes, MovMF-CLIP significantly outper-
+forms the baselines from round 3 onward, proving its strong capability in stabilizing representations.
+Fig. 12 displays the generated results across 6 consecutive steps. This experiment dramatically
+exposes the geometric flaws of standard Gaussian assumptions and highlights the power of our
+MovMF-CLIP manifold projection. For Vanilla CLIP-UnCLIP, representations quickly fall into
+low-density semantic voids, causing catastrophic mode collapse (e.g., a surfer turning into colorful
+horizontal stripes, or a pizza collapsing into abstract red and green patterns). While W-CLIP miti-
+gates some noise, it suffers from severe semantic blurring over time, turning elephants into generic
+smooth blobs and a pizza box into strange blue balls. Conversely, MovMF-CLIP effectively lever-
+ages the learned semantic prototypes as geometric anchors. It forcefully locks the latent trajectory,
+19
+
+
+Figure 9: Extended Results of Semantic Decomposition. Comparison of text descriptions decoded
+from the latent embeddings. MovMF-CLIP consistently extracts precise, fine-grained semantic con-
+cepts (e.g., “wii”, “skateboard”), while the baseline SPLICE often struggles with hallucinated or
+coarse terms (e.g., “bored”, “hvac”).
+preserving the core semantic identities (skater, pizza, surfer, tennis player, elephant) with remarkable
+fidelity across all iterations.
+20
+
+
+Figure 10: Extended Results of Concept Localization. (Continued on next page.)
+21
+
+
+Figure 10: Extended Results of Concept Localization (Continued). MovMF-CLIP successfully
+disentangles complex visual scenes into orthogonal semantic components. Each heatmap accurately
+grounds specific keywords derived from our mixture components, demonstrating precise spatial
+isolation of objects.
+1
+2
+3
+4
+5
+6
+Round
+0.68
+0.70
+0.72
+0.74
+0.76
+LPIPS (AlexNet)
+LPIPS-Alex
+MovMF-CLIP
+Vanilla CLIP-UnCLIP
+W-CLIP
+1
+2
+3
+4
+5
+6
+Round
+0.60
+0.65
+0.70
+0.75
+0.80
+CLIP cos sim
+CLIP Cosine Similarity
+MovMF-CLIP
+Vanilla CLIP-UnCLIP
+W-CLIP
+Figure 11: Quantitative Trends across Iterations. We track the average LPIPS (left, ↓) and CLIP
+Cosine Similarity (right, ↑) over 1,000 COCO images across 6 CLIP-UnCLIP iterations. While
+W-CLIP and Vanilla CLIP-UnCLIP show a slight initial advantage, they suffer from accelerating
+degradation. In contrast, MovMF-CLIP stabilizes the trajectory, significantly outperforming the
+baseline from round 3 onward.
+22
+
+
+Figure 12: Extended Results of Iterative Generative Drift. Trajectories over 6 CLIP-UnCLIP
+iterations. Vanilla CLIP-UnCLIP suffers from severe mode collapse (e.g., generating meaningless
+stripes). W-CLIP loses semantic details. Our MovMF-CLIP correctly anchors the embeddings to
+high-density semantic prototypes, better preserving the original concepts.
+23

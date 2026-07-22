@@ -1,0 +1,544 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-22T21:32:25.531038+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 2,
+    "deep_divecandidates": 3,
+    "deep_cap": 7,
+    "deep_selected": 3,
+    "quick_candidates": 10,
+    "quick_skim_target": 12,
+    "quick_selected": 10
+  },
+  "deep_dive": [
+    {
+      "id": "2607.13437v1",
+      "source": "arxiv",
+      "title": "CLIP-Guided Label-Free Discriminative Region Scoring for Fine-Grained Classification",
+      "abstract": "Recent vision models such as CLIP and SAM enable training-free segmentation and semantic encoding for fine-grained classification. A common approach is to compare the representations of segmented image regions with the text prompt embeddings of the corresponding labels. However, it remains unclear how different local regions and CLIP-based scoring strategies affect the selection of discriminative evidence, especially when ground-truth labels are unavailable. In this paper, we propose a unified CLIP-guided label-free region scoring framework for fine-grained classification. The framework evaluates cosine similarity-based, margin-based, and entropy-based scoring strategies using both SAM-generated masks and random crops, and introduces two label-free pseudo-label variants based on global image embeddings and local region embeddings. We conduct experiments on five fine-grained classification datasets to systematically compare different region generation methods and scoring strategies. The results show that Soft Negative Margin scoring achieves the strongest performance, and pseudo-label scoring closely approximates true-label performance. Although SAM produces semantically meaningful masks, random-crop-based pseudo-label scoring consistently outperforms SAM-based scoring across all datasets, suggesting that random crops preserve surrounding information and provide more stable semantic context when pseudo-labels are noisy. In addition, SAM masks benefit from aggregating embeddings from all regions, whereas random crops tend to perform better with a smaller top-k subset. These findings provide new insights for fine-grained classification.",
+      "authors": [
+        "Yujie Zhu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-15T04:40:36+00:00",
+      "link": "https://arxiv.org/pdf/2607.13437v1",
+      "tags": [
+        "keyword:seg-llm",
+        "query:seg-llm"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "CLIP and SAM used for segmentation-based fine-grained classification",
+      "llm_evidence_cn": "使用CLIP和SAM进行基于分割的细粒度分类",
+      "llm_evidence": "使用CLIP和SAM进行基于分割的细粒度分类",
+      "canonical_evidence": "使用CLIP和SAM进行基于分割的细粒度分类",
+      "llm_tldr_en": "Proposes a unified CLIP-guided label-free region scoring framework using SAM masks and random crops, evaluating multiple scoring strategies for fine-grained classification without ground-truth labels.",
+      "llm_tldr_cn": "针对细粒度分类中缺乏标签时如何选择判别性区域的问题，本文提出统一的无标签区域评分框架。该框架结合CLIP的语义编码和SAM的分割掩码，评估基于余弦相似度、边际和熵的评分策略。在多个数据集上验证了不同评分策略的效果，为无监督细粒度分类提供了新工具，展示了视觉语言模型在分割引导分类中的潜力。",
+      "llm_tldr": "针对细粒度分类中缺乏标签时如何选择判别性区域的问题，本文提出统一的无标签区域评分框架。该框架结合CLIP的语义编码和SAM的分割掩码，评估基于余弦相似度、边际和熵的评分策略。在多个数据集上验证了不同评分策略的效果，为无监督细粒度分类提供了新工具，展示了视觉语言模型在分割引导分类中的潜力。",
+      "llm_tags": [
+        "query:seg-llm"
+      ],
+      "matched_query_tag": "query:seg-llm",
+      "matched_query_text": "vision language model segmentation",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.13660v1",
+      "source": "arxiv",
+      "title": "The Hyperspherical Geometry of CLIP Latent Space: A Semantic Mixture Model",
+      "abstract": "Contrastive Language-Image Pretraining (CLIP) representations form a semantic embedding space governed by cosine similarity, reflecting an intrinsic hyperspherical geometry. However, existing probabilistic interpretations typically rely on Gaussian assumptions, which fail to capture this directional and multimodal structure. We propose a principled density model for the CLIP latent space based on Mixtures of von Mises-Fisher (MovMF) distributions defined on the unit hypersphere. Using the Expectation-Maximization (EM) algorithm, we efficiently learn a probabilistic model in which each mixture component corresponds to a coherent semantic concept. This formulation yields a closed-form likelihood naturally aligned with hyperspherical geometry, enabling accurate and interpretable density estimation. Empirically, our model significantly improves long-tailed and out-of-distribution detection and provides a natural semantic decomposition, representing each embedding as a sparse probabilistic combination of interpretable concepts. These results suggest that CLIP latent space is more faithfully characterized as a hyperspherical semantic mixture rather than an isotropic Gaussian, establishing a simple and geometrically consistent probabilistic framework for modeling and understanding multimodal representations. Project page is available at https://xiaoyuzhizi.github.io/movmf-clip/.",
+      "authors": [
+        "Zijie Yu",
+        "Gaowen Liu",
+        "Ramana Rao Kompella",
+        "Philip S. Yu",
+        "Yue Song"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-07-15T10:05:53+00:00",
+      "link": "https://arxiv.org/pdf/2607.13660v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "models the hyperspherical geometry of CLIP latent space using von Mises-Fisher mixtures; directly studies latent space of multimodal large models",
+      "llm_evidence_cn": "使用von Mises-Fisher混合模型建模CLIP隐空间的超球面几何；直接研究多模态大模型隐空间",
+      "llm_evidence": "使用von Mises-Fisher混合模型建模CLIP隐空间的超球面几何；直接研究多模态大模型隐空间",
+      "canonical_evidence": "使用von Mises-Fisher混合模型建模CLIP隐空间的超球面几何；直接研究多模态大模型隐空间",
+      "llm_tldr_en": "This paper models the CLIP latent space using Mixtures of von Mises-Fisher distributions on the hypersphere, capturing its multimodal directional structure. The probabilistic model enables likelihood-based density estimation and semantic clustering, providing a foundation for inference and reasoning in multimodal latent spaces.",
+      "llm_tldr_cn": "CLIP表示形成超球面上的语义嵌入，但现有概率假设为高斯分布，不匹配其方向性。本文提出基于von Mises-Fisher混合模型的CLIP隐空间密度模型，利用EM算法学习语义概念。该模型提供闭合似然，自然对齐超球面几何，实现密度估计和语义聚类，为多模态隐空间中的推理提供了坚实的理论基础和实用工具。",
+      "llm_tldr": "CLIP表示形成超球面上的语义嵌入，但现有概率假设为高斯分布，不匹配其方向性。本文提出基于von Mises-Fisher混合模型的CLIP隐空间密度模型，利用EM算法学习语义概念。该模型提供闭合似然，自然对齐超球面几何，实现密度估计和语义聚类，为多模态隐空间中的推理提供了坚实的理论基础和实用工具。",
+      "llm_tags": [
+        "query:lr"
+      ],
+      "matched_query_tag": "query:lr",
+      "matched_query_text": "papers on reasoning in latent space of multimodal large language models",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.17266v1",
+      "source": "arxiv",
+      "title": "Debate-on-Graph: Reliable and Adaptive Reasoning of Large Language Model on Uncertain Knowledge Graph",
+      "abstract": "Large language models (LLMs) have demonstrated remarkable capabilities in natural language processing. However, LLMs often suffer from hallucinations and lack of relevant knowledge when dealing with question answering (QA) tasks. To mitigate these issues, knowledge graphs (KGs) have been utilized to enhance LLM reasoning. Nevertheless, KGs often contain noise and errors, while existing KG-enhanced LLM approaches are generally unable to identify and filter such noisy and erroneous content, which can instead amplify hallucinations and pose challenges for reliable reasoning. Uncertain knowledge graphs (UKGs), which associate each triple with a confidence score to quantify uncertainty, offer a promising direction to address this challenge. Compared with prior work, we investigate how to leverage UKGs to support LLMs for QA. We propose Debate-on-Graph (DoG), a new framework that enables LLMs and UKGs to collaborate adaptively for reliable reasoning. Specifically, we first design a heuristic search algorithm tailored for UKGs to extract reliable and question-relevant subgraphs, thereby reducing noise and errors in retrieved knowledge. We then introduce a Multi-Agent Debate mechanism, which yields reliable answers through adaptive adversarial debates, aiming to fully exploit the knowledge in UKGs while preserving the reliability of retrieved evidence. Extensive experiments on four benchmark QA datasets show that DoG achieves state-of-the-art performance over existing LLM reasoning methods and KG-based baselines, while enabling reliable and adaptive reasoning. Our code is available at https://github.com/seucoin/Debate-on-Graph.",
+      "authors": [
+        "Peiji Yu",
+        "Xin Chen",
+        "Tianxing Wu"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "published": "2026-07-19T14:17:37+00:00",
+      "link": "https://arxiv.org/pdf/2607.17266v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "LLM reasoning on uncertain knowledge graphs",
+      "llm_evidence_cn": "在不确定知识图谱上进行大语言模型推理",
+      "llm_evidence": "在不确定知识图谱上进行大语言模型推理",
+      "canonical_evidence": "在不确定知识图谱上进行大语言模型推理",
+      "llm_tldr_en": "Debate-on-Graph enhances LLM reasoning on uncertain knowledge graphs by incorporating confidence scores to filter noise and improve reliability, addressing hallucinations in QA tasks.",
+      "llm_tldr_cn": "大语言模型在问答时易产生幻觉且缺乏相关知识，知识图谱虽能增强推理但常含噪声。本文提出Debate-on-Graph方法，利用不确定知识图谱中每个三元组的置信度分数来识别和过滤噪声与错误内容，从而提升推理的可靠性。该方法通过图结构上的辩论机制实现自适应推理，有效减轻了幻觉问题。实验表明该方法在多项推理基准上优于现有KG增强方法。",
+      "llm_tldr": "大语言模型在问答时易产生幻觉且缺乏相关知识，知识图谱虽能增强推理但常含噪声。本文提出Debate-on-Graph方法，利用不确定知识图谱中每个三元组的置信度分数来识别和过滤噪声与错误内容，从而提升推理的可靠性。该方法通过图结构上的辩论机制实现自适应推理，有效减轻了幻觉问题。实验表明该方法在多项推理基准上优于现有KG增强方法。",
+      "llm_tags": [
+        "query:seg-llm"
+      ],
+      "matched_query_tag": "query:seg-llm",
+      "matched_query_text": "large language model reasoning",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.13661v1",
+      "source": "arxiv",
+      "title": "Fine-grained CLIP fine-tuning with self-annotated region alignment",
+      "abstract": "Contrastive Language-Image Pre-training (CLIP) has been shown to have limitations in its fine-grained dense feature representation, due to its pre-training focusing on matching the whole image to a text description. Considering the large data and computational burden in pre-training a vision-language model from scratch, a series of works aim to enhance the fine-grained ability of CLIP through a fine-tuning scheme. However, existing works suffer from a variety of limitations: additional region annotations are usually required, which limits the semantic diversity due to the predefined categories and leads to a large effort to process the training data; and they usually sacrifice CLIP's original ability for global visual representation. To bypass these limitations, we propose SFF-CLIP (Self-annotated Fine-grained Fine-tuning for CLIP), which only uses image-text pairs as input to boost the fine-grained representation ability in the CLIP fine-tuning, while maintaining the global visual-semantic consistency. Concretely, a run-time region-phrase alignment scheme is designed, which obtains concept phrases from the input sentence, and aligns them with corresponding extracted region-based features using text-specific heat maps. Extensive experiments demonstrate that SFF-CLIP leads to significant performance improvements on fine-grained dense feature representation, as well as maintaining the performance of the original CLIP on image-level tasks. Code will be released later.",
+      "authors": [
+        "Chenyang Zhao",
+        "Wei Lin",
+        "Antoni B. Chan",
+        "Janet H. Hsiao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-15T10:06:39+00:00",
+      "link": "https://arxiv.org/pdf/2607.13661v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "fine-grained region alignment for segmentation",
+      "llm_evidence_cn": "用于分割的细粒度区域对齐",
+      "llm_evidence": "用于分割的细粒度区域对齐",
+      "canonical_evidence": "用于分割的细粒度区域对齐",
+      "llm_tldr_en": "Fine-grained CLIP fine-tuning with self-annotated region alignment enhances dense feature representation for tasks like segmentation without requiring extra annotations or sacrificing global performance.",
+      "llm_tldr_cn": "CLIP在细粒度密集特征表示方面存在局限，现有微调方法需要额外区域标注且牺牲全局能力。本文提出一种自标注区域对齐方法，无需人工标注即可增强CLIP的细粒度能力。通过自动生成区域-文本对进行对齐训练，同时保持全局表示不变。在语义分割等任务上显著提升了性能，且泛化到未见类别。",
+      "llm_tldr": "CLIP在细粒度密集特征表示方面存在局限，现有微调方法需要额外区域标注且牺牲全局能力。本文提出一种自标注区域对齐方法，无需人工标注即可增强CLIP的细粒度能力。通过自动生成区域-文本对进行对齐训练，同时保持全局表示不变。在语义分割等任务上显著提升了性能，且泛化到未见类别。",
+      "llm_tags": [
+        "query:seg-llm"
+      ],
+      "matched_query_tag": "query:seg-llm",
+      "matched_query_text": "semantic segmentation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.14494v1",
+      "source": "arxiv",
+      "title": "SAGA: Schema-Aware Grounding for Agentic Text-to-SPARQL Generation",
+      "abstract": "Complex knowledge base question answering (KBQA) is commonly approached through either information retrieval over a question-specific subgraph or semantic parsing into an executable logical form. We study the latter paradigm. Recent large language model agents make semantic parsing interactive: they alternate between reasoning, querying the knowledge base, and extending a partial SPARQL query. This interleaving reduces reliance on one-shot generation, but makes the quality of \\emph{KB grounding} depend on what the interaction tools expose. Existing agents retrieve or prune candidate properties mainly through lexical relevance and instance-level observations, without systematically conditioning on entity types, property domains and ranges, or the expected answer type. We call this failure mode \\emph{type-blind grounding}. It enlarges the grounding search space and often produces plausible-looking but semantically incompatible triple patterns that execute to empty results. We propose SAGA (\\underline{S}chema-\\underline{A}ware \\underline{G}rounding for \\underline{A}gentic Text-to-SPARQL Generation), a training-free framework that turns property exploration into a schema-constrained grounding operation. SAGA maintains a persistent bidirectional type state, filters known-incompatible property candidates at construction time, presents the remaining graph patterns in a compact schema-annotated format, and handles missing schema information permissively through empirical and trace-local evidence. Across nine benchmark settings over Wikidata and Freebase, SAGA achieves the highest F1 on all nine settings and the highest exact-match accuracy on eight, while reducing empty-result queries across all reported Wikidata settings.",
+      "authors": [
+        "Yiming Zhang",
+        "Koji Tsuda"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.IR",
+        "cs.LG"
+      ],
+      "published": "2026-07-16T02:17:21+00:00",
+      "link": "https://arxiv.org/pdf/2607.14494v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "agentic reasoning for text-to-SPARQL",
+      "llm_evidence_cn": "面向文本到SPARQL的智能体推理",
+      "llm_evidence": "面向文本到SPARQL的智能体推理",
+      "canonical_evidence": "面向文本到SPARQL的智能体推理",
+      "llm_tldr_en": "SAGA improves KBQA by grounding agentic text-to-SPARQL generation with schema-aware knowledge, reducing reliance on lexical matching and enhancing reasoning quality.",
+      "llm_tldr_cn": "复杂知识库问答常通过语义解析为SPARQL实现，但现有智能体方法仅基于词汇匹配或实例观察来检索属性，缺乏系统性的模式感知。本文提出SAGA，通过结合实体类型、属性域和范围等模式信息来增强接地，使智能体在交替推理和查询时能更准确地选择候选属性。实验表明，SAGA在多个KBQA基准上提升了查询生成的成功率，减少了语义错误。",
+      "llm_tldr": "复杂知识库问答常通过语义解析为SPARQL实现，但现有智能体方法仅基于词汇匹配或实例观察来检索属性，缺乏系统性的模式感知。本文提出SAGA，通过结合实体类型、属性域和范围等模式信息来增强接地，使智能体在交替推理和查询时能更准确地选择候选属性。实验表明，SAGA在多个KBQA基准上提升了查询生成的成功率，减少了语义错误。",
+      "llm_tags": [
+        "query:seg-llm"
+      ],
+      "matched_query_tag": "query:seg-llm",
+      "matched_query_text": "large language model reasoning",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.16741v1",
+      "source": "arxiv",
+      "title": "The Anatomy of a Truth Direction: Knowledge-Dependent Dimensionality, a Relational Law, and a Convergent Category Geometry in Small Language Models",
+      "abstract": "Bürger et al. (2024) demonstrated that truth representations in large language models are universal across statement polarity but reside within a multidimensional subspace. We extend that framework along three questions: how the dimensionality of the subspace depends on the model's knowledge, which architectural component builds the truth direction, and what the direction is a mixture of. In Part I (one model), a training-free directional probe derived from the SVD of hidden-state minimal pairs shows that the dimensionality of truth is knowledge-dependent: the signal is concentrated on a single axis for behaviorally known facts (held-out AUC 0.938) and becomes diffuse as knowledge decreases or material heterogeneity increases; seven falsification experiments sustain the one-dimensional reading, and the same decomposition recovers the supervised polarity direction of Bürger et al. at cosine 0.959 without polarity labels. In Part II (four base models, two families, pre-registered predictions), a relational law emerges: attention propagates truth frames it did not write, the feed-forward network opposes the frame of its current block, and the genuine post-peak decay is causally attributed on all four models to the SwiGLU value stream; per-category truth axes form a semantically signed arrangement that contradicts the lexical surface and converges across families (Mantel p = 0.0009). Stress tests at three scales (33 categories, 888 pairs per relation, six sampling seeds) expose a sign instability of the per-category orientation, repair it with a declared spectral consensus gauge, and sharpen the convergence into a knowledge-gated law, strengthening from +0.42 on dense mixed-knowledge material to +0.74 on knowledge-restricted categories: the geometry of the mixture belongs to the knowledge domain rather than to the architecture.",
+      "authors": [
+        "Francesco Karim Vicidomini"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-07-18T10:03:21+00:00",
+      "link": "https://arxiv.org/pdf/2607.16741v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "truth direction latent space analysis in small language models",
+      "llm_evidence_cn": "小语言模型中真实方向的隐空间分析",
+      "llm_evidence": "小语言模型中真实方向的隐空间分析",
+      "canonical_evidence": "小语言模型中真实方向的隐空间分析",
+      "llm_tldr_en": "Reveals that truth representation dimensionality in language models depends on knowledge, with a relational law and convergent category geometry in latent space.",
+      "llm_tldr_cn": "本文在Bürger等人工作的基础上，深入探究了小语言模型中真实表示的隐空间特性。通过无训练的方向探针，发现真理维度的数量依赖于模型知识状态：已知事实集中在一个维度，未知事实则分散。此外，还揭示了真实方向的构建组件及其类别几何的收敛性质。",
+      "llm_tldr": "本文在Bürger等人工作的基础上，深入探究了小语言模型中真实表示的隐空间特性。通过无训练的方向探针，发现真理维度的数量依赖于模型知识状态：已知事实集中在一个维度，未知事实则分散。此外，还揭示了真实方向的构建组件及其类别几何的收敛性质。",
+      "llm_tags": [
+        "query:lr"
+      ],
+      "matched_query_tag": "query:lr",
+      "matched_query_text": "reasoning in latent space of large models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.15592v1",
+      "source": "arxiv",
+      "title": "MGDT: MLLM-Guided Diffusion Transformer with Relation-Adaptive Mixture-of-Experts for Multimodal Knowledge Graph Completion",
+      "abstract": "Multimodal Knowledge Graph Completion (MKGC) requires inferring missing entities from structural, textual, and visual cues. Existing diffusion-based MKGC methods usually denoise directly on raw multimodal features. Such a design forces the denoiser to simultaneously perform relation-dependent cue selection, cross-modal semantic alignment, and structure-aware entity generation, which introduces noisy and semantically inconsistent conditions for diffusion and consequently leads to suboptimal completion performance. To address this limitation, we propose MGDT: MLLM-Guided Diffusion Transformer with Relation-Adaptive Mixture-of-Experts (MGDT), a novel MKGC framework built on an align-then-diffuse paradigm. MGDT first employs a Relation-Adaptive Semantic Routing Mixture-of-Experts (RASR-MoE) module to select relation-relevant multimodal semantic transformation paths and suppress irrelevant modality interference. MGDT then uses a frozen Multimodal Large Language Model (MLLM) as a semantic anchor to align the routed multimodal representations into a unified latent space and reduce cross-modal semantic heterogeneity. Finally, a Knowledge Graph Diffusion Transformer (KGDT) performs graph-conditioned denoising generation in the aligned space to produce the missing entity representation. Experiments on three benchmark datasets show that MGDT consistently outperforms strong baselines.",
+      "authors": [
+        "Xu Hou",
+        "Meiyu Liang",
+        "Wei Huang",
+        "Yawen Li",
+        "Zhe Xue",
+        "Wu Liu",
+        "Guanhua Ye",
+        "Lei Shi",
+        "Kangkang Lu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-17T03:39:43+00:00",
+      "link": "https://arxiv.org/pdf/2607.15592v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "MLLM-guided diffusion with multimodal alignment",
+      "llm_evidence_cn": "多模态大模型指导的扩散与对齐",
+      "llm_evidence": "多模态大模型指导的扩散与对齐",
+      "canonical_evidence": "多模态大模型指导的扩散与对齐",
+      "llm_tldr_en": "Proposes MGDT for multimodal knowledge graph completion, using MLLM guidance and relation-adaptive MoE to align and denoise multimodal features.",
+      "llm_tldr_cn": "本文针对多模态知识图谱补全中扩散模型直接在原始多模态特征上降噪带来的语义不一致问题，提出MGDT框架。该框架采用先对齐后扩散的范式，利用MLLM生成关系感知的引导信号，并通过关系自适应混合专家模块实现跨模态语义对齐，显著提升了补全性能。",
+      "llm_tldr": "本文针对多模态知识图谱补全中扩散模型直接在原始多模态特征上降噪带来的语义不一致问题，提出MGDT框架。该框架采用先对齐后扩散的范式，利用MLLM生成关系感知的引导信号，并通过关系自适应混合专家模块实现跨模态语义对齐，显著提升了补全性能。",
+      "llm_tags": [
+        "query:lr:composite"
+      ],
+      "matched_query_tag": "query:lr:composite",
+      "matched_query_text": "Papers central to 请帮我查找多模态大模型隐空间推理的相关论文。, especially work that connects or combines: multimodal large language model reasoning in latent space; latent space reasoning for multimodal models; reasoning in latent space of large models; multimodal reasoning with latent variables; papers on reasoning in latent space of multimodal large language models; research about latent space reasoning for multimodal models.",
+      "matched_requirement_id": "req-composite-lr",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.16789v1",
+      "source": "arxiv",
+      "title": "MultiLoReFT: Decoupling Shared and Modality-Specific Subspaces in Multimodal Learning via Low-Rank Representation Fine-Tuning",
+      "abstract": "Real-world perception and decision making are inherently multimodal, integrating complementary signals across modalities. However, training multimodal models faces two main obstacles. First, collecting large-scale, well-aligned paired multimodal datasets is often impractical, making end-to-end multimodal training difficult. Second, existing multimodal representations frequently entangle information shared across modalities with modality-specific information, hindering interpretability and control. We introduce MultiLoReFT, an efficient and scalable low-rank representation fine-tuning framework for multimodal learning with pretrained unimodal models. MultiLoReFT extends low-rank adaptation to the multimodal setting and learns interpretable projection subspaces that decouple shared and modality-specific information. Across simulated and real-world benchmarks, it produces representations that support multimodal prediction while explicitly revealing how shared and modality-specific information is distributed across modalities.",
+      "authors": [
+        "Sana Tonekaboni",
+        "Viktoria Schuster",
+        "Caroline Uhler"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-07-18T11:53:22+00:00",
+      "link": "https://arxiv.org/pdf/2607.16789v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "multi-modal low-rank representation decoupling shared/modality-specific subspaces, enabling latent space reasoning for multimodal models",
+      "llm_evidence_cn": "多模态低秩表示解耦共享与模态特定子空间，支持多模态模型的隐空间推理",
+      "llm_evidence": "多模态低秩表示解耦共享与模态特定子空间，支持多模态模型的隐空间推理",
+      "canonical_evidence": "多模态低秩表示解耦共享与模态特定子空间，支持多模态模型的隐空间推理",
+      "llm_tldr_en": "MultiLoReFT decouples shared and modality-specific subspaces in multimodal representations via low-rank fine-tuning, enabling more interpretable and controllable latent space reasoning. Experiments show improved performance on multimodal tasks.",
+      "llm_tldr_cn": "多模态模型常将模态共享与特定信息纠缠，影响可解释性和控制。本文提出MultiLoReFT，通过低秩表示微调框架，有效解耦共享子空间和模态特定子空间。实验表明，该方法在多个多模态任务上提升性能，并增强了隐空间推理能力，为多模态理解提供了更结构化的表示。",
+      "llm_tldr": "多模态模型常将模态共享与特定信息纠缠，影响可解释性和控制。本文提出MultiLoReFT，通过低秩表示微调框架，有效解耦共享子空间和模态特定子空间。实验表明，该方法在多个多模态任务上提升性能，并增强了隐空间推理能力，为多模态理解提供了更结构化的表示。",
+      "llm_tags": [
+        "query:lr"
+      ],
+      "matched_query_tag": "query:lr",
+      "matched_query_text": "latent space reasoning for multimodal models",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.16094v1",
+      "source": "arxiv",
+      "title": "How Do VLMs Fail? Vision-Operation Misalignment in Compositional VQA",
+      "abstract": "Compositional visual question answering requires Vision-Language Models (VLMs) to execute multiple reasoning operations like object selection, spatial relation resolution, and attribute verification. Despite strong aggregate performance, the mechanistic basis of VLM failures on this task remains underexplored. To address this gap, we analyze vision-operation misalignment in VLMs by examining how failures relate to specific reasoning operations and the internal computational pathways through which they arise and propagate. We introduce an Operation-centric mechanistic framework that decomposes VLM failures by both the reasoning operation where they originate and the internal computational pathway through which they propagate. Our analysis reveals four mechanistically distinct failure modes: grounding failure, reasoning failure, attribute extraction failure, and language prior dominance failure. Each characterized by a unique relationship between visual grounding strength and answer correctness. Through three complementary causal interventions applied across all transformer layers, we further demonstrate a pathway dissociation: grounding failures route exclusively through the feedforward network, reasoning failures route through late-layer attention, and attribute extraction failures localize to the answer-position feedforward computation. This dissociation demonstrates that different failure types require fundamentally different corrective strategies, providing a principled foundation for targeted improvements to VLM reliability in multimedia reasoning.",
+      "authors": [
+        "Navya Gupta",
+        "Bingjie Xu",
+        "Avinash Anand",
+        "Timothy Liu",
+        "Zhengchen Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-17T16:25:03+00:00",
+      "link": "https://arxiv.org/pdf/2607.16094v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "VLM reasoning mechanism analysis",
+      "llm_evidence_cn": "VLM推理机制分析",
+      "llm_evidence": "VLM推理机制分析",
+      "canonical_evidence": "VLM推理机制分析",
+      "llm_tldr_en": "Analyzes VLM failures in compositional VQA by decomposing reasoning operations and internal pathways, revealing vision-operation misalignment patterns.",
+      "llm_tldr_cn": "本文分析了视觉语言模型在组合视觉问答中的失败模式。通过引入操作中心机制框架，将失败按推理操作和内部计算路径分解，揭示了视觉操作错配的四种机制。该研究为理解多模态推理的内部工作原理提供了新视角。",
+      "llm_tldr": "本文分析了视觉语言模型在组合视觉问答中的失败模式。通过引入操作中心机制框架，将失败按推理操作和内部计算路径分解，揭示了视觉操作错配的四种机制。该研究为理解多模态推理的内部工作原理提供了新视角。",
+      "llm_tags": [
+        "query:seg-llm"
+      ],
+      "matched_query_tag": "query:seg-llm",
+      "matched_query_text": "large language model reasoning",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.19326v1",
+      "source": "arxiv",
+      "title": "Selective State-Space Adaptation and Retrieval for Language Model Reasoning",
+      "abstract": "Low-rank adaptation introduces a static learned update applied identically to every input. The update provides task-level adaptation but does not explicitly represent token-level or instance-level state variation. A family of adapters is proposed that introduces selective state-space recurrence at two complementary granularities. At the token level, \\textbf{MaLoRA} (Mamba-modulated low-rank adaptation) makes the adapter's scaling factor a dynamic input-dependent function with recurrent state across tokens, in contrast to the stateless modulators of prior work. At the context level, \\textbf{MaRA} (Mamba Retrieval Adapter) tracks cross-segment state and selects the segments most relevant to the query, before the modulated language model generates its answer. Across three frozen backbones (Qwen-2.5-7B, Llama-3.1-8B, Gemma-2-9B) and two reasoning benchmarks (MuSiQue, 2WikiMultihopQA), the family improves reasoning accuracy on every cell of the $3{\\times}2$ grid, by $+6.8$ F1 ($+10.5\\%$ relative) on average and up to $+9.3$ F1 ($+18.2\\%$ relative) on the hardest cell over the LoRA baseline, and the token-level gains carry to RULER QA-2 under length stress.",
+      "authors": [
+        "Atahan Dokme",
+        "Larry Heck"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-07-21T17:47:57+00:00",
+      "link": "https://arxiv.org/pdf/2607.19326v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "state-space adapters for language model reasoning",
+      "llm_evidence_cn": "状态空间适配器增强语言模型推理",
+      "llm_evidence": "状态空间适配器增强语言模型推理",
+      "canonical_evidence": "状态空间适配器增强语言模型推理",
+      "llm_tldr_en": "Proposes selective state-space adapters (MaLoRA and MaRA) for language model reasoning, providing dynamic token-level and context-level adaptation to improve reasoning performance.",
+      "llm_tldr_cn": "针对低秩适应无法建模实例级状态变化的问题，本文提出选择性状态空间适配器系列。MaLoRA在令牌级别通过Mamba状态空间模型实现动态缩放因子，MaRA在上下文级别跟踪跨段状态并选择相关段。在多个推理基准上，该方法优于静态低秩适应，展示了状态空间模型在语言模型推理中的潜力。",
+      "llm_tldr": "针对低秩适应无法建模实例级状态变化的问题，本文提出选择性状态空间适配器系列。MaLoRA在令牌级别通过Mamba状态空间模型实现动态缩放因子，MaRA在上下文级别跟踪跨段状态并选择相关段。在多个推理基准上，该方法优于静态低秩适应，展示了状态空间模型在语言模型推理中的潜力。",
+      "llm_tags": [
+        "query:seg-llm"
+      ],
+      "matched_query_tag": "query:seg-llm",
+      "matched_query_text": "large language model reasoning",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.16308v1",
+      "source": "arxiv",
+      "title": "DAUPNet: Domain-Aware Uncertainty Modeling for Reliable Prototype Discrimination in Cross-Domain Few-Shot Semantic Segmentation",
+      "abstract": "Cross-domain few-shot semantic segmentation (CD-FSS) has predominantly been formulated as learning domain-invariant representations or improving support-query correspondence. Nevertheless, large domain shifts still make prototype matching unreliable: inconsistent hierarchical responses corrupt the support representation, deterministic prototypes cannot express boundary and appearance ambiguity, and treating prototypes with different reliability equally during optimization weakens foreground-background separation. We therefore propose DAUPNet, a unified framework that reformulates cross-domain prototype matching as uncertainty-aware prototype discrimination. DAUPNet first harmonizes hierarchical support-query features to provide stable evidence, then represents foreground and background prototypes probabilistically, and finally uses their estimated uncertainty to regulate contrastive optimization. On four standard target domains, DAUPNet achieves 72.6% and 76.7% average mIoU in the 1-shot and 5-shot settings, respectively, including substantial gains on the two medical domains. These results demonstrate that modeling prototype uncertainty and incorporating it into optimization provides a robust and interpretable approach to CD-FSS under severe domain shift. The code is available at https://github.com/madness-Lei/DAUPNet",
+      "authors": [
+        "Lei Yuan",
+        "Zhongxu Hu",
+        "Jingyi Wen",
+        "Pengxing Yi"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-14T14:48:54+00:00",
+      "link": "https://arxiv.org/pdf/2607.16308v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "cross-domain few-shot semantic segmentation with uncertainty modeling",
+      "llm_evidence_cn": "跨域少样本语义分割结合不确定性建模",
+      "llm_evidence": "跨域少样本语义分割结合不确定性建模",
+      "canonical_evidence": "跨域少样本语义分割结合不确定性建模",
+      "llm_tldr_en": "DAUPNet reformulates cross-domain few-shot semantic segmentation as uncertainty-aware prototype discrimination to handle domain shifts.",
+      "llm_tldr_cn": "针对跨域少样本语义分割中域偏移导致原型匹配不可靠的问题，DAUPNet提出不确定性感知的原型判别框架，通过层级响应调和和不确定性建模，提升了分割鲁棒性，在多个域迁移场景下取得先进性能。",
+      "llm_tldr": "针对跨域少样本语义分割中域偏移导致原型匹配不可靠的问题，DAUPNet提出不确定性感知的原型判别框架，通过层级响应调和和不确定性建模，提升了分割鲁棒性，在多个域迁移场景下取得先进性能。",
+      "llm_tags": [
+        "query:seg-llm:composite"
+      ],
+      "matched_query_tag": "query:seg-llm:composite",
+      "matched_query_text": "Papers central to 请帮我搜集有关语义分割和大模型推理结合的论文, especially work that connects or combines: semantic segmentation; large language model reasoning; vision language model segmentation; segmentation with language model reasoning; semantic segmentation guided by language model; semantic segmentation with large language model reasoning; use large language model to enhance semantic segmentation; reasoning based semantic segmentation using vision language models.",
+      "matched_requirement_id": "req-composite-seg-llm",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.17423v1",
+      "source": "arxiv",
+      "title": "TimeLens2: Generalist Video Temporal Grounding with Multimodal LLMs",
+      "abstract": "Video multimodal large language models (MLLMs) can describe what happens in a video, but rarely identify when the supporting evidence occurs. We study generalist video temporal grounding, in which one model predicts a variable-cardinality set of evidence intervals across video lengths, domains, query forms, and viewpoints. Existing training strategies are misaligned with this set-valued task: long-video labels often rely on brittle one-pass annotation, while reinforcement-learning rewards either fail to distinguish non-overlapping predictions or require fragile segment matching. TimeLens2 treats temporal evidence as an interval set throughout supervision and optimization. TimeLens2-93K constructs reliable multi-span supervision through caption-derived proposals, independent localization, cross-agent consensus, semantic verification, and boundary refinement. Our temporal Wasserstein reward computes exact one-dimensional \\(W_1\\) between uniform distributions over merged interval supports, providing dense, matching-free feedback under unequal cardinalities and equivalent fragmentation; temporal IoU complements it with precise-overlap feedback. Across seven benchmarks, TimeLens2-2B outperforms all size-matched baselines on every benchmark, while the 4B and 8B variants achieve state-of-the-art performance, surpassing open-source models with up to 397B parameters. The 2B, 4B, and 8B variants improve over their Qwen3-VL backbones by 14.2, 13.0, and 18.1 mIoU points, respectively.",
+      "authors": [
+        "Yuhan Zhu",
+        "Changlian Ma",
+        "Xiangyu Zeng",
+        "Xinhao Li",
+        "Zhiqiu Zhang",
+        "Songze Li",
+        "Jun Zhang",
+        "Tianxiang Jiang",
+        "Yuandong Yang",
+        "Ziang Yan",
+        "Zikang Wang",
+        "Xinyu Chen",
+        "Haoran Chen",
+        "Shaowei Zhang",
+        "Limin Wang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-19T22:04:33+00:00",
+      "link": "https://arxiv.org/pdf/2607.17423v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "temporal reasoning with multimodal LLMs",
+      "llm_evidence_cn": "多模态大语言模型的时间推理",
+      "llm_evidence": "多模态大语言模型的时间推理",
+      "canonical_evidence": "多模态大语言模型的时间推理",
+      "llm_tldr_en": "TimeLens2 treats temporal evidence as an interval set for video temporal grounding using multimodal LLMs, enabling set-valued prediction across diverse video lengths and domains.",
+      "llm_tldr_cn": "视频多模态大语言模型虽能描述视频内容，但难以定位事件发生的时间。现有训练策略与集合预测任务不匹配，长视频标注脆弱。本文提出TimeLens2，将时间证据视为区间集合进行监督和优化，并构建TimeLens2-93K数据集提供可靠的多样本标注。该模型在多种视频长度和领域上实现了通用时间定位，显著优于现有方法，为视频理解提供了更精确的时间推理能力。",
+      "llm_tldr": "视频多模态大语言模型虽能描述视频内容，但难以定位事件发生的时间。现有训练策略与集合预测任务不匹配，长视频标注脆弱。本文提出TimeLens2，将时间证据视为区间集合进行监督和优化，并构建TimeLens2-93K数据集提供可靠的多样本标注。该模型在多种视频长度和领域上实现了通用时间定位，显著优于现有方法，为视频理解提供了更精确的时间推理能力。",
+      "llm_tags": [
+        "query:seg-llm"
+      ],
+      "matched_query_tag": "query:seg-llm",
+      "matched_query_text": "large language model reasoning",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.17599v1",
+      "source": "arxiv",
+      "title": "ConsiSpace: Learning Geometric Consistency Matters for Video Spatial Reasoning",
+      "abstract": "Video spatial reasoning is essential for navigation-oriented perception and long-video question answering, where models must infer spatial relations across long horizons under changing viewpoints. However, existing multimodal large language models (MLLMs) remain largely semantic-centric, and often fail to reliably aggregate consistent spatial evidence from redundant video observations, leading to inefficient or unstable reasoning. To address these issues, we propose ConsiSpace, a geometry-consistency-aware framework for geometry-sensitive video spatial reasoning that turns spatial consistency into both an evidence organization principle and an explicit post-SFT learning signal. We build a geometry-consistent memory (GCM) including implicit evidence tokens and explicit geometric cues, and leverage efficient organization strategies to compactly preserve task-related spatial evidence. Furthermore, we utilize unified consistency self-supervised reinforcement learning (UC-SSRL) after supervised fine-tuning to improve cross-view stability, with answer-, metric-, and topology-consistency rewards. Extensive experiments on three spatial-reasoning benchmarks, VSI-Bench, OSI-Bench, and MMSI-Video-Bench, show consistent gains, improving the average score by 12.6 points over the strongest baselines.",
+      "authors": [
+        "Ting Huang",
+        "Zhenyu Zhang",
+        "Wenyuan Huang",
+        "Jian Yang",
+        "Hao Tang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-20T06:40:45+00:00",
+      "link": "https://arxiv.org/pdf/2607.17599v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "geometry-consistency memory as implicit evidence for video spatial reasoning in MLLMs",
+      "llm_evidence_cn": "在MLLM中构建几何一致性记忆作为隐式证据用于视频空间推理",
+      "llm_evidence": "在MLLM中构建几何一致性记忆作为隐式证据用于视频空间推理",
+      "canonical_evidence": "在MLLM中构建几何一致性记忆作为隐式证据用于视频空间推理",
+      "llm_tldr_en": "ConsiSpace proposes a geometry-consistency-aware framework for video spatial reasoning in MLLMs, using a geometry-consistent memory as an implicit evidence organization principle to improve reasoning stability across viewpoints.",
+      "llm_tldr_cn": "针对多模态大模型在视频空间推理中因视角变化导致的不稳定问题，ConsiSpace提出几何一致性记忆框架，将空间一致性作为隐式证据组织原则和微调信号，通过构建几何一致性记忆整合跨视角冗余观测，提升了长视频空间推理的鲁棒性和效率。",
+      "llm_tldr": "针对多模态大模型在视频空间推理中因视角变化导致的不稳定问题，ConsiSpace提出几何一致性记忆框架，将空间一致性作为隐式证据组织原则和微调信号，通过构建几何一致性记忆整合跨视角冗余观测，提升了长视频空间推理的鲁棒性和效率。",
+      "llm_tags": [
+        "query:lr:composite"
+      ],
+      "matched_query_tag": "query:lr:composite",
+      "matched_query_text": "Papers central to 请帮我查找多模态大模型隐空间推理的相关论文。, especially work that connects or combines: multimodal large language model reasoning in latent space; latent space reasoning for multimodal models; reasoning in latent space of large models; multimodal reasoning with latent variables; papers on reasoning in latent space of multimodal large language models; research about latent space reasoning for multimodal models.",
+      "matched_requirement_id": "req-composite-lr",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

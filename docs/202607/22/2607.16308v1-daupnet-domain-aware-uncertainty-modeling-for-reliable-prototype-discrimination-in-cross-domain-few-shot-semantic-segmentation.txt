@@ -1,0 +1,1634 @@
+DAUPNet: Domain-Aware Uncertainty Modeling for Reliable Prototype Discrimination
+in Cross-Domain Few-Shot Semantic Segmentation
+Lei Yuan1, Zhongxu Hu1, Jingyi Wen1, Pengxing Yi1∗
+1Department of Mechanical Science and Engineering, Huazhong University of Science and Technology, China
+madness_lei@163.com, zhongxu_hu@hust.edu.cn, jingyi_wen2003@163.com, pxyi@hust.edu.cn
+Abstract
+Cross-domain few-shot semantic segmentation (CD-FSS) has
+predominantly been formulated as learning domain-invariant
+representations or improving support-query correspondence.
+Nevertheless, large domain shifts still make prototype match-
+ing unreliable: inconsistent hierarchical responses corrupt the
+support representation, deterministic prototypes cannot ex-
+press boundary and appearance ambiguity, and treating pro-
+totypes with different reliability equally during optimiza-
+tion weakens foreground-background separation. We there-
+fore propose DAUPNet, a unified framework that reformu-
+lates cross-domain prototype matching as uncertainty-aware
+prototype discrimination. DAUPNet first harmonizes hierar-
+chical support-query features to provide stable evidence, then
+represents foreground and background prototypes probabilis-
+tically, and finally uses their estimated uncertainty to regulate
+contrastive optimization. On four standard target domains,
+DAUPNet achieves 72.6% and 76.7% average mIoU in the
+1-shot and 5-shot settings, respectively, including substantial
+gains on the two medical domains. These results demonstrate
+that modeling prototype uncertainty and incorporating it into
+optimization provides a robust and interpretable approach to
+CD-FSS under severe domain shift. The code is available at
+https://github.com/madness-Lei/DAUPNet.
+Introduction
+Few-shot semantic segmentation (FSS) segments novel
+classes from only a few annotated support images, reduc-
+ing the dependence of conventional segmentation models
+on dense annotations and fixed training categories. In prac-
+tical applications, however, support and query images may
+come from domains that differ markedly from the source
+training data in acquisition modality, texture, contrast, and
+object structure. Cross-domain few-shot semantic segmen-
+tation (CD-FSS) addresses this setting, but the combined
+scarcity of annotations and domain shift makes reliable
+support-query transfer particularly difficult. Existing stud-
+ies have approached this difficulty through domain-invariant
+representation (Lei et al. 2022), target-domain adaptation and
+support-query correspondence mining (Nie et al. 2024; Su
+et al. 2024) , and multi-scale or low-level feature enhance-
+ment (Tong et al. 2024; Liu et al. 2025; Sun et al. 2026).
+Despite this progress, segmentation remains fragile when
+∗Corresponding Author.
+Copyright © 2026, Association for the Advancement of Artificial
+Intelligence (www.aaai.org). All rights reserved.
+Figure 1: Overview of DAUPNet. (a) Conventional point-
+prototype matching is vulnerable to domain shift. (b) DAUP-
+Net performs support–query alignment, hierarchical evi-
+dence aggregation, probabilistic prototype modeling, and
+uncertainty-aware discrimination.
+domain shift undermines the reliability of the prototypes on
+which support-query matching depends.
+This prototype-reliability problem extends beyond fea-
+ture alignment and arises throughout prototype construction
+and discrimination. First, separately processing high-level
+semantics and low-level appearance leaves cross-level evi-
+dence inconsistent, so the representation pooled into a pro-
+totype may already be unstable. Second, masked average
+pooling compresses that evidence into a deterministic vector
+and therefore cannot indicate whether the support region has
+an ambiguous boundary, weak contrast, or heterogeneous ap-
+pearance. Third, conventional contrastive optimization treats
+prototype combinations with different uncertainty as equally
+reliable, allowing unstable comparisons to disproportion-
+ately shape the foreground-background decision boundary.
+These effects are coupled: misaligned features produce un-
+certain prototypes, and optimizing them without accounting
+for their reliability further amplifies unstable discrimination.
+Fig.1 contrasts conventional prototype matching with
+our uncertainty-aware formulation. A deterministic baseline
+pools the support foreground into a single vector and applies
+it to the query as if the underlying evidence were equally
+reliable across domains. DAUPNet instead preserves a reli-
+ability chain: hierarchical harmonization stabilizes the evi-
+1
+arXiv:2607.16308v1  [cs.CV]  14 Jul 2026
+
+
+dence used to form prototypes; probabilistic representation
+exposes residual foreground and background uncertainty;
+and variance-aware optimization reduces the influence of
+unreliable prototype comparisons on the decision margin.
+Based on this view, we propose DAUPNet, a unified
+prototype learning framework organized around reliable
+uncertainty-aware discrimination rather than a collection
+of independent enhancements. DAUPNet retains the sim-
+plicity of prototype-based segmentation and implements
+the reliability chain in three successive stages. Hierarchi-
+cal Domain-Aware Harmonization (HDH) coordinates multi-
+level support-query features so that prototype estimation
+starts from consistent cross-domain evidence. Probabilis-
+tic Prototype Representation (PPR) then models foreground
+and background as distributions, exposing uncertainty that
+a point prototype conceals. Finally, Variance-Aware Con-
+trastive Learning (VACL) converts the variance-derived un-
+certainty into reliability weights, reducing the influence of
+unstable prototype comparisons while sharpening depend-
+able foreground-background separation. Thus, each compo-
+nent supplies the prerequisite or supervision for the next,
+and all three serve the same objective: reliable prototype
+discrimination under domain shift.
+Our main contributions are:
+• We identify unreliable prototype discrimination as a cen-
+tral bottleneck in CD-FSS and formulate its coupled
+causes across feature construction, uncertainty represen-
+tation, and decision-margin optimization. This formula-
+tion provides a coherent alternative to treating domain
+shift solely as feature alignment.
+• We propose DAUPNet, which establishes an end-to-end
+reliability chain from hierarchical domain-aware harmo-
+nization to probabilistic foreground-background proto-
+types and variance-aware contrastive optimization. HDH
+stabilizes the evidence entering prototype estimation,
+while PPR and VACL expose and control the remaining
+uncertainty during representation and learning.
+• We show that uncertainty-aware prototype discrimination
+is especially valuable under severe appearance and modal-
+ity shifts. DAUPNet improves the baseline by 6.9 mIoU
+on average in the 1-shot setting and reaches 72.6%/76.7%
+average mIoU across four target domains, with particu-
+larly strong performance on weak-boundary and grayscale
+medical images.
+Related Work
+Few-Shot Semantic Segmentations
+FSS is primarily built upon prototype matching, dense corre-
+spondence modeling, and relational reasoning. PANet(Wang
+et al. 2019) establishes the foundational paradigm of masked
+average pooling and cosine matching. SSP(Fan et al. 2022)
+enhances representational capacity via query self-support
+prototypes(Peng et al. 2023). Subsequent work has im-
+proved discriminability through multi-prototype represen-
+tation, cross-scale aggregation, and boundary enhancement.
+However, these deterministic prototypes assume stable fea-
+ture distributions and clear boundaries—assumptions that
+break under domain shift. Overall, same-domain FSS has ma-
+tured considerably. Yet most methods implicitly assume sim-
+ilar training-testing distributions. When significant modality
+discrepancies exist between source and target domains, their
+matching mechanisms often fail to maintain stable general-
+ization performance (Min, Kang, and Cho 2021).
+Cross-Domain Few-Shot Semantic Segmentation
+CD-FSS simultaneously faces category scarcity and domain
+shift, making it a substantially harder yet more realistic ex-
+tension.
+Domain-Invariant Feature Learning. PATNet(Lei et al.
+2022) pioneered the CD-FSS benchmark and proposed
+domain-invariant feature transformation. DMTN introduced
+dual matching for high-level semantics and low-level textures
+(Chen, Quan, and Qin 2024). However, these methods focus
+on feature alignment while neglecting prototype instability
+under domain shift.
+Target-Domain Adaptation. IFA(Nie et al. 2024) improved
+adaptability by iteratively mining support-query correspon-
+dences. ABCDFSS(Herzog 2024) advocated test-time adap-
+tation before comparison. Yet these iterative strategies still
+operateondeterministicprototypesthatcannotcapturecross-
+domain ambiguity.
+Multi-Scale Enhancement. DR-Adapter(Su et al. 2024),
+APM(Tong et al. 2024), and LoEC(Liu et al. 2025) improve
+robustness via domain perturbation, frequency suppression,
+and low-level calibration. HSL(Sun et al. 2026) explore hi-
+erarchical semantics and state-space modeling (Cao et al.
+2024)(Liu et al. 2026)(Lang et al. 2024)(Gao, He, and Liu
+2026).
+Despite this progress, existing approaches do not main-
+tain prototype reliability throughout the complete matching
+pipeline: multi-scale evidence can remain inconsistent before
+pooling, deterministic prototypes hide ambiguity after pool-
+ing, and optimization does not account for unequal prototype
+uncertainty. DAUPNet addresses these coupled limitations
+through a single uncertainty-aware prototype discrimination
+framework.
+Method
+Problem Definition and Notation
+This paper investigates CD-FSS. Let the source-domain
+training set be denoted as Dsrc and the target-domain test or
+fine-tuning set as Dtgt. The two domains have different im-
+age distributions, i.e., Psrc(I)̸ = Ptgt(I), and their training
+and testing categories are mutually disjoint. Each episode
+contains a support set and a query image. Under the 1-way
+K-shot setting, the support set is defined as
+S = (Ik
+s , M k
+s )
+K
+k=1
+(1)
+where Ik
+s and M k
+s denote the k-th support image and its
+binary mask, respectively. The query image is denoted as Iq.
+During training, the ground-truth query mask Mq is avail-
+able for computing the segmentation loss, whereas during
+inference only Iq is given. The goal is to predict the query
+mask ˆ
+Mq conditioned on S.
+
+
+Figure 2: Architecture of DAUPNet.
+Let b ∈s, q denote the support or query branch, and let
+l ∈L denote the feature level. The implementation uses
+L = 2, 3, 4, 5, or L = 2, 3, 4 when skip_layer4=True. The
+deepest layer is denoted as ld = max(L). After channel
+unification, each feature level has dimension d = 256, and
+the feature at level l is written as
+Xl
+b ∈RB×d×hl×wl
+(2)
+where B denotes the batch size and hl × wl denotes the
+spatial size.
+Overall Framework
+As shown in Fig.2 (a), DAUPNet realizes uncertainty-aware
+prototype discrimination as a sequential reliability chain
+comprising HDH, PPR, and VACL. The support image Is
+and query image Iq are first fed into a shared encoder to
+extract multi-level features:
+F l
+sl ∈L = E(Is),
+F l
+ql ∈L = E(Iq)
+(3)
+A Channel Reduce module projects features from different
+backbone stages into a unified feature space:
+Zl
+b = CRl(F l
+b),
+b ∈s, q, l ∈L
+(4)
+HDH then coordinates the support and query features
+across hierarchical levels and outputs harmonized features:
+Hl
+sl ∈L,
+Hl
+ql ∈L
+(5)
+Based on the support harmonized features and the support
+mask, PPR estimates foreground and background probabilis-
+tic prototypes:
+(µfg, σfg),
+(µbg, σbg)
+(6)
+Here, µ denotes the prototype mean, while σ is a
+variance-derived estimate of prototype uncertainty. The fore-
+ground/background prototype means are matched with the
+deepest query feature Hld
+q
+to obtain a low-resolution pre-
+diction P (0)
+q
+. The decoder then fuses this prediction with
+multi-level query features and progressively upsamples the
+result:
+ˆ
+Mq = Decoder(P (0)
+q
+, Hl
+ql ∈L)
+(7)
+During training, the segmentation loss is computed using
+the query mask Mq, and VACL uses the variance-derived un-
+certainty estimated by PPR to impose a reliability-weighted
+contrastive constraint on batch-level probabilistic prototypes.
+During inference, only prototype matching and decoding are
+performed, so the contrastive optimization introduces no ad-
+ditional inference branch.
+Hierarchical Domain-Aware Harmonization
+Module
+HDH is the first stage of the reliability chain. It reduces shal-
+low texture noise, deep semantic compression, and support-
+query feature shift before prototype statistics are computed.
+Given the channel-reduced features Zl
+s and Zl
+q, HDH out-
+puts harmonized features Hl
+s and Hl
+q. Rather than directly
+performing segmentation, HDH stabilizes the multi-level ev-
+idence from which PPR estimates prototype means and un-
+certainty.
+As shown in Fig.2 (c), HDH follows a hierarchical coordi-
+nation process consisting of intra-level processing, residual
+gating, bottom-up fusion, support-query channel recalibra-
+tion, and top-down semantic feedback. Shallow levels focus
+
+
+on local texture and boundary information, while deeper lev-
+els emphasize structural semantics. A residual gate controls
+the balance between the original reduced feature and the
+intra-level refined feature:
+αl = Sigmoid(gl),
+Bl,0
+b
+= αlZl
+b + (1 −αl) eZl
+b
+(8)
+The bottom-up path transfers boundary and texture infor-
+mation from shallower levels to deeper levels. For the current
+level l, the preceding shallower output is downsampled to the
+same spatial size and denoted as Dlp
+b . The fused feature is
+computed as
+Bl
+b = Dropout
+
+Bl,0
+b
++ wl ⊙(Dlp
+b −Bl,0
+b )
+
+(9)
+On the deepest level, Adaptive Channel Recalibration
+(ACR) estimates a shared channel weight from the support
+and query branches and applies it to both branches:
+Cld
+s = Bld
+s ⊙wacr,
+Cld
+q = Bld
+q ⊙wacr
+(10)
+Finally, top-down refinement injects high-level semantic
+information into shallower levels:
+Hl
+b = Bl
+b + β · Dropout(Up(Hlh
+b ))
+(11)
+Through these operations, HDH jointly improves bound-
+ary preservation, semantic consistency, and support-query
+alignment. The support features Hl
+s are used for probabilistic
+prototype estimation, the deepest query feature Hld
+q is used
+for prototype matching, and the multi-level query features
+Hl
+q are used by the decoder for spatial recovery.
+Probabilistic Prototype Representation Module
+As shown in Fig.2 (b), PPR is the second stage of the re-
+liability chain. It converts the harmonized support evidence
+into probabilistic foreground/background prototypes through
+mask resizing, level-wise statistics, and fusion of the two
+deepest features. Unlike a deterministic prototype, each dis-
+tribution retains both a class center and an explicit estimate
+of its uncertainty. Given the support HDH features Hl
+sl∈L
+and the support mask Ms, the mask is first resized to each
+feature level, yielding M l
+s. The background mask is defined
+as
+M l
+bg = 1 −M l
+s
+(12)
+The foreground and background pixel numbers are
+nl
+fg =
+X
+x
+M l
+s(x),
+nl
+bg =
+X
+x
+M l
+bg(x)
+(13)
+where both values are clamped in the implementation to
+avoid division by zero. The foreground and background pro-
+totype means are computed as
+µl
+fg =
+P
+x Hl
+s(x)M l
+s(x)
+nl
+fg
+,
+µl
+bg =
+P
+x Hl
+s(x)M l
+bg(x)
+nl
+bg
+(14)
+To quantify the uncertainty concealed by a point prototype,
+PPR computes foreground and background feature variances:
+vl
+fg =
+P
+x(Hl
+s(x) −µl
+fg)2M l
+s(x)
+nl
+fg
+,
+vl
+bg =
+P
+x(Hl
+s(x) −µl
+bg)2M l
+bg(x)
+nl
+bg
+(15)
+A variance correction layer maps these dispersion statistics
+into nonnegative prototype uncertainty estimates:
+σl
+fg = Softplus(Linear(vl
+fg)),
+σl
+bg = Softplus(Linear(vl
+bg))
+(16)
+When multiple feature levels are available, PPR fuses the
+deepest and second-deepest levels to balance semantic ab-
+straction and spatial detail:
+µfg = 0.4µlsd
+fg +0.6µld
+fg,
+µbg = 0.4µlsd
+bg +0.6µld
+bg (17)
+Variance fusion adopts a reciprocal weighting form:
+σfg =
+2
+1
+σ
+lsd
+fg +ε +
+1
+σ
+ld
+fg+ε
+,
+σbg =
+2
+1
+σ
+lsd
+bg +ε +
+1
+σ
+ld
+bg+ε
+(18)
+Thus, PPR produces the foreground prototype (µfg, σfg)
+and background prototype (µbg, σbg). The means are used
+for query matching, while both the means and their variance-
+derived uncertainty estimates are passed to VACL, connect-
+ing probabilistic representation directly to reliability-aware
+optimization. In the K-shot setting, prototypes are first ex-
+tracted from each support sample and then averaged to obtain
+episode-level probabilistic prototypes.
+Given the deepest query feature Hld
+q , prototype matching
+normalizes the query feature and prototype means:
+¯Hqld = Norm(Hld
+q ),
+¯µfg = Norm(µfg),
+¯µbg = Norm(µbg)
+(19)
+The foreground and background similarities are computed
+as
+sfg(x) = ¯Hqld(x)⊤¯µfg, sbg(x) = ¯Hqld(x)⊤¯µbg
+(20)
+The low-resolution foreground probability is then obtained
+by softmax:
+P (0)
+q
+(x) = Softmax([sfg(x), sbg(x)])fg
+(21)
+The decoder fuses P (0)
+q
+with the multi-level query HDH
+features and upsamples the result to the original image size:
+ˆ
+Mq = Sigmoid(Conv 1 × 1(Up(Xlmin)))
+(22)
+This design preserves the discriminative semantics of pro-
+totype matching while using shallow query features to re-
+cover spatial boundaries.
+Variance-Aware Contrastive Learning Module
+As shown in Fig.3, VACL completes the reliability chain
+by converting the variance-derived uncertainty from PPR
+into optimization weights. It collects batch-level fore-
+ground/background probabilistic prototypes, normalizes
+their representations, and constructs intra-class attraction
+and cross-class separation losses. Prototypes with lower es-
+timated uncertainty contribute more strongly to class ag-
+gregation and foreground-background separation, whereas
+
+
+Figure 3: Variance-Aware Contrastive Learning (VACL) for
+reliability-guided prototype discrimination.
+unreliable comparisons are prevented from dominating the
+decision margin (Khosla et al. 2020). Within a batch, fore-
+ground and background prototype means are concatenated
+as
+Vfg = Concat(µ(1)
+fg , . . . , µ(N)
+fg ),
+Vbg = Concat(µ(1)
+bg , . . . , µ(N)
+bg )
+(23)
+with corresponding uncertainty estimates
+Sfg = Concat(σ(1)
+fg , . . . , σ(N)
+fg ),
+Sbg = Concat(σ(1)
+bg , . . . , σ(N)
+bg )
+(24)
+The reliability weight of each prototype is generated from
+its average uncertainty:
+ω(i)
+fg =
+1
+1 + mean(S(i)
+fg )
+, ω(i)
+bg =
+1
+1 + mean(S(i)
+bg )
+(25)
+After L2 normalization, the cross-class similarity is com-
+puted as
+Across = Norm(Vfg) Norm(Vbg)⊤
+(26)
+The cross-class separation term is defined as
+Lneg = mean
+
+(ωfgω⊤
+bg) ⊙exp(Across)
+
+(27)
+For intra-class attraction, VACL forms foreground-
+foreground and background-background prototype pairs
+within each batch. Pairs with lower similarity receive higher
+rank-based attention, summarized as
+Lposfg = mean
+h
+ωfgij exp(−γrij
+fg)(1 −Aij
+fg)
+i
+,
+Lposbg = mean
+h
+ωbgij exp(−γrij
+bg)(1 −Aij
+bg)
+i
+(28)
+The final VACL loss is
+Lvacl = Lneg + 1
+2(Lposfg + Lposbg)
+(29)
+If the batch contains no valid positive pairs, VACL returns
+a zero loss.
+Loss Computation
+During training, binary cross-entropy is used as the main
+segmentation loss:
+Lseg = BCE( ˆ
+Mq, Mq)
+(30)
+The total loss combines segmentation supervision with the
+auxiliary VACL constraint:
+Ltotal = Lseg + λvaclLvacl
+(31)
+Here, λvacl corresponds to ‘contrast_weight‘ in the im-
+plementation. Lseg enforces pixel-level consistency, while
+Lvacl regularizes foreground/background relations accord-
+ing to variance-derived prototype uncertainty. VACL is used
+during training or fine-tuning but is disabled during infer-
+ence.
+Experiments and Result Analysis
+Datasets and Evaluation Metrics
+We evaluate DAUPNet under the standard CD-FSS proto-
+col. The model is trained on PASCAL VOC 2012(Ever-
+ingham et al. 2010) with SBD extended annotations as the
+source domain and evaluated on four unseen target domains:
+DeepGlobe (Demir et al. 2018), ISIC2018 (Codella et al.
+2019), Chest X-ray (Wang et al. 2017), and FSS-1000 (Li
+et al. 2020). These domains provide comprehensive cover-
+age of imaging modalities, object structures, and foreground-
+background ratios under substantial domain shifts.
+We adopt both 1-way 1-shot and 1-way 5-shot settings.
+Each episode contains a support set with annotations and a
+query image; the model predicts the target region conditioned
+on the support.
+Evaluation settings follow existing CD-FSS benchmarks:
+DeepGlobe uses 400×400 inputs with 1200 episodes;
+ISIC2018 uses 416×416 inputs; Chest X-ray and FSS-1000
+use 400×400 inputs with 600 episodes each. These datasets
+cover remote sensing textures and elongated structures, weak
+lesion boundaries, grayscale medical structures, and long-
+tailed shape variations.
+Implementation Details
+DAUPNet adopts an ImageNet pretrained ResNet-50 (He
+et al. 2015) encoder. Experiments are conducted on two
+NVIDIA RTX 3090 24GB GPUs with Python 3.9.25, Py-
+Torch 2.5.1, and CUDA 12.1. Source-domain episodic train-
+ing is performed on PASCAL VOC 2012 + SBD (Hariharan
+et al. 2011) using Adam with batch size 4, 20 epochs, and
+learning rate 1×10−3 (Vinyals et al. 2016). For target-domain
+fine-tuning, the source checkpoint is optimized for 40 epochs
+using Adam, with learning rates of 5×10−4 for non-encoder
+parameters and 5 × 10−5 for the encoder. CosineAnneal-
+ingLR and weight decay of 5 × 10−4 are adopted.
+For fair comparison, all baselines, ablation variants, and
+the full model share identical splits, input sizes, episode num-
+bers, and evaluation protocols within each target domain.
+Training augmentations include flipping, rotation, grid shuf-
+fle, brightness/contrast adjustment, and HSV jitter.
+
+
+Method
+Venue
+Backbone
+DeepGlobe
+ISIC
+Chest X-ray
+FSS
+Mean
+1-shot
+5-shot
+1-shot
+5-shot
+1-shot
+5-shot
+1-shot
+5-shot
+1-shot
+5-shot
+SSP
+ECCV-22
+ResNet-50
+40.0
+48.7
+35.5
+45.9
+74.4
+74.3
+78.9
+80.6
+57.2
+62.4
+PerSAM(Zhang et al. 2024)
+ICLR-24
+ViT-base
+36.1
+40.7
+23.3
+25.3
+30.0
+30.1
+60.9
+66.5
+37.6
+40.6
+PATNet
+ECCV-22
+ResNet-50
+37.9
+43.0
+41.2
+53.6
+66.6
+70.2
+78.6
+81.2
+56.1
+62.0
+APM
+NeurIPS-24
+ResNet-50
+40.9
+44.9
+41.7
+51.2
+78.3
+82.8
+79.3
+81.8
+60.0
+65.2
+ABCDFSS
+CVPR-24
+ResNet-50
+42.6
+49.0
+45.7
+53.3
+79.8
+81.4
+74.6
+76.2
+60.7
+65.0
+DRA
+CVPR-24
+ResNet-50
+41.3
+50.1
+40.8
+48.9
+82.4
+82.3
+79.1
+80.4
+60.9
+65.4
+APSeg(He et al. 2024)
+CVPR-24
+ViT-base
+35.9
+40.0
+45.4
+54.0
+84.1
+84.5
+79.7
+81.9
+61.3
+65.1
+LoEC
+CVPR-25
+ResNet-50
+44.1
+49.7
+38.2
+47.0
+81.0
+82.7
+78.5
+80.6
+60.5
+65.0
+SDRC
+ICML-25
+ViT-base
+43.2
+46.8
+46.6
+55.0
+82.9
+84.8
+80.3
+82.6
+63.2
+67.3
+DFN(Tong et al. 2025)
+ICML-25
+ResNet-50
+45.7
+48.0
+36.3
+51.1
+85.2
+90.3
+80.7
+85.8
+62.0
+68.8
+DFN
+ICML-25
+ViT-base
+39.5
+47.7
+50.4
+58.5
+83.2
+87.1
+83.0
+85.7
+64.0
+69.8
+IFA
+CVPR-24
+ResNet-50
+50.6
+58.8
+66.3
+69.8
+74.0
+74.6
+80.1
+82.4
+67.8
+71.4
+HSL
+AAAI-26
+ResNet-50
+46.1
+53.8
+48.0
+55.6
+84.6
+85.3
+78.2
+80.4
+64.2
+68.8
+HSL
+AAAI-26
+ViT-base
+45.8
+54.6
+59.4
+64.6
+86.0
+86.3
+81.9
+83.8
+68.2
+72.3
+DAUPNet
+Ours
+ResNet-50
+45.8
+49.7
+73.0
+82.7
+91.3
+91.9
+80.1
+82.4
+72.6
+76.7
+Table 1: Comparison with state-of-the-art methods on four CD-FSS target domains under 1-shot / 5-shot mIoU (%)
+Figure 4: Qualitative comparison of support-guided predictions with GT contours and error maps.
+Comparison with Existing Methods
+Quantitative Comparison with SOTA Methods
+As
+shown in Table 1, DAUPNet achieves 72.6%/76.7% average
+mIoU with ResNet-50 in the 1-shot/5-shot settings, yield-
+ing average mIoU improvements of 4.8% and 5.3% over
+the strongest prior ResNet-50 results. More importantly, the
+dataset-wise pattern reveals how DAUPNet uses support ev-
+idence under different forms of domain shift. On ISIC, it
+surpasses the strongest same-backbone results by 6.7% and
+12.9% under the 1-shot and 5-shot settings, respectively,
+while its own performance increases from 73.0% to 82.7%.
+This 9.7% improvement indicates that multiple examples
+help PPR estimate a more stable distribution when lesion
+appearance and boundaries vary substantially. In contrast,
+Chest X-ray already reaches 91.3% with one support and
+improves by only 0.6% with five, suggesting that HDH and
+probabilistic prototypes can recover reliable correspondence
+from a single example when anatomical structure is regu-
+lar. The corresponding 1-to-5-shot mIoU improvements on
+DeepGlobe and FSS-1000 are 3.9% and 2.3%, respectively,
+indicating that additional annotations alone do not equally
+resolve texture- and shape-dominated variation. Taken to-
+gether, these results support the proposed reliability chain:
+DAUPNet converts available support evidence into calibrated
+prototype statistics, rather than deriving its gains merely from
+backbone capacity or a larger support set.
+Qualitative Prediction Comparison
+Fig.4 (a) shows that
+DAUPNet produces more compact, boundary-consistent
+masks than the baseline and competing methods. It sup-
+presses false positives in cluttered backgrounds, preserves
+bilateral structures in Chest X-ray, and follows weak lesion
+contours more closely in ISIC. Rather than attributing each
+visual pattern to an isolated module, these results illustrate
+the complete reliability chain: harmonized features provide
+coherent spatial evidence, probabilistic prototypes retain am-
+biguous foreground-background structure, and uncertainty-
+aware optimization yields a cleaner decision margin. The vi-
+sual behavior is consistent with the larger quantitative gains
+on the two medical domains. The error maps further show
+
+
+Exp.
+Setting
+HDH
+PPR
+VACL
+DeepGlobe
+ISIC
+Chest X-ray
+FSS
+Mean
+Delta
+1
+Baseline
+41.5
+68.6
+78.3
+74.4
+65.7
+0.0
+2
++HDH
+✓
+44.5
+70.1
+87.8
+76.3
+69.7
++4.0
+3
++HDH+PPR
+✓
+✓
+44.7
+71.4
+89.6
+77.1
+70.7
++5.0
+4
++HDH+PPR+VACL
+✓
+✓
+✓
+45.8
+73.0
+91.3
+80.1
+72.6
++6.9
+Table 2: Progressive ablation of DAUPNet modules under the 1-shot setting.
+λvacl DeepGlobe ISIC Chest X-ray FSS Mean ∆Mean
+0.000
+44.7
+71.4
+89.6
+77.1
+70.7
+0.0
+0.005
+45.5
+72.5
+90.5
+78.3
+71.7
++1.0
+0.010
+44.9
+71.5
+90.4
+77.6
+71.1
++0.4
+0.020
+45.8
+73.0
+91.3
+80.1
+72.6
++1.9
+0.050
+44.8
+70.7
+89.4
+77.5
+70.6
+-0.1
+Table 3: Sensitivity analysis of the VACL loss weight λvacl.
+Figure 5: Prediction Responses under Different VACL
+Weight Coefficients
+that these gains are not driven solely by larger foreground
+regions: the corrected pixels cluster around lesion contours
+and background distractors, where a small representation
+error can flip the foreground-background decision. This lo-
+calization of improvements links the visual evidence directly
+to the medical-domain advantage in Table 1.
+Ablation Study
+Table 2 validates the proposed reliability chain. HDH first
+raises the mean mIoU from 65.7% to 69.7%, showing that
+stabilizing hierarchical evidence is an effective foundation
+for prototype estimation. PPR then improves the mean to
+70.7% by augmenting the class center with an uncertainty
+estimate. Finally, VACL uses that estimate during optimiza-
+tion and reaches 72.6%, resulting in an overall improvement
+of 6.9% mIoU over the baseline. The domain-wise results are
+also consistent with this interpretation: HDH improves Chest
+X-ray by 9.5% mIoU; PPR further improves ISIC and Chest
+X-ray by 1.3% and 1.8% mIoU, respectively; and VACL
+contributes an additional 3.0% mIoU on the visually diverse
+FSS-1000 benchmark. The monotonic improvement is im-
+portant because PPR supplies the variance-derived uncer-
+tainty consumed by VACL; the ablation therefore supports
+a dependent pipeline rather than three interchangeable mod-
+ules.
+VACL Weight Sensitivity
+Table 3 shows that the uncertainty-aware constraint is most
+effective as a moderate regularizer. Increasing λvacl from 0
+to 0.020 raises the four-domain mean from 70.7% to 72.6%,
+whereas a weight of 0.050 reduces it to 70.6%. Excessive
+contrastive weighting can overemphasize episode-level pro-
+totype relations at the expense of pixel-wise supervision. We
+therefore use λvacl = 0.020 as the default.
+VACL Representation Visualization
+Fig.4 (b) provides a feature-space view of VACL. Compared
+with HDH+PPR, the full model produces more compact fore-
+ground clusters and less foreground/background overlap in
+target domains, indicating that variance-derived prototype
+uncertainty is translated into a more separable decision space.
+The response maps under different weights further agree with
+Fig. 5: λvacl = 0.02 strengthens foreground-background dis-
+crimination without allowing the auxiliary objective to over-
+whelm segmentation supervision.
+Conclusion
+This paper reframes CD-FSS as a problem of maintain-
+ing reliable prototype discrimination under domain shift.
+DAUPNet implements this idea as a coherent chain: HDH
+stabilizes the hierarchical evidence used to construct proto-
+types, PPR exposes residual foreground-background uncer-
+tainty through probabilistic representation, and VACL uses
+variance-derived uncertainty to prevent unreliable compar-
+isons from distorting the decision margin. Across four target
+domains, DAUPNet reaches 72.6%/76.7% average mIoU in
+the 1-shot/5-shot settings and improves the 1-shot baseline
+by 6.9% mIoU. Its strongest gains on weak-boundary and
+grayscale medical images demonstrate the practical value
+of uncertainty-aware prototype modeling, while the smaller
+gain on DeepGlobe indicates that global appearance align-
+ment remains important when boundary ambiguity is not the
+dominant error source. These findings establish prototype re-
+liability as a useful organizing principle for robust CD-FSS
+and motivate future work on jointly adapting uncertainty es-
+timation and global domain alignment.
+
+
+References
+Cao, L.; Guo, Y.; Yuan, Y.; and Jin, Q. 2024. Prototype
+as query for few shot semantic segmentation. Complex &
+Intelligent Systems, 10(5): 7265–7278.
+Chen, J.; Quan, R.; and Qin, J. 2024. Cross-Domain Few-
+Shot Semantic Segmentation via Doubly Matching Transfor-
+mation. arXiv:2405.15265.
+Codella, N.; Rotemberg, V.; Tschandl, P.; Celebi, M. E.;
+Dusza, S.; Gutman, D.; Helba, B.; Kalloo, A.; Liopyris,
+K.; Marchetti, M.; et al. 2019. Skin lesion analysis toward
+melanoma detection 2018: A challenge hosted by the inter-
+national skin imaging collaboration (isic). arXiv preprint
+arXiv:1902.03368.
+Demir, I.; Koperski, K.; Lindenbaum, D.; Pang, G.; Huang,
+J.; Basu, S.; Hughes, F.; Tuia, D.; and Raskar, R. 2018. Deep-
+globe 2018: A challenge to parse the earth through satellite
+images. In Proceedings of the IEEE conference on computer
+vision and pattern recognition workshops, 172–181.
+Everingham, M.; Van Gool, L.; Williams, C. K.; Winn, J.;
+and Zisserman, A. 2010. The pascal visual object classes
+(voc) challenge. International journal of computer vision,
+88(2): 303–338.
+Fan, Q.; Pei, W.; Tai, Y.-W.; and Tang, C.-K. 2022. Self-
+support Few-Shot Semantic Segmentation. In Avidan, S.;
+Brostow, G.; Cissé, M.; Farinella, G. M.; and Hassner,
+T., eds., Computer Vision – ECCV 2022, 701–719. Cham:
+Springer Nature Switzerland. ISBN 978-3-031-19800-7.
+Gao, R.; He, C.; and Liu, M. 2026. TraffiPrompt: Network-
+aware multimodal prompt learning with motion-aware tem-
+poral modeling for driving video anomaly detection. Inter-
+national Journal of Intelligent Networks.
+Hariharan, B.; Arbelaez, P.; Bourdev, L.; Maji, S.; and Malik,
+J. 2011. Semantic contours from inverse detectors. In Pro-
+ceedings of the 2011 International Conference on Computer
+Vision, ICCV ’11, 991–998. USA: IEEE Computer Society.
+ISBN 9781457711015.
+He, K.; Zhang, X.; Ren, S.; and Sun, J. 2015. Deep Residual
+Learning for Image Recognition. 2016 IEEE Conference on
+Computer Vision and Pattern Recognition (CVPR), 770–778.
+He, W.; Zhang, Y.; Zhuo, W.; Shen, L.; Yang, J.; Deng,
+S.; and Sun, L. 2024. APSeg: Auto-Prompt Network for
+Cross-Domain Few-Shot Semantic Segmentation. In 2024
+IEEE/CVF Conference on Computer Vision and Pattern
+Recognition (CVPR), 23762–23772.
+Herzog, J. 2024. Adapt Before Comparison: A New Per-
+spective on Cross-Domain Few-Shot Segmentation. 2024
+IEEE/CVF Conference on Computer Vision and Pattern
+Recognition (CVPR), 23605–23615.
+Khosla, P.; Teterwak, P.; Wang, C.; Sarna, A.; Tian, Y.; Isola,
+P.; Maschinot, A.; Liu, C.; and Krishnan, D. 2020. Super-
+vised Contrastive Learning. In Larochelle, H.; Ranzato, M.;
+Hadsell, R.; Balcan, M.; and Lin, H., eds., Advances in Neural
+Information Processing Systems, volume 33, 18661–18673.
+Curran Associates, Inc.
+Lang, C.; Cheng, G.; Tu, B.; and Han, J. 2024. Few-shot
+segmentation via divide-and-conquer proxies. International
+Journal of Computer Vision, 132(1): 261–283.
+Lei, S.; Zhang, X.; He, J.; Chen, F.; Du, B.; and Lu, C.-T.
+2022. Cross-Domain Few-Shot Semantic Segmentation. In
+Avidan, S.; Brostow, G.; Cissé, M.; Farinella, G. M.; and Has-
+sner, T., eds., Computer Vision – ECCV 2022, 73–90. Cham:
+Springer Nature Switzerland. ISBN 978-3-031-20056-4.
+Li, X.; Wei, T.; Chen, Y. P.; Tai, Y.-W.; and Tang, C.-K. 2020.
+Fss-1000: A 1000-class dataset for few-shot segmentation.
+In Proceedings of the IEEE/CVF conference on computer
+vision and pattern recognition, 2869–2878.
+Liu, L.; Hasikin, K.; Xia, K.; and Lai, K. W. 2026. Robust
+Few-Shot segmentation for multi-modal medical images us-
+ing Fourier-Guided style fusion and prototype alignment.
+Biomedical Signal Processing and Control, 113: 108986.
+Liu, Y.; Zou, Y.; Li, Y.; and Li, R. 2025. The Devil is in Low-
+Level Features for Cross-Domain Few-Shot Segmentation. In
+2025 IEEE/CVF Conference on Computer Vision and Pattern
+Recognition (CVPR), 4618–4627.
+Min, J.; Kang, D.; and Cho, M. 2021.
+Hypercorrelation
+Squeeze for Few-Shot Segmenation. 2021 IEEE/CVF In-
+ternational Conference on Computer Vision (ICCV), 6921–
+6932.
+Nie, J.; Xing, Y.; Zhang, G.; Yan, P.; Xiao, A.; Tan, Y.-
+P.; Kot, A. C.; and Lu, S. 2024. Cross-Domain Few-Shot
+Segmentation via Iterative Support-Query Correspondence
+Mining. In 2024 IEEE/CVF Conference on Computer Vision
+and Pattern Recognition (CVPR), 3380–3390.
+Peng, B.; Tian, Z.; Wu, X.; Wang, C.; Liu, S.; Su, J.; and
+Jia, J. 2023. Hierarchical Dense Correlation Distillation for
+Few-Shot Segmentation.
+2023 IEEE/CVF Conference on
+Computer Vision and Pattern Recognition (CVPR), 23641–
+23651.
+Su, J.; Fan, Q.; Pei, W.; Lu, G.; and Chen, F. 2024. Domain-
+Rectifying Adapter for Cross-Domain Few-Shot Segmen-
+tation.
+In Proceedings of the IEEE/CVF Conference on
+Computer Vision and Pattern Recognition (CVPR), 24036–
+24045.
+Sun, S.; Gu, H.; Xie, C.; Ren, Y.; Ren, M.; and Zhang, H.
+2026.
+Bridging Granularity Gaps: Hierarchical Semantic
+Learning for Cross-domain Few-shot Segmentation. In Pro-
+ceedings of the AAAI Conference on Artificial Intelligence,
+volume 40, 9215–9223.
+Tong, J.; Ma, R.; Zou, Y.; Chen, G.; Li, Y.; and Li, R. 2025.
+Adapter Naturally Serves as Decoupler for Cross-Domain
+Few-Shot Semantic Segmentation. In Forty-second Interna-
+tional Conference on Machine Learning.
+Tong, J.; Zou, Y.; Li, Y.; and Li, R. 2024. Lightweight Fre-
+quency Masker for Cross-Domain Few-Shot Semantic Seg-
+mentation. In Globerson, A.; Mackey, L.; Belgrave, D.; Fan,
+A.; Paquet, U.; Tomczak, J.; and Zhang, C., eds., Advances in
+Neural Information Processing Systems, volume 37, 96728–
+96749. Curran Associates, Inc.
+Vinyals, O.; Blundell, C.; Lillicrap, T.; Kavukcuoglu, K.;
+and Wierstra, D. 2016.
+Matching networks for one shot
+learning. In Proceedings of the 30th International Confer-
+ence on Neural Information Processing Systems, NIPS’16,
+3637–3645. Red Hook, NY, USA: Curran Associates Inc.
+ISBN 9781510838819.
+
+
+Wang, K.; Liew, J. H.; Zou, Y.; Zhou, D.; and Feng, J. 2019.
+PANet: Few-Shot Image Semantic Segmentation With Pro-
+totype Alignment. In Proceedings of the IEEE/CVF Inter-
+national Conference on Computer Vision (ICCV).
+Wang, X.; Peng, Y.; Lu, L.; Lu, Z.; Bagheri, M.; and Sum-
+mers, R. M. 2017. Chestx-ray8: Hospital-scale chest x-ray
+database and benchmarks on weakly-supervised classifica-
+tion and localization of common thorax diseases. In Pro-
+ceedings of the IEEE conference on computer vision and
+pattern recognition, 2097–2106.
+Zhang, R.; Jiang, Z.; Guo, Z.; Yan, S.; Pan, J.; Dong, H.;
+Qiao, Y.; Gao, P.; and Li, H. 2024. Personalize Segment
+Anything Model with One Shot. In The Twelfth International
+Conference on Learning Representations.
+
+
+Appendix
+Figure 1: (a) Hierarchical response comparison before and
+after HDH; (b) Support-query hierarchical cross-similarity
+matrix before and after HDH.
+HDH Mechanism Visualization
+To further examine how Hierarchical Domain-Aware Harmo-
+nization (HDH) reorganizes multi-level features before pro-
+totype computation, we visualize the hierarchical responses
+and support-query cross-similarity of a representative FSS-
+1000 episode.
+As shown in Fig.1(a), we compare the query-branch hi-
+erarchical responses before and after HDH, together with
+the support sample, query image, ground-truth mask, final
+prediction, and error map. Before HDH, responses across
+different levels are not fully aligned: shallow or mid-level
+features may retain local texture activations, while deep-level
+responses are semantically stronger but spatially coarser. Af-
+ter HDH, activations concentrate more on the target region
+and are less affected by scattered background textures, in-
+dicating that the hierarchical coordination path reorganizes
+multi-level features rather than simply amplifying response
+magnitudes.
+As shown in Fig.1(b), we further visualize the support-
+query hierarchical cross-similarity matrix for the same
+episode. Each cell represents the cosine similarity between
+one support−layer feature and one query−layer feature, with
+rows denoting support layers and columns denoting query
+layers. The Before HDHand After HDH matrices show the
+support-query correspondence before and after hierarchical
+coordination, while the After −Before difference matrix re-
+veals per−cell changes introduced by HDH. Positive values
+in the difference matrix indicate enhanced matching between
+corresponding support/query layers, while negative values
+indicate suppressed or weakened matching. The clearer di-
+agonal structure and enhanced adjacent-layer alignment after
+Exp.
+Prototype Source
+Variance
+mIoU
+1
+Single deterministic
+78.5
+2
+Deepest-layer fg/bg
+78.1
+3
+Deepest-layer fg/bg
+✓
+80.0
+4
+Multi-level fg/bg
+77.7
+5
+Multi-level fg/bg
+✓
+77.7
+Table 1: Ablation results of PPR prototype modeling strate-
+gies.
+Figure 2: Hierarchical foreground/background prototype re-
+sponse reorganization of PPR.
+HDH confirm that semantically related layers achieve more
+stable support-query alignment. These results are consistent
+with Table 2 in the main text, where HDH raises the mean
+mIoU from 65.7 to 69.7, and provide the feature-level basis
+for subsequent PPR prototype statistics.
+PPR Prototype Modeling Ablation
+To determine which prototype statistics best describe sup-
+port samples, we conduct a controlled ablation of PPR pro-
+totype modeling strategies on FSS-1000, since this domain
+exhibits substantial variation in category morphology and
+foreground-background relationships, making it more sensi-
+tive to prototype quality.
+As shown in Table 1, we compare five configurations with
+distinct prototype sources and variance estimation strategies:
+simple deterministic prototype (Exp. 1), deepest-layer fore-
+ground/background prototypes without variance (Exp. 2),
+deepest-layer foreground/background prototypes with vari-
+ance (Exp. 3), multi-level foreground/background prototypes
+without variance (Exp. 4), and full PPR with multi-level pro-
+totypes and variance estimation (Exp. 5). This comparison is
+organized around two factors: prototype source granularity
+(single vs. deepest-layer vs. multi-level) and whether vari-
+ance estimation is incorporated. Since variance estimation
+depends on foreground/background prototype statistics, not
+
+
+Exp.
+Setting
+Representation Path
+VACL Input
+Four-Domain Mean
+1
+Baseline
+baseline feature
+no VACL
+65.7
+2
+Baseline + VACL
+baseline feature
+deterministic prototypes
+76.0
+3
+HDH + VACL w/o PPR
+HDH feature
+HDH deterministic prototypes
+76.0
+4
+HDH + PPR + VACL
+HDH + PPR feature
+PPR probabilistic prototypes and variances
+72.6
+Table 2: Diagnostic results on the dependency between PPR and VACL.
+Exp.
+Setting
+Variance Weight
+Rank Weight
+FG-BG Separation
+FG Attraction
+BG Attraction
+mIoU
+1
+w/o VACL
+77.7
+2
+Standard contrastive
+✓
+✓
+✓
+75.9
+3
+Variance-aware contrastive ✓
+✓
+✓
+✓
+✓
+78.7
+4
+Negative only
+✓
+✓
+✓
+76.7
+5
+Positive only
+✓
+✓
+✓
+✓
+75.1
+6
+FG positive + negative
+✓
+✓
+✓
+✓
+78.1
+Table 3: Ablation results of VACL components and loss terms.
+all column combinations are semantically meaningful.
+As shown in Table 1, the benefit of PPR primarily stems
+from changes in prototype statistics. Exp. 3 achieves the
+best result in this group (80.0), demonstrating that variance
+estimation provides necessary reliability modeling for pro-
+totypes. Exp. 4 and Exp. 5 further indicate that multi-level
+information requires coordination with hierarchical consis-
+tency and reliability modulation; otherwise, cross-level se-
+mantic discrepancies can dilute prototype quality. These
+results confirm that PPR is not simply introducing multi-
+level features, but rather constructing more reliable support-
+sample descriptions through foreground/background means
+and variances.
+As shown in Fig.2, we decompose the PPR prototype mod-
+eling process into interpretable intermediate states on the
+same FSS-1000 episode. The figure sequentially presents:
+the support sample, query image with ground-truth mask,
+L4/L5 foreground responses, L4/L5 background responses,
+PPR-fused foreground response, PPR-fused background re-
+sponse, foreground/background uncertainty regions, and the
+error map from the HDH+PPR checkpoint. L4 responses
+better preserve edges, local textures, and fine-grained shape
+information, while L5 responses emphasize semantic tar-
+gets but are spatially coarser. Consequently, single-level pro-
+totypes struggle to simultaneously capture target localiza-
+tion and boundary recovery. After PPR reorganizes multi-
+level foreground/background statistics into probabilistic pro-
+totypes, the fused foreground response indicates whether tar-
+get regions are stably activated, and the fused background
+response reveals whether non-target regions and distracting
+textures are effectively suppressed. The foreground/back-
+ground uncertainty map is constructed from the normal-
+ized difference between fused foreground and background
+responses: when the two responses are close, uncertainty is
+higher, typically concentrated around target boundaries, sim-
+ilar textures, and regions with strong foreground/background
+competition. The final PPR/Error map uses predictions from
+the HDH+PPR checkpoint (without VACL) to directly reveal
+residual false positives and false negatives after PPR pro-
+totype modeling. This visualization demonstrates that PPR
+does not merely enhance foreground heatmaps, but explic-
+itly characterizes the competitive relationship between tar-
+gets and backgrounds through paired foreground/background
+probabilistic prototypes, converting prototype uncertainty
+into observable boundary and confusion regions.
+PPR-VACL Dependency Diagnostic
+To verify whether the probabilistic prototypes and variance
+estimates provided by PPR effectively support VACL, we
+conduct a diagnostic experiment with two types of controls:
+first, adding VACL without full PPR to test whether the con-
+trastive constraint has independent effects; second, compar-
+ing deterministic prototypes against PPR probabilistic pro-
+totypes to determine whether variance estimation provides
+more reliable weighting for VACL.
+As shown in Table 2, the configurations are organized by
+the input source to VACL, focusing on how different proto-
+type statistics support contrastive constraints.
+As shown in Table 2, adding VACL under deterministic
+prototype conditions also improves performance, indicating
+that VACL does not require full PPR to take effect. Both Base-
+line+VACL and HDH+VACL w/o PPR outperform Base-
+line, confirming that foreground/background contrastive con-
+straints inherently enhance feature discriminability. The full
+HDH+PPR+VACL configuration further introduces proba-
+bilistic prototypes and variance estimates from PPR, provid-
+ing a reliability-aware basis for contrastive weighting. These
+results demonstrate that PPR not only provides probabilis-
+tic prototype representations, but also supplies reliability-
+stratified inputs to VACL, enabling contrastive learning to
+weight samples according to prototype reliability.
+VACL Component Ablation
+To further verify the necessity of VACL’s internal design,
+we conduct component ablation around variance weighting,
+rank weighting, and distinct contrastive terms.
+
+
+Figure 3: (a) Prediction comparison for VACL component ablation; (b) VACL reliability relation matrices (FG-FG similarity,
+FG reliability weight, FG-BG similarity, cross-class reliability weight); (c) Foreground/background separation metrics (support
+prototype distance, query feature-center distance, query pixel-prototype margin).
+As shown in Table 3, we compare six configurations orga-
+nized from two perspectives: first, comparing standard con-
+trastive learning against variance-aware contrastive learn-
+ing to determine whether the gains stem from variance-
+aware weighting; second, decomposing VACL loss terms
+into foreground-background separation, foreground intra-
+class attraction, and background intra-class attraction to an-
+alyze the contributions of different contrastive relations. All
+experiments are conducted on FSS-1000.
+As shown in Table 3, we compare six configurations orga-
+nized from two perspectives: first, comparing standard con-
+trastive learning against variance-aware contrastive learn-
+ing to determine whether the gains stem from variance-
+aware weighting; second, decomposing VACL loss terms
+into foreground-background separation, foreground intra-
+class attraction, and background intra-class attraction to an-
+alyze the contributions of different contrastive relations. All
+experiments are conducted on FSS-1000.
+As shown in Fig.3, the VACL analysis is organized across
+four dimensions: component ablation, weight response, re-
+liability relations, and feature separation. Fig.3(a) compares
+w/o VACL, standard contrastive, negative only, positive only,
+FG positive + negative, and full VACL on the same episode
+using high-contrast error maps to observe how pixel-level
+errors migrate after introducing different loss terms. Green,
+red, and blue respectively indicate regions where predictions
+align with, overshoot, or undershoot the ground truth, en-
+abling analysis of VACL’s impact on boundaries, background
+suppression, and foreground coverage. Fig.3(b) characterizes
+the weighting basis of VACL through inter-episode prototype
+similarity and reliability weights, including FG-FG similar-
+ity (cosine similarity between foreground prototypes across
+episodes), FG reliability weight (pairwise combinations of
+foreground prototype reliability weights), FG-BG similar-
+
+
+Target Domain MMD Distance Baseline DAUPNet △mIoU
+DeepGlobe
+1.2
+41.5
+45.8
+4.3
+ISIC
+0.6
+68.6
+73.0
+4.4
+Chest X-ray
+0.8
+78.3
+91.3
+13.0
+FSS-1000
+0.9
+74.4
+80.1
+5.7
+Table 4: MMD distance from the source domain to target
+domains and 1-shot performance.
+ity (cross-class similarity between foreground and back-
+ground prototypes), and cross-class reliability weight (com-
+bined weighting strength of foreground and background reli-
+ability). Fig.3(c) quantifies changes in the foreground/back-
+ground representation structure by comparing support pro-
+totype distance, query feature-center distance, and query
+pixel-prototype margin with VACL disabled versus enabled
+(λvacl = 0.02) across all four target domains.
+Domain Distance and Target-Domain Performance
+To further analyze the degree of domain shift across differ-
+ent target domains, we extract image features from the source
+domain (PASCAL VOC) and four target domains, and adopt
+RBF-kernel MMD with L2 normalization as the domain-
+distance metric. This analysis does not participate in model
+training; rather, it serves as a target-domain difficulty assess-
+ment: larger MMD distances indicate greater discrepancies
+between target and source feature distributions, under which
+models are typically more susceptible to background tex-
+ture variations, imaging modality shifts, or object structure
+changes.
+Specifically, given source-domain feature set X = {xi}
+and target-domain feature set Y = {yj}, we compute
+MMD2(X, Y ) = 1
+n2
+X
+i,i′
+k(xi, xi′) + 1
+m2
+X
+j,j′
+k(yj, yj′)
+−2
+nm
+X
+i,j
+k(xi, yj),
+(1)
+where k(a, b) = exp
+ −∥a −b∥2
+2/2σ2
+is the RBF kernel.
+In our implementation, features are first L2-normalized; the
+median of pairwise Euclidean distances between source and
+target feature subsets is used as the RBF bandwidth σ; the
+final MMD distance reported in Table 4-11 is the square root
+of the non-negative MMD2. We note that MMD values
+depend on four factors: the feature extractor and selected
+feature layer, the sample size and category composition of
+source and target sets, feature normalization, and the RBF
+kernel bandwidth. Therefore, the MMD values in Table 4
+serve only for relative comparison of domain shifts across the
+four target domains under the same extractor, normalization,
+and kernel settings, and should not be directly compared
+with MMD values computed under different configurations
+in other works.
+As shown in Table 4, DeepGlobe exhibits the largest
+MMD distance from the source domain, and its segmenta-
+Method
+Input Size
+Params
+FLOPs
+FPS
+Memory
+Baseline
+416
+28.101M
+48.003G
+33.3
+322.37 MB
+DAUPNet
+416
+28.578M
+50.313G
+21.7
+360.76 MB
+Baseline
+400
+28.101M
+44.765G
+38.7
+306.51 MB
+DAUPNet
+400
+28.578M
+46.903G
+28.8
+341.89 MB
+Table 5: Comparison of parameters, computation, and infer-
+ence speed.
+tion performance is substantially lower than other target do-
+mains, indicating that aerial imaging viewpoints, extensive
+background textures, and elongated road structures collec-
+tively create strong domain shift. ISIC has a relatively small
+MMD distance, yet lesion boundaries and low-contrast re-
+gions still impose domain-specific medical challenges. FSS-
+1000 lies in the intermediate MMD range, where DAUPNet
+achieves a notable gain over the baseline, suggesting that
+the full model compensates for morphological variations in
+natural long-tailed categories. Chest X-ray does not have the
+smallest MMD distance, but its target structures are rela-
+tively stable and it benefits substantially from the complete
+modeling chain, yielding the highest mIoU among the four
+target domains.
+Parameter Count, Computation, and Inference
+Efficiency
+Beyond segmentation accuracy, we further quantify the pa-
+rameter count, computational cost, inference speed, and
+memory usage of DAUPNet relative to the baseline. This
+analysis evaluates whether the HDH, PPR, and VACL struc-
+tures introduce unacceptable computational overhead.
+As shown in Table 5, compared to the baseline, DAUPNet
+introduces only approximately 0.477M additional parame-
+ters, corresponding to a roughly 1.7% parameter increase.
+Under input sizes of 416 and 400, DAUPNet adds approxi-
+mately 2.31G and 2.14G FLOPs, with memory usage increas-
+ing by approximately 38.39 MB and 35.38 MB, respectively.
+Inference speed decreases, indicating that hierarchical fusion
+and prototype inference introduce additional runtime over-
+head. Nevertheless, in terms of parameter count and memory
+usage, the complete model remains relatively lightweight.
+Limitations Analysis
+First, the 5-shot results on DeepGlobe fall below some re-
+cent methods, indicating that in remote sensing imagery,
+large-scale repetitive textures and complex backgrounds can
+still induce spuriously high-confidence predictions. This typ-
+ically manifests as background confusion and boundary ex-
+pansion, where the model misclassifies background regions
+with textures similar to the target as foreground.
+Second, small objects, elongated structures, and partial
+occlusions in FSS-1000 increase the difficulty of prototype
+estimation. When the target region in the support sample is
+small, or when query-image targets exhibit substantial scale
+variation, the model may produce missed detections for small
+objects or under-segmentation of structural regions. This ob-
+servation is consistent with Table 4-7, where multi-level pro-
+
+
+totypes did not show a stable advantage in the FSS single-
+domain diagnostic, suggesting that reliability conflicts persist
+between shallow details and high-level semantics.
+Third, boundary ambiguity and low-contrast regions re-
+main challenging in medical target domains such as ISIC
+and Chest X-ray. Although DAUPNet achieves high mIoU
+on medical domains, qualitative results indicate that the
+model may still produce boundary over-segmentation or lo-
+cal under-segmentation in regions with incomplete lesion
+edges or grayscale structural boundaries, suggesting room
+for improvement in boundary calibration.
+These observations indicate that the primary failure modes
+of DAUPNet are concentrated in four categories: small-
+object missed detection, boundary over-segmentation, back-
+ground confusion, and structural under-segmentation. Back-
+ground confusion is associated with the complex remote
+sensing textures of DeepGlobe; small-object missed detec-
+tion and structural under-segmentation relate to target scale
+and morphological variations in FSS-1000; and boundary
+over-segmentation more frequently occurs in weak-boundary
+medical images. These observations are consistent with the
+quantitative results and qualitative prediction figures pre-
+sented in the main text.

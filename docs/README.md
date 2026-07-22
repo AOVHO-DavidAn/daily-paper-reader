@@ -18,74 +18,61 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-21
-- 运行时间：2026-07-21 21:54:38 UTC
+- 最新运行日期：2026-07-22
+- 运行时间：2026-07-22 21:39:47 UTC
 - 运行状态：成功
-- 本次总论文数：18
-- 精读区：7
-- 速读区：11
+- 本次总论文数：13
+- 精读区：3
+- 速读区：10
 
 ### 今日简报（AI）
-今日收录18篇论文，精读7篇，两篇9分高光——医学图像分割与视觉语言导航取得突破性进展。最值得关注的方向：慢推理器与快规划器结合的动态导航，以及定位融合语义的文本引导分割。建议后续调研无需训练的测试时医学分割自适应方法，以及知识图谱如何帮助小模型提升推理能力。
-- 详情：[/202607/21/README](/202607/21/README)
+1. 今日精读聚焦CLIP在细粒度分类中的无标签区域评分与潜在空间几何，速读涵盖CLIP微调、小模型知识维度及多模态低秩微调。  
+2. 最值得看：CLIP无标签判别区域评分方法（9.0分）实现细粒度分类突破，以及CLIP潜在空间的超球面语义混合模型（8.0分）揭示几何结构。  
+3. 建议读者优先阅读精读论文，理解CLIP如何无需标注即可定位关键区域，再结合速读中的自标注对齐方法，可系统提升细粒度任务表现。
+- 详情：[/202607/22/README](/202607/22/README)
 
 ### 精读区论文标签
-1. [Localization-Infused Vision-Language Semantic Fusion for Text-Guided Medical Image Segmentation](/202607/21/2607.16327v1-localization-infused-vision-language-semantic-fusion-for-text-guided-medical-image-segmentation)  
+1. [CLIP-Guided Label-Free Discriminative Region Scoring for Fine-Grained Classification](/202607/22/2607.13437v1-clip-guided-label-free-discriminative-region-scoring-for-fine-grained-classification)  
    标签：评分：9.0/10、query:seg-llm
-   evidence：使用视觉语言融合和显式位置引导的文本驱动医学图像分割
-2. [Token-Wise Latent Streaming from Slow Reasoners to Fast Planners for Dynamic Vision Language Navigation](/202607/21/2607.16806v1-token-wise-latent-streaming-from-slow-reasoners-to-fast-planners-for-dynamic-vision-language-navigation)  
-   标签：评分：9.0/10、query:lr
-   evidence：将VLM的中间隐状态流式传输给规划器
-3. [Occlusion-Aware Panoptic Segmentation with Joint Position Embedding and Occlusion-Level Attention](/202607/21/2607.18112v1-occlusion-aware-panoptic-segmentation-with-joint-position-embedding-and-occlusion-level-attention)  
-   标签：评分：9.0/10、query:seg-llm
-   evidence：遮挡感知全景分割
-4. [Robust Multimodal Dynamic Object Segmentation](/202607/21/2607.18153v1-robust-multimodal-dynamic-object-segmentation)  
-   标签：评分：9.0/10、query:seg-llm
-   evidence：多模态动态目标分割
-5. [OS-Pruner: Pruning Chains-of-Thought of Reasoning Models via Optimal Stopping](/202607/21/2607.11089v1-os-pruner-pruning-chains-of-thought-of-reasoning-models-via-optimal-stopping)  
-   标签：评分：8.0/10、query:seg-llm
-   evidence：LLM推理链裁剪优化
-6. [SkyVLaM: Multimodal Large Language Model for UAV Video Understanding in Remote Sensing](/202607/21/2607.17386v1-skyvlam-multimodal-large-language-model-for-uav-video-understanding-in-remote-sensing)  
-   标签：评分：8.0/10、query:seg-llm
-   evidence：用多模态大模型进行无人机视频语言条件分割
-7. [Uncovering Latent Reasoning Strategies in Language Models](/202607/21/2607.17674v1-uncovering-latent-reasoning-strategies-in-language-models)  
+   evidence：使用CLIP和SAM进行基于分割的细粒度分类
+2. [The Hyperspherical Geometry of CLIP Latent Space: A Semantic Mixture Model](/202607/22/2607.13660v1-the-hyperspherical-geometry-of-clip-latent-space-a-semantic-mixture-model)  
    标签：评分：8.0/10、query:lr
-   evidence：通过隐变量分解揭示语言模型中的推理策略
+   evidence：使用von Mises-Fisher混合模型建模CLIP隐空间的超球面几何；直接研究多模态大模型隐空间
+3. [Debate-on-Graph: Reliable and Adaptive Reasoning of Large Language Model on Uncertain Knowledge Graph](/202607/22/2607.17266v1-debate-on-graph-reliable-and-adaptive-reasoning-of-large-language-model-on-uncertain-knowledge-graph)  
+   标签：评分：8.0/10、query:seg-llm
+   evidence：在不确定知识图谱上进行大语言模型推理
 
 ### 速读区论文标签
-1. [Memory-Supported Synergistic Adaptation for Training-Free Test-Time Medical Image Segmentation](/202607/21/2607.17693v1-memory-supported-synergistic-adaptation-for-training-free-test-time-medical-image-segmentation)  
-   标签：评分：8.0/10、query:seg-llm
-   evidence：无训练测试时医学图像分割与VLM自适应
-2. [SynCLIP: Synonym-Coherent Language-Image Pretraining for Robust Open-Vocabulary Dense Perception](/202607/21/2607.11008v1-synclip-synonym-coherent-language-image-pretraining-for-robust-open-vocabulary-dense-perception)  
+1. [Fine-grained CLIP fine-tuning with self-annotated region alignment](/202607/22/2607.13661v1-fine-grained-clip-fine-tuning-with-self-annotated-region-alignment)  
    标签：评分：7.0/10、query:seg-llm
-   evidence：解决开放词汇密集感知中的同义词不一致问题，包括分割任务
-3. [Enhancing Small Language Models Reasoning through Knowledge Graph Grounding](/202607/21/2607.14149v1-enhancing-small-language-models-reasoning-through-knowledge-graph-grounding)  
-   标签：评分：7.0/10、query:seg-llm
-   evidence：通过知识图谱增强小语言模型推理
-4. [HABIB_TAZ at SemEval-2026 Task 11: Disentangling Formal Logic from Content via Synthetic Training and Multi-Objective Optimization](/202607/21/2607.14349v1-habibtaz-at-semeval-2026-task-11-disentangling-formal-logic-from-content-via-synthetic-training-and-multi-objective-optimization)  
-   标签：评分：7.0/10、query:seg-llm
-   evidence：分离形式逻辑与内容提升LLM推理
-5. [From Modalities to Propositions: A Language-Centric Framework for Multimodal Intelligence](/202607/21/2607.16560v1-from-modalities-to-propositions-a-language-centric-framework-for-multimodal-intelligence)  
+   evidence：用于分割的细粒度区域对齐
+2. [The Anatomy of a Truth Direction: Knowledge-Dependent Dimensionality, a Relational Law, and a Convergent Category Geometry in Small Language Models](/202607/22/2607.16741v1-the-anatomy-of-a-truth-direction-knowledge-dependent-dimensionality-a-relational-law-and-a-convergent-category-geometry-in-small-language-models)  
    标签：评分：7.0/10、query:lr
-   evidence：提出一个共享语义空间用于多模态推理
-6. [Constraint-Anchored Reasoning Traces](/202607/21/2607.16727v1-constraint-anchored-reasoning-traces)  
-   标签：评分：7.0/10、query:seg-llm
-   evidence：用神经符号推理轨迹防止多模态大模型错误级联
-7. [MultiLoReFT: Decoupling Shared and Modality-Specific Subspaces in Multimodal Learning via Low-Rank Representation Fine-Tuning](/202607/21/2607.16789v1-multiloreft-decoupling-shared-and-modality-specific-subspaces-in-multimodal-learning-via-low-rank-representation-fine-tuning)  
+   evidence：小语言模型中真实方向的隐空间分析
+3. [MultiLoReFT: Decoupling Shared and Modality-Specific Subspaces in Multimodal Learning via Low-Rank Representation Fine-Tuning](/202607/22/2607.16789v1-multiloreft-decoupling-shared-and-modality-specific-subspaces-in-multimodal-learning-via-low-rank-representation-fine-tuning)  
    标签：评分：7.0/10、query:lr
-   evidence：在多模态学习中解耦共享和模态特定子空间
-8. [Beyond the Eye: Efficient Multimodal Reasoning via Self-Regulated Implicit Visual Tools](/202607/21/2607.11106v1-beyond-the-eye-efficient-multimodal-reasoning-via-self-regulated-implicit-visual-tools)  
+   evidence：多模态低秩表示解耦共享与模态特定子空间，支持多模态模型的隐空间推理
+4. [Selective State-Space Adaptation and Retrieval for Language Model Reasoning](/202607/22/2607.19326v1-selective-state-space-adaptation-and-retrieval-for-language-model-reasoning)  
+   标签：评分：7.0/10、query:seg-llm
+   evidence：状态空间适配器增强语言模型推理
+5. [SAGA: Schema-Aware Grounding for Agentic Text-to-SPARQL Generation](/202607/22/2607.14494v1-saga-schema-aware-grounding-for-agentic-text-to-sparql-generation)  
+   标签：评分：6.0/10、query:seg-llm
+   evidence：面向文本到SPARQL的智能体推理
+6. [MGDT: MLLM-Guided Diffusion Transformer with Relation-Adaptive Mixture-of-Experts for Multimodal Knowledge Graph Completion](/202607/22/2607.15592v1-mgdt-mllm-guided-diffusion-transformer-with-relation-adaptive-mixture-of-experts-for-multimodal-knowledge-graph-completion)  
    标签：评分：6.0/10、query:lr
-   evidence：通过自调节隐式视觉工具实现高效多模态推理
-9. [Actor as Its Own Critic: Unifying Region Understanding and Localization via CycleGRPO](/202607/21/2607.11581v1-actor-as-its-own-critic-unifying-region-understanding-and-localization-via-cyclegrpo)  
+   evidence：多模态大模型指导的扩散与对齐
+7. [How Do VLMs Fail? Vision-Operation Misalignment in Compositional VQA](/202607/22/2607.16094v1-how-do-vlms-fail-vision-operation-misalignment-in-compositional-vqa)  
    标签：评分：6.0/10、query:seg-llm
-   evidence：使用强化学习统一MLLM的区域理解与定位
-10. [Reasoning-Guided Part-Level Visual Grounding via Reinforcement Learning](/202607/21/2607.15374v1-reasoning-guided-part-level-visual-grounding-via-reinforcement-learning)  
+   evidence：VLM推理机制分析
+8. [DAUPNet: Domain-Aware Uncertainty Modeling for Reliable Prototype Discrimination in Cross-Domain Few-Shot Semantic Segmentation](/202607/22/2607.16308v1-daupnet-domain-aware-uncertainty-modeling-for-reliable-prototype-discrimination-in-cross-domain-few-shot-semantic-segmentation)  
    标签：评分：6.0/10、query:seg-llm
-   evidence：使用多模态大模型和强化学习进行推理引导的部件级视觉定位
-11. [ST-Veto: Spatio-Temporal Token Veto for Diffusion MLLMs via Taylor Prediction and Visual Grounding](/202607/21/2607.17884v1-st-veto-spatio-temporal-token-veto-for-diffusion-mllms-via-taylor-prediction-and-visual-grounding)  
+   evidence：跨域少样本语义分割结合不确定性建模
+9. [TimeLens2: Generalist Video Temporal Grounding with Multimodal LLMs](/202607/22/2607.17423v1-timelens2-generalist-video-temporal-grounding-with-multimodal-llms)  
    标签：评分：6.0/10、query:seg-llm
-   evidence：改进扩散多模态大模型的推理能力
+   evidence：多模态大语言模型的时间推理
+10. [ConsiSpace: Learning Geometric Consistency Matters for Video Spatial Reasoning](/202607/22/2607.17599v1-consispace-learning-geometric-consistency-matters-for-video-spatial-reasoning)  
+   标签：评分：6.0/10、query:lr
+   evidence：在MLLM中构建几何一致性记忆作为隐式证据用于视频空间推理
 
 
 <div class="dpr-home-promo-card dpr-home-panel">
