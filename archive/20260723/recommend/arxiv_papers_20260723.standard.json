@@ -1,0 +1,302 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-23T21:44:21.965341+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 2,
+    "deep_divecandidates": 5,
+    "deep_cap": 7,
+    "deep_selected": 5,
+    "quick_candidates": 2,
+    "quick_skim_target": 12,
+    "quick_selected": 2
+  },
+  "deep_dive": [
+    {
+      "id": "2607.19617v1",
+      "source": "arxiv",
+      "title": "EGRNet: A Lightweight Semantic Segmentation Network with Edge-Gated Refinement and Adversarial Sensing",
+      "abstract": "As autonomous systems and smart cities continue to evolve, the demand for efficient and robust scene understanding becomes increasingly critical. Semantic segmentation plays a key role in enabling autonomous vehicles to comprehend complex urban environments. However, achieving high accuracy with minimal computational cost remains a significant challenge. In this paper, we present Edge-Gated Refinement Network (EGRNet), a lightweight and efficient deep learning model designed for real-time semantic segmentation in urban scenarios. The model incorporates depthwise separable convolutions to reduce computational complexity and dilated residual blocks for capturing rich multi-scale contextual information. Additionally, we introduce a novel Edge-Gated Refinement (EGR) module, which adaptively fuses original and refined features through a learnable gating mechanism, enhancing boundary preservation and edge-sensitive regions. To further improve feature representation, Squeeze-and-Excitation (SE) attention is applied across the network. With only 0.46M parameters, EGRNet achieves state-of-the-art performance while maintaining low computational overhead. When evaluated on the Cityscapes dataset, the model attains a mean Intersection over Union (mIoU) of 65.28%, demonstrating strong accuracy with minimal resource consumption. Moreover, we introduce a lightweight adversarial attack detection strategy, ensuring robustness against adversarial inputs without compromising real-time performance. By combining efficiency, accuracy, and resilience, EGRNet is well-suited for deployment on edge devices in safety-critical real-time applications.",
+      "authors": [
+        "Bareera Qaseem",
+        "Mohsin Kamal",
+        "Muhammad Naveed Aman"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-21T22:54:37+00:00",
+      "link": "https://arxiv.org/pdf/2607.19617v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "lightweight semantic segmentation network",
+      "llm_evidence_cn": "轻量级语义分割网络",
+      "llm_evidence": "轻量级语义分割网络",
+      "canonical_evidence": "轻量级语义分割网络",
+      "llm_tldr_en": "EGRNet proposes a lightweight semantic segmentation network using edge-gated refinement and adversarial sensing for real-time urban scene understanding, achieving high accuracy with low computational cost.",
+      "llm_tldr_cn": "本文提出 EGRNet，一种轻量级语义分割网络，采用边缘门控细化和对抗感知，实现实时城市场景理解，在极小计算开销下达到高精度，推动了高效分割技术的发展。",
+      "llm_tldr": "本文提出 EGRNet，一种轻量级语义分割网络，采用边缘门控细化和对抗感知，实现实时城市场景理解，在极小计算开销下达到高精度，推动了高效分割技术的发展。",
+      "llm_tags": [
+        "query:seg-llm"
+      ],
+      "matched_query_tag": "query:seg-llm",
+      "matched_query_text": "semantic segmentation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.20061v1",
+      "source": "arxiv",
+      "title": "ReferTrack: Referring Then Tracking for Embodied Visual Tracking",
+      "abstract": "Embodied visual tracking (EVT) requires a mobile agent to continuously follow a specific target described in natural language using only onboard vision. While recent vision-language-action (VLA) policies unify target identification and trajectory planning, their chain-of-thought (CoT) reasoning often operates in abstract spatial latents that are difficult to supervise and weakly aligned with explicit image-space detections. To address this, we introduce ReferTrack, a referring-then-tracking paradigm that grounds EVT using a single forward-facing camera. Our model first selects the target from an indexed set of bounding boxes, then decodes tracking waypoints conditioned on this image-grounded decision. To preserve target motion cues over time, ReferTrack maintains a sliding-window queue of previously selected bounding boxes, injecting their geometric features into the visual history via temporal-viewpoint-bbox indicator (TVBI) tokens. We further enhance target identification by co-training on a custom Refer-QA dataset. On EVT-Bench, ReferTrack achieves state-of-the-art single-view performance with success rates of 89.4%, 73.3%, and 74.1% on the single-target, distracted, and ambiguity tracking splits, respectively -- matching or even surpassing several multi-camera baselines on identification-heavy tasks. Finally, real-world deployments on legged and humanoid robots validate its robust sim-to-real transfer capabilities. Code is available at https://github.com/MedlarTea/referTrack.",
+      "authors": [
+        "Hanjing Ye",
+        "Tianle Zeng",
+        "Jiazhao Zhang",
+        "Shaoan Wang",
+        "Zibo Zhang",
+        "Weisi Situ",
+        "Yuchen Zhou",
+        "Yonggen Ling",
+        "Hong Zhang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-22T12:05:13+00:00",
+      "link": "https://arxiv.org/pdf/2607.20061v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "explicitly addresses reasoning in abstract spatial latents for embodied tracking",
+      "llm_evidence_cn": "明确关注具身视觉跟踪中的抽象空间隐空间推理",
+      "llm_evidence": "明确关注具身视觉跟踪中的抽象空间隐空间推理",
+      "canonical_evidence": "明确关注具身视觉跟踪中的抽象空间隐空间推理",
+      "llm_tldr_en": "Addresses CoT reasoning in abstract spatial latents by introducing a referring-then-tracking paradigm that first selects target from detected bounding boxes, then decodes tracking waypoints grounded in image space, improving supervision and alignment.",
+      "llm_tldr_cn": "本文针对具身视觉跟踪中链式思维推理在抽象空间隐空间运行、难以监督且与图像空间弱对齐的问题，提出ReferTrack先指代后跟踪范式。模型首先从检测框中选择目标，再基于图像空间解码跟踪路径点，同时维护目标运动线索。该方法将推理过程显式绑定到图像空间，避免了隐空间的不稳定性，在标准跟踪测试中取得了优异的定位和路径规划性能。",
+      "llm_tldr": "本文针对具身视觉跟踪中链式思维推理在抽象空间隐空间运行、难以监督且与图像空间弱对齐的问题，提出ReferTrack先指代后跟踪范式。模型首先从检测框中选择目标，再基于图像空间解码跟踪路径点，同时维护目标运动线索。该方法将推理过程显式绑定到图像空间，避免了隐空间的不稳定性，在标准跟踪测试中取得了优异的定位和路径规划性能。",
+      "llm_tags": [
+        "query:lr"
+      ],
+      "matched_query_tag": "query:lr",
+      "matched_query_text": "latent space reasoning for multimodal models",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.18618v1",
+      "source": "arxiv",
+      "title": "LatentMT: Machine Translation with Latent Reasoning",
+      "abstract": "Latent-reasoning looped language models (LoopLMs) offer a different scaling path for machine translation (MT): instead of increasing parameter count or emitting explicit chain-of-thought tokens, they spend additional recurrent computation inside hidden states. We introduce LatentMT, the first systematic study of latent-reasoning LoopLMs for machine translation. LatentMT adapts a small 2.6B-parameter backbone model with lightweight training. Across 32 translation directions spanning high-, mid-, and low-resource languages, LatentMT achieves performance comparable to models three to five times larger. It is competitive in a high-resource language and achieves state-of-the-art performance on both mid-resource and low-resource languages. Studying the behavior of scaling the number of recurrent reasoning steps, we find that recurrent computation consistently improves translation quality in early steps, then saturates quickly afterwards. Our mechanistic analysis shows that hidden-representation differences shrink along the recurrent reasoning-step axis, supporting the observed saturation in performance. Finally, our efficiency analysis shows that LatentMT requires lower training and inference compute than much larger non-latent-reasoning models with similar performance, making latent recurrent computation a promising path toward compact, efficient, and strong machine translation.",
+      "authors": [
+        "Wei-Rui Chen",
+        "Samar M. Magdy",
+        "Chiyu Zhang",
+        "Wenhui Zhu",
+        "Zhipeng Wang",
+        "Muhammad Abdul-Mageed"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-07-21T01:38:23+00:00",
+      "link": "https://arxiv.org/pdf/2607.18618v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "explicit latent reasoning in hidden states for machine translation",
+      "llm_evidence_cn": "在隐藏状态中进行显式潜在推理用于机器翻译",
+      "llm_evidence": "在隐藏状态中进行显式潜在推理用于机器翻译",
+      "canonical_evidence": "在隐藏状态中进行显式潜在推理用于机器翻译",
+      "llm_tldr_en": "LatentMT applies looped language models with latent reasoning inside hidden states for machine translation, matching models 3-5x larger.",
+      "llm_tldr_cn": "针对机器翻译中模型规模增大的趋势，本文提出LatentMT，利用潜空间推理循环语言模型（LoopLMs），通过在隐藏状态中进行重复计算，避免了显式链式推理令牌的开销。采用2.6B参数的轻量级训练，在32个翻译方向上达到了与3-5倍大小模型相当的性能，在中等和低资源语言上达到最优。这项工作展示了潜空间推理作为缩放替代路径的潜力。",
+      "llm_tldr": "针对机器翻译中模型规模增大的趋势，本文提出LatentMT，利用潜空间推理循环语言模型（LoopLMs），通过在隐藏状态中进行重复计算，避免了显式链式推理令牌的开销。采用2.6B参数的轻量级训练，在32个翻译方向上达到了与3-5倍大小模型相当的性能，在中等和低资源语言上达到最优。这项工作展示了潜空间推理作为缩放替代路径的潜力。",
+      "llm_tags": [
+        "query:lr"
+      ],
+      "matched_query_tag": "query:lr",
+      "matched_query_text": "reasoning in latent space of large models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.20402v1",
+      "source": "arxiv",
+      "title": "SoftReason: A Fully Differentiable Neuro-Soft-Symbolic Deductive Reasoning Architecture over High-Dimensional Perceptual Data",
+      "abstract": "In many reasoning problems, the premises are not observed as discrete symbols, but must be inferred from high-dimensional inputs. Further, the predicate vocabulary, argument structure, and trusted evidence are supplied by a Knowledge Graph (KG), or rule definitions. Classical neuro-symbolic pipelines have a discrete interface between perception and deduction. We present a neuro-soft-symbolic architecture for differentiable deductive reasoning over latent perceptual facts and knowledge-provided predicates. SoftReason removes the gradient gap by representing the deductive state as a local soft interpretation tensor over candidate constants and predicates. Perception proposes probabilistic base facts, KG triples enter as high-confidence soft evidence, and every query anchor, predicate choice, and closure update remains differentiable. Our core innovation is a learned differentiable lift of the immediate-consequence operator. It uses predicate-definition embeddings and latent composition channels to form soft body-predicate mixtures, aggregate over all possible witnesses, propose query-conditioned head facts, and update the interpretation through a monotone probabilistic OR. We instantiate the framework on Knowledge-aware Visual Question Answering (KVQA), and demonstrates how SoftReason supports end-to-end perceptual grounding, KG evidence injection, and differentiable deductive closure in one trainable architecture.",
+      "authors": [
+        "Wael AbdAlmageed"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-22T17:38:39+00:00",
+      "link": "https://arxiv.org/pdf/2607.20402v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "differentiable deductive reasoning over latent perceptual facts",
+      "llm_evidence_cn": "基于潜在感知事实的可微演绎推理",
+      "llm_evidence": "基于潜在感知事实的可微演绎推理",
+      "canonical_evidence": "基于潜在感知事实的可微演绎推理",
+      "llm_tldr_en": "SoftReason proposes a fully differentiable neuro-soft-symbolic architecture for deductive reasoning directly over latent perceptual facts, removing the gradient gap by representing deductive state as a local soft interpretation tensor.",
+      "llm_tldr_cn": "SoftReason提出了一种完全可微的神经软符号架构，能够在潜在感知事实之上直接进行演绎推理。该方法通过将演绎状态表示为候选常量和谓词上的局部软解释张量，消除了梯度鸿沟。实验表明该架构在高维感知数据的推理任务上有效，为可微推理在潜在空间的应用提供了新思路。",
+      "llm_tldr": "SoftReason提出了一种完全可微的神经软符号架构，能够在潜在感知事实之上直接进行演绎推理。该方法通过将演绎状态表示为候选常量和谓词上的局部软解释张量，消除了梯度鸿沟。实验表明该架构在高维感知数据的推理任务上有效，为可微推理在潜在空间的应用提供了新思路。",
+      "llm_tags": [
+        "query:lr:composite"
+      ],
+      "matched_query_tag": "query:lr:composite",
+      "matched_query_text": "Papers central to 请帮我查找多模态大模型隐空间推理的相关论文。, especially work that connects or combines: multimodal large language model reasoning in latent space; latent space reasoning for multimodal models; reasoning in latent space of large models; multimodal reasoning with latent variables; papers on reasoning in latent space of multimodal large language models; research about latent space reasoning for multimodal models.",
+      "matched_requirement_id": "req-composite-lr",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.19765v1",
+      "source": "arxiv",
+      "title": "Extending a Large View Synthesis Model for Multi-view Panoptic Segmentation",
+      "abstract": "Large view synthesis models synthesize novel views through cross-view attention without explicit 3D representations, and recent studies have shown that they learn accurate spatial correspondence from RGB supervision alone. We observe that this correspondence generalizes beyond appearance. When non-photorealistic signals such as binary encoded panoptic labels are passed through the model, they are propagated to novel views with consistent spatial structure. These results indicate that the correspondence learned for RGB view synthesis can also propagate view-independent per-pixel labels. From this observation, we present the first work to extend large view synthesis models beyond appearance rendering to 3D scene understanding. We propose a panoptic segmentation pipeline that reuses a frozen view synthesis model to propagate panoptic labels from input views to novel views, without 3D reconstruction or any segmentation-specific training of the view synthesis model. Given panoptic labels on the input views, we encode them into binary channel representations and pass them through the same model to render target-view segmentation. On ScanNet, our method achieves segmentation quality on par with Gaussian based approaches requiring explicit 3D reconstruction, while outperforming them in novel view synthesis by more than 7 dB. The label propagation also transfers across datasets, surpassing these approaches on Replica without any fine-tuning.",
+      "authors": [
+        "Kwonyoung Ryu",
+        "In-Jae Lee",
+        "Jonghyun Jin",
+        "Hyunjee Lee",
+        "Jongmin Lee",
+        "Jaesik Park"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-22T05:16:30+00:00",
+      "link": "https://arxiv.org/pdf/2607.19765v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "multi-view panoptic segmentation using large view synthesis models",
+      "llm_evidence_cn": "利用大型视图合成模型进行多视图全景分割",
+      "llm_evidence": "利用大型视图合成模型进行多视图全景分割",
+      "canonical_evidence": "利用大型视图合成模型进行多视图全景分割",
+      "llm_tldr_en": "Extends large view synthesis models to multi-view panoptic segmentation by propagating encoded labels through cross-view attention, achieving 3D scene understanding without explicit 3D.",
+      "llm_tldr_cn": "大型视图合成模型通过跨视图注意力学习空间对应关系，本文发现该关系可推广至非视觉信号。由此提出首个将视图合成模型扩展至3D场景理解的工作，通过传递编码的标签实现多视图全景分割。实验表明该方法在语义分割任务上表现优异，为无显式3D表示的分割提供了新思路。",
+      "llm_tldr": "大型视图合成模型通过跨视图注意力学习空间对应关系，本文发现该关系可推广至非视觉信号。由此提出首个将视图合成模型扩展至3D场景理解的工作，通过传递编码的标签实现多视图全景分割。实验表明该方法在语义分割任务上表现优异，为无显式3D表示的分割提供了新思路。",
+      "llm_tags": [
+        "query:seg-llm"
+      ],
+      "matched_query_tag": "query:seg-llm",
+      "matched_query_text": "semantic segmentation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.20326v1",
+      "source": "arxiv",
+      "title": "Toward Reliable RGB-D Semantic Segmentation: Handling Missing Modalities via Condition Dropout",
+      "abstract": "RGB-D semantic segmentation has achieved remarkable progress, yet most models assume that RGB and depth are always available. In practice, failures or occlusions of surveillance sensors often remove one modality. Although RGB or depth alone can contain sufficient cues, models trained only on full-modality inputs fail to exploit the remaining modality once one is missing, causing severe degradation. We tackle this issue with a simple continued-training paradigm, \\emph{Condition Dropout (ConD)}, which mitigates degradation while preserving full-modality accuracy. Starting from a pretrained RGB-D model, ConD adds a second stage that randomly simulates complete, RGB-missing, and depth-missing inputs, freezes the original encoders, and trains copied encoders with zero-initialized feature injection. Experiments on NYU-Depth V2 and SUN RGB-D show that ConD improves robustness under missing modalities and even yields slight gains when modalities are complete. Our code will be made publicly available upon acceptance.",
+      "authors": [
+        "Xuchen Zhu",
+        "Yajuan Wei",
+        "Shuang Hao",
+        "Jiwei Jiang",
+        "Guanxiang Mao",
+        "Fang Ren"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-22T16:12:27+00:00",
+      "link": "https://arxiv.org/pdf/2607.20326v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "RGB-D semantic segmentation paper",
+      "llm_evidence_cn": "RGB-D语义分割论文",
+      "llm_evidence": "RGB-D语义分割论文",
+      "canonical_evidence": "RGB-D语义分割论文",
+      "llm_tldr_en": "Proposes Condition Dropout (ConD) to handle missing depth or RGB modalities in RGB-D semantic segmentation, allowing robust performance when one modality is missing.",
+      "llm_tldr_cn": "现有RGB-D语义分割模型假设深度和RGB始终存在，但实际应用中单模态缺失会导致性能严重下降。本文提出条件丢弃（ConD）范式，在预训练模型基础上进行第二阶段训练，随机模拟完整、RGB缺失、深度缺失的输入，冻结原始编码器并只微调解码器，从而在保持全模态精度的同时显著提升缺失模态下的鲁棒性。",
+      "llm_tldr": "现有RGB-D语义分割模型假设深度和RGB始终存在，但实际应用中单模态缺失会导致性能严重下降。本文提出条件丢弃（ConD）范式，在预训练模型基础上进行第二阶段训练，随机模拟完整、RGB缺失、深度缺失的输入，冻结原始编码器并只微调解码器，从而在保持全模态精度的同时显著提升缺失模态下的鲁棒性。",
+      "llm_tags": [
+        "query:seg-llm"
+      ],
+      "matched_query_tag": "query:seg-llm",
+      "matched_query_text": "semantic segmentation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.20268v1",
+      "source": "arxiv",
+      "title": "PoTRE: Test-Time Reasoning inspired by Cognitive Heterogeneity",
+      "abstract": "While Large Language Models (LLMs) excel at many tasks, they frequently struggle with complex reasoning that requires long-horizon planning and iterative error correction. Furthermore, standard single-stream prompting proves brittle when models encounter novel abstractions or rigorous domain constraints. We introduce PoTRE (Poly-Topological Reasoning Ensembles), a heterogeneous framework that decouples inference into four agents: (1) Adversarial Refinement Agent, (2) Hierarchical strategic Planning Agent, (3) Spectrum Search Agent, and (4) Direct Chain Agent. A final Task-Adaptive Aggregation Layer dynamically reconciles these perspectives -- via final candidate selection, semantic synthesis, or neuro-symbolic verification -- to produce a robust global solution. We evaluate PoTRE on three frontier benchmarks: ARC-AGI-2, Humanity's Last Exam (HLE), and PRBench Finance. PoTRE achieves state-of-the-art accuracy of 49.92% on HLE, surpassing the previous best official score. We demonstrate that this architectural heterogeneity achieves improved reasoning performance using similar or fewer inference tokens compared to heavily scaled homogeneous baselines.",
+      "authors": [
+        "Anmol Kankariya",
+        "Sercan Ö. Arık"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-07-22T15:20:53+00:00",
+      "link": "https://arxiv.org/pdf/2607.20268v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "heterogeneous reasoning framework for LLMs",
+      "llm_evidence_cn": "大语言模型的异构推理框架",
+      "llm_evidence": "大语言模型的异构推理框架",
+      "canonical_evidence": "大语言模型的异构推理框架",
+      "llm_tldr_en": "PoTRE introduces a heterogeneous reasoning framework with four specialized agents and an adaptive aggregation layer to improve LLM performance on complex reasoning tasks requiring long-horizon planning.",
+      "llm_tldr_cn": "本文提出 PoTRE，一种由四个异构推理代理（对抗细化、分层规划、频谱搜索、直接链）和任务自适应聚合层组成的框架，显著提升了大语言模型在需要长程规划和迭代纠错的复杂推理任务上的鲁棒性和准确性。",
+      "llm_tldr": "本文提出 PoTRE，一种由四个异构推理代理（对抗细化、分层规划、频谱搜索、直接链）和任务自适应聚合层组成的框架，显著提升了大语言模型在需要长程规划和迭代纠错的复杂推理任务上的鲁棒性和准确性。",
+      "llm_tags": [
+        "query:seg-llm"
+      ],
+      "matched_query_tag": "query:seg-llm",
+      "matched_query_text": "large language model reasoning",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
