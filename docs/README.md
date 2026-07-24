@@ -18,43 +18,64 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-23
-- 运行时间：2026-07-23 21:50:17 UTC
+- 最新运行日期：2026-07-24
+- 运行时间：2026-07-24 21:42:30 UTC
 - 运行状态：成功
-- 本次总论文数：7
-- 精读区：5
-- 速读区：2
+- 本次总论文数：14
+- 精读区：6
+- 速读区：8
 
 ### 今日简报（AI）
-今日精选7篇论文，5篇精读，聚焦轻量化语义分割与具身视觉跟踪。
-最值得关注的方向：EGRNet（9.0分）提出边缘门控+对抗感知的轻量分割；ReferTrack（9.0分）将指代表达与跟踪融合用于机器人视觉。
-建议优先精读这两篇高分论文，EGRNet适合资源受限部署，ReferTrack为具身跟踪提供新范本。
-- 详情：[/202607/23/README](/202607/23/README)
+今日精读6篇，视频空间推理与神经符号推理各有一篇9分论文领跑。  
+《ConsiSpace》强调几何一致性对视频空间推理的关键作用，《SoftReason》则提出全可微的软符号推理架构处理高维感知数据，二者最值得研读。  
+建议普通读者重点关注空间推理中的几何先验与符号逻辑的结合，可尝试将ConsiSpace的思路与软符号推理融合来提升鲁棒性。
+- 详情：[/202607/24/README](/202607/24/README)
 
 ### 精读区论文标签
-1. [EGRNet: A Lightweight Semantic Segmentation Network with Edge-Gated Refinement and Adversarial Sensing](/202607/23/2607.19617v1-egrnet-a-lightweight-semantic-segmentation-network-with-edge-gated-refinement-and-adversarial-sensing)  
-   标签：评分：9.0/10、query:seg-llm
-   evidence：轻量级语义分割网络
-2. [ReferTrack: Referring Then Tracking for Embodied Visual Tracking](/202607/23/2607.20061v1-refertrack-referring-then-tracking-for-embodied-visual-tracking)  
+1. [ConsiSpace: Learning Geometric Consistency Matters for Video Spatial Reasoning](/202607/24/2607.17599v1-consispace-learning-geometric-consistency-matters-for-video-spatial-reasoning)  
    标签：评分：9.0/10、query:lr
-   evidence：明确关注具身视觉跟踪中的抽象空间隐空间推理
-3. [LatentMT: Machine Translation with Latent Reasoning](/202607/23/2607.18618v1-latentmt-machine-translation-with-latent-reasoning)  
+   evidence：用于MLLM视频空间推理的几何一致隐空间记忆
+2. [SoftReason: A Fully Differentiable Neuro-Soft-Symbolic Deductive Reasoning Architecture over High-Dimensional Perceptual Data](/202607/24/2607.20402v1-softreason-a-fully-differentiable-neuro-soft-symbolic-deductive-reasoning-architecture-over-high-dimensional-perceptual-data)  
+   标签：评分：9.0/10、query:lr
+   evidence：对潜在感知事实的可微演绎推理
+3. [The Weight of Silence: A Causal Case for Weights Over the Scratchpad in Latent Chess Reasoning](/202607/24/2607.20952v1-the-weight-of-silence-a-causal-case-for-weights-over-the-scratchpad-in-latent-chess-reasoning)  
+   标签：评分：9.0/10、query:lr
+   evidence：语言模型中的隐式推理在象棋任务中的应用
+4. [Loss Landscape Topology Reveals Why Simple Baselines are Competitive at 3D Point Cloud Segmentation Under Class Imbalance](/202607/24/2607.21089v1-loss-landscape-topology-reveals-why-simple-baselines-are-competitive-at-3d-point-cloud-segmentation-under-class-imbalance)  
+   标签：评分：9.0/10、query:seg-llm
+   evidence：三维点云语义分割中的类别不平衡问题
+5. [Learning to Detect Cross-Modal Negation: An Analysis of Latent Representations and an Attention-Based Solution](/202607/24/2607.17712v1-learning-to-detect-cross-modal-negation-an-analysis-of-latent-representations-and-an-attention-based-solution)  
    标签：评分：8.0/10、query:lr
-   evidence：在隐藏状态中进行显式潜在推理用于机器翻译
-4. [Extending a Large View Synthesis Model for Multi-view Panoptic Segmentation](/202607/23/2607.19765v1-extending-a-large-view-synthesis-model-for-multi-view-panoptic-segmentation)  
+   evidence：分析视觉语言模型中的隐表征用于跨模态否定推理
+6. [DINOde: Continuous Vision-Text Alignment for Open-Vocabulary Semantic Segmentation](/202607/24/2607.21371v1-dinode-continuous-vision-text-alignment-for-open-vocabulary-semantic-segmentation)  
    标签：评分：8.0/10、query:seg-llm
-   evidence：利用大型视图合成模型进行多视图全景分割
-5. [SoftReason: A Fully Differentiable Neuro-Soft-Symbolic Deductive Reasoning Architecture over High-Dimensional Perceptual Data](/202607/23/2607.20402v1-softreason-a-fully-differentiable-neuro-soft-symbolic-deductive-reasoning-architecture-over-high-dimensional-perceptual-data)  
-   标签：评分：8.0/10、query:lr
-   evidence：基于潜在感知事实的可微演绎推理
+   evidence：使用连续视觉-文本对齐的语义分割
 
 ### 速读区论文标签
-1. [Toward Reliable RGB-D Semantic Segmentation: Handling Missing Modalities via Condition Dropout](/202607/23/2607.20326v1-toward-reliable-rgb-d-semantic-segmentation-handling-missing-modalities-via-condition-dropout)  
+1. [Efficient Chain-of-Modality Reasoning via Progressive Compression for Spoken Language Models](/202607/24/2607.19932v1-efficient-chain-of-modality-reasoning-via-progressive-compression-for-spoken-language-models)  
+   标签：评分：7.0/10、query:lr
+   evidence：为口语语言模型引入压缩推理链
+2. [Geo3R: Mitigating Spatial Reasoning Hallucination in Multimodal Large Language Models](/202607/24/2607.21085v1-geo3r-mitigating-spatial-reasoning-hallucination-in-multimodal-large-language-models)  
    标签：评分：7.0/10、query:seg-llm
-   evidence：RGB-D语义分割论文
-2. [PoTRE: Test-Time Reasoning inspired by Cognitive Heterogeneity](/202607/23/2607.20268v1-potre-test-time-reasoning-inspired-by-cognitive-heterogeneity)  
+   evidence：缓解多模态大模型的空间推理幻觉
+3. [OrientSAM: Mitigating Camera-Centric Shortcut in Multimodal Spatial Reasoning via Orientation-Aware Spatial Alignment](/202607/24/2607.17657v1-orientsam-mitigating-camera-centric-shortcut-in-multimodal-spatial-reasoning-via-orientation-aware-spatial-alignment)  
+   标签：评分：6.0/10、query:lr
+   evidence：通过方向感知对齐解决多模态空间推理问题
+4. [RAMP: Recognition parametrisation by Amortised Message Passing](/202607/24/2607.18883v1-ramp-recognition-parametrisation-by-amortised-message-passing)  
+   标签：评分：6.0/10、query:lr
+   evidence：通过摊销消息传递学习隐结构
+5. [A Unified Variational Framework for Deep Weakly Supervised Image Segmentation](/202607/24/2607.19669v1-a-unified-variational-framework-for-deep-weakly-supervised-image-segmentation)  
    标签：评分：6.0/10、query:seg-llm
-   evidence：大语言模型的异构推理框架
+   evidence：弱监督图像分割的统一变分框架
+6. [PyroDash: Cost-Efficient Token-Level Small-Large Language Model Collaborative Inference](/202607/24/2607.20327v1-pyrodash-cost-efficient-token-level-small-large-language-model-collaborative-inference)  
+   标签：评分：6.0/10、query:seg-llm
+   evidence：小-大语言模型协同推理
+7. [U-CFR: Uncertainty-Guided Cascade Forward Refinement for Interactive Segmentation](/202607/24/2607.20705v1-u-cfr-uncertainty-guided-cascade-forward-refinement-for-interactive-segmentation)  
+   标签：评分：6.0/10、query:seg-llm
+   evidence：不确定性引导的交互式图像分割
+8. [SHIFT: Self-reconstruction Harnesses Implicit Fine-grained Thinking for Retrieval](/202607/24/2607.21333v1-shift-self-reconstruction-harnesses-implicit-fine-grained-thinking-for-retrieval)  
+   标签：评分：6.0/10、query:lr
+   evidence：通过软令牌在LLM检索器中实现隐式推理，涉及隐空间
 
 
 <div class="dpr-home-promo-card dpr-home-panel">

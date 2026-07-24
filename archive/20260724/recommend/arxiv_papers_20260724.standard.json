@@ -1,0 +1,579 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-24T21:32:42.497491+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 2,
+    "deep_divecandidates": 6,
+    "deep_cap": 7,
+    "deep_selected": 6,
+    "quick_candidates": 8,
+    "quick_skim_target": 12,
+    "quick_selected": 8
+  },
+  "deep_dive": [
+    {
+      "id": "2607.17599v1",
+      "source": "arxiv",
+      "title": "ConsiSpace: Learning Geometric Consistency Matters for Video Spatial Reasoning",
+      "abstract": "Video spatial reasoning is essential for navigation-oriented perception and long-video question answering, where models must infer spatial relations across long horizons under changing viewpoints. However, existing multimodal large language models (MLLMs) remain largely semantic-centric, and often fail to reliably aggregate consistent spatial evidence from redundant video observations, leading to inefficient or unstable reasoning. To address these issues, we propose ConsiSpace, a geometry-consistency-aware framework for geometry-sensitive video spatial reasoning that turns spatial consistency into both an evidence organization principle and an explicit post-SFT learning signal. We build a geometry-consistent memory (GCM) including implicit evidence tokens and explicit geometric cues, and leverage efficient organization strategies to compactly preserve task-related spatial evidence. Furthermore, we utilize unified consistency self-supervised reinforcement learning (UC-SSRL) after supervised fine-tuning to improve cross-view stability, with answer-, metric-, and topology-consistency rewards. Extensive experiments on three spatial-reasoning benchmarks, VSI-Bench, OSI-Bench, and MMSI-Video-Bench, show consistent gains, improving the average score by 12.6 points over the strongest baselines.",
+      "authors": [
+        "Ting Huang",
+        "Zhenyu Zhang",
+        "Wenyuan Huang",
+        "Jian Yang",
+        "Hao Tang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-20T06:40:45+00:00",
+      "link": "https://arxiv.org/pdf/2607.17599v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "geometry-consistent latent memory for video spatial reasoning in MLLMs",
+      "llm_evidence_cn": "用于MLLM视频空间推理的几何一致隐空间记忆",
+      "llm_evidence": "用于MLLM视频空间推理的几何一致隐空间记忆",
+      "canonical_evidence": "用于MLLM视频空间推理的几何一致隐空间记忆",
+      "llm_tldr_en": "Proposes ConsiSpace, a geometry-consistency-aware framework for video spatial reasoning in MLLMs, using geometry-consistent memory (GCM) to organize spatial evidence in latent space, improving reasoning stability.",
+      "llm_tldr_cn": "该论文指出多模态大语言模型在视频空间推理中缺乏几何一致性，导致证据聚合低效。为此提出ConsiSpace框架，构建几何一致记忆（GCM），将空间一致性作为证据组织原则和显式后SFT学习信号。实验表明ConsiSpace显著提升了长视频空间推理的准确性和稳定性。",
+      "llm_tldr": "该论文指出多模态大语言模型在视频空间推理中缺乏几何一致性，导致证据聚合低效。为此提出ConsiSpace框架，构建几何一致记忆（GCM），将空间一致性作为证据组织原则和显式后SFT学习信号。实验表明ConsiSpace显著提升了长视频空间推理的准确性和稳定性。",
+      "llm_tags": [
+        "query:lr"
+      ],
+      "matched_query_tag": "query:lr",
+      "matched_query_text": "multimodal large language model reasoning in latent space",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.20402v1",
+      "source": "arxiv",
+      "title": "SoftReason: A Fully Differentiable Neuro-Soft-Symbolic Deductive Reasoning Architecture over High-Dimensional Perceptual Data",
+      "abstract": "In many reasoning problems, the premises are not observed as discrete symbols, but must be inferred from high-dimensional inputs. Further, the predicate vocabulary, argument structure, and trusted evidence are supplied by a Knowledge Graph (KG), or rule definitions. Classical neuro-symbolic pipelines have a discrete interface between perception and deduction. We present a neuro-soft-symbolic architecture for differentiable deductive reasoning over latent perceptual facts and knowledge-provided predicates. SoftReason removes the gradient gap by representing the deductive state as a local soft interpretation tensor over candidate constants and predicates. Perception proposes probabilistic base facts, KG triples enter as high-confidence soft evidence, and every query anchor, predicate choice, and closure update remains differentiable. Our core innovation is a learned differentiable lift of the immediate-consequence operator. It uses predicate-definition embeddings and latent composition channels to form soft body-predicate mixtures, aggregate over all possible witnesses, propose query-conditioned head facts, and update the interpretation through a monotone probabilistic OR. We instantiate the framework on Knowledge-aware Visual Question Answering (KVQA), and demonstrates how SoftReason supports end-to-end perceptual grounding, KG evidence injection, and differentiable deductive closure in one trainable architecture.",
+      "authors": [
+        "Wael AbdAlmageed"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-22T17:38:39+00:00",
+      "link": "https://arxiv.org/pdf/2607.20402v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "differentiable deductive reasoning over latent perceptual facts",
+      "llm_evidence_cn": "对潜在感知事实的可微演绎推理",
+      "llm_evidence": "对潜在感知事实的可微演绎推理",
+      "canonical_evidence": "对潜在感知事实的可微演绎推理",
+      "llm_tldr_en": "Proposes a fully differentiable neuro-soft-symbolic architecture for deductive reasoning over latent perceptual facts, removing the gradient gap between perception and deduction.",
+      "llm_tldr_cn": "本文提出全可微的神经软符号推理架构SoftReason，用于对高维感知数据中的潜在事实进行演绎推理。通过将推理状态表示为局部软解释张量，消除了感知与演绎之间的梯度断点，实现了端到端学习。该工作在隐性空间中进行推理，与多模态大模型隐空间推理高度相关。",
+      "llm_tldr": "本文提出全可微的神经软符号推理架构SoftReason，用于对高维感知数据中的潜在事实进行演绎推理。通过将推理状态表示为局部软解释张量，消除了感知与演绎之间的梯度断点，实现了端到端学习。该工作在隐性空间中进行推理，与多模态大模型隐空间推理高度相关。",
+      "llm_tags": [
+        "query:lr:composite"
+      ],
+      "matched_query_tag": "query:lr:composite",
+      "matched_query_text": "Papers central to 请帮我查找多模态大模型隐空间推理的相关论文。, especially work that connects or combines: multimodal large language model reasoning in latent space; latent space reasoning for multimodal models; reasoning in latent space of large models; multimodal reasoning with latent variables; papers on reasoning in latent space of multimodal large language models; research about latent space reasoning for multimodal models.",
+      "matched_requirement_id": "req-composite-lr",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.20952v1",
+      "source": "arxiv",
+      "title": "The Weight of Silence: A Causal Case for Weights Over the Scratchpad in Latent Chess Reasoning",
+      "abstract": "Latent, or silent, reasoning lets language models carry out intermediate computation in continuous vector space instead of words, and is widely assumed to function as an internal scratchpad the model actively consults during inference. Whether that assumption survives reinforcement learning has not been tested directly: existing causal analyses of latent reasoning are confined to math and logic tasks, and compare a model's reliance on its thoughts within a single checkpoint, never before and after an RL stage. We train a chess-playing model through a staged latent-reasoning curriculum followed by reinforcement learning, and find legality climbs monotonically to 61% (from a 48% pre-RL baseline) while checkmate confabulation is eliminated entirely. To locate this gain, we run a six-condition causal intervention suite on the same model before and after RL: substituting or adding matched noise to the latent thought vectors leaves performance unchanged, ablating them causes only mild degradation, and only exact-zero vectors cause collapse. This robustness gap is itself the finding: under exact-zero corruption, legality collapses to 1% pre-RL versus 9% post-RL, a gap that survives correction for testing across the full battery; milder conditions trend similarly without independently reaching significance. RL appears to add robustness to disruption, not reliance on thought content. These results push back against the field's default assumption that latent thoughts function as an actively consulted inference-time scratchpad, and instead indicate latent reasoning's principal effect here is shaping the model's parameters during training. We also demonstrate a working RL gain in chess, a domain outside the math and logic settings where multiple groups report the same latent-reasoning-plus-RL recipe failing to improve accuracy over SFT.",
+      "authors": [
+        "Ishan S. Kshirsagar"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.CL"
+      ],
+      "published": "2026-07-23T06:18:43+00:00",
+      "link": "https://arxiv.org/pdf/2607.20952v1",
+      "tags": [
+        "keyword:lr"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "latent reasoning in chess-playing language model",
+      "llm_evidence_cn": "语言模型中的隐式推理在象棋任务中的应用",
+      "llm_evidence": "语言模型中的隐式推理在象棋任务中的应用",
+      "canonical_evidence": "语言模型中的隐式推理在象棋任务中的应用",
+      "llm_tldr_en": "Investigates latent reasoning in a chess-playing language model via RL, finding weights matter more than scratchpad.",
+      "llm_tldr_cn": "该论文通过强化学习训练象棋对弈语言模型，因果分析发现隐式推理中模型权重的贡献超过显式思考，挑战了隐式推理作为内部草稿纸的假设，为理解大模型隐空间推理提供了新证据。",
+      "llm_tldr": "该论文通过强化学习训练象棋对弈语言模型，因果分析发现隐式推理中模型权重的贡献超过显式思考，挑战了隐式推理作为内部草稿纸的假设，为理解大模型隐空间推理提供了新证据。",
+      "llm_tags": [
+        "query:lr:composite"
+      ],
+      "matched_query_tag": "query:lr:composite",
+      "matched_query_text": "Papers central to 请帮我查找多模态大模型隐空间推理的相关论文。, especially work that connects or combines: multimodal large language model reasoning in latent space; latent space reasoning for multimodal models; reasoning in latent space of large models; multimodal reasoning with latent variables; papers on reasoning in latent space of multimodal large language models; research about latent space reasoning for multimodal models.",
+      "matched_requirement_id": "req-composite-lr",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.21089v1",
+      "source": "arxiv",
+      "title": "Loss Landscape Topology Reveals Why Simple Baselines are Competitive at 3D Point Cloud Segmentation Under Class Imbalance",
+      "abstract": "Semantic segmentation of 3D point clouds faces severe class imbalance, yet the effectiveness of specialized imbalance-aware methods from 2D computer vision remains unclear in 3D contexts. We systematically evaluate 11 imbalance mitigation approaches across datasets with extreme (641:1) and moderate (56:1) imbalance ratios, revealing a surprising finding: standard cross-entropy with uniform weighting achieves competitive performance, typically within 0.8-3.3% mIoU of specialized methods across architectures and datasets. Through multifaceted mechanistic analysis of error patterns, decision boundaries, and the geometry of the optimization landscape, our analyses suggest that imbalance severity shapes the topology, creating narrow solution basins under extreme imbalance and flat plateaus under moderate imbalance. This appears to constrain the effectiveness of loss-level modifications, as all methods must navigate these geometric constraints. Our findings offer practical guidance; standard cross-entropy provides a robust baseline, with specialized methods offering modest improvements (0.8-3.3% mIoU) that vary by architecture and dataset but risk substantial degradation if poorly tuned. This work provides the first mechanistic explanation for why techniques proven effective in 2D do not readily transfer to point-based 3D point cloud segmentation, validated across two representative architectures.",
+      "authors": [
+        "Antonis Savva",
+        "Christos Kyrkou",
+        "Theocharis Theocharides"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-23T09:19:31+00:00",
+      "link": "https://arxiv.org/pdf/2607.21089v1",
+      "tags": [
+        "keyword:seg-llm",
+        "query:seg-llm"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "semantic segmentation of 3D point clouds under class imbalance",
+      "llm_evidence_cn": "三维点云语义分割中的类别不平衡问题",
+      "llm_evidence": "三维点云语义分割中的类别不平衡问题",
+      "canonical_evidence": "三维点云语义分割中的类别不平衡问题",
+      "llm_tldr_en": "This paper reveals that simple cross-entropy baselines are competitive for 3D point cloud segmentation under class imbalance, via analysis of loss landscape topology.",
+      "llm_tldr_cn": "针对三维点云语义分割中严重的类别不平衡问题，本文系统评估了11种方法，发现标准交叉熵损失在多数情况下与专门方法性能相当，并通过优化景观拓扑分析揭示了不平衡严重性如何影响性能差距。",
+      "llm_tldr": "针对三维点云语义分割中严重的类别不平衡问题，本文系统评估了11种方法，发现标准交叉熵损失在多数情况下与专门方法性能相当，并通过优化景观拓扑分析揭示了不平衡严重性如何影响性能差距。",
+      "llm_tags": [
+        "query:seg-llm"
+      ],
+      "matched_query_tag": "query:seg-llm",
+      "matched_query_text": "semantic segmentation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.17712v1",
+      "source": "arxiv",
+      "title": "Learning to Detect Cross-Modal Negation: An Analysis of Latent Representations and an Attention-Based Solution",
+      "abstract": "Detecting high-level semantic concepts like negation across modalities remains a challenge for current multimodal systems. We analyze this as a fundamental representation learning problem, providing the first evidence that negation does not form a linearly or non-linearly separable class in the latent spaces of standard vision-language models (VLMs). We demonstrate that pretrained embeddings primarily encode modality-specific features, lacking a generalizable negation signal. To overcome this, we propose a novel cross-modal attention architecture that explicitly models inter-modal dependencies, achieving performance gains of up to +7.03% F1 over unimodal baselines. Our analysis reveals a key asymmetry: while textual negation often appears independently, visual negation is semantically dependent on linguistic context, a finding validated through our statistical analysis of 3,222 political video-text pairs automatically annotated via \\textsc{Qwen2.5-VL}. By combining this analysis with self-supervised video representations (JEPA2), we advance the modeling of temporal negation. This work provides new methods and insights for learning robust, semantically-aligned representations in multimodal systems.",
+      "authors": [
+        "Ali AbuSaleh",
+        "Leon Hammerla",
+        "Alexander Mehler"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-20T09:08:51+00:00",
+      "link": "https://arxiv.org/pdf/2607.17712v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "analyzes latent representations in VLMs for cross-modal negation reasoning",
+      "llm_evidence_cn": "分析视觉语言模型中的隐表征用于跨模态否定推理",
+      "llm_evidence": "分析视觉语言模型中的隐表征用于跨模态否定推理",
+      "canonical_evidence": "分析视觉语言模型中的隐表征用于跨模态否定推理",
+      "llm_tldr_en": "Provides first evidence that negation is not linearly separable in VLM latent spaces, and proposes cross-modal attention architecture to detect negation, achieving up to +7.03% F1.",
+      "llm_tldr_cn": "该论文首次证明标准视觉语言模型隐空间中否定概念并不线性可分，因为预训练嵌入主要编码模态特异性特征。为克服这一局限，提出新颖的跨模态注意力架构显式建模模态间依赖，在否定检测任务上取得高达+7.03% F1的性能提升。分析揭示了关键的模态不对称性。",
+      "llm_tldr": "该论文首次证明标准视觉语言模型隐空间中否定概念并不线性可分，因为预训练嵌入主要编码模态特异性特征。为克服这一局限，提出新颖的跨模态注意力架构显式建模模态间依赖，在否定检测任务上取得高达+7.03% F1的性能提升。分析揭示了关键的模态不对称性。",
+      "llm_tags": [
+        "query:lr"
+      ],
+      "matched_query_tag": "query:lr",
+      "matched_query_text": "multimodal large language model reasoning in latent space",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.21371v1",
+      "source": "arxiv",
+      "title": "DINOde: Continuous Vision-Text Alignment for Open-Vocabulary Semantic Segmentation",
+      "abstract": "Open-vocabulary semantic segmentation (OVSS) leverages textual semantics to segment objects beyond predefined categories. While the self-supervised model DINOv3 provides strong structured visual representations, its lack of native textual alignment hinders its direct application to OVSS. To bridge this gap, we propose DINOde, an ODE-based framework that continuously aligns CLIP text embeddings with the DINO visual manifold. Our approach employs two complementary components: (i) Semantic Text Flow (STF), which evolves text embeddings toward the DINO manifold through a continuous ODE trajectory, and (ii) Global Context Flow (GCF), which progressively refines the holistic image representation carried by DINO's CLS token. To preserve the hyperspherical geometry of the feature space during this evolution, we further introduce Velocity Tangent Projection, which constrains the learned velocity field to the tangent space. By modeling alignment as a continuous trajectory, DINOde avoids the manifold entanglement inherent in discrete MLP projections and yields more robust cross-modal alignment. Extensive experiments demonstrate that DINOde consistently outperforms existing methods and achieves state-of-the-art performance across multiple OVSS benchmarks. The code is available at https://github.com/yoon307/DINOde.",
+      "authors": [
+        "Sung-Hoon Yoon",
+        "Hoyong Kwon",
+        "Changgyoon Oh",
+        "Kuk-Jin Yoon"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-23T14:37:27+00:00",
+      "link": "https://arxiv.org/pdf/2607.21371v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "semantic segmentation with continuous vision-text alignment",
+      "llm_evidence_cn": "使用连续视觉-文本对齐的语义分割",
+      "llm_evidence": "使用连续视觉-文本对齐的语义分割",
+      "canonical_evidence": "使用连续视觉-文本对齐的语义分割",
+      "llm_tldr_en": "Proposes DINOde, an ODE-based framework for open-vocabulary semantic segmentation that continuously aligns text embeddings to visual manifold via Semantic Text Flow and Global Context Flow, achieving strong structured representation.",
+      "llm_tldr_cn": "该论文针对自监督模型DINOv3缺乏文本对齐而无法直接用于开放词汇语义分割的问题，提出了基于常微分方程的DINOde框架。它包含语义文本流和全局上下文流两个组件，通过连续ODE轨迹将CLIP文本嵌入对齐到DINO视觉流形，从而在开放词汇分割任务上取得优异表现。该工作为视觉-语言对齐提供了新的连续动态视角。",
+      "llm_tldr": "该论文针对自监督模型DINOv3缺乏文本对齐而无法直接用于开放词汇语义分割的问题，提出了基于常微分方程的DINOde框架。它包含语义文本流和全局上下文流两个组件，通过连续ODE轨迹将CLIP文本嵌入对齐到DINO视觉流形，从而在开放词汇分割任务上取得优异表现。该工作为视觉-语言对齐提供了新的连续动态视角。",
+      "llm_tags": [
+        "query:seg-llm"
+      ],
+      "matched_query_tag": "query:seg-llm",
+      "matched_query_text": "semantic segmentation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.19932v1",
+      "source": "arxiv",
+      "title": "Efficient Chain-of-Modality Reasoning via Progressive Compression for Spoken Language Models",
+      "abstract": "Spoken language models (SLMs) enable natural human-computer interaction, but their reasoning ability still lags behind that of text-based large language models, especially on spoken mathematical question answering tasks. One important reason is that SLMs reason over purely verbalized mathematical expressions, which are harder to interpret than symbolic text. However, directly transferring text-based reasoning to SLMs is nontrivial due to architectural constraints and the additional computational requirements. To address this challenge, we propose Efficient Chain-of-Modality Reasoning (ECoM Reasoning), the first framework to introduce compressed reasoning into SLMs. By compressing the textual component so that it jointly serves as speech guidance and reasoning representation, ECoM Reasoning improves reasoning accuracy while using a smaller token budget than the standard Chain-of-Modality (CoM) architecture, which generates intermediate text before speech. To train this capability, we further propose Progressive Compression, a curriculum-based strategy that gradually trains the model from full-form reasoning to compressed reasoning. Experiments on spoken mathematical question answering benchmarks show that ECoM Reasoning improves accuracy by 21% over standard CoM without explicit reasoning, and by 3% over CoM with full reasoning traces while using only 40% of the text tokens, demonstrating that it enhances SLM reasoning while remaining inference-efficient.",
+      "authors": [
+        "Pengchao Feng",
+        "Chao-Hong Tan",
+        "Qian Chen",
+        "Wen Wang",
+        "Xiangang Li",
+        "Xie Chen"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.SD"
+      ],
+      "published": "2026-07-22T09:04:55+00:00",
+      "link": "https://arxiv.org/pdf/2607.19932v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "compressed reasoning chain for spoken language models",
+      "llm_evidence_cn": "为口语语言模型引入压缩推理链",
+      "llm_evidence": "为口语语言模型引入压缩推理链",
+      "canonical_evidence": "为口语语言模型引入压缩推理链",
+      "llm_tldr_en": "ECoM Reasoning introduces progressive compression to create compressed reasoning chains for spoken language models, improving reasoning ability while reducing computational cost.",
+      "llm_tldr_cn": "针对口语语言模型在数学推理上的不足，本文提出高效链式模态推理（ECoM Reasoning），通过渐进式压缩将文本组件压缩为紧凑表征，使口语模型能更高效地进行复杂推理，实验表明在口语数学问答任务上有效提升了准确率和效率。",
+      "llm_tldr": "针对口语语言模型在数学推理上的不足，本文提出高效链式模态推理（ECoM Reasoning），通过渐进式压缩将文本组件压缩为紧凑表征，使口语模型能更高效地进行复杂推理，实验表明在口语数学问答任务上有效提升了准确率和效率。",
+      "llm_tags": [
+        "query:lr"
+      ],
+      "matched_query_tag": "query:lr",
+      "matched_query_text": "latent space reasoning for multimodal models",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.17657v1",
+      "source": "arxiv",
+      "title": "OrientSAM: Mitigating Camera-Centric Shortcut in Multimodal Spatial Reasoning via Orientation-Aware Spatial Alignment",
+      "abstract": "Multimodal large language models (MLLMs) still struggle with spatial reasoning that requires perspective transformation. In particular, they often rely on camera-centric cues rather than reasoning from the reference object's viewpoint, leading to systematic errors in non-camera reference settings. In this paper, we first analyze this failure mode and show that object orientation is a key factor underlying such camera-centric shortcut behavior. To address this issue, we propose OrientSAM, an orientation-aware spatial alignment framework for multimodal models. OrientSAM injects explicit orientation information into multimodal representations through orientation-aware tokens and Fourier-based angle encoding, and further adopts a curriculum learning strategy to progressively improve perspective-aware reasoning. In addition, we build a spatial data construction pipeline to generate orientation-aware spatial supervision from large-scale images. Experiments on Spatial-MM, ViewSpatial, and 3DSRBench show that OrientSAM consistently outperforms strong baselines, especially on non-camera-view, person-centric, and orientation-sensitive tasks. The results further demonstrate that explicit orientation modeling is important for mitigating camera-centric shortcut behavior and enabling more robust allocentric spatial reasoning in multimodal models.",
+      "authors": [
+        "Wenxiao Fan",
+        "Hang Yin",
+        "Kan Li"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CV",
+        "cs.MM"
+      ],
+      "published": "2026-07-20T08:07:22+00:00",
+      "link": "https://arxiv.org/pdf/2607.17657v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "addresses multimodal spatial reasoning with orientation-aware alignment",
+      "llm_evidence_cn": "通过方向感知对齐解决多模态空间推理问题",
+      "llm_evidence": "通过方向感知对齐解决多模态空间推理问题",
+      "canonical_evidence": "通过方向感知对齐解决多模态空间推理问题",
+      "llm_tldr_en": "Proposes OrientSAM, an orientation-aware spatial alignment framework for MLLMs, mitigating camera-centric shortcuts by injecting explicit orientation tokens and Fourier angle encoding.",
+      "llm_tldr_cn": "多模态大语言模型在空间推理中常依赖相机中心线索而非物体视角，导致系统误差。本文提出OrientSAM框架，通过方向感知令牌和傅里叶角度编码注入显式方向信息，缓解相机中心捷径。实验表明该方法显著提升了非相机参考设定下的空间推理准确率，为多模态模型的隐空间推理提供了方向对齐新思路。",
+      "llm_tldr": "多模态大语言模型在空间推理中常依赖相机中心线索而非物体视角，导致系统误差。本文提出OrientSAM框架，通过方向感知令牌和傅里叶角度编码注入显式方向信息，缓解相机中心捷径。实验表明该方法显著提升了非相机参考设定下的空间推理准确率，为多模态模型的隐空间推理提供了方向对齐新思路。",
+      "llm_tags": [
+        "query:lr"
+      ],
+      "matched_query_tag": "query:lr",
+      "matched_query_text": "multimodal large language model reasoning in latent space",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.21085v1",
+      "source": "arxiv",
+      "title": "Geo3R: Mitigating Spatial Reasoning Hallucination in Multimodal Large Language Models",
+      "abstract": "Despite remarkable progress in visual understanding, Multimodal Large Language Models (MLLMs) remain prone to hallucinations when reasoning about spatial relationships, often producing judgments that contradict the true 3D structure of the scene. Though several existing works have proposed to mitigate hallucinations, our analysis indicates that they show limited effectiveness in spatial reasoning, as they fail to bridge the fundamental gap between 2D visual representations and 3D spatial reality. Based on this finding, we define hallucinations arising from insufficient spatial structure modeling as spatial reasoning hallucination, a subcategory of relation hallucination that existing mitigation methods fail to address. We further identify three typical scenarios where such hallucinations frequently occur: perspective effects, object orientation, and viewpoint changes. To this end, we propose Geo3R, a training-free, plug-and-play framework that incorporates geometric evidence and structured 3D reasoning to mitigate spatial reasoning hallucination. Experiments on three benchmarks, covering 18 tasks across all three scenarios, show that Geo3R substantially reduces spatial reasoning hallucination across diverse MLLMs without additional training, outperforming existing models and methods.",
+      "authors": [
+        "Mingyu Wang",
+        "Weilin Jin",
+        "Wenbo Li",
+        "Haoyang Huang",
+        "Tong Jia",
+        "Ying Li"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-23T09:15:08+00:00",
+      "link": "https://arxiv.org/pdf/2607.21085v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "mitigating spatial reasoning hallucination in MLLMs",
+      "llm_evidence_cn": "缓解多模态大模型的空间推理幻觉",
+      "llm_evidence": "缓解多模态大模型的空间推理幻觉",
+      "canonical_evidence": "缓解多模态大模型的空间推理幻觉",
+      "llm_tldr_en": "Identifies spatial reasoning hallucination in MLLMs and proposes a method to bridge 2D-3D gap.",
+      "llm_tldr_cn": "该论文指出多模态大模型在空间推理中存在幻觉问题，源于2D视觉与3D空间的鸿沟，提出了几何增强方法以缓解该幻觉，提升模型空间理解准确性。",
+      "llm_tldr": "该论文指出多模态大模型在空间推理中存在幻觉问题，源于2D视觉与3D空间的鸿沟，提出了几何增强方法以缓解该幻觉，提升模型空间理解准确性。",
+      "llm_tags": [
+        "query:seg-llm"
+      ],
+      "matched_query_tag": "query:seg-llm",
+      "matched_query_text": "large language model reasoning",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.18883v1",
+      "source": "arxiv",
+      "title": "RAMP: Recognition parametrisation by Amortised Message Passing",
+      "abstract": "A central aim of unsupervised learning is to uncover latent factors that explain dependencies among observations. Probabilistic models typically achieve this by introducing multiple latent variables linked through a graph of conditional relationships, with distributional parameters and their dependence learnt from data. Learning relies either on distributional choices that allow tractable belief propagation, or on approximations that scale poorly with model size and complexity. We build on the recently developed recognition-parametrised modelling paradigm to propose an alternative approach: RAMP, a method that implicitly defines latent structure by learning a flexible, nonlinear, amortised message-passing framework. We show that RAMP enables efficient likelihood-based recovery of latent-variable distributions within expressive nonlinear models acting on complex high-dimensional data.",
+      "authors": [
+        "Lior Fox",
+        "Kai Biegun",
+        "James Heald",
+        "Samo Hromadka",
+        "Arielle Rosinski",
+        "Maneesh Sahani"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-07-21T09:13:29+00:00",
+      "link": "https://arxiv.org/pdf/2607.18883v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "learns latent structure via amortised message passing",
+      "llm_evidence_cn": "通过摊销消息传递学习隐结构",
+      "llm_evidence": "通过摊销消息传递学习隐结构",
+      "canonical_evidence": "通过摊销消息传递学习隐结构",
+      "llm_tldr_en": "Proposes a method to implicitly define latent structure via amortised message passing, enabling efficient likelihood computation.",
+      "llm_tldr_cn": "该论文提出RAMP方法，通过柔性非线性摊销消息传递框架隐式定义隐变量结构，有效学习数据中的潜在因子，为无监督学习提供新范式。",
+      "llm_tldr": "该论文提出RAMP方法，通过柔性非线性摊销消息传递框架隐式定义隐变量结构，有效学习数据中的潜在因子，为无监督学习提供新范式。",
+      "llm_tags": [
+        "query:lr:composite"
+      ],
+      "matched_query_tag": "query:lr:composite",
+      "matched_query_text": "Papers central to 请帮我查找多模态大模型隐空间推理的相关论文。, especially work that connects or combines: multimodal large language model reasoning in latent space; latent space reasoning for multimodal models; reasoning in latent space of large models; multimodal reasoning with latent variables; papers on reasoning in latent space of multimodal large language models; research about latent space reasoning for multimodal models.",
+      "matched_requirement_id": "req-composite-lr",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.19669v1",
+      "source": "arxiv",
+      "title": "A Unified Variational Framework for Deep Weakly Supervised Image Segmentation",
+      "abstract": "We propose a unified variational framework for image segmentation under sparse pixel-level supervision. Our method is based on a simplex-constrained Potts model with a smooth perimeter regularizer, yielding a convex, smooth energy functional that can be used as a training loss in weakly supervised deep learning paradigms or optimized efficiently using iterative methods. Sparse labels are incorporated into the data fidelity term by constructing a fuzzy membership function via a function extension problem in a Reproducing Kernel Hilbert Space (RKHS), which can effectively capture inhomogeneous intensity statistics. The derived discrete loss for training standard networks demonstrates robustness and consistent improvements over non-training and partial cross-entropy (PCE) baselines in experiments, achieving comparable performance without requiring ground-truth segmentation images.",
+      "authors": [
+        "Yin King Chu",
+        "Lingfeng Li",
+        "Sung Ha Kang",
+        "Jianping Zhang",
+        "Xue-Cheng Tai"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-22T02:18:15+00:00",
+      "link": "https://arxiv.org/pdf/2607.19669v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "unified variational framework for weakly supervised image segmentation",
+      "llm_evidence_cn": "弱监督图像分割的统一变分框架",
+      "llm_evidence": "弱监督图像分割的统一变分框架",
+      "canonical_evidence": "弱监督图像分割的统一变分框架",
+      "llm_tldr_en": "A unified variational framework based on simplex-constrained Potts model for weakly supervised segmentation, using RKHS function extension to handle sparse labels.",
+      "llm_tldr_cn": "弱监督图像分割面临标签稀疏问题。本文提出基于单纯形约束Potts模型的统一变分框架，通过再生核希尔伯特空间（RKHS）中的函数扩展构建模糊隶属度，有效捕获不均匀强度统计。该框架可作为训练损失用于深度网络，实验证明其鲁棒性且优于非训练方法。",
+      "llm_tldr": "弱监督图像分割面临标签稀疏问题。本文提出基于单纯形约束Potts模型的统一变分框架，通过再生核希尔伯特空间（RKHS）中的函数扩展构建模糊隶属度，有效捕获不均匀强度统计。该框架可作为训练损失用于深度网络，实验证明其鲁棒性且优于非训练方法。",
+      "llm_tags": [
+        "query:seg-llm"
+      ],
+      "matched_query_tag": "query:seg-llm",
+      "matched_query_text": "semantic segmentation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.20327v1",
+      "source": "arxiv",
+      "title": "PyroDash: Cost-Efficient Token-Level Small-Large Language Model Collaborative Inference",
+      "abstract": "Large language models (LLMs) provide strong reasoning capabilities but are expensive to serve at scale, whereas small language models (SLMs) are cheaper but less reliable on difficult problems. We introduce PyroDash, a cost-aware framework for token-level SLM-LLM collaborative inference. During generation, the SLM decides whether to request assistance by emitting a control token. A Collaborate Engine then sends the query and partial reasoning trace to a frozen LLM for completion through a single handoff. The policy is internalized in the SLM, requiring neither a separate router, LLM retraining, nor access to LLM logits. PyroDash trains the SLM in three stages: control-token embedding learning, offloading-oriented supervised fine-tuning, and cost-aware alignment with Group Relative Policy Optimization. Its reward balances answer accuracy against inference cost normalized by LLM-only inference. Across five mathematical reasoning benchmarks, PyroDash supports different accuracy-cost operating points. With $λ=0.05$, it achieves 64.04 percent average accuracy, 6.36 percentage points above the LLM-only baseline, while reducing cost by 20.4 percent. With $λ=0.6$, it achieves 54.55 percent accuracy with a 1.90 percent LLM token ratio and 0.012 LLM calls per example, reducing total cost from USD 49.36 to USD 1.78. These results show that learned token-level handoffs can reduce LLM use while preserving strong reasoning performance.",
+      "authors": [
+        "Niqi Lyu",
+        "Pengtao Shi",
+        "Wei Qiu",
+        "Jianlin Zhong",
+        "Sicong Xia",
+        "Jianyao Ma",
+        "Yicheng Ding"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-07-22T16:14:26+00:00",
+      "link": "https://arxiv.org/pdf/2607.20327v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "small-large language model collaborative inference for reasoning",
+      "llm_evidence_cn": "小-大语言模型协同推理",
+      "llm_evidence": "小-大语言模型协同推理",
+      "canonical_evidence": "小-大语言模型协同推理",
+      "llm_tldr_en": "Proposes a token-level SLM-LLM collaborative inference framework that offloads difficult reasoning steps to a frozen LLM, improving cost-efficiency.",
+      "llm_tldr_cn": "本文提出PyroDash，一种代价感知的词级别小-大语言模型协同推理框架。小模型在生成过程中通过控制词请求大模型协助，无需独立路由器或重新训练。在保持推理性能的同时显著降低推理成本。",
+      "llm_tldr": "本文提出PyroDash，一种代价感知的词级别小-大语言模型协同推理框架。小模型在生成过程中通过控制词请求大模型协助，无需独立路由器或重新训练。在保持推理性能的同时显著降低推理成本。",
+      "llm_tags": [
+        "query:seg-llm"
+      ],
+      "matched_query_tag": "query:seg-llm",
+      "matched_query_text": "large language model reasoning",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.20705v1",
+      "source": "arxiv",
+      "title": "U-CFR: Uncertainty-Guided Cascade Forward Refinement for Interactive Segmentation",
+      "abstract": "Interactive image segmentation is critical for efficient image annotation; however, existing methods often require many corrective clicks or rely on passive refinement schemes that converge slowly. We propose Uncertainty-Guided Cascade Forward Refinement (U-CFR), a novel inference-time framework that enables models to autonomously self-correct after each user interaction. U-CFR introduces a boundary-aware uncertainty score that fuses segmentation uncertainty, contour gradients, and explicit edge predictions to guide the placement of internal pseudo-clicks. These self-generated clicks target the most ambiguous boundary regions, providing strong corrective signals without additional manual input. To support this process, we design a dual-head network with a shared encoder-decoder backbone: a segmentation head ensures region consistency, while an edge head sharpens boundary alignment. In inference, U-CFR launches a cascade of refinement steps, where each stage leverages the uncertainty-driven pseudo-clicks to refine the mask progressively. Experiments on standard benchmark datasets demonstrate that the proposed U-CFR improves click efficiency, initial mask quality, and boundary accuracy. It reduces the required clicks by over 10% on challenging datasets like Berkeley and offers a more intelligent and efficient interactive annotation.",
+      "authors": [
+        "Elijah Danquah Darko",
+        "Min Xian",
+        "Terence Soule",
+        "Tiankai Yao",
+        "Matthew William Anderson"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-22T20:23:00+00:00",
+      "link": "https://arxiv.org/pdf/2607.20705v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "interactive image segmentation with uncertainty-guided refinement",
+      "llm_evidence_cn": "不确定性引导的交互式图像分割",
+      "llm_evidence": "不确定性引导的交互式图像分割",
+      "canonical_evidence": "不确定性引导的交互式图像分割",
+      "llm_tldr_en": "U-CFR proposes an uncertainty-guided cascade forward refinement framework for interactive segmentation, enabling autonomous self-correction with boundary-aware pseudo-clicks to reduce user effort.",
+      "llm_tldr_cn": "现有交互式分割方法需要大量纠正点击或收敛缓慢。U-CFR提出不确定性引导的级联前向细化框架，通过边界感知不确定性得分生成内部伪点击，自动修正分割边界。该方法在多个分割数据集上显著减少了用户交互次数，提升了分割精度与效率。",
+      "llm_tldr": "现有交互式分割方法需要大量纠正点击或收敛缓慢。U-CFR提出不确定性引导的级联前向细化框架，通过边界感知不确定性得分生成内部伪点击，自动修正分割边界。该方法在多个分割数据集上显著减少了用户交互次数，提升了分割精度与效率。",
+      "llm_tags": [
+        "query:seg-llm"
+      ],
+      "matched_query_tag": "query:seg-llm",
+      "matched_query_text": "semantic segmentation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.21333v1",
+      "source": "arxiv",
+      "title": "SHIFT: Self-reconstruction Harnesses Implicit Fine-grained Thinking for Retrieval",
+      "abstract": "LLM-based retrievers have become a fundamental component of modern information retrieval systems. The paradigm of \"rewrite-then-retriev\" introduces explicit reasoning before retrieval. In addition, implicit-reasoning retrievers such as GIRCSE and LaSER improve efficiency by replacing explicit reasoning with soft tokens. Although these methods demonstrated competitive performance on reasoning-intensive retrieval benchmarks, they struggle to address the mismatch between the objectives of retrieval and generation. In this work, we propose SHIFT ($\\textbf{S}$elf-reconstruction $\\textbf{H}$arnesses $\\textbf{I}$mplicit $\\textbf{F}$ine-grained $\\textbf{T}$hinking for Retrieval), a retrieval training framework based on LLMs. Firstly, we transfer LLMs into reasoning-efficient retrievers with residual projection and task-oriented bidirectional attention aggregation in the latent space. Secondly, we alleviate the mismatch between contrastive learning and implicit reasoning using fine-grained next-token-prediction-based reconstruction. Extensive experiments on reasoning-intensive retrieval benchmarks show that SHIFT consistently outperforms other widely used retrievers. We also carried out a detailed analysis to illustrate how our method works.",
+      "authors": [
+        "Yuxiao Luo",
+        "Da Li",
+        "Mingjie Zhang",
+        "Zhentao He",
+        "Shikun Zhang",
+        "Wei Ye"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR"
+      ],
+      "published": "2026-07-23T14:00:09+00:00",
+      "link": "https://arxiv.org/pdf/2607.21333v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "implicit reasoning via soft tokens in LLM retrievers, related to latent space",
+      "llm_evidence_cn": "通过软令牌在LLM检索器中实现隐式推理，涉及隐空间",
+      "llm_evidence": "通过软令牌在LLM检索器中实现隐式推理，涉及隐空间",
+      "canonical_evidence": "通过软令牌在LLM检索器中实现隐式推理，涉及隐空间",
+      "llm_tldr_en": "Proposes SHIFT, a self-reconstruction training framework for LLM retrievers that uses implicit fine-grained thinking to enhance retrieval.",
+      "llm_tldr_cn": "基于大语言模型的检索器面临检索与生成目标不匹配的问题。本文提出SHIFT框架，通过自重建训练实现隐式细粒度思考，将隐式推理能力融入检索过程。实验表明SHIFT在推理密集型检索基准上性能优越，验证了隐空间推理在检索任务中的有效性，对理解隐空间推理有借鉴意义。",
+      "llm_tldr": "基于大语言模型的检索器面临检索与生成目标不匹配的问题。本文提出SHIFT框架，通过自重建训练实现隐式细粒度思考，将隐式推理能力融入检索过程。实验表明SHIFT在推理密集型检索基准上性能优越，验证了隐空间推理在检索任务中的有效性，对理解隐空间推理有借鉴意义。",
+      "llm_tags": [
+        "query:lr"
+      ],
+      "matched_query_tag": "query:lr",
+      "matched_query_text": "reasoning in latent space of large models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
