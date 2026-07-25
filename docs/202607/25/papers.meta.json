@@ -1,0 +1,69 @@
+{
+  "label": "2026-07-25",
+  "date": "2026-07-25",
+  "generated_at": "2026-07-25T21:17:41",
+  "count": 4,
+  "papers": [
+    {
+      "paper_id": "202607/25/2607.20952v1-the-weight-of-silence-a-causal-case-for-weights-over-the-scratchpad-in-latent-chess-reasoning",
+      "section": "deep",
+      "title_en": "The Weight of Silence: A Causal Case for Weights Over the Scratchpad in Latent Chess Reasoning",
+      "authors": "Ishan S. Kshirsagar",
+      "date": "2026-07-23",
+      "pdf": "https://arxiv.org/pdf/2607.20952v1",
+      "score": "9.0",
+      "evidence": "语言模型在国际象棋中的隐空间推理",
+      "tldr": "潜在推理在语言模型中常被视为内部草稿本，但经过强化学习（RL）后是否仍如此未经因果验证。本文通过阶段课程和RL训练棋类模型，设计六种因果干预（替换、添加噪声、归零等），比较RL前后依赖。发现RL后模型对噪声和替换高度鲁棒，仅零向量导致崩溃；RL实质增加鲁棒性而非思维依赖。结果挑战默认假设，表明潜在推理主要在训练时塑造参数，并首次在棋类领域实现RL增益。",
+      "tags": "query:lr",
+      "abstract_en": "Latent, or silent, reasoning lets language models carry out intermediate computation in continuous vector space instead of words, and is widely assumed to function as an internal scratchpad the model actively consults during inference. Whether that assumption survives reinforcement learning has not been tested directly: existing causal analyses of latent reasoning are confined to math and logic tasks, and compare a model's reliance on its thoughts within a single checkpoint, never before and after an RL stage. We train a chess-playing model through a staged latent-reasoning curriculum followed by reinforcement learning, and find legality climbs monotonically to 61% (from a 48% pre-RL baseline) while checkmate confabulation is eliminated entirely. To locate this gain, we run a six-condition causal intervention suite on the same model before and after RL: substituting or adding matched noise to the latent thought vectors leaves performance unchanged, ablating them causes only mild degradation, and only exact-zero vectors cause collapse. This robustness gap is itself the finding: under exact-zero corruption, legality collapses to 1% pre-RL versus 9% post-RL, a gap that survives correction for testing across the full battery; milder conditions trend similarly without independently reaching significance. RL appears to add robustness to disruption, not reliance on thought content. These results push back against the field's default assumption that latent thoughts function as an actively consulted inference-time scratchpad, and instead indicate latent reasoning's principal effect here is shaping the model's parameters during training. We also demonstrate a working RL gain in chess, a domain outside the math and logic settings where multiple groups report the same latent-reasoning-plus-RL recipe failing to improve accuracy over SFT.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/25/2607.18100v1-can-we-break-llms-out-of-self-loops-fine-grained-reasoning-control-with-activation-steering",
+      "section": "quick",
+      "title_en": "Can We Break LLMs Out of Self-Loops? Fine-Grained Reasoning Control with Activation Steering",
+      "authors": "Sheldon Yu, Tong Yu, Xunyi Jiang, Rohan Surana, Gagan Mundada, Sungchul Kim, Lina Yao, Julian McAuley, Junda Wu",
+      "date": "2026-07-20",
+      "pdf": "https://arxiv.org/pdf/2607.18100v1",
+      "score": "7.0",
+      "evidence": "通过激活引导在隐状态中控制推理过程",
+      "tldr": "现有LLM扩展推理轨迹不可控，失败常因陷入自循环而耗尽token预算。本文通过统计表征推理中的潜在状态，提出SOPHIA方法，将轨迹视为状态序列并以隐藏状态干预进行精细控制。构建状态对转向向量库，在线检测自循环并施加干预。实验证明该方法能可靠打破自循环，提升任务准确率和token效率，实现更好的推理质量。",
+      "tags": "query:lr",
+      "abstract_en": "Extended reasoning has become standard for frontier Large Language Models (LLMs), yet the trajectories these models produce remain largely uncontrollable. Existing methods for shaping how a model reasons are prompt based approaches and operate at the input level, offering no fine-grained control over the reasoning process itself. Related work analyzes and discovers latent transition dynamics in the reasoning traces from Large Language Models. Building on this, we statistically characterize these states, and show that failure trajectories get stuck in self-loops, exhausting the token budget without progress toward the final answer. To intervene on these failures, We propose SOPHIA: Steering Of reasoning Processes via Hidden-state Intervention and Activations. We treat each reasoning trace as a sequence of latent states rather than an unstructured texts, and investigate whether inference time interventions can provide fine-grained control over the self-looping reasoning process. We classify every prefix to a latent state, record step level transitions, and use them to construct a bank of steering vectors indexed by state pairs. At inference time, a controller infers the current state and, given a target state, retrieves the corresponding vector and can also detect self-loops online from the transition structure to prevent the model from sinking into a reasoning black hole. Through extensive experiments, our method reliably intervenes on self-loop failures, with steering vectors that generalize to different state pairs. End task accuracy and token efficiency indicate that fine-grained controllability results in better reasoning quality.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/25/2607.20402v1-softreason-a-fully-differentiable-neuro-soft-symbolic-deductive-reasoning-architecture-over-high-dimensional-perceptual-data",
+      "section": "quick",
+      "title_en": "SoftReason: A Fully Differentiable Neuro-Soft-Symbolic Deductive Reasoning Architecture over High-Dimensional Perceptual Data",
+      "authors": "Wael AbdAlmageed",
+      "date": "2026-07-22",
+      "pdf": "https://arxiv.org/pdf/2607.20402v1",
+      "score": "6.0",
+      "evidence": "在隐层感知事实上的全可微推理",
+      "tldr": "经典神经符号推理中感知与演绎存在离散接口，导致梯度无法传播。SoftReason提出将演绎状态表示为软解释张量，通过可微的即时后果算子融合感知与知识图谱证据，实现端到端训练。该方法在KVQA任务上支持感知基础与演绎闭包的联合优化。贡献在于弥合了高维感知数据与符号推理之间的梯度鸿沟。",
+      "tags": "query:lr",
+      "abstract_en": "In many reasoning problems, the premises are not observed as discrete symbols, but must be inferred from high-dimensional inputs. Further, the predicate vocabulary, argument structure, and trusted evidence are supplied by a Knowledge Graph (KG), or rule definitions. Classical neuro-symbolic pipelines have a discrete interface between perception and deduction. We present a neuro-soft-symbolic architecture for differentiable deductive reasoning over latent perceptual facts and knowledge-provided predicates. SoftReason removes the gradient gap by representing the deductive state as a local soft interpretation tensor over candidate constants and predicates. Perception proposes probabilistic base facts, KG triples enter as high-confidence soft evidence, and every query anchor, predicate choice, and closure update remains differentiable. Our core innovation is a learned differentiable lift of the immediate-consequence operator. It uses predicate-definition embeddings and latent composition channels to form soft body-predicate mixtures, aggregate over all possible witnesses, propose query-conditioned head facts, and update the interpretation through a monotone probabilistic OR. We instantiate the framework on Knowledge-aware Visual Question Answering (KVQA), and demonstrates how SoftReason supports end-to-end perceptual grounding, KG evidence injection, and differentiable deductive closure in one trainable architecture.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/25/2607.21552v1-mirror-learning-from-the-other-view-for-multi-modal-reasoning",
+      "section": "quick",
+      "title_en": "MIRROR: Learning from the Other View for Multi-Modal Reasoning",
+      "authors": "Wen Ye, Yuxiao Qu, Aviral Kumar, Xuezhe Ma",
+      "date": "2026-07-23",
+      "pdf": "https://arxiv.org/pdf/2607.21552v1",
+      "score": "6.0",
+      "evidence": "通过不同视图进行多模态推理",
+      "tldr": "视觉语言模型（VLM）在多模态几何推理中，不同视图（文本、图表、图表+文本）常产生不一致的行为，标准后训练未能充分利用。本文构建了高质量ODA-Data多视图几何数据集，并提出MIRROR强化学习方法，通过评估各视图表现，选择最佳视图作为教师，以reverse-KL目标优化其他视图。在几何推理基准上，MIRROR相比标准RL显著提升了推理准确性和模态间一致性。该工作揭示了多视图互补性对增强VLM推理能力的重要价值。",
+      "tags": "query:lr",
+      "abstract_en": "Unlike large language models (LLMs) that exhibit strong reasoning capabilities, vision-language models (VLMs) struggle with visual reasoning, even on geometry problems that admit equivalent text, diagram, and combined diagram+text views. We show that these views often elicit different behaviors: a model may solve a problem from text but fail on the corresponding diagram, or succeed visually while failing textually. This inconsistency suggests that different views expose complementary reasoning paths and failure modes that standard multimodal post-training does not fully exploit. To study and exploit this phenomenon, we construct ODA-Data, a high-quality paired multimodal geometry dataset with text-dominant, image-dominant, and combined image+text views of the same problems, together with splits for training and evaluating modality-dependent reasoning behaviors. We then develop Modality-Informed Reciprocal Reasoning Optimization (MIRROR), a reinforcement learning approach for improving multimodal reasoning via self supervision. For each problem, MIRROR evaluates the model under all views, selects the best-performing view as a teacher, and trains other views with a reverse-KL objective towards the teacher. Across reasoning benchmarks that evaluate on geometry problems, MIRROR improves over standard RL and yields more accurate and consistent behavior across modalities",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
