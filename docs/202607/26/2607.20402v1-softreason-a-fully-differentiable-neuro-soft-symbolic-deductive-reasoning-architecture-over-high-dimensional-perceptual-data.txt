@@ -1,0 +1,510 @@
+Title: SoftReason: A Fully Differentiable Neuro-Soft-Symbolic Deductive Reasoning Architecture over High-Dimensional Perceptual Data
+
+URL Source: https://arxiv.org/pdf/2607.20402v1
+
+Published Time: Thu, 23 Jul 2026 01:14:09 GMT
+
+Number of Pages: 15
+
+Markdown Content:
+> Proceedings of Machine Learning Research vol 284:1–2, 2026 20th Conference on Neurosymbolic Learning and Reasoning
+
+# SoftReason: A Fully Differentiable Neuro-Soft -Symbolic Deductive Reasoning Architecture over High-Dimensional Perceptual Data 
+
+Wael AbdAlmageed wabdalm@clemson.edu 
+
+Holcombe Department of Electrical and Computer Engineering, Clemson University 
+
+Editors: Alessandra Mileo, Andrea Passerini and Cogan Shimizu 
+
+Abstract 
+
+In many reasoning problems, the premises are not observed as discrete symbols, but must be inferred from high-dimensional inputs. Further, the predicate vocabulary, argument structure, and trusted evidence are supplied by a Knowledge Graph (KG), or rule definitions. Classical neuro-symbolic pipelines have a discrete interface between perception and deduction. We present a neuro-soft -symbolic architecture for differentiable deductive reasoning over latent perceptual facts and knowledge-provided predicates. SoftReason removes the gradient gap by representing the deductive state as a local soft interpretation tensor over candidate constants and predicates. Perception proposes probabilistic base facts, KG triples enter as high-confidence soft evidence, and every query anchor, predicate choice, and closure update remains differentiable. Our core innovation is a learned differentiable lift of the immediate-consequence operator. It uses predicate-definition embeddings and latent composition channels to form soft body-predicate mixtures, aggregate over all possible witnesses, propose query-conditioned head facts, and update the interpretation through a monotone probabilistic OR. We instantiate the framework on Knowledge-aware Visual Question Answering (KVQA), and demonstrates how SoftReason supports end-to-end perceptual grounding, KG evidence injection, and differentiable deductive closure in one trainable architecture. 
+
+1. Introduction 
+
+Deep neural networks, especially large language models (LLMs), have achieved remarkable success in perception and generation tasks ( e.g. , image classification (Dosovitskiy et al., 2021), text generation (OpenAI, 2023)). Given sufficient training data, deep models learn the underlying statistical distribution of the input data and the correlations between input data and target variables. However, learning statistical correlations is not sufficient to perform compositional generalization and deductive reasoning tasks, where logical rules should be applied to known and/or perceived (from input data) facts to derive new conclusions that have not been encountered in the training data or cannot be made from perceptual data (Lake and Baroni, 2018; d’Avila Garcez et al., 2019; Evans and Grefenstette, 2018). Neuro-symbolic architectures ( e.g. , DeepProbLog (Manhaeve et al., 2018), Scallop (Huang et al., 2021), and Neural Theorem Provers (Rocktäschel and Riedel, 2017)) address these challenges by pipelining neural perception with symbolic reasoning. These systems leverage discrete symbols (predicted by neural networks) and apply logical constraints, rules and search algorithms to perform reasoning tasks, such as multi-hop question answering (Rocktäschel and Riedel, 2017; Saxena et al., 2020), knowledge graph completion (Bordes et al., 2013; Sun et al., 2019), and theorem proving (Rocktäschel and Riedel, 2017; Olausson et al., 2023),  
+
+> ©2026 W. AbdAlmageed. arXiv:2607.20402v1 [cs.AI] 22 Jul 2026 AbdAlmageed
+
+that cannot be solved using pure neural inductive reasoning. The fundamental limitation, however, of existing neuro-symbolic pipelines is the gradient gap between neural perception and symbolic reasoning (Manhaeve et al., 2018; Xu et al., 2018). Classical pipelines convert perceptual predictions into discrete symbols ( e.g. , labels and relations) before reasoning begins, introducing non-differentiable boundaries, which does not (1) allow reasoning to shape the latent space learned by perception, (2) allow reasoning to leverage the rich uncertainty (i.e. , distribution over candidate entities and relations) encoded in learned representations. We introduce SoftReason , a fully differentiable neuro-soft -symbolic deductive reasoning architecture that eliminates the gradient gap between neural perception and symbolic reasoning. A perceptual encoder maps the high-dimensional perceptual input to dense tokens, a grounding module distributes those tokens over candidate entities, and a relational attention encoder contextualizes the result. SoftReason represents the deductive state as a soft interpretation tensor, which allows the reasoning and perceptions components to propagate gradients backward on the computation graph, without an irreversible, hard commitment to discrete symbols at any point in the architecture. The deductive component of the architecture can be trained with any source of deductive rules, including Prolog-like rules or differentiable rule templates. Therefore, deductive reasoning is not a post-processing step but an intrinsic part of what the model learns. Our contributions are: 
+
+• A formulation of deductive reasoning over perceptual data as differentiable closure over a local soft interpretation tensor, which preserves uncertainty through every deductive step. 
+
+• A learned differentiable lift of the immediate-consequence operator , implemented through predicate-definition embeddings and latent composition channels, with classical Horn-chain reasoning recovered as a limiting case. 
+
+• A fully differentiable end-to-end architecture that unifies perceptual grounding, KG evidence injection, and deductive closure in one trainable model. 
+
+• An instantiation of SoftReason on knowledge-aware visual question answering. 
+
+2. Related Work 
+
+Neuro-symbolic learning and differentiable logic. Neuro-symbolic methods combine neural representation learning with symbolic knowledge representation and reasoning ( e.g. ,d’Avila Garcez et al. (2019)). Existing systems differ in where they place the symbolic interface. Semantic loss converts logical constraints over structured outputs into a differentiable training objective ( e.g. , Xu et al. (2018)). Logic Tensor Networks interpret first-order logic (FOL) formulas with many-valued differentiable semantics and use logical satisfaction as a learning signal (Badreddine et al., 2022). TensorLog compiles classes of probabilistic first-order queries into differentiable functions, making deductive database inference compatible with neural learning infrastructure (Cohen, 2016). These methods show that symbolic structure can shape neural learning, but the symbolic vocabulary, clauses, or constraints are usually fixed inputs to the system rather than learned from perceptual evidence as part of one differentiable deductive state. 
+
+Differentiable theorem proving and logic programming. Several lines of work make proof search or logic-program inference compatible with gradient-based learning. Neural Theorem Provers replace symbolic unification with differentiable similarity in embedding 
+
+> 2SoftReason
+
+space and support multi-hop reasoning over knowledge bases (Rocktäschel and Riedel, 2017). Differentiable Inductive Logic Programming learns soft selections over candidate rules and can be connected to neural predictors for ambiguous inputs (Evans and Grefenstette, 2018). DeepProbLog integrates neural predicates with probabilistic logic programming, allowing neural predictions to participate in logical inference (Manhaeve et al., 2018). Scallop builds on probabilistic deductive databases and provenance semantics to scale differentiable reasoning over Datalog-style programs (Huang et al., 2021). These systems substantially narrow the distance between learning and deduction. However, they still typically rely on a supplied logic program, rule template, or symbolic proof graph. The neural component often predicts facts that are then consumed by a symbolic or compiled reasoning substrate. 
+
+Multi-hop reasoning over perceptual data. High-dimensional perception make this interface harder because the premises of a proof are not observed as clean atoms. Visual reasoning systems such as Neural-Symbolic Visual Question Answering (VQA) and the Neuro-Symbolic Concept Learner recover object-centric scene representations and execute symbolic programs over those representations (Yi et al., 2018; Mao et al., 2019). This design gives strong compositional generalization when the scene representation and program trace are correct, but it also exposes a brittle handoff. Perception must be converted into a discrete symbolic state before reasoning, and errors introduced by grounding, parsing, entity linking, or top-k pruning can remove facts before the deductive module has a chance to use them. Similar concerns arise in knowledge-intensive perceptual reasoning systems that construct explicit graph structures before multi-hop inference (Heo et al., 2022). 
+
+Knowledge-graph completion. Knowledge-graph completion methods learn distributed representations of entities and relations for link prediction over a fixed symbolic graph. TransE models each relation as a translation in a low-dimensional entity space, scoring a candidate triple by how closely the head entity shifted by the relation lands on the tail entity (Bordes et al., 2013). RotatE extends this to complex vector space, treating each relation as a rotation and thereby supporting relational path composition and pattern inference (Sun et al., 2019). ComplEx models asymmetric relations through Hermitian inner products over complex embeddings (Trouillon et al., 2016). These representations have been incorporated into multi-hop Knowledge-Graph Question Answering (KGQA) pipelines, where they score candidate answers after a separate entity-linking stage (Saxena et al., 2020). Since these methods operate over a fixed graph rather than a differentiable perceptual interpretation, grounding errors cannot be recovered through answer-level supervision. 
+
+LLM-augmented symbolic reasoning. A distinct line of work addresses multi-hop reasoning by coupling large language models (LLMs) with external symbolic solvers. LINC reformulates logical reasoning as neurosymbolic programming, where an LLM acts as a semantic parser that translates natural language premises into first-order logic expressions, which are then discharged to an external theorem prover (Olausson et al., 2023). Logic-LM follows a similar pipeline, translating questions into symbolic formulations and using a deterministic solver with an LLM-guided self-refinement loop (Pan et al., 2023). These methods demonstrate strong performance on formal reasoning benchmarks by leveraging the scale of pretrained LLMs. 
+
+> 3AbdAlmageed
+
+3. Technical Approach 
+
+We address the problem of deductive reasoning when the input facts ( e.g. , object relations in an image) are latent in high-dimensional perceptual data rather than observed as discrete symbols. Deductive reasoning requires a schema because the system must know which predicates are available, what argument types they take, and how facts can compose into new facts. Knowledge graphs and FOL resources provide this structure, where the schemas define the predicate vocabulary, their triples provide trusted facts, and their relational regularities or explicit clauses indicate which conclusions may be derived even when the conclusion is not already stored as a KG triple. A KG is therefore not treated merely as a lookup table. It supplies the symbolic support on which soft deduction is performed. SoftReason combines neural perception to propose probabilistic facts over the local universe, and KG facts to be injected as high-confidence soft evidence rather than as non-differentiable constraints. The resulting state represents facts that are likely observed, facts that are known from the KG, and facts that are deduced from both sources in the same tensor. KG structure therefore enriches perceptual facts, while the final task loss still propagates back through the perceptual grounding and fact extraction modules. 
+
+3.1. Problem Formulation 
+
+Let x ∈ X be a perceptual observation, q denote a query, and let K = ( C, P, T ) be a knowledge source with discrete symbols C, predicate schema P, and known ground facts T .The predicate schema may come from a knowledge graph (KG), or first-order logic (FOL) definitions. Although we present the model for binary predicates p(ci, c j ), because binary relations cover the common graph setting, unary predicates can be represented as relations to a distinguished truth constant, and higher-arity predicates can be represented either with arity-specific tensors or with standard reification into relation nodes. The objective is to map (x, q, K) to an answer distribution through a sequence of fully differentiable stages. All intermediate representations must remain soft, and only the final answer selection is mapped to discrete symbols. The fundamental principal of the architecture is that KG triples serve as training supervision only . Therefore, during training, KG-node embeddings and KG evidence injection anchor perceptual grounding and fact construction. At inference, on the other hand, both are disabled and the model reasons from perception alone. In the KVQA instantiation, for example, x is an image of a named person, q asks for an answer that can only be obtained by following one or more Wikidata relations, and K is the local Wikidata subgraph, as illustrated in Fig. 1. 
+
+3.2. SoftReason Architecture 
+
+For each input x, we construct a finite local universe Ex = {e1, . . . , e m} ⊆ C of candidate discrete symbols and a local predicate set Px ⊆ P . Each predicate p ∈ Px is associated with a schema description (or natural-language label) d(p) and is made available to every stage through a learned embedding ap, as shown in Eq. (1), 
+
+ap = ψpred (d(p)) ∈ Rdpre , p ∈ Px, (1) where ψpred is a learned predicate-definition encoder and dpre is the predicate-embedding dimension. These embeddings are the only schema-specific interface, and the architecture 
+
+> 4SoftReason
+
+Figure 1: SoftReason architecture, illustrating fully differentiable perception-to-reasoning. does not assume a particular perception modality, KG source, or rule language, provided input is represented as perceptual tokens, local symbols, and predicate-definition embeddings. 
+
+Perceptual tokenization and entity grounding. A perceptual encoder fθ maps x to N
+
+dense tokens, and the token matrix V is defined as shown in Eq. (2), 
+
+V = fθ(x) = [ v1, . . . , v N ], vi ∈ Rdper . (2) where dper is the perceptual encoder dimension. A grounding head distributes each token over the discrete symbols Ex, and the grounding weight gi,e is computed as shown in Eq. (3), 
+
+gi,e = exp( ℓi,e )
+
+P 
+
+> e′∈Ex
+
+exp( ℓi,e ′ ) , ℓi, · = hθ(vi), (3) where hθ is a learned projection, i ∈ { 1, . . . , N } indexes perceptual tokens, and e ∈ Ex
+
+indexes local discrete symbols. Each local entity token te is the grounding-weighted perceptual summary, as shown in Eq. (4), 
+
+te =
+
+> N
+
+X
+
+> i=1
+
+gi,e vi. (4) The initial entity representation r0 
+
+> e
+
+fuses the perceptual token with KG-node and schema embeddings, and r0 
+
+> e
+
+is defined as shown in Eq. (5), 
+
+r0 
+
+> e
+
+= Wvte + Wsse + Wkke ∈ Rdent , (5) where Wv, Ws, and Wk are learned projection matrices, dent is the entity-representation dimension, and se and ke are looked up from the knowledge source K for entity e: se is a schema or textual embedding and ke is a KG-node embedding. Both terms act as a training scaffold, providing a KG-grounded initialization that helps the model associate entity representations with known relational structure. At inference, both are set to zero, reducing Eq. (5) to r0 
+
+> e
+
+= Wvte.
+
+> 5
+
+AbdAlmageed 
+
+Cross-entity contextualization. Multi-head self-attention contextualizes the entity representations by aggregating evidence across all candidates in Ex. Given initial tokens 
+
+R0 = {r0 
+
+> e
+
+: e ∈ Ex}, the contextualized matrix R is computed as shown in Eq. (6), 
+
+R = AttnEnc θ(R0, M E ), (6) where ME is a binary mask that excludes padded entities. The resulting re captures pairwise relational context needed to score candidate facts. 
+
+Soft fact scoring and KG injection. Using normalized representations ¯re = LayerNorm (re),a predicate-conditioned bilinear head scores each candidate triple, and the pre-closure score 
+
+Ipre-closure [u, p, v ] is defined as shown in Eq. (7), 
+
+Ipre-closure [u, p, v ] = σ
+
+
+
+¯r⊤ 
+
+> u
+
+Wp ¯rv + bp
+
+
+
+, (7) where u, v index local discrete symbols in Ex, p indexes predicates in Px, ¯ru, ¯rv ∈ Rdent ,
+
+Wp ∈ Rdent ×dent is a predicate-specific weight matrix, bp is a scalar bias, and σ is the logistic sigmoid. The predicate matrix admits a low-rank factorization, as shown in Eq. (8), 
+
+Wp ≈ U ⊤ 
+
+> p
+
+Vp, Up, V p ∈ Rr×dent . (8) where r ≪ dent is the rank, reducing parameters from O(|Px|d2ent ) to O(2 |Px|r d ent ). During training, known KG triples form a binary target tensor, as shown in Eq. (9), 
+
+YK[u, p, v ] = 1[( eu, p, e v) ∈ T x] , (9) where 1[·] is the indicator function and Tx ⊆ T denotes KG triples restricted to Ex. The initial interpretation F0 merges neural scores with KG evidence via a probabilistic OR, and 
+
+F0 is defined as shown in Eq. (10), 
+
+F0 = Ipre-closure ⊕ ρY K = 1 − (1 − Ipre-closure )(1 − ρY K), 0 < ρ < 1, (10) where ρ ∈ (0 , 1) is a scalar KG confidence weight and ⊕ denotes the probabilistic OR. Known KG facts enter the reasoning state with high confidence while gradients still propagate through Ipre-closure . At inference, ρ = 0 , therefore F0 = Ipre-closure .
+
+Soft rule composition. The deductive state is a soft semantic interpretation tensor 
+
+F ∈ [0 , 1] m×| Px|× m, F [u, p, v ] ≈ Pr[ p(eu, e v) | x, K] , (11) where m = |Ex|, u, v ∈ { 1, . . . , m } index entities in Ex, and p ∈ { 1, . . . , |Px|} indexes predicates in Px. The classical Boolean consequence operator TP applies V over body atoms and W over matching rule instantiations. Replacing these with a differentiable t-norm ⊗ and a soft-or yields, for a binary Horn rule p1(x, z ) ∧ p2(z, y ) → ph(x, y ), the relaxed consequence score eTP (F )[ x, p h, y ] shown in Eq. (12), 
+
+eTP (F )[ x, p h, y ] = soft -or  
+
+> z
+
+(F [x, p 1, z ] ⊗ F [z, p 2, y ]) , (12) where ⊗ is a differentiable t-norm and the soft-or marginalizes over witness ( i.e. , existentially quantified) constants z.
+
+6SoftReason 
+
+We generalize Eq. (12) by learning body predicates and witness aggregation through K
+
+latent composition channels, such that, for channel k, trainable body keys αk, β k ∈ Rdpre 
+
+define soft predicate mixtures over Px, and the mixture weights λ(1)  
+
+> p,k
+
+and λ(2)  
+
+> p,k
+
+are defined as: 
+
+λ(1)  
+
+> p,k
+
+= exp( a⊤ 
+
+> p
+
+αk)
+
+P 
+
+> p′∈Px
+
+exp( a⊤ 
+
+> p′
+
+αk) , λ(2)  
+
+> p,k
+
+= exp( a⊤ 
+
+> p
+
+βk)
+
+P 
+
+> p′∈Px
+
+exp( a⊤ 
+
+> p′
+
+βk) . (13) The two soft body relations for channel k at step ℓ are calculated as shown in Eq. (14), 
+
+B(1)  
+
+> k,ℓ
+
+[u, z ] = X
+
+> p∈Px
+
+λ(1) 
+
+> p,k
+
+Fℓ[u, p, z ], B(2)  
+
+> k,ℓ
+
+[z, v ] = X
+
+> p∈Px
+
+λ(2) 
+
+> p,k
+
+Fℓ[z, p, v ], (14) where Fℓ is the interpretation tensor at reasoning step ℓ. The witness-marginalized composi-tion score is shown in Eq. (15), 
+
+Ck,ℓ [u, v ] = 1 − exp 1
+
+m
+
+X
+
+> z∈Ex
+
+log 
+
+
+
+1 − clip ϵ
+
+
+
+B(1)  
+
+> k,ℓ
+
+[u, z ] · B(2)  
+
+> k,ℓ
+
+[z, v ]
+
+ !
+
+, (15) where ϵ > 0 is a small constant and clip ϵ(·) clamps to [ϵ, 1−ϵ] for numerical stability. 
+
+Query-conditioned closure. The query embedding hq = ϕθ(q) selects which head predicates are relevant and how channels are weighted. For each candidate head predicate 
+
+ph, the query-conditioned channel mixture μk,p h (q) is shown in Eq. (16), 
+
+μk,p h (q) = exp( a⊤ 
+
+> ph
+
+γk + ( Wrhq)k + ck)
+
+PKk′=1 exp( a⊤ 
+
+> ph
+
+γk′ + ( Wrhq)k′ + ck′ ) , (16) where γk ∈ Rdpre is a trainable head-key vector for channel k, Wr is a learned query projection, and ck is a learned scalar bias. A head gate selectively activates each candidate head predicate, and the gate value ωph (q) is shown in Eq. (17), 
+
+ωph (q) = σ
+
+
+
+(Whhq)⊤aph
+
+
+
+. (17) where Wh is a learned projection matrix. The one-step learned consequence proposal is: 
+
+eTΘ(Fℓ, q )[ u, p h, v ] = ωph (q)
+
+> K
+
+X
+
+> k=1
+
+μk,p h (q) Ck,ℓ [u, v ], (18) where Θ denotes all learned parameters. When λ(1) , λ(2) , and μ collapse to one-hot selections, Eq. (18) recovers a selected Horn-chain rule, while during training it remains a smooth operator over the full predicate schema. Facts accumulate across reasoning steps through a monotone probabilistic OR update, as shown in Eq. (19), 
+
+Fℓ+1 = Fℓ ⊕ eTΘ(Fℓ, q ) = 1 − (1 − Fℓ)(1 − eTΘ(Fℓ, q )) , (19) This update mirrors least-fixed-point forward chaining, since Fℓ+1 ≥ Fℓ cell-wise ensures the sequence is bounded and non-decreasing. After L iterations the final closed interpretation is: 
+
+F ⋆ = FL =
+
+ eT ⊕
+
+> Θ
+
+L
+
+(F0, q ), (20) 
+
+7AbdAlmageed 
+
+where eT ⊕ 
+
+> Θ
+
+denotes one consequence proposal (Eq. (18)) composed with the probabilistic OR update (Eq. (19)), and L controls maximum deductive depth. Since all operations are differentiable, the answer loss propagates gradients back through closure, fact extraction, grounding, and perception in a single pass. 
+
+Answer readout. The query predicate is not required to be a hard label. SoftReason 
+
+computes a soft query predicate distribution, and πq(p) is defined as shown in Eq. (21), 
+
+πq(p) = softmax( Wqhq)p, (21) where Wq is a learned projection matrix. A query anchor distribution ηq(u) is defined over local discrete symbols, and it is one-hot when the anchor is known. The unnormalized answer score s(v) for candidate v is shown in Eq. (22), 
+
+s(v) = X
+
+> u∈Ex
+
+ηq(u) X
+
+> p∈Px
+
+πq(p) F ⋆[u, p, v ], (22) and the training answer distribution PΘ(v | x, q, K) is the normalized masked score: 
+
+PΘ(v | x, q, K) = ME (v) ( s(v) + ϵ)
+
+P 
+
+> v′∈Ex
+
+ME (v′) ( s(v′) + ϵ) , (23) where ME (v) ∈ { 0, 1} masks padded discrete symbols and ϵ > 0 prevents zero-probability targets during early training. For a query anchored at ea with predicate pq, the answer set read from F ⋆ is shown in Eq. (24), 
+
+A(x, q ) = {eb ∈ Ex : F ⋆[a, p q, b ] is high }. (24) where a and b are indices such that ea, e b ∈ Ex.
+
+Training objective. The architecture is trained with three jointly optimized losses. The answer loss supervises the final readout against the true answer y ∈ Ex, as shown in Eq. (25), 
+
+Lans = − log PΘ(y | x, q, K). (25) The fact loss supervises the pre-closure extractor against known KG facts with class balancing, as shown in Eq. (26), 
+
+Lfact =
+
+P 
+
+> u,p,v
+
+ME (u)ME (v) wu,p,v BCE( Ipre-closure [u, p, v ], Y K[u, p, v ]) 
+
+P 
+
+> u,p,v
+
+ME (u)ME (v) wu,p,v 
+
+, (26) where u, v index local discrete symbols, p indexes predicates, and wu,p,v > 0 assigns larger weights to positive KG triples to compensate for label sparsity. The binary cross-entropy is defined as BCE ( ˆy, y ) = −y log ˆ y − (1 − y) log (1 − ˆy). The fixed-point loss penalizes residual change after one additional closure step beyond F ⋆, as shown in Eq. (27), 
+
+Lfix =
+
+P 
+
+> u,p,v
+
+ME (u)ME (v)
+
+
+
+F ⋆[u, p, v ] −  F ⋆ ⊕ eTΘ(F ⋆, q )[u, p, v ]
+
+2
+
+P 
+
+> u,p,v
+
+ME (u)ME (v) . (27) 
+
+> 8SoftReason
+
+The complete objective L is shown in Eq. (28), 
+
+L = Lans + α(t)λfact Lfact + β(t)λfix Lfix , (28) where t is the training step, λfact , λ fix > 0 are fixed weights, and α(t), β(t) are optional curriculum schedules over t. The answer loss teaches the model which closure facts solve the query, the fact loss anchors the perceptual extractor to KG evidence, and the fixed-point loss encourages the learned consequence operator to converge as a soft deductive closure. 
+
+3.3. Inference 
+
+At inference, the KG K is not used and KG-node and schema embeddings are disabled (se = ke = 0), so Eq. (5) reduces to r0 
+
+> e
+
+= Wvte. The KG evidence injection is also disabled (ρ = 0 ), so the initial interpretation simplifies to F0 = Ipre-closure . All remaining stages, operate identically to training. The predicted answer is v⋆ = arg max v∈Ex s(v).
+
+4. Experimental Evaluation 
+
+Table 1: SoftReason performance on KVQA. Baselines use an external entity linker, while SoftReason is end-to-end perception to reasoning. Results are from the full test split. Hit@1 indicates closed-vocabulary accuracy. R@5 indicates ranked recall, reported to align with Scallop-style evaluations (Huang et al., 2021). ⋆Baselines reported in Shah et al. (2019). †MemNN with additional supervision. Garcia-Olano et al. (2022) report the best fully automatic NER variant (NERagro, noisy) averaged over Shah et al. (2019)’s five official splits. N/A indicates the original paper did not report this metric.                           
+
+> Method Hit@1 R@5 External entity linker
+> BLSTM ⋆37.60 N/A MemNN ⋆42.20 N/A GCN ⋆48.50 N/A GGNN ⋆50.90 N/A MemNN ⋆†54.00 N/A HAN ⋆53.30 N/A BAN ⋆59.80 N/A Transformer (SA) ⋆58.30 N/A Transformer (SA+GA) ⋆60.10 N/A Hypergraph Transf. (Heo et al., 2022) 62.40 N/A Garcia-Olano et al. (Garcia-Olano et al., 2022) 50.77 N/A
+> End-to-end (ours)
+> SoftReason 94.30 99.38
+
+Benchmark. We use Knowledge-aware Vi-sual Question An-swering (KVQA) for evaluating the perfor-mance of SoftRea-son on multi-hop rea-soning over percep-tual data. It is im-portant to note that the goal is not to eval-uate SoftReason 
+
+as a generic Visual Question Answering (VQA) model. The goal is to test whether a fully differentiable neuro-soft-symbolic ar-chitecture can ground perceptual evidence, inject Knowledge Graph (KG) evidence, and learn deductive clo-sure over KG-provided predicates. KVQA (Shah et al., 2019) is a use-ful testbed because each example starts from a named person in an image and asks for an answer obtained by following one or more Wikidata relations. 
+
+> 9AbdAlmageed
+
+Evaluation setting. We adopt the entity-linking setting, where the model has to ground the image to a distribution over named entities before reasoning. This setting is the direct test of our claim because SoftReason keeps the path from perception to deductive closure differentiable. Gradients from the answer loss flow through the learned closure distribution, KG fact supervision, attention layers, soft fact construction, and perceptual grounding heads. 
+
+Metrics and baselines. We use Hit@1, the closed-vocabulary answer accuracy used by KVQA, and Recall@5 to align with ranking-based evaluations such as Scallop (Huang et al., 2021). We use KVQA baselines from Shah et al. (2019) and the Hypergraph Transformer study (Heo et al., 2022). We also include Garcia-Olano et al. (2022), whose entity-enhanced knowledge injection method uses automatic named entity recognition on the question text and reports results on Shah et al. (2019)’s official five splits. 
+
+KVQA Entity-Linking Evaluation Table 1 compares SoftReason against published KVQA models under the realistic entity-linking setting. The significant improvements over prior methods suggest that deductive supervision shapes visual grounding and fact construction when the reasoning operator remains differentiable. 
+
+Reasoning Evaluation. Aggregate answer accuracy is not sufficient to validate the deductive reasoning capabilities. A one-hop question can often be answered by entity grounding and direct fact retrieval, while two- and three-hop questions require relational composition over KG predicates. We therefore report hop-depth results for 1-hop, 2-hop, 3-hop, and the combined multi-hop subset. Table 2 shows the breakdown of SoftReason ’s performance by hop depth. Improvements on higher-hop subsets instead provide evidence that the learned differentiable closure operator contributes to deductive composition. Table 2: SoftReason hop-depth metrics. The test split contains no 3-hop examples.              
+
+> Method Hit@1 R@5 1-hop 2-hop 3-hop multi-hop
+> SoftReason (full test) 94.30 99.38 93.24 98.20 N/A 98.20
+
+Why no LLM-augmented or OK-VQA baselines? LLM-augmented methods ( e.g. ,LINC (Olausson et al., 2023) and Logic-LM (Pan et al., 2023)) do not learn a differentiable perceptual grounding mechanism. Further, to the best of our knowledge, there are no published results on KVQA for these methods. The knowledge in OK-VQA (Marino et al., 2019) is unstructured text and the task is to connect images to relevant text. SoftReason 
+
+is designed to learn differentiable deductive closure over a structured knowledge graph. 
+
+5. Conclusion 
+
+We presented SoftReason , a fully differentiable neuro-soft-symbolic architecture for de-ductive reasoning over high-dimensional perceptual data. Instead of producing discrete symbols before reasoning begins, we represent the deductive state as a soft semantic in-terpretation tensor, whose cells are differentiable representations of ground symbols. The core of the architecture is a learned differentiable lift of the immediate-consequence oper-ator. It uses predicate-definition embeddings and latent composition channels to perform soft body-predicate mixture, aggregation over candidate witnesses, and monotone closure update through a probabilistic OR. Horn-chain reasoning is recovered as a limiting case. 
+
+> 10 SoftReason
+
+During training, every predicate choice, witness entity, and derived fact remains connected to the answer loss through the gradient path, which (1) allows deductive reasoning to shape perceptual representations, (2) allows reasoning to leverage the rich uncertainty encoded by learned perceptual representations. We instantiated SoftReason on KVQA benchmark and demonstrated strong improvements over prior knowledge-based VQA methods on the entity-linking protocol, where no oracle entity is supplied. 
+
+References 
+
+Samy Badreddine, Artur d’Avila Garcez, Luciano Serafini, and Michael Spranger. Logic tensor networks. Artificial Intelligence , 303:103649, 2022. doi: 10.1016/j.artint.2021.103649. URL https://doi.org/10.1016/j.artint.2021.103649 . (cited on p. 2) Antoine Bordes, Nicolas Usunier, Alberto Garcia-Duran, Jason Weston, and Oksana Yakhnenko. Translating embeddings for modeling multi-relational data. In Advances in Neural Information Processing Systems , volume 26, 2013. URL https://proceedings. neurips.cc/paper/2013/hash/1cecc7a77928ca8133fa24680a88d2f9-Abstract.html .(cited on pp. 1 and 3) William W. Cohen. TensorLog: A differentiable deductive database. CoRR , abs/1605.06523, 2016. doi: 10.48550/arXiv.1605.06523. URL https://arxiv.org/abs/1605.06523 . (cited on p. 2) Artur d’Avila Garcez, Marco Gori, Luis C. Lamb, Luciano Serafini, Michael Spranger, and Son N. Tran. Neural-symbolic computing: An effective methodology for principled integration of machine learning and reasoning. CoRR , abs/1905.06088, 2019. doi: 10.48550/ arXiv.1905.06088. URL https://arxiv.org/abs/1905.06088 . (cited on pp. 1 and 2) Alexey Dosovitskiy, Lucas Beyer, Alexander Kolesnikov, Dirk Weissenborn, Xiaohua Zhai, Thomas Unterthiner, Mostafa Dehghani, Matthias Minderer, Georg Heigold, Sylvain Gelly, Jakob Uszkoreit, and Neil Houlsby. An image is worth 16x16 words: transformers for image recognition at scale. In ICLR , 2021. doi: 10.48550/arXiv.2010.11929. URL 
+
+https://arxiv.org/abs/2010.11929 . (cited on p. 1) Richard Evans and Edward Grefenstette. Learning explanatory rules from noisy data. CoRR ,abs/1711.04574, 2018. doi: 10.48550/arXiv.1711.04574. URL https://arxiv.org/abs/ 1711.04574 . (cited on pp. 1 and 3) Diego Garcia-Olano, Yasumasa Onoe, and Joydeep Ghosh. Improving and diagnosing knowledge-based visual question answering via entity enhanced knowledge injection. In 
+
+Proceedings of the 1st International Workshop on Multimodal Understanding for the Web and Social Media, co-located with the Web Conference 2022 , 2022. doi: 10.48550/arXiv. 2112.06888. URL https://arxiv.org/abs/2112.06888 . (cited on pp. 9 and 10) Yu-Jung Heo, Eun-Sol Kim, Woo Suk Choi, and Byoung-Tak Zhang. Hypergraph transformer: Weakly-supervised multi-hop reasoning for knowledge-based visual question answering. In 
+
+Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics ,
+
+> 11 AbdAlmageed
+
+pages 373–390, 2022. doi: 10.18653/v1/2022.acl-long.29. URL https://aclanthology. org/2022.acl-long.29/ . (cited on pp. 3, 9, and 10) Jiani Huang, Ziyang Li, Binghong Chen, Karan Samel, Mayur Naik, Le Song, and Xujie Si. Scallop: From probabilistic deductive databases to scalable differen-tiable reasoning. In Advances in Neural Information Processing Systems , vol-ume 34, pages 25134–25145, 2021. URL https://proceedings.neurips.cc/paper/ 2021/hash/d367eef13f90793bd8121e2f675f0dc2-Abstract.html . NeurIPS paper ID d367eef13f90793bd8121e2f675f0dc2. (cited on pp. 1, 3, 9, and 10) Manas Jhalani, Annervaz K M, and Pushpak Bhattacharyya. Precision empowers, excess distracts: Visual question answering with dynamically infused knowledge in language models. In Proceedings of the 21st International Conference on Natural Language Processing (ICON) , pages 21–36, 2024. URL https://aclanthology.org/2024.icon-1.3/ . (cited on pp. 1 and 2) Brenden M. Lake and Marco Baroni. Generalization without systematicity: On the composi-tional skills of sequence-to-sequence recurrent networks. In International Conference on Machine Learning , pages 2879–2888, 2018. URL https://arxiv.org/abs/1711.00350 .(cited on p. 1) Robin Manhaeve, Sebastijan Dumančić, Angelika Kimmig, Thomas Demeester, and Luc De Raedt. DeepProbLog: neural probabilistic logic programming. In Advances in Neural Information Processing Systems , 2018. doi: 10.48550/arXiv.1805.10872. URL https: //arxiv.org/abs/1805.10872 . (cited on pp. 1, 2, and 3) Jiayuan Mao, Chuang Gan, Pushmeet Kohli, Joshua B. Tenenbaum, and Jiajun Wu. The neuro-symbolic concept learner: Interpreting scenes, words, and sentences from natural supervision. In International Conference on Learning Representations , 2019. doi: 10.48550/ arXiv.1904.12584. URL https://arxiv.org/abs/1904.12584 . (cited on p. 3) Kenneth Marino, Mohammad Rastegari, Ali Farhadi, and Roozbeh Mottaghi. Ok-vqa: A visual question answering benchmark requiring external knowledge. In Conference on Computer Vision and Pattern Recognition (CVPR) , 2019. (cited on p. 10) Theo X. Olausson, Alex Gu, Benjamin Lipkin, Cedegao E. Zhang, Armando Solar-Lezama, Joshua B. Tenenbaum, and Roger Levy. LINC: A neurosymbolic approach for logical reasoning by combining language models with first-order logic provers. In Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing , pages 5153–5176, 2023. doi: 10.18653/v1/2023.emnlp-main.313. URL https://aclanthology.org/2023. emnlp-main.313/ . (cited on pp. 1, 3, and 10) OpenAI. GPT-4 technical report. Technical report, OpenAI, 2023. URL https://arxiv. org/abs/2303.08774 . (cited on p. 1) Liangming Pan, Alon Albalak, Xinyi Wang, and William Yang Wang. Logic-LM: Em-powering large language models with symbolic solvers for faithful logical reasoning. In 
+
+Findings of the Association for Computational Linguistics: EMNLP 2023 , pages 3806–3824, 
+
+> 12 SoftReason
+
+2023. doi: 10.18653/v1/2023.findings-emnlp.248. URL https://aclanthology.org/2023. findings-emnlp.248/ . (cited on pp. 3 and 10) Tim Rocktäschel and Sebastian Riedel. End-to-end differentiable proving. In Advances in Neural Information Processing Systems , 2017. doi: 10.48550/arXiv.1705.11040. URL 
+
+https://arxiv.org/abs/1705.11040 . (cited on pp. 1 and 3) Apoorv Saxena, Aditay Tripathi, and Partha Talukdar. Improving multi-hop question answering over knowledge graphs using knowledge base embeddings. In Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics , pages 4498– 4507, 2020. doi: 10.18653/v1/2020.acl-main.412. URL https://aclanthology.org/2020. acl-main.412/ . (cited on pp. 1 and 3) Sanket Shah, Anand Mishra, Naganand Yadati, and Partha Pratim Talukdar. KVQA: Knowledge-aware visual question answering. In Proceedings of the AAAI Conference on Artificial Intelligence , volume 33, pages 8876–8884, 2019. doi: 10.1609/aaai.v33i01. 33018876. URL https://ojs.aaai.org/index.php/AAAI/article/view/4915 . (cited on pp. 9 and 10) Zhiqing Sun, Zhi-Hong Deng, Jian-Yun Nie, and Jian Tang. RotatE: Knowledge graph embedding by relational rotation in complex space. In International Conference on Learning Representations , 2019. doi: 10.48550/arXiv.1902.10197. URL https://arxiv.org/abs/ 1902.10197 . (cited on pp. 1 and 3) Théo Trouillon, Johannes Welbl, Sebastian Riedel, Éric Gaussier, and Guillaume Bouchard. Complex embeddings for simple link prediction. In International Conference on Machine Learning , 2016. doi: 10.48550/arXiv.1606.06357. URL https://arxiv.org/abs/1606. 06357 . (cited on p. 3) Jingyi Xu, Zilu Zhang, Tal Friedman, Yitao Liang, and Guy Van den Broeck. A semantic loss function for deep learning with symbolic knowledge. CoRR , abs/1711.11157, 2018. doi: 10.48550/arXiv.1711.11157. URL https://arxiv.org/abs/1711.11157 . (cited on p. 2) Kexin Yi, Jiajun Wu, Chuang Gan, Antonio Torralba, Pushmeet Kohli, and Joshua B. Tenenbaum. Neural-symbolic VQA: Disentangling reasoning from vision and language understanding. In Advances in Neural Information Processing Systems , 2018. doi: 10. 48550/arXiv.1810.02338. URL https://arxiv.org/abs/1810.02338 . (cited on p. 3) 
+
+> 13 SoftReason
+
+Supplementary Material 
+
+Implementation Details 
+
+For the KVQA instantiation we use an entity budget of m = 20 candidate constants per sample, a local predicate set of |Px| = 100 Wikidata relations, K = 8 latent composition channels, and a closure depth of L = 3 iterations. The perceptual encoder is a frozen Vision Transformer (ViT-B/16) (Dosovitskiy et al., 2021). The relational attention encoder uses two Transformer layers with hidden dimension d = 256 . We train with the Adam optimizer at a learning rate of 10 −4, a batch size of 32, and loss weights λfact = 1 .0 and λfix = 0 .5
+
+without curriculum scheduling ( α(t) = β(t) = 1 ). All experiments run on a single NVIDIA A100 Graphics Processing Unit (GPU) for 20 epochs. 
+
+Complexity and locality 
+
+SoftReason reasons over a local universe rather than the full global KG because the dense interpretation has size O(m2|Px|) per sample. The bilinear fact head is computed in predicate chunks, and the witness aggregation in Eq. (15) is computed in witness-entity chunks. For K latent composition channels, one learned consequence step has dominant costs 
+
+O(m2|Px|K) for predicate mixtures and O(Km 3) for soft witness composition. These costs are the differentiable analogue of enumerating possible rule bodies and witness substitutions, but they preserve gradients through all alternatives instead of materializing a single symbolic proof path. 
+
+Other Comparisons 
+
+The methods in this section address Knowledge-aware Visual Question Answering (KVQA) on the Shah et al. 2019 dataset but are not directly comparable to the primary entity-linking results in Table 1. We include them for completeness so that reviewers have a full picture of published results on this benchmark. 
+
+Entity-linking, dataset-label-guided, and oracle protocols. It is important to distinguish three experimental protocols used across KVQA papers. In the entity-linking 
+
+protocol, the model receives only the raw image and question and must automatically detect the named entity in the image through face recognition or visual grounding, link it to a Wikidata entry, and then perform multi-hop reasoning. This is the protocol used in Table 1 and throughout the main evaluation of SoftReason . In the dataset-label-guided protocol, the KVQA annotation files include the person’s name as metadata, and the model uses that name string to retrieve relevant Knowledge Graph (KG) triples via embedding similarity. Face recognition is bypassed, but the model still performs question understanding and relational reasoning; the name-to-KG matching step replaces the visual grounding step. 
+
+Dataset-label-guided results. Jhalani et al. (Jhalani et al., 2024) use the dataset-label-guided protocol. Their system augments an OFA encoder-decoder with dynamic KG triple extraction conditioned on the dataset-provided entity name. Because they use the person’s name from the annotation file rather than automatic face recognition, their results are not directly comparable to the entity-linking setting in Table 1. We report their numbers here for completeness. 
+
+> 1AbdAlmageed
+
+Table 3: KVQA results under the dataset-label-guided protocol (Jhalani et al., 2024). The model uses annotation-provided named entity labels to retrieve KG triples; face recognition is not required. These results are not directly comparable to the entity-linking results in Table 1.

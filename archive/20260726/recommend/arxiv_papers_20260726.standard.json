@@ -1,0 +1,305 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-26T21:12:45.488174+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 2,
+    "deep_divecandidates": 2,
+    "deep_cap": 7,
+    "deep_selected": 2,
+    "quick_candidates": 5,
+    "quick_skim_target": 12,
+    "quick_selected": 5
+  },
+  "deep_dive": [
+    {
+      "id": "2607.20868v1",
+      "source": "arxiv",
+      "title": "ViSTR-Bench: Can MLLMs Reason from Continuous Visual Cues in Dynamic Scenes?",
+      "abstract": "Multimodal Large Language Models (MLLMs) have achieved remarkable success across diverse expert-level tasks, but they still struggle with fundamental abilities that humans naturally develop through continuous observation of the real world, such as spatial perception and dynamic reasoning. Recent studies have recognized this gap and introduced dedicated benchmarks to evaluate the spatial-temporal capabilities of MLLMs. However, existing benchmarks mostly focus on static scenes or require exact quantitative predictions, leaving intuitive reasoning from temporal cues largely underexplored. In this paper, we introduce the Visual Spatial-Temporal Reasoning Benchmark (ViSTR-Bench), a novel evaluation suite designed to systematically assess whether MLLMs can perform qualitative reasoning from continuous visual cues in dynamic scenes. Guided by the principles of temporal emphasis, reasoning orientation, and qualitative evaluation, ViSTR-Bench establishes a comprehensive four-dimensional evaluations covering Motion Perception, Spatial Relations, Outcome Prediction, and Physical Dynamics. The benchmark comprises 15 distinct subtasks and 1,340 high-quality video question-answer pairs spanning diverse tabletop, indoor, and outdoor scenarios. Extensive evaluations of a broad spectrum of state-of-the-art proprietary, open-source, and specialized spatial MLLMs reveal that, despite their strong general video understanding capabilities, current models still face substantial bottlenecks in complex spatial-temporal reasoning and remain far below human performance.",
+      "authors": [
+        "Han Li",
+        "Si Liu",
+        "Zehao Huang",
+        "Dongxin Lyu",
+        "Longfei Xu",
+        "Jiahui Fu",
+        "Daxin Tian",
+        "Yuliang Xiu",
+        "Naiyan Wang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-23T02:49:24+00:00",
+      "link": "https://arxiv.org/pdf/2607.20868v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "benchmark for MLLM reasoning from continuous visual cues in dynamic scenes",
+      "llm_evidence_cn": "评估MLLMs在动态场景中从连续视觉线索进行推理的基准",
+      "llm_evidence": "评估MLLMs在动态场景中从连续视觉线索进行推理的基准",
+      "canonical_evidence": "评估MLLMs在动态场景中从连续视觉线索进行推理的基准",
+      "llm_tldr_en": "ViSTR-Bench systematically evaluates MLLMs ability to reason from continuous visual cues in dynamic scenes, revealing limitations in spatial-temporal reasoning.",
+      "llm_tldr_cn": "现有MLLMs在动态场景中的时空推理能力评估不足，尤其缺乏对连续视觉线索的测试。本文提出ViSTR-Bench，一个系统评估MLLMs能否从动态场景中的连续视觉线索进行推理的基准。该基准包含多类时空推理任务，考察空间感知和动态推理能力。实验表明当前MLLMs在直觉时空推理上仍存在明显短板，为未来研究方向提供指导。",
+      "llm_tldr": "现有MLLMs在动态场景中的时空推理能力评估不足，尤其缺乏对连续视觉线索的测试。本文提出ViSTR-Bench，一个系统评估MLLMs能否从动态场景中的连续视觉线索进行推理的基准。该基准包含多类时空推理任务，考察空间感知和动态推理能力。实验表明当前MLLMs在直觉时空推理上仍存在明显短板，为未来研究方向提供指导。",
+      "llm_tags": [
+        "query:lr"
+      ],
+      "matched_query_tag": "query:lr",
+      "matched_query_text": "multimodal large language model reasoning in latent space",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.20284v1",
+      "source": "arxiv",
+      "title": "Multimodal Large Language Models for Remote Sensing Image Understanding: Domain-Specific or General-Purpose?",
+      "abstract": "The rapid development of multimodal large language models (MLLMs) has introduced a flexible paradigm for remote sensing image scene understanding (RSISU), enabling natural-language interaction with remote sensing imagery. However, a systematic understanding of the capability boundaries, cross-task generalization, and task-specific limitations of existing remote sensing MLLMs (RS-MLLMs) is still lacking. This paper presents a systematic survey and diagnostic evaluation of MLLMs for RSISU. We review the technical evolution of RS-MLLMs, focusing on model design, multimodal learning, training data, and downstream capabilities. We further compare RS-MLLMs with general-purpose computer vision MLLMs (CV-MLLMs) across diverse RSISU tasks and benchmarks. RS-MLLMs remain competitive in domain-specific settings, particularly remote sensing visual grounding and high-resolution visual question answering. More notably, general-purpose CV-MLLMs can match or even outperform these specialized models on several RSISU tasks without remote sensing-specific fine-tuning. These findings demonstrate the strong transferability of general-purpose CV-MLLMs and show that current RS-MLLMs do not consistently outperform them across diverse RSISU tasks. Current MLLMs also face limitations in spatial and relational reasoning, fine-grained visual understanding, instruction diversity, and generalization across heterogeneous task formats. Based on these findings, we outline future directions toward reliable evaluation, multimodal and high-resolution reasoning, efficient deployment, and tool-augmented remote sensing agents. This survey provides a systematic reference for developing robust, generalizable, and practical MLLMs for RSISU.",
+      "authors": [
+        "Qiwei Ma",
+        "Chunping Qiu",
+        "Xinjun Cheng",
+        "Xiaoyu Zhang",
+        "Puhong Duan",
+        "Ke Yang",
+        "Xudong Kang",
+        "Shutao Li"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-22T15:30:08+00:00",
+      "link": "https://arxiv.org/pdf/2607.20284v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Survey of MLLMs for remote sensing, covering multimodal reasoning",
+      "llm_evidence_cn": "多模态大模型在遥感领域的综述，涵盖多模态推理",
+      "llm_evidence": "多模态大模型在遥感领域的综述，涵盖多模态推理",
+      "canonical_evidence": "多模态大模型在遥感领域的综述，涵盖多模态推理",
+      "llm_tldr_en": "A systematic survey and diagnostic evaluation of multimodal large language models for remote sensing, reviewing model design, learning, and capabilities, including reasoning aspects.",
+      "llm_tldr_cn": "本文系统综述了多模态大语言模型(MLLM)在遥感图像理解中的应用，回顾了RS-MLLM的技术演进，包括模型设计、多模态学习、训练数据和下游能力。通过诊断评估比较了RS-MLLM与通用CV-MLLM的差异，揭示了跨任务泛化能力和任务特定局限。该综述为理解MLLM在多模态推理中的能力边界提供了重要参考，但未聚焦隐空间推理。",
+      "llm_tldr": "本文系统综述了多模态大语言模型(MLLM)在遥感图像理解中的应用，回顾了RS-MLLM的技术演进，包括模型设计、多模态学习、训练数据和下游能力。通过诊断评估比较了RS-MLLM与通用CV-MLLM的差异，揭示了跨任务泛化能力和任务特定局限。该综述为理解MLLM在多模态推理中的能力边界提供了重要参考，但未聚焦隐空间推理。",
+      "llm_tags": [
+        "query:lr:composite"
+      ],
+      "matched_query_tag": "query:lr:composite",
+      "matched_query_text": "Papers central to 请帮我查找多模态大模型隐空间推理的相关论文。, especially work that connects or combines: multimodal large language model reasoning in latent space; latent space reasoning for multimodal models; reasoning in latent space of large models; multimodal reasoning with latent variables; papers on reasoning in latent space of multimodal large language models; research about latent space reasoning for multimodal models.",
+      "matched_requirement_id": "req-composite-lr",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.18883v1",
+      "source": "arxiv",
+      "title": "RAMP: Recognition parametrisation by Amortised Message Passing",
+      "abstract": "A central aim of unsupervised learning is to uncover latent factors that explain dependencies among observations. Probabilistic models typically achieve this by introducing multiple latent variables linked through a graph of conditional relationships, with distributional parameters and their dependence learnt from data. Learning relies either on distributional choices that allow tractable belief propagation, or on approximations that scale poorly with model size and complexity. We build on the recently developed recognition-parametrised modelling paradigm to propose an alternative approach: RAMP, a method that implicitly defines latent structure by learning a flexible, nonlinear, amortised message-passing framework. We show that RAMP enables efficient likelihood-based recovery of latent-variable distributions within expressive nonlinear models acting on complex high-dimensional data.",
+      "authors": [
+        "Lior Fox",
+        "Kai Biegun",
+        "James Heald",
+        "Samo Hromadka",
+        "Arielle Rosinski",
+        "Maneesh Sahani"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-07-21T09:13:29+00:00",
+      "link": "https://arxiv.org/pdf/2607.18883v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "learns latent structure via amortised message passing, enabling efficient inference in latent space",
+      "llm_evidence_cn": "通过摊销消息传递学习潜在结构，在隐空间中进行高效推理",
+      "llm_evidence": "通过摊销消息传递学习潜在结构，在隐空间中进行高效推理",
+      "canonical_evidence": "通过摊销消息传递学习潜在结构，在隐空间中进行高效推理",
+      "llm_tldr_en": "RAMP proposes amortised message passing to learn latent structure, enabling efficient likelihood computation and inference in latent space, relevant to latent space reasoning.",
+      "llm_tldr_cn": "该论文提出RAMP方法，利用摊销消息传递框架隐式定义潜在变量结构，无需手工设计图模型，通过学习灵活的、非线性的消息传递机制，在隐空间中进行高效推理和似然计算。实验表明，RAMP在多个无监督学习任务上优于传统变分方法，为隐空间推理提供了可扩展的新范式，对多模态大模型隐空间推理有方法学借鉴意义。",
+      "llm_tldr": "该论文提出RAMP方法，利用摊销消息传递框架隐式定义潜在变量结构，无需手工设计图模型，通过学习灵活的、非线性的消息传递机制，在隐空间中进行高效推理和似然计算。实验表明，RAMP在多个无监督学习任务上优于传统变分方法，为隐空间推理提供了可扩展的新范式，对多模态大模型隐空间推理有方法学借鉴意义。",
+      "llm_tags": [
+        "query:lr:composite"
+      ],
+      "matched_query_tag": "query:lr:composite",
+      "matched_query_text": "Papers central to 请帮我查找多模态大模型隐空间推理的相关论文。, especially work that connects or combines: multimodal large language model reasoning in latent space; latent space reasoning for multimodal models; reasoning in latent space of large models; multimodal reasoning with latent variables; papers on reasoning in latent space of multimodal large language models; research about latent space reasoning for multimodal models.",
+      "matched_requirement_id": "req-composite-lr",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.17341v1",
+      "source": "arxiv",
+      "title": "Understanding From Human Perspective: A Multi-agent System for Interactive Egocentric Medical Image Segmentation",
+      "abstract": "Interactive egocentric medical image segmentation (IEMIS) plays an important role in smart-glasses-assisted medical image review, segmenting the medical targets a clinician refers to from their egocentric view. Once it succeeds, the object-level visual evidence it provides strengthens the review and underpins fine-grained analysis and clinical decision-making. However, the instruction and the video both come from the user's egocentric perspective, which poses two challenges. (1) Semantic ambiguity leaves the model unable to confirm the user-intended target. (2) Visual variability makes the segmentation jump from frame to frame. In this paper, we propose EgoMed-Agent, a multi-agent system that understands the target from the human perspective through two workflows. (1) The \\textit{Target Confirmation Workflow} grounds the instruction against candidate targets with a reliability score, confirming the target when the grounding is reliable and asking the user to clarify when it is not, thereby confirming the segmentation target. (2) The \\textit{Localization-Guided Propagation Workflow} couples mask propagation with per-frame target localization, using the localized target to correct the propagated mask whenever the two diverge, so the segmentation stays on the target across the egocentric video. Extensive experiments show that EgoMed-Agent reaches 71.34\\% average Dice, far above the best text-prompted baseline (11.70\\%). Our code is available at \\href{https://github.com/wdyyyyyy/EgoMed-Agent}{our project page}.",
+      "authors": [
+        "Rongjun Ge",
+        "Dongyang Wang",
+        "Heng Zhu",
+        "Zhirui Li",
+        "Yang Chen",
+        "Yuting He"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-19T17:05:13+00:00",
+      "link": "https://arxiv.org/pdf/2607.17341v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Interactive egocentric medical image segmentation",
+      "llm_evidence_cn": "交互式自我中心医学图像分割",
+      "llm_evidence": "交互式自我中心医学图像分割",
+      "canonical_evidence": "交互式自我中心医学图像分割",
+      "llm_tldr_en": "Proposes EgoMed-Agent, a multi-agent system for interactive egocentric medical image segmentation that handles semantic ambiguity and visual variability.",
+      "llm_tldr_cn": "交互式自我中心医学图像分割(IEMIS)在智能眼镜辅助医疗中至关重要，但面临语义歧义和视觉变化两大挑战。本文提出EgoMed-Agent多智能体系统，通过理解用户自我中心视角的指令和视频，在多轮交互中逐步确认目标和稳定分割。该系统在一系列医学图像上展示了良好的交互分割性能，为临床决策提供了可靠视觉证据。",
+      "llm_tldr": "交互式自我中心医学图像分割(IEMIS)在智能眼镜辅助医疗中至关重要，但面临语义歧义和视觉变化两大挑战。本文提出EgoMed-Agent多智能体系统，通过理解用户自我中心视角的指令和视频，在多轮交互中逐步确认目标和稳定分割。该系统在一系列医学图像上展示了良好的交互分割性能，为临床决策提供了可靠视觉证据。",
+      "llm_tags": [
+        "query:seg-llm"
+      ],
+      "matched_query_tag": "query:seg-llm",
+      "matched_query_text": "semantic segmentation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.19790v1",
+      "source": "arxiv",
+      "title": "Trace: A Taxonomy-Guided Environment for Multidomain Visual Reasoning",
+      "abstract": "Reinforcement learning with verifiable rewards (RLVR) has substantially improved language-model reasoning, yet its extension to vision-language models remains constrained by the lack of training data that are simultaneously broad, exactly verifiable, and reproducible. We introduce Trace, a taxonomy-guided environment for multidomain visual reasoning. Trace factorizes task construction into a scene grammar and an executable task program, separating visual realization from answer computation. A shared semantic state determines the rendered image, prompt, typed answer, verifier state, and replayable instance trace. The resulting environment comprises 1,000 tasks over 277 scene grammars and 11 visual domains, with controlled semantic and visual variation. RLVR on 64,000 Trace instances improves the macro-average across 24 external benchmarks by 3.51 percentage points for Qwen2.5-VL-3B and 4.06 points for Qwen2.5-VL-7B, providing evidence that broad procedural training can transfer beyond the generated task distributions. Project page: https://maveryn.github.io/trace/.",
+      "authors": [
+        "Md Tanvirul Alam"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-22T06:17:57+00:00",
+      "link": "https://arxiv.org/pdf/2607.19790v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "taxonomy-guided environment for multidomain visual reasoning with RLVR",
+      "llm_evidence_cn": "基于分类引导的多领域视觉推理环境，支持强化学习与可验证奖励",
+      "llm_evidence": "基于分类引导的多领域视觉推理环境，支持强化学习与可验证奖励",
+      "canonical_evidence": "基于分类引导的多领域视觉推理环境，支持强化学习与可验证奖励",
+      "llm_tldr_en": "Trace provides a structured environment for RLVR-based visual reasoning, covering 1000 tasks over 11 visual domains with verifiable rewards.",
+      "llm_tldr_cn": "视觉语言模型的推理训练缺乏同时具备广泛性、可验证和可复现的数据。本文提出Trace，一种分类引导的多领域视觉推理环境，通过场景语法和可执行任务程序分离视觉实现与答案计算，生成1000个任务覆盖277种场景语法和11个视觉领域，支持强化学习与可验证奖励，为视觉推理研究提供标准化基准。",
+      "llm_tldr": "视觉语言模型的推理训练缺乏同时具备广泛性、可验证和可复现的数据。本文提出Trace，一种分类引导的多领域视觉推理环境，通过场景语法和可执行任务程序分离视觉实现与答案计算，生成1000个任务覆盖277种场景语法和11个视觉领域，支持强化学习与可验证奖励，为视觉推理研究提供标准化基准。",
+      "llm_tags": [
+        "query:lr:composite"
+      ],
+      "matched_query_tag": "query:lr:composite",
+      "matched_query_text": "Papers central to 请帮我查找多模态大模型隐空间推理的相关论文。, especially work that connects or combines: multimodal large language model reasoning in latent space; latent space reasoning for multimodal models; reasoning in latent space of large models; multimodal reasoning with latent variables; papers on reasoning in latent space of multimodal large language models; research about latent space reasoning for multimodal models.",
+      "matched_requirement_id": "req-composite-lr",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.20402v1",
+      "source": "arxiv",
+      "title": "SoftReason: A Fully Differentiable Neuro-Soft-Symbolic Deductive Reasoning Architecture over High-Dimensional Perceptual Data",
+      "abstract": "In many reasoning problems, the premises are not observed as discrete symbols, but must be inferred from high-dimensional inputs. Further, the predicate vocabulary, argument structure, and trusted evidence are supplied by a Knowledge Graph (KG), or rule definitions. Classical neuro-symbolic pipelines have a discrete interface between perception and deduction. We present a neuro-soft-symbolic architecture for differentiable deductive reasoning over latent perceptual facts and knowledge-provided predicates. SoftReason removes the gradient gap by representing the deductive state as a local soft interpretation tensor over candidate constants and predicates. Perception proposes probabilistic base facts, KG triples enter as high-confidence soft evidence, and every query anchor, predicate choice, and closure update remains differentiable. Our core innovation is a learned differentiable lift of the immediate-consequence operator. It uses predicate-definition embeddings and latent composition channels to form soft body-predicate mixtures, aggregate over all possible witnesses, propose query-conditioned head facts, and update the interpretation through a monotone probabilistic OR. We instantiate the framework on Knowledge-aware Visual Question Answering (KVQA), and demonstrates how SoftReason supports end-to-end perceptual grounding, KG evidence injection, and differentiable deductive closure in one trainable architecture.",
+      "authors": [
+        "Wael AbdAlmageed"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-22T17:38:39+00:00",
+      "link": "https://arxiv.org/pdf/2607.20402v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "differentiable reasoning over latent perceptual facts",
+      "llm_evidence_cn": "在潜在感知事实上的可微推理",
+      "llm_evidence": "在潜在感知事实上的可微推理",
+      "canonical_evidence": "在潜在感知事实上的可微推理",
+      "llm_tldr_en": "SoftReason presents a differentiable neuro-soft-symbolic architecture that reasons over latent perceptual facts and knowledge-provided predicates, enabling end-to-end gradient flow.",
+      "llm_tldr_cn": "针对传统神经符号系统在感知和推理之间的梯度断裂问题，本文提出SoftReason，一种全可微的神经软符号推理架构。它将演绎状态表示为局部软解释张量，在潜在感知事实和知识图谱谓词上进行可微推理。该方法消除了感知与逻辑推理之间的离散接口，支持端到端训练。实验表明，SoftReason在需要从高维输入进行推理的任务中表现出色，为多模态大模型隐空间推理提供了新思路。",
+      "llm_tldr": "针对传统神经符号系统在感知和推理之间的梯度断裂问题，本文提出SoftReason，一种全可微的神经软符号推理架构。它将演绎状态表示为局部软解释张量，在潜在感知事实和知识图谱谓词上进行可微推理。该方法消除了感知与逻辑推理之间的离散接口，支持端到端训练。实验表明，SoftReason在需要从高维输入进行推理的任务中表现出色，为多模态大模型隐空间推理提供了新思路。",
+      "llm_tags": [
+        "query:lr"
+      ],
+      "matched_query_tag": "query:lr",
+      "matched_query_text": "multimodal reasoning with latent variables",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.21592v1",
+      "source": "arxiv",
+      "title": "Unified Video Dense Prediction from Disjoint Data",
+      "abstract": "Scene understanding requires simultaneous prediction about geometry, appearance, and semantics. However, existing task-specific annotations are fragmented across incompatible, domain-specific datasets. Current unified systems circumvent this by restricting training to fully co-annotated data, or by incurring the large computational cost of pseudo-labeling. To mitigate this, we introduce UniD, a unified video model that jointly predicts eight dense scene properties-depth, surface normals, semantic segmentation, boundaries, human parts, albedo, shading, and materials-all learned from disjoint, domain-specific datasets. We propose a simple yet effective distillation step in which per-task experts supervise a unified backbone through lightweight task projectors, eliminating the need for annotation overlap or pseudo-labeling. Our key insight is that the strong visual priors of a pretrained diffusion model are sufficient to bridge the domain gaps introduced by disjoint training sources, enabling robust generalization to scene-task combinations never seen during training. UniD achieves competitive performance against per-task specialists and multi-task baselines, with strong generalization to out-of-distribution scenarios and enhanced temporal and cross-task consistency. Code and video results are available at https://unid-video.github.io/.",
+      "authors": [
+        "Yihong Sun",
+        "Seoung Wug Oh",
+        "Jiahui Huang",
+        "Bharath Hariharan",
+        "Joon-Young Lee"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-23T17:59:50+00:00",
+      "link": "https://arxiv.org/pdf/2607.21592v1",
+      "tags": [
+        "keyword:lr",
+        "keyword:seg-llm",
+        "query:lr",
+        "query:seg-llm"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "jointly predicts semantic segmentation among other tasks",
+      "llm_evidence_cn": "联合预测包括语义分割在内的多个密集场景属性",
+      "llm_evidence": "联合预测包括语义分割在内的多个密集场景属性",
+      "canonical_evidence": "联合预测包括语义分割在内的多个密集场景属性",
+      "llm_tldr_en": "UniD unifies video dense prediction from disjoint datasets via distillation, covering semantic segmentation and seven other properties.",
+      "llm_tldr_cn": "现有视频场景理解任务被碎片化，各标注数据集不兼容且难以统一。本文提出UniD，通过轻量级任务投影器和专家蒸馏，从分离的单域数据中联合学习深度、法线、语义分割等八种密集属性，避免了全标注数据的限制和伪标签的高计算成本。实验表明该方法在多任务上均有竞争力。",
+      "llm_tldr": "现有视频场景理解任务被碎片化，各标注数据集不兼容且难以统一。本文提出UniD，通过轻量级任务投影器和专家蒸馏，从分离的单域数据中联合学习深度、法线、语义分割等八种密集属性，避免了全标注数据的限制和伪标签的高计算成本。实验表明该方法在多任务上均有竞争力。",
+      "llm_tags": [
+        "query:seg-llm"
+      ],
+      "matched_query_tag": "query:seg-llm",
+      "matched_query_text": "semantic segmentation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

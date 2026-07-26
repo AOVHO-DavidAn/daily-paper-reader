@@ -18,36 +18,41 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-25
-- 运行时间：2026-07-25 21:17:34 UTC
+- 最新运行日期：2026-07-26
+- 运行时间：2026-07-26 21:17:43 UTC
 - 运行状态：成功
-- 本次总论文数：4
-- 精读区：1
-- 速读区：3
+- 本次总论文数：7
+- 精读区：2
+- 速读区：5
 
 ### 今日简报（AI）
-今日精读一篇因果论证：棋盘推理中权重比暂存更关键，另有激活控制、可微分推理、多模态三篇速读。
-
-最值得看的是精读论文的结论——权重在潜在推理中具有因果优势；速读中激活控制方法可打破模型自循环。
-
-下一步建议：深入理解权重因果机制，并关注激活控制技术以提升LLM推理可靠性。
-- 详情：[/202607/25/README](/202607/25/README)
+今日精读两篇高分论文，聚焦动态场景视觉推理与遥感多模态大模型评估；速读覆盖参数化推理、多域视觉推理及可微分符号推理架构。最值得关注的是ViSTR-Bench（9.0分），它系统测试了MLLM在动态场景中对连续视觉线索的推理能力，以及遥感领域论文（8.0分）探讨专用与通用大模型的选择。建议普通读者先读ViSTR-Bench了解当前MLLM的视觉推理短板，再结合SoftReason理解可微分符号推理如何提升对感知数据的推理鲁棒性。
+- 详情：[/202607/26/README](/202607/26/README)
 
 ### 精读区论文标签
-1. [The Weight of Silence: A Causal Case for Weights Over the Scratchpad in Latent Chess Reasoning](/202607/25/2607.20952v1-the-weight-of-silence-a-causal-case-for-weights-over-the-scratchpad-in-latent-chess-reasoning)  
+1. [ViSTR-Bench: Can MLLMs Reason from Continuous Visual Cues in Dynamic Scenes?](/202607/26/2607.20868v1-vistr-bench-can-mllms-reason-from-continuous-visual-cues-in-dynamic-scenes)  
    标签：评分：9.0/10、query:lr
-   evidence：语言模型在国际象棋中的隐空间推理
+   evidence：评估MLLMs在动态场景中从连续视觉线索进行推理的基准
+2. [Multimodal Large Language Models for Remote Sensing Image Understanding: Domain-Specific or General-Purpose?](/202607/26/2607.20284v1-multimodal-large-language-models-for-remote-sensing-image-understanding-domain-specific-or-general-purpose)  
+   标签：评分：8.0/10、query:lr
+   evidence：多模态大模型在遥感领域的综述，涵盖多模态推理
 
 ### 速读区论文标签
-1. [Can We Break LLMs Out of Self-Loops? Fine-Grained Reasoning Control with Activation Steering](/202607/25/2607.18100v1-can-we-break-llms-out-of-self-loops-fine-grained-reasoning-control-with-activation-steering)  
+1. [RAMP: Recognition parametrisation by Amortised Message Passing](/202607/26/2607.18883v1-ramp-recognition-parametrisation-by-amortised-message-passing)  
    标签：评分：7.0/10、query:lr
-   evidence：通过激活引导在隐状态中控制推理过程
-2. [SoftReason: A Fully Differentiable Neuro-Soft-Symbolic Deductive Reasoning Architecture over High-Dimensional Perceptual Data](/202607/25/2607.20402v1-softreason-a-fully-differentiable-neuro-soft-symbolic-deductive-reasoning-architecture-over-high-dimensional-perceptual-data)  
-   标签：评分：6.0/10、query:lr
-   evidence：在隐层感知事实上的全可微推理
-3. [MIRROR: Learning from the Other View for Multi-Modal Reasoning](/202607/25/2607.21552v1-mirror-learning-from-the-other-view-for-multi-modal-reasoning)  
-   标签：评分：6.0/10、query:lr
-   evidence：通过不同视图进行多模态推理
+   evidence：通过摊销消息传递学习潜在结构，在隐空间中进行高效推理
+2. [Trace: A Taxonomy-Guided Environment for Multidomain Visual Reasoning](/202607/26/2607.19790v1-trace-a-taxonomy-guided-environment-for-multidomain-visual-reasoning)  
+   标签：评分：7.0/10、query:lr
+   evidence：基于分类引导的多领域视觉推理环境，支持强化学习与可验证奖励
+3. [SoftReason: A Fully Differentiable Neuro-Soft-Symbolic Deductive Reasoning Architecture over High-Dimensional Perceptual Data](/202607/26/2607.20402v1-softreason-a-fully-differentiable-neuro-soft-symbolic-deductive-reasoning-architecture-over-high-dimensional-perceptual-data)  
+   标签：评分：7.0/10、query:lr
+   evidence：在潜在感知事实上的可微推理
+4. [Unified Video Dense Prediction from Disjoint Data](/202607/26/2607.21592v1-unified-video-dense-prediction-from-disjoint-data)  
+   标签：评分：7.0/10、query:seg-llm
+   evidence：联合预测包括语义分割在内的多个密集场景属性
+5. [Understanding From Human Perspective: A Multi-agent System for Interactive Egocentric Medical Image Segmentation](/202607/26/2607.17341v1-understanding-from-human-perspective-a-multi-agent-system-for-interactive-egocentric-medical-image-segmentation)  
+   标签：评分：6.0/10、query:seg-llm
+   evidence：交互式自我中心医学图像分割
 
 
 <div class="dpr-home-promo-card dpr-home-panel">
