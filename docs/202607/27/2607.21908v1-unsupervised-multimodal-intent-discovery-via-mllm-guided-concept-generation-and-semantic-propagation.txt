@@ -1,0 +1,841 @@
+Title: Unsupervised Multimodal Intent Discovery via MLLM-Guided Concept Generation and Semantic Propagation
+
+URL Source: https://arxiv.org/pdf/2607.21908v1
+
+Published Time: Mon, 27 Jul 2026 00:19:25 GMT
+
+Number of Pages: 16
+
+Markdown Content:
+# Unsupervised Multimodal Intent Discovery via MLLM-Guided Concept Generation and Semantic Propagation 
+
+# Yunjin Gu 
+
+The Chinese University of Hong Kong, Shenzhen Shenzhen, China yunjingu@link.cuhk.edu.cn 
+
+# Qianrui Zhou 
+
+Tsinghua University Beijing, China zgr22@mails.tsinghua.edu.cn 
+
+# Hua Xu 
+
+Tsinghua University Beijing, China xuhua@tsinghua.edu.cn 
+
+## Abstract 
+
+Unsupervised multimodal intent discovery aims to uncover latent intents from unlabeled multimodal dialogues, but remains chal-lenging due to the lack of explicit semantic supervision. Existing methods often provide limited interpretability, as their refinement mainly relies on geometric similarity rather than high-level seman-tic guidance. To address these limitations, we propose MCSP , a fully unsupervised method that introduces semantic refinement based on concepts into multimodal intent discovery. To obtain reliable semantic evidence for intent discovery, we identify high-quality representative samples for each cluster and use them to support MLLM-guided contrastive reasoning against neighboring clusters, which produces interpretable high-level semantic concepts. Build-ing on these concepts, we perform semantic propagation over a semantically weighted graph to align conceptual information with local structural consistency and generate reliable pseudo-labels for representation refinement. Extensive experiments on three chal-lenging multimodal intent datasets show that MCSP consistently outperforms state-of-the-art methods while producing interpretable clusters grounded in semantic concepts. 
+
+## CCS Concepts 
+
+• Computing methodologies → Cluster analysis ; Information extraction ; • Information systems → Multimedia information systems. 
+
+## Keywords 
+
+Unsupervised Multimodal Intent Discovery, MLLM-Guided Con-cepts, Semantic Propagation 
+
+ACM Reference Format: 
+
+Yunjin Gu, Qianrui Zhou, and Hua Xu. 2026. Unsupervised Multimodal Intent Discovery via MLLM-Guided Concept Generation and Semantic Propagation. In Proceedings of the 34th ACM International Conference on Multimedia (MM ’26). ACM, New York, NY, USA, 16 pages. 
+
+## 1 Introduction 
+
+Unsupervised multimodal intent discovery has emerged as a pivotal task in multimodal dialogues, facilitating the identification of latent semantic structures while eliminating the need for costly manual  
+
+> This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.
+> MM ’26, Rio de Janeiro, Brazil
+> ©2026 Copyright held by the owner/author(s). ACM ISBN 979-8-4007-2213-4/2026/11
+
+## Multimodal Features 
+
+Semantic Concepts 
+
+Semantic Propagation Clustering 
+
+Distance Calculation 
+
+## Uninterpretable 
+
+## Geometry -driven 
+
+## Interpretable 
+
+## Concept -guided 
+
+## Traditional Methods  Our Method 
+
+> random
+> walk
+
+Multimodal  Features  Multimodal Features 
+
+Figure 1: Comparison of intent discovery paradigms. 
+
+labeling. This unlabeled approach demonstrates significant utility in various domains, including video content recommendation, efficient multimodal data annotation, and virtual human technologies [44]. With the rise of multimodal analysis, understanding intent within conversations has been extensively explored. This field is anchored by diverse benchmarks, ranging from EMOTyDA [ 31 ], which pro-vides multi-party dialogue segments with aligned textual, acoustic, and visual modalities, to the MIntRec series [ 43 , 46 ], which offers specialized annotations across 20 and 30 categories of high granu-larity. The availability of these resources has driven the evolution of models that achieve superior performance, such as TCL-MAP [49], DuoDN [7], and InMu-Net [51]. However, these methods depend heavily on predefined labels, making them impractical for discovery tasks where intent cate-gories are unknown. Consequently, intent discovery has emerged as a vital paradigm, typically treated as a clustering task under partial or no label supervision. Early efforts focused on the clas-sic clustering of embeddings followed by post hoc summarization [8 , 17 , 29 ]. Recent progress has shifted toward integrating represen-tation learning with iterative clustering, where pseudo labels are utilized to refine the structure of clusters [ 48 ]. Furthermore, strate-gies that employ prompts leverage the semantics of labels as priors to maintain coherence [ 21 ]. Recent LLM-guided methods advance intent discovery through instance selection, textual centroids, and arXiv:2607.21908v1 [cs.MM] 24 Jul 2026 MM ’26, November 10–14, 2026, Rio de Janeiro, Brazil Trovato et al. 
+
+keyphrase-guided prototypes, yet fall short of multimodal concept discovery [ 10 , 18 , 22 ]. Moving beyond unimodal paradigms, UMC [ 44 ] leverages contrastive learning to forge integrated multimodal representations. However, as illustrated in the left panel of Figure 1, traditional clustering methods suffer from two limitations. First, ex-isting approaches still lack high-level, interpretable concepts from multimodal data to guide clustering. Second, they rely heavily on the geometric properties of the data, which fails to capture the underlying semantic consistency required for accurate discovery. To address these challenges, we propose MCSP, a method for Multimodal Concept-Guided Semantic Propagation that shifts the discovery paradigm from a purely geometric search into a process of discovery anchored by interpretable semantic concepts, as shown in the right panel of Figure 1. Our method first introduces a pro-gressive refinement strategy to identify high-quality representative samples, effectively insulating the model from the instability of ambiguous boundary instances. These representatives then serve as the empirical foundation for an MLLM-guided reasoning process. By leveraging the inferential capacity of an MLLM, we perform a contrastive reasoning across target and neighboring clusters to generate explicit concepts. These concepts act as global semantic anchors, bridging the gap between abstract feature distributions and explicit semantic information. To integrate high-level priors with the underlying data distribu-tion, we introduce a semantic propagation mechanism grounded in a concept-aware neighborhood graph. Instead of relying on simple proximity, our approach calibrates edge weights through multimodal semantic alignment, ensuring that feature diffusion is constrained within coherent conceptual boundaries. By initiating iterative random walks [ 50 ] from high-quality representatives, the system allows semantic information to flow across the manifold, harmonizing global conceptual guidance with local structural con-sistency. Finally, the system is optimized via a concept-supervised contrastive learning loss, utilizing multi-view augmentations to enforce intra-concept compactness and inter-concept separation. This establishes a synergistic feedback loop where the embedding manifold and the conceptual graph mutually reinforce one another, achieving a reliable and transparent identification of intents. We summarize our contributions as follows. (1) For fully unsu-pervised discovery, we introduce a method that leverages MLLM reasoning over high-quality representatives to generate high-level semantic concepts. (2) We propose a semantic propagation mech-anism that diffuses conceptual evidence across a concept-aware graph by initiating random walk from trusted landmarks, effec-tively harmonizing global semantic priors with the local manifold structure of the data. (3) Extensive experiments validate that MCSP consistently outperforms existing methods while generating inter-pretable semantic concepts that justify the discovery of intents. 
+
+## 2 Related Work 2.1 Unsupervised Clustering 
+
+Unsupervised clustering has transitioned from classical similarity based paradigms [ 14 , 26 ] toward deep learning frameworks that pri-oritize the joint optimization of representation learning and cluster assignment. Specifically, early models such as DEC [ 39 ] and DCN [ 40 ] utilized iterative refinement, while DeepCluster [ 4] employed clustering as a pretext task for large scale feature learning. Recently, contrastive clustering frameworks [ 20 , 41 ] have integrated instance level invariance with cluster level refinement to produce clustering friendly representations. While LLM-guided clustering has emerged to provide semantic refinement, these methods are designed for text and face high query complexity as detailed in Appendix B.2. Specifically, SPILL [ 22 ] employs selection and pooling mechanisms to leverage LLM-driven feature refinement for domain-adaptive clustering while remaining restricted to the textual modality. Ex-panding beyond single modality data, recent research focuses on capturing semantic correlations across multimodal signals. While earlier efforts [ 5 ] introduced cross modal constraints, they struggled with fine grained conversational semantics. To address this, Zhang et al . [44] established UMC, the first unsupervised framework for multimodal intent discovery, which leverages multimodal augmen-tation and density based sample selection to facilitate clustering. 
+
+## 2.2 Intent Discovery 
+
+Intent discovery seeks to extract latent categories from unlabeled data. Early efforts relied on weak auxiliary or lightweight supervi-sion to facilitate clustering, but failed to capture robust, high-level semantics in large-scale applications [ 16 , 17 ]. This led to a para-digm shift toward semi-supervised discovery, where labeled intents serve as anchors to align and cluster novel categories [ 27 , 33 , 48 ]. However, the heavy reliance on labels limits their utility in purely unsupervised scenarios. To bridge this gap, USNID [ 45 ] introduced an unsupervised centroid-guided refinement pipeline, yet remains confined to the textual modality. UMC [ 44 ] advances multimodal discovery as a leading baseline, effectively unifying tri modal signals via modality masked contrastive learning. Appendix B.1 provides further context on open world intent discovery. 
+
+## 3 Methodologies 
+
+In this section, we introduce the detail of our proposed method, MCSP, as illustrated in Figure 2. 
+
+## 3.1 Multimodal Unsupervised Pre-training 
+
+MCSP adopts the architecture and pre-training of UMC [ 44 ] to ini-tialize a representation space that captures latent cluster structures. For each instance 𝑠 𝑖 = (𝑠 𝑇 𝑖 , 𝑠 𝐴 𝑖 , 𝑠 𝑉 𝑖 ), we obtain a unified repre-sentation by projecting modality-specific features into a shared latent space. Textual representations 𝑧 𝑇 𝑖 ∈ R𝐷 𝐻 are obtained by fine-tuning BERT [ 9 ] and projecting the [CLS ] embedding through a linear layer 𝑓 𝑇 (·) . For non-verbal modalities, we use Swin Trans-former [ 24 ] and WavLM [ 6] as high-capacity encoders to extract se-quence features. These sequences are further processed by modality-specific Transformers [ 37 ] to generate global summaries 𝑧 𝐴 𝑖 and 𝑧 𝑉 𝑖 
+
+[35 ]. Finally, these embeddings are integrated through a non-linear fusion layer 𝐹 (·) to model cross-modal interactions: 
+
+z𝑇 𝐴𝑉 𝑖 = 𝐹 
+
+
+
+Concat (z𝑇 𝑖 , z𝐴 𝑖 , z𝑉 𝑖 )
+
+
+
+∈ R𝐷 𝐻 . (1) Following [ 44 ], we strengthen robustness by enforcing cross-modal consistency across views generated via selective audio-visual mask-ing. Optimized with an InfoNCE objective, this process regularizes the latent space through instance-level contrastive alignment, pro-viding a stable foundation for subsequent intent discovery. Unsupervised Multimodal Intent Discovery via MLLM-Guided Concept Generation and Semantic Propagation MM ’26, November 10–14, 2026, Rio de Janeiro, Brazil Margin Score        
+
+> C1
+> MLLM
+> you've gone
+> power mad.
+> Candidate Set
+> C1
+> C3
+> C2
+> Representatives
+> Concepts
+> Contrastive Head
+> Unsupervised  Learning
+> Swin
+> Transformer
+> WavLM
+> V-Transformer
+> BERT Encoder
+> A-Transformer
+> Linear
+> Linear
+> Linear
+> Video
+> Text
+> Audio
+> ZT
+> ZA
+> Fusion Layer
+> ZVZT0ZV
+> ZTZAZV
+> ZTZA0
+> ZT0V
+> ZTAV
+> ZT0A
+> Logits T0V
+> Logits TAV
+> Logits T0A
+
+Step1: Multimodal Unsupervised Pretraining 
+
+Step2: MLLM -Guided Concepts Generation    
+
+> Select Top -k
+> Samples
+> Cluster C1
+> Cluster C2
+> Cluster C3
+> Representatives as Initialization
+> k-NN Graph
+> Select the top t%
+> samples by
+> global confidence
+> ranking.
+
+Step3: Semantic Propagation    
+
+> ZTAV
+> Positive
+> Negative
+> ZTAV
+> ZTAV
+> Concept1 as Label
+> Concept2 as Label
+> Concept Features
+> Features
+> Concept Distribution
+> Sematically
+> Weighted Graph
+> Label Propogation
+> Graph with Label Distribution
+> Conceptual Contrastive Learning
+> ZTAV
+> Positive
+> Negative
+> ZTAV
+> ZTAV
+> Cluster1 ID as Label
+> Cluster2 ID as Label
+> Cluster -Label Contrastive Learning
+> High Quality
+> Sample Features
+> C3
+> C2 k-means++
+> BERT Encoder
+> Concept
+> Features
+> Target Sample
+> Neighbor’s
+> Activation
+> Normalized
+> Edge Weight
+
+Figure 2: Overview of the proposed MCSP method. The MCSP proceeds through three synergistic stages to achieve precise unsupervised intent discovery: (1) Contrastive Pretraining, which performs mask-based contrastive learning on multimodal inputs to establish a robust joint embedding space; (2) Concept Extraction, which leverages MLLM-guided reasoning to generate semantic concepts from high-quality representative samples; and (3) Semantic Propagation, which integrates evidence diffusion and concept-driven supervision to refine the embedding manifold for accurate intent identification. 
+
+## 3.2 MLLM-Guided Concepts Generation 
+
+While unsupervised pre-training organizes embedding spaces geo-metrically, such representations often suffer from semantic opacity and cluster drift leading to noisy or misaligned groupings. To ad-dress this limitation, MCSP introduces MLLM-Guided concepts as global semantic anchors to ground latent clusters in explicit concep-tual taxonomies. This process unfolds in two phases: High-Quality Representatives Selection and Semantic Concept Generation. To ensure stable and grounded concept generation, we priori-tize selecting a compact set of high-quality representative samples that reside in the unambiguous regions of the embedding space. Theoretically, samples located near cluster boundaries are prone to semantic noise and inter-cluster interference in unsupervised scenarios. To mitigate this, we introduce a margin-based filtering mechanism to identify instances with high cluster-membership certainty. Specifically, we first perform 𝑘 -means++ [ 1 ] on the fused embeddings {z𝑖 }𝑁 𝑖 =1 to obtain cluster assignments 𝑎 𝑖 ∈ { 1, . . . , 𝐾 }
+
+and centroids {𝝁 𝑘 }𝐾 𝑘 =1. For each instance 𝑖 , a margin score 𝑚 𝑖 is computed to quantify its representativeness and discriminative power: 
+
+𝑚 𝑖 = min 
+
+𝑘 ≠𝑎 𝑖 
+
+𝑑 (z𝑖 , 𝝁 𝑘 ) − 𝑑 (z𝑖 , 𝝁 𝑎 𝑖 ), (2) where 𝑑 (· , ·) denotes the Euclidean distance. Intuitively, a larger 𝑚 𝑖 
+
+indicates that the sample is deeply embedded within its assigned cluster and well-separated from potential competitors. As further validated by the comparative analysis in Appendix D.1, this margin-based criterion effectively isolates the top 𝑚 prototypical instances within each cluster to form the high-confidence candidate set C.To enhance the semantic coherence, we perform supervised con-trastive learning over C using the assignments {𝑎 𝑖 }𝑖 ∈ C obtained from the initial clustering as pseudo-labels. This optimization objec-tive enforces intra-cluster compactness and inter-cluster separation, yielding a more discriminative manifold {z′
+
+𝑖 }𝑁 𝑖 =1.The final representative set S is identified by applying 𝑘 -means++ for a second time to the refined embeddings {z′
+
+𝑖 | 𝑖 ∈ C} . By evaluat-ing the samples in this discriminative manifold, we obtain updated centroids {𝝁 ′
+
+𝑘 }𝐾 𝑘 =1 and refined margin scores 𝑚 ′
+
+𝑖 . The final repre-sentatives for each cluster 𝑘 are then selected as: 
+
+S𝑘 = {𝑖 ∈ C | 𝑎 ′
+
+𝑖 = 𝑘 }1: 𝑁 𝑟 , (3) where {·} 1: 𝑁 𝑟 denotes the subset of 𝑁 𝑟 instances ranked in descend-ing order of their refined margin scores 𝑚 ′
+
+𝑖 , and 𝑎 ′
+
+𝑖 represents the updated cluster assignment. By prioritizing prototypical instances, this progressive refinement ensures robust concept generation and effectively filters out noisy samples from overlapping regions. Building upon the curated representatives, we leverage advanced MLLMs, including Gemini-3.0-pro and Qwen3-VL, as discriminative reasoners to extract semantic anchors via a multimodal contrastive MM ’26, November 10–14, 2026, Rio de Janeiro, Brazil Trovato et al. Cluster 1     
+
+> Cluster 2
+> Neighbor Cluster
+> Neighbor Cluster
+> Cluster N Neighbor Cluster
+> Concept 1
+> Constrastive Multimodal Reasoning with MLLM Global Refining
+> …
+> …
+> …
+> …
+> Concept 2
+> Concept N
+> Concept 1’
+> Concept 2’
+> Concept 3’
+> Concept 4’
+> Concept 5’
+> Concept N’
+> …
+> …
+> …
+> …
+> …
+> Concept 6’
+> Concept 7’
+
+Figure 3: Multimodal Contrastive Reasoning. 
+
+strategy, as shown in Fig. 3. Specifically, for each cluster 𝑘 , the model is presented with the multimodal evidence from target rep-resentatives 𝑖 ∈ S 𝑘 alongside that of its nearest neighboring cluster 
+
+𝑗 ∈ S nn (𝑘 ) . Each representative is characterized by its respective video V, which comprises both visual and audio information, and its associated text T . By leveraging this enriched contextual in-formation {V 𝑖 , T𝑖 }𝑖 ∈ S 𝑘 and {V 𝑗 , T𝑗 }𝑗 ∈ S nn (𝑘 ) , the MLLM effectively captures the semantic discrepancies between clusters, enabling the generation of precise concepts. Formally, this contrastive reasoning process is expressed as: 
+
+𝑡 𝑘 = MLLM 
+
+
+
+{V 𝑖 , T𝑖 }𝑖 ∈ S 𝑘 ∪S nn (𝑘 ) ; Prompt cont 
+
+
+
+, (4) where 𝑡 𝑘 denotes the discriminative concept. A subsequent global refining stage reviews the initial set Tinit = {𝑡 𝑘 }𝐾 𝑘 =1 collectively to ensure syntactic consistency and global coherence across the entire concept space. This refinement process is formulated as: 
+
+Trefined = MLLM (T init ; Prompt global ), (5) where Trefined = {𝑡 ′ 
+
+> 𝑘
+
+}𝐾 𝑘 =1 denotes the set of refined phrases. The operation unifies the linguistic syntax and maintains concept con-sistency across the set, ensuring that each 𝑡 ′ 
+
+> 𝑘
+
+serves as a standardized textual representation with a coherent style. Then, each refined con-cept 𝑡 ′ 
+
+> 𝑘
+
+is encoded into a anchor c𝑘 ∈ R𝐷 𝐻 . To maintain cross-modal consistency during text-only processing, 𝑡 ′ 
+
+> 𝑘
+
+is passed through the pre-trained BERT and fusion modules while concurrently utilizing zero-masked audio and video streams to satisfy the multimodal ar-chitectural requirements. Detailed specifications of Prompt cont and Prompt global are provided in Appendix C.1 for further reference. 
+
+## 3.3 Semantic Propagation 
+
+Although concept anchors provide global references, direct nearest neighbor assignment neglects the underlying data manifold and potential concept feature misalignment, validated by the ablation of 𝑘 -NN graph in Section 5.1. To mitigate this, we regularize anchor semantics through local geometric smoothness by diffusing concept evidence over a neigh-borhood graph. We first represent the local structure as a 𝑘 -NN graph G = {V , E} , where V denotes the set of instances and N ( 𝑖 )
+
+represents the neighbor set containing the top 𝑘 samples for in-stance 𝑖 . For each edge (𝑖, 𝑗 ) with 𝑗 ∈ N ( 𝑖 ), we define a geometric weight 𝑤 𝑔 𝑖 𝑗 via a temperature scaled exponential kernel: 
+
+𝑤 𝑔 𝑖 𝑗 = exp  sim (z𝑖 , z𝑗 )/ 𝜏 𝑔 
+
+Í𝑗 ′ ∈ N ( 𝑖 ) exp  sim (z𝑖 , z𝑗 ′ )/ 𝜏 𝑔 
+
+ , (6) where 𝜏 𝑔 is a temperature parameter controlling connectivity sharp-ness. To incorporate semantic constraints, we derive the concept distribution for each sample with respect to the semantic anchors: 
+
+𝑃 𝑖𝑘 = exp (sim (z𝑖 , c𝑘 )/ 𝜏 𝑐 )
+
+Í𝐾 𝑘 ′=1 exp (sim (z𝑖 , c𝑘 ′ )/ 𝜏 𝑐 ) , (7) where 𝜏 𝑐 is a temperature scaling factor. Based on these distribu-tions, we quantify the semantic consistency between neighboring samples 𝑖 and 𝑗 as 𝑠 𝑐 𝑖 𝑗 = ⟨𝑃 𝑖 , 𝑃 𝑗 ⟩, where 𝑃 𝑖 ∈ R𝐾 represents the posterior vector for sample 𝑖 and ⟨· , ·⟩ denotes the inner product operator. The geometric weights are subsequently refined through semantic alignment: 
+
+˜𝑤 𝑖 𝑗 = 𝑤 𝑔 𝑖 𝑗 (1 + 𝜆𝑠 𝑐 𝑖 𝑗 ), 𝑤 𝑖 𝑗 = ˜𝑤 𝑖 𝑗 
+
+Í𝑗 ′ ∈ N ( 𝑖 ) ˜𝑤 𝑖 𝑗 ′
+
+, (8) where the hyperparameter 𝜆 controls the intensity of semantic inte-gration, followed by a normalization step to ensure the total weight for each neighbor set sums to unity. By reinforcing semantically consistent connections, the model constrains propagation within coherent conceptual boundaries. By designating high-quality representatives as landmarks, we initialize a label matrix Y ∈ R𝑁 ×𝐾 by setting 𝑌 𝑖𝑘 = 1 if sample 𝑖 is a representative for concept 𝑘 , and 0 otherwise. We perform iterative propagation on the concept-aware graph, employing random walk [ 50 ] that treats these initial references as stationary sources of trusted evidence: 
+
+Q(𝑡 +1) 
+
+> 𝑖, :
+
+=
+
+(Y𝑖, :, 𝑖 ∈ S ,𝛼 Í𝑗 ∈ N ( 𝑖 ) 𝑤 𝑖 𝑗 Q(𝑡 ) 
+
+> 𝑗, :
+
+, 𝑖 ∉ S, (9) where 𝛼 ∈ ( 0, 1) is a diffusion factor that controls the spatial extent of semantic propagation. In each iteration, every non-anchor sam-ple updates its conceptual belief by aggregating the distributions of its neighbors, weighted by the semantically-refined edges 𝑤 𝑖 𝑗 .This process facilitates a global diffusion of semantic information across the manifold, which actively guides the model to produce a final posterior Q that achieves a harmonious integration of high-level conceptual priors and local structural consistency, effectively bridging the gap between global semantics and local topology. To fully exploit these propagated signals, we employ concept-supervised contrastive learning to regularize the latent space, lever-aging the posteriors to simultaneously enforce intra-concept com-pactness and inter-concept separation. This objective is prioritized on a high-confidence set H to ensure the semantic purity of the supervision, where H is formed by retaining the top 𝜌 fraction of instances ranked by their predictive certainty, conf 𝑖 = max 𝑘 𝑄 𝑖𝑘 .Following the masking strategy established during pre-training, we construct three distinct views {z𝑇 𝐴𝑉 𝑖 , z𝑇 𝐴 0 
+
+> 𝑖
+
+, z𝑇 0𝑉 𝑖 } for each 𝑖 ∈ H 
+
+by selectively omitting modalities. This multi-view augmentation method yields robust positive samples that remain invariant to partial modality absence while ensuring the semantic remains con-sistently grounded by the textual modality. Unsupervised Multimodal Intent Discovery via MLLM-Guided Concept Generation and Semantic Propagation MM ’26, November 10–14, 2026, Rio de Janeiro, Brazil 
+
+We treat each propagated assignment ˆ𝑦 𝑖 = arg max 𝑘 𝑄 𝑖𝑘 as a supervisory signal to structure the contrastive embedding space. Let I denote the set of all augmented views within a minibatch, and 
+
+𝑔 (·) represent a projection head with ℓ2 normalization. Defining the positive set for a view 𝑢 based on shared conceptual assignments as P ( 𝑢 ) = {𝑣 ∈ I \ { 𝑢 } | ˆ𝑦 (𝑣 ) = ˆ𝑦 (𝑢 )} , we optimize the following concept-supervised contrastive objectives: 
+
+𝑍 𝑐 (𝑢 ) =∑︁   
+
+> 𝑤 ∈ I\{ 𝑢 }
+
+exp (sim (𝑔 (𝑢 ), 𝑔 (𝑤 ))/ 𝜏 ) , (10) 
+
+ℓ (𝑢, 𝑣 ) = − log 
+
+ exp (sim (𝑔 (𝑢 ), 𝑔 (𝑣 ))/ 𝜏 )
+
+𝑍 𝑐 (𝑢 )
+
+
+
+, (11) 
+
+Lc-sup = 1
+
+|I| ∑︁ 𝑢 ∈ I 
+
+1
+
+|P ( 𝑢 )| ∑︁ 𝑣 ∈ P ( 𝑢 )
+
+ℓ (𝑢, 𝑣 ). (12) Minimizing Eq. (12) transforms the propagated posteriors into a geometric constraint, anchoring the embedding space within a structured conceptual manifold. By grouping views under the same concept and separating those from competing categories, this opti-mization creates a feedback loop. Consequently, the manifold aligns with the semantic graph, enabling robust landmark identification and reliable semantic propagation in later iterations. 
+
+## 4 Experiments 4.1 Datasets and Evaluation Metrics 
+
+We evaluate MCSP on three multimodal intent discovery bench-marks: MIntRec, MIntRec2.0, and MELD-DA. As no validation set is used in unsupervised setting, we merge the original train, vali-dation, and test splits and repartition the data 4:1 for training and testing to maximize unlabeled data utilization. Following [ 11 , 32 ], we employ four standard metrics to assess clustering performance: ACC, ARI, NMI, and FMI. Detailed dataset statistics and metric definitions are provided in Appendices C.2 and C.3. 
+
+## 4.2 Baselines 
+
+We compare our method against state-of-the-art unsupervised clus-tering methods, including: (1) SCCL [ 41 ] integrates top down clus-tering with instance contrastive learning to enhance cluster sep-aration by tightening local neighborhoods. (2) CC [ 20 ] optimizes contrastive objectives for both instances and clusters on augmented views to achieve dual alignment. (3) MCN [ 5] learns a unified mul-timodal embedding through cross modal projection and explicit clustering to group semantically related instances. (4) USNID [45] alternates between centroid guided grouping and self supervised learning to generate consistent pseudo labels following contrastive pretraining. (5) SPILL [ 22 ] uses an LLM to select utterances with the same intent as the target from a set of retrieved candidates, and pools them with the target utterance to improve representations for intent clustering without additional fine-tuning. (6) UMC [ 44 ]defines the current performance frontier by combining contrastive pre-training and a density driven curriculum to progressively opti-mize multimodal clustering representations. 
+
+## 4.3 Experimental Settings 
+
+To improve reproducibility and reduce the need to tune parameters separately for each dataset in the unsupervised setting, we keep most hyperparameters the same across datasets and adjust only a few parameters that are related to training stability. In the concept generation stage, we use Gemini-3.0-Pro and Qwen-3-VL for seman-tic reasoning, with the candidate size 𝑚 fixed at 40 for all datasets. To reduce cost, we retain only three representatives for semantic discovery. An analysis of time efficiency and resource consumption is provided in Appendix G. For semantic propagation, we construct a 𝑘 -NN graph with 𝑘 = 10 and set 𝜆 = 3.0, while uniformly fixing 
+
+𝛼 = 0.95 and propagation steps at 40 across all datasets. For MIntRec, MIntRec2.0, and MELD-DA, the pre-training tem-peratures are set to (0.2, 0.2, 0.3) with corresponding learning rates of ( 5e −5, 2e −5, 5e −5). All experiments employ a batch size of 128 and utilize the AdamW optimizer [ 25 ] for 12 epochs without gradi-ent clipping. The training learning rates are ( 1e −4, 1e −4, 5e −5), and the 𝜌 is fixed at 0.6 with its sensitivity analysis detailed in Appendix D.2. The temperature triplets (𝜏, 𝜏 𝑐 , 𝜏 𝑔 ) are configured as (0.5, 1.0, 0.7), (0.3, 0.3, 7.5), and (2.5, 1.0, 3.5), respectively, as discussed in Section 5.2. All experiments are conducted on an NVIDIA Tesla V100 GPU, and results are averaged over five runs with seeds from 0 to 4, with a stability analysis provided in Appendix F.2. 
+
+## 4.4 Results 
+
+Table 1 shows that both MCSP variants consistently outperform UMC, the strongest baseline. Specifically, MCSP Qwen and MCSP Gemini 
+
+surpass UMC by 1.49% and 1.48%, respectively. Their comparable performance across various MLLMs indicates that MCSP is robust to the choice of reasoning model. Compared with SPILL, which also leverages LLM-based semantics, both variants improve the average score by 10 .20% , highlighting the effectiveness of MCSP’s semantic guidance. Notably, MCSP also provides better interpretability by aligning clusters with explicit concepts, as discussed in Section 5.4. On MIntRec, MCSP Gemini achieves a substantial performance breakthrough in ACC, outperforming UMC by 2.29%. This improve-ment indicates that the semantic anchors derived from MLLMs pro-vide superior semantic grounding, which effectively aligns clusters with their underlying intent categories. Furthermore, MCSP Qwen 
+
+yields a peak NMI of 49.07, underscoring its capacity to capture intricate mutual information within the multimodal feature space. The efficacy of our approach is further evidenced on the more com-plex MIntRec2.0 by a significant leap in ARI. Specifically, MCSP Qwen 
+
+reaches an ARI of 15.00, surpassing UMC by a 1.50% margin. Since ARI serves as a stringent measure of cluster structural integrity, this gain demonstrates that our high-level semantic propagation effectively reconstructs a more robust manifold structure, ensuring coherent intent discovery in high-dimensional scenarios with in-creased label complexity. On MELD-DA, MCSP Qwen again achieves the best average result, with gains of 3.62% in ARI, 0.83% in ACC, and 1.94% in FMI over UMC, indicating improved cluster purity under ambiguous conversational labels. Conversely, the slight NMI deficit relative to CC stems from the coarse granularity of MELD-DA, which limits the reasoning precision during concept generation. 
+
+## 5 Discussion 5.1 Ablation Studies 
+
+Table 2 summarizes the individual contributions of each component within the MCSP Gemini .MM ’26, November 10–14, 2026, Rio de Janeiro, Brazil Trovato et al. 
+
+Table 1: Results on three benchmarks. The two MCSP variants differ only in the MLLM used for concept generation, namely Qwen3-VL and Gemini-3.0-Pro. Best results are in bold and second-best are underlined. 
+
+Datasets MIntRec MIntRec2.0 MELD-DA Methods ACC ARI NMI FMI Avg. ACC ARI NMI FMI Avg. ACC ARI NMI FMI Avg. SCCL 36.36 16.94 43.98 22.67 29.99 21.03 8.88 30.57 13.25 18.43 25.79 12.23 19.10 23.93 20.26 CC 40.36 21.10 46.50 25.99 33.49 26.23 12.51 35.55 16.37 22.67 24.54 12.60 23.19 23.92 21.06 MCN 17.30 2.01 18.85 9.33 11.84 11.47 2.32 13.63 6.99 8.60 18.10 1.57 8.34 15.31 10.83 USNID 40.36 19.88 46.77 25.01 33.01 21.73 9.93 32.14 14.02 19.50 24.40 12.17 20.18 25.01 20.44 SPILL 36.31 15.44 38.83 20.94 27.88 22.10 7.91 26.63 12.19 17.21 23.11 3.97 12.97 18.02 14.52 UMC 42.92 23.35 48.17 28.11 35.64 27.36 13.50 36.78 17.34 23.75 33.79 18.45 21.38 31.80 26.36 MCSP Qwen 44.54 24.85 49.07 29.61 37.02 29.54 15.00 37.37 18.96 25.22 34.62 22.07 21.49 33.74 27.98 
+
+MCSP Gemini 45.21 25.59 48.42 30.28 37.37 29.19 15.03 37.33 18.92 25.12 34.57 21.57 21.61 33.16 27.73 
+
+Table 2: Ablation results on three benchmark datasets. Best results are in bold and second-best are underlined. 
+
+Datasets MIntRec MIntRec2.0 MELD-DA Ablation ACC ARI NMI FMI Avg. ACC ARI NMI FMI Avg. ACC ARI NMI FMI Avg. w/o Step1 17.89 2.31 20.84 9.83 12.72 9.97 0.79 10.52 6.07 6.84 19.64 0.58 6.03 17.18 10.86 w/o Trefined 41.03 21.50 45.53 26.46 33.63 28.41 13.58 36.47 17.48 23.99 31.68 17.56 20.83 29.64 24.93 w/o 𝜆 43.46 23.55 46.97 28.35 35.58 28.56 13.94 36.88 17.83 24.30 30.50 16.81 20.86 28.68 24.21 w/o G 24.27 7.85 30.16 16.08 19.59 17.86 5.37 22.18 12.25 14.42 28.50 5.36 11.20 27.70 18.19 w/o H 40.90 21.74 44.66 26.67 33.49 26.27 11.85 34.05 15.88 22.01 30.97 15.53 19.00 28.06 23.29 MCSP Gemini 45.21 25.59 48.42 30.28 37.37 29.19 15.03 37.33 18.92 25.12 34.57 21.57 21.61 33.16 27.73 w/o Step1. The most severe performance collapse occurs upon removing the pre-training with average scores plummeting to 10.86% on MELD-DA and 6.84% on MIntRec2.0. Such substantial drops including an average ARI decrease exceeding 19% underscore the indispensable role of a cluster-friendly backbone. 
+
+w/o Trefined . Substituting semantic concepts with dummy place-holders, such as "Concept 0" or "Concept 1", leads to a sharp perfor-mance drop, especially on MIntRec where ACC and ARI decrease by over 4%. This gap confirms the necessity of generating high quality concepts rather than relying on arbitrary labels. To fur-ther address concerns regarding concept consistency, we provide a detailed stability analysis in Appendix F.3. 
+
+w/o 𝜆 . Removing semantic edge modulation degrades perfor-mance, particularly on MELD-DA where metrics suffer a sharp decline exceeding 4%. This degradation confirms that semantic modulation is essential to align neighborhood geometry with con-ceptual consistency for more reliable propagation. 
+
+w/o G. Replacing graph propagation with direct nearest assign-ment triggers a substantial performance collapse including average scores plummeting by 17.78% 10.70% and 9.54% on three datasets. This sharp decline underscores the value of semantic propagation for expanding concepts into globally consistent intent clusters. 
+
+w/o H . Removing confidence filtering reduces average perfor-mance by approximately 4%. Notably, the ARI on MELD-DA plum-mets by 6%, underscoring the necessity of filtering to prevent error reinforcement and maintain discriminative representations. 
+
+## 5.2 Sensitivity Analysis 
+
+We investigate the sensitivity of MCSP to three temperature hyper-parameters 𝜏 , 𝜏 𝑐 , and 𝜏 𝑔 , which control distribution smoothness in contrastive learning, concept assignment, and graph propagation, respectively. Figure 4 reports their effects on clustering perfor-mance, while Appendix D.3 provides a complementary label-free selection analysis based on clustering stability across random seeds. Specifically, for the 𝜏 in concept-supervised contrastive learn-ing, the accuracy reaches a peak of 29.19% when 𝜏 is set to 0.5. Smaller values such as 0.1 or 0.3 create overly sharp distributions that penalize negative pairs too aggressively, while larger values like 0.7 or 0.9 lead to excessively smooth distributions that fail to capture fine-grained semantic differences. Similarly, the 𝜏 𝑐 achieves its optimal performance of 29.19% at 0.3, whereas deviating to 0.2 or 0.4 results in performance drops to 27.84% and 28.69% respectively. This indicates the necessity of a precisely calibrated confidence level when associating samples with latent concepts. Regarding the 𝜏 𝑔 in semantic propagation, the model shows a clear prefer-ence for a setting of 7.5 to achieve 29.19% accuracy. Values such as 6.5 or 8.5 lead to suboptimal pseudo-label generation by either restricting information diffusion or allowing non-discriminative signals to propagate through the graph. These results demonstrate that while MCSP maintains robustness, precise temperature cali-bration remains vital to balance discriminative power and semantic consistency in unsupervised discovery. Unsupervised Multimodal Intent Discovery via MLLM-Guided Concept Generation and Semantic Propagation MM ’26, November 10–14, 2026, Rio de Janeiro, Brazil 
+
+Figure 4: Temperature hyper-parameter sensitivity analysis on MIntRec2.0 measured by accuracy (%). CC  SCCL  USNID  UMC  MCSP 
+
+CC  SCCL  USNID  UMC  MCSP 
+
+CC  SCCL  USNID  UMC  MCSP 
+
+Figure 5: Visualization of representations on the MIntRec dataset. 
+
+## 5.3 Visualization 
+
+Figure 5 visualizes method embeddings via t-SNE [ 36 ] on MIntRec. While CC and SCCL exhibit heavily entangled clusters where se-mantic boundaries are almost indistinguishable, USNID and UMC improve intra-class coherence but still suffer from interleaved mar-gins and scattered outliers. In contrast, MCSP Gemini generates the most structured geometry, characterized by compact regions and significantly reduced overlap across the latent space. Specifically, MCSP Gemini successfully isolates distinct intents such as Praise, Greet, and Inform into compact and separated clus-ters. This outcome confirms that semantic propagation mechanism anchors clear manifolds by spreading MLLM generated conceptual priors throughout the latent space. Although minor overlap persists between semantically similar categories like Complain, Criticize, and Taunt, the overall spatial structure remains highly organized. These visualizations mirror the quantitative gains shown in Table 1, demonstrating that constrained semantic flow effectively reshapes the embedding space into coherent intent manifolds. Visualizations on MIntRec2.0 and MELD-DA datasets are provided in Appendix E. 
+
+## 5.4 Case Study 
+
+As illustrated in Figure 6, we conduct a qualitative case study on the MIntRec dataset to evaluate the interpretability and semantic faithfulness of the concepts generated by MCSP. The empirical evidence suggests that MCSP produces robust concept anchors that are consistent with ground truth labels and deeply grounded in multimodal context. A compelling example is the Leave intent, where brief and semantically underspecified utterances are correctly identified as departure related acts by in-tegrating visual cues that provide decisive evidence when lexical content is insufficient. More importantly, the contrastive reasoning mechanism effectively disambiguates closely related intents by iso-lating unique functional traits. For instance, in the Criticize cluster, while the text "spraying cleaner on fruit" might be misinterpreted as a neutral description, our model contrasts it against neighbor-ing clusters to generate the precise functional label "confronting or accusing." Similarly, for Introduce , the model leverages multi-modal alignment to correctly abstract "introducing self or others," demonstrating that our representative mining yields stable anchors for context aware interpretation. In the challenging Joke category, MCSP successfully captures underlying humor despite its proxim-ity to teasing, while the Apologize intent is distinguished by its sincere tone from more casual acknowledgments. These success-ful cases validate that producing explicit, human readable concept anchors through contrastive inference significantly enhances both the discriminative power and transparency of discovered clusters. Despite these strengths, certain failure modes reveal inherent challenges in unsupervised semantic discovery. First, the model occasionally struggles to decode deep pragmatic layers such as sar-casm or social stance, potentially misinterpreting Taunt as praise or reducing Flaunt to generic excitement due to an over-reliance on surface-level affect. Second, without a predefined label inven-tory, fine-grained intent boundaries are difficult to align, leading the model to summarize Advise as a general opinion rather than a specific directive act. Third, the quality of concept generation MM ’26, November 10–14, 2026, Rio de Janeiro, Brazil Trovato et al. Text: yeah, wow! great, 
+
+that's great! 
+
+Label: Praise 
+
+Text: this is like the fifth 
+
+time they've played this song 
+
+today. 
+
+Label: Complain 
+
+Text: that's helpful, jeff. 
+
+thank you. 
+
+Label: Thank  Label: Criticize 
+
+Text: you're spraying all -
+
+purpose cleaner on the fruit? 
+
+Label: Apologize 
+
+Text: and i'm sorry about 
+
+that. 
+
+Text: seems great, but 
+
+maybe we should set some 
+
+ground rules. 
+
+Label: Advise 
+
+Text: i mean, my 
+
+personality's a homerun 
+
+Label: Flaunt 
+
+Text: how are things over 
+
+here? 
+
+Label: Care 
+
+Text: i do need you to sign a 
+
+form, as it is a high -ticket 
+
+item 
+
+Label: Inform 
+
+Text: hey, jerry. 
+
+Label: Greet 
+
+Text: what are you doing -
+
+no, no, don't do that! 
+
+Label: Prevent 
+
+Text: okay. all right 
+
+Label: Agree 
+
+Text: you know what? i'm tired 
+
+> of everybody thinking of me as
+> just your boyfriend, okay?
+
+Label: Ask for help 
+
+Text: don't worry about it 
+
+Label: Comfort 
+
+Text: a little st. patrick's day 
+
+humor there for you. 
+
+Label: Joke 
+
+Label: Taunt 
+
+Text: great job on these 
+
+> baskets, man. you really
+> knocked that one out of the park.
+
+Label: Introduce 
+
+Text: jonah simms from 
+
+store 1217 
+
+Label: Oppose 
+
+Text: look, i know you like 
+
+to be everyone's but that's 
+
+not how i live my life. 
+
+Label: Arrange 
+
+Text: everybody in single -
+
+file lines. 
+
+Label: Leave 
+
+Text: i just gotta grab a few 
+
+things. 
+
+stating factual observations 
+
+giving brief praise  expressing deep gratitude  confronting or accusing  offering sincere apology 
+
+offering personal opinion 
+
+suggesting a plan  asking about personal status  making public announcements  greeting someone 
+
+forbidding an action  acknowledging receipt casually  stating refusal to participate  comforting or reassuring  joking or teasing 
+
+announcing departure 
+
+introducing self or others 
+
+shouting urgent commands  expressing excitement  praising someone's character 
+
+Figure 6: Case study on MIntRec. Representative samples display video, text, and GT labels. Purple text indicates generated concepts. Green and red borders indicate strong alignment and semantic deviation from GT labels, respectively. 
+
+remains sensitive to cluster noise and class imbalance, where non-prototypical representatives can bias the output, such as misidenti-fying Complain as a neutral factual observation. These constraints are quite helpful, as they effectively highlight specific areas for refining unsupervised clustering and concept alignment. 
+
+## 6 Conclusion 
+
+In this work, we propose MCSP, a novel method for multimodal intent discovery that addresses limited interpretability and over-reliance on geometry-driven refinement by integrating MLLM-Guided concept generation with semantic propagation. First, MCSP identifies high-quality representatives through a progressive re-finement strategy to provide a stable foundation for MLLM-guided contrastive reasoning, yielding explicit concepts that serve as global semantic anchors. Second, these conceptual priors are diffused across the data manifold via a semantic propagation mechanism, refining neighborhood geometry through semantic alignment to harmonize global guidance with local structural consistency. In-tegrated into this process, a synergistic feedback loop between random walk based diffusion and concept-supervised contrastive learning continuously regularizes the latent space, progressively shaping the embedding manifold for a reliable and transparent identification of intents. Extensive benchmarks validate that MCSP consistently outperforms state-of-the-art methods while generat-ing semantically rich concepts that provide intuitive justifications for the discovered clusters, thereby establishing a pioneering and interpretable paradigm for multimodal discovery. Unsupervised Multimodal Intent Discovery via MLLM-Guided Concept Generation and Semantic Propagation MM ’26, November 10–14, 2026, Rio de Janeiro, Brazil 
+
+## References 
+
+[1] David Arthur and Sergei Vassilvitskii. 2007. k-means++: The Advantages of Careful Seeding. In Proceedings of the Eighteenth Annual ACM-SIAM Symposium on Discrete Algorithms (SODA ’07) , Vol. 8. 1027–1035. doi:10.1145/1283383.1283494 [2] Asa Ben-Hur, Andre Elisseeff, and Isabelle Guyon. 2002. A Stability Based Method for Discovering Structure in Clustered Data. Pacific Symposium on Biocomputing. Pacific Symposium on Biocomputing 2002 (02 2002), 6–17. doi:10.1142/9789812799623_0002 [3] Asa Ben-Hur, Andre Elisseeff, and Isabelle Guyon. 2002. A Stability Based Method for Discovering Structure in Clustered Data. Pacific Symposium on Biocomputing. Pacific Symposium on Biocomputing 2002 (02 2002), 6–17. doi:10.1142/9789812799623_0002 [4] Mathilde Caron, Piotr Bojanowski, Armand Joulin, and Matthijs Douze. 2018. Deep Clustering for Unsupervised Learning of Visual Features. In Proceedings of the European Conference on Computer Vision (ECCV) .[5] Brian Chen, Andrew Rouditchenko, Kevin Duarte, Hilde Kuehne, Samuel Thomas, Angie Boggust, Rameswar Panda, Brian Kingsbury, Rogerio Feris, David Harwath, James Glass, Michael Picheny, and Shih-Fu Chang. 2021. Multimodal Clustering Networks for Self-supervised Learning from Unlabeled Videos . In 2021 IEEE/CVF International Conference on Computer Vision (ICCV) . IEEE Computer Society, Los Alamitos, CA, USA, 7992–8001. doi:10.1109/ICCV48922.2021.00791 [6] Sanyuan Chen, Chengyi Wang, Zhengyang Chen, Yu Wu, Shujie Liu, Zhuo Chen, Jinyu Li, Naoyuki Kanda, Takuya Yoshioka, Xiong Xiao, Jian Wu, Long Zhou, Shuo Ren, Yanmin Qian, Yao Qian, Jian Wu, Michael Zeng, Xiangzhan Yu, and Furu Wei. 2022. WavLM: Large-Scale Self-Supervised Pre-Training for Full Stack Speech Processing. IEEE Journal of Selected Topics in Signal Processing 16, 6 (2022), 1505–1518. doi:10.1109/JSTSP.2022.3188113 [7] Zhanpeng Chen, Zhihong Zhu, Xianwei Zhuang, Zhiqi Huang, and Yuexian Zou. 2024. Dual-oriented Disentangled Network with Counterfactual Intervention for Multimodal Intent Detection. In Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing , Yaser Al-Onaizan, Mohit Bansal, and Yun-Nung Chen (Eds.). Association for Computational Linguistics, Miami, Florida, USA, 17554–17567. doi:10.18653/v1/2024.emnlp-main.972 [8] Jackie Chi Kit Cheung and Xiao Li. 2012. Sequence clustering and labeling for unsupervised query intent discovery. In Proceedings of the Fifth ACM International Conference on Web Search and Data Mining (Seattle, Washington, USA) (WSDM ’12) . Association for Computing Machinery, New York, NY, USA, 383–392. doi:10. 1145/2124295.2124342 [9] Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. 2019. BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding. In 
+
+Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 1 (Long and Short Papers) , Jill Burstein, Christy Doran, and Thamar Solorio (Eds.). Association for Computational Linguistics, Minneapolis, Minnesota, 4171–4186. doi:10.18653/ v1/N19-1423 [10] Jairo Diaz-Rodriguez. 2026. Summaries as Centroids for Interpretable and Scal-able Text Clustering. In The Fourteenth International Conference on Learning Representations . https://openreview.net/forum?id=Uzku7RZXvI [11] Adil Fahad, Najlaa Alshatri, Zahir Tari, Abdullah Alamri, Ibrahim Khalil, Albert Y. Zomaya, Sebti Foufou, and Abdelaziz Bouras. 2014. A Survey of Clustering Algorithms for Big Data: Taxonomy and Empirical Analysis. IEEE Transactions on Emerging Topics in Computing 2, 3 (2014), 267–279. doi:10.1109/TETC.2014. 2330519 [12] Zijin Feng, Luyang Lin, Lingzhi Wang, Hong Cheng, and Kam-Fai Wong. 2024. LLMEdgeRefine: Enhancing Text Clustering with LLM-Based Boundary Point Refinement. In Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing , Yaser Al-Onaizan, Mohit Bansal, and Yun-Nung Chen (Eds.). Association for Computational Linguistics, Miami, Florida, USA, 18455–18462. doi:10.18653/v1/2024.emnlp-main.1025 [13] John J. Godfrey, Edward C. Holliman, and Jane McDaniel. 1992. SWITCHBOARD: Telephone speech corpus for research and development. In Proceedings of the IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP) .IEEE, I/517–I/520. doi:10.1109/ICASSP.1992.225957 [14] K. Chidananda Gowda and G. Krishna. 1978. Agglomerative clustering using the concept of mutual nearest neighbourhood. Pattern Recognition 10, 2 (1978), 105–112. doi:10.1016/0031-3203(78)90018-3 [15] Derek Greene, Derek O’Callaghan, and Padraig Cunningham. 2014. How Many Topics? Stability Analysis for Topic Models. doi:10.1007/978-3-662-44848-9_32 [16] Dilek Hakkani-Tür, Yun-Cheng Ju, Geoffrey Zweig, and Gokhan Tur. 2015. Clus-tering novel intents in a conversational interaction system with semantic parsing. In Interspeech 2015 . 1854–1858. doi:10.21437/Interspeech.2015-70 [17] Iryna Haponchyk, Antonio Uva, Seunghak Yu, Olga Uryupina, and Alessandro Moschitti. 2018. Supervised Clustering of Questions into Intents for Dialog System Applications. In Proceedings of the 2018 Conference on Empirical Methods in Natural Language Processing , Ellen Riloff, David Chiang, Julia Hockenmaier, and Jun’ichi Tsujii (Eds.). Association for Computational Linguistics, Brussels, Belgium, 2310–2321. doi:10.18653/v1/D18-1254 [18] Sua Kim, Taeyoung Jeong, Seokyoung Hong, Seongjun Kim, Jeongpil Lee, Du-Seong Chang, and Myoung-Wan Koo. 2025. KSTC: Keyphrase-driven Sentence embedding and Task independent prompting for filling slot in the Generation of theme label. In Proceedings of the Twelfth Dialog System Technology Challenge ,Behnam Hedayatnia, Vivian Chen, Zhang Chen, Raghav Gupta, and Michel Galley (Eds.). Association for Computational Linguistics, Avignon, France, 44–73. https://aclanthology.org/2025.dstc-1.5/ [19] Stefan Larson, Anish Mahendran, Joseph J. Peper, Christopher Clarke, Andrew Lee, Parker Hill, Jonathan K. Kummerfeld, Kevin Leach, Michael A. Laurenzano, Lingjia Tang, and Jason Mars. 2019. An Evaluation Dataset for Intent Clas-sification and Out-of-Scope Prediction. In Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing and the 9th International Joint Conference on Natural Language Processing (EMNLP-IJCNLP) , Kentaro Inui, Jing Jiang, Vincent Ng, and Xiaojun Wan (Eds.). Association for Computational Linguistics, Hong Kong, China, 1311–1316. doi:10.18653/v1/D19-1131 [20] Yunfan Li, Peng Hu, Zitao Liu, Dezhong Peng, Joey Tianyi Zhou, and Xi Peng. 2021. Contrastive Clustering. In Proceedings of the AAAI Conference on Artificial Intelligence , Vol. 35. AAAI Press, 8547–8555. doi:10.1609/aaai.v35i10.17037 [21] Jinggui Liang and Lizi Liao. 2023. ClusterPrompt: Cluster Semantic Enhanced Prompt Learning for New Intent Discovery. In Findings of the Association for Computational Linguistics: EMNLP 2023 , Houda Bouamor, Juan Pino, and Kalika Bali (Eds.). Association for Computational Linguistics, Singapore, 10468–10481. doi:10.18653/v1/2023.findings-emnlp.702 [22] I-Fan Lin, Faegheh Hasibi, and Suzan Verberne. 2025. SPILL: Domain-Adaptive Intent Clustering based on Selection and Pooling with Large Language Models. In Findings of the Association for Computational Linguistics: ACL 2025 , Wanxiang Che, Joyce Nabende, Ekaterina Shutova, and Mohammad Taher Pilehvar (Eds.). Association for Computational Linguistics, Vienna, Austria, 15723–15737. doi:10. 18653/v1/2025.findings-acl.812 [23] Jianghan Liu, Ziyu Shang, Wenjun Ke, Peng Wang, Zhizhao Luo, Jiajun Liu, Guozheng Li, and Yining Li. 2025. LLM-Guided Semantic-Aware Clustering for Topic Modeling. In Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) , Wanxiang Che, Joyce Nabende, Ekaterina Shutova, and Mohammad Taher Pilehvar (Eds.). Association for Computational Linguistics, Vienna, Austria, 18420–18435. doi:10.18653/v1/ 2025.acl-long.902 [24] Ze Liu, Yutong Lin, Yue Cao, Han Hu, Yixuan Wei, Zheng Zhang, Stephen Lin, and Baining Guo. 2021. Swin Transformer: Hierarchical Vision Transformer using Shifted Windows . In 2021 IEEE/CVF International Conference on Computer Vision (ICCV) . IEEE Computer Society, Los Alamitos, CA, USA, 9992–10002. doi:10.1109/ICCV48922.2021.00986 [25] Ilya Loshchilov and Frank Hutter. 2019. Decoupled Weight Decay Regularization. In Proceedings of the International Conference on Learning Representations (ICLR) .https://openreview.net/forum?id=Bkg6RiCqY7 [26] J. B. MacQueen. 1967. Some Methods for Classification and Analysis of Multi-Variate Observations. In Proc. of the fifth Berkeley Symposium on Mathematical Statistics and Probability , L. M. Le Cam and J. Neyman (Eds.), Vol. 1. University of California Press, 281–297. [27] Yutao Mou, Keqing He, Pei Wang, Yanan Wu, Jingang Wang, Wei Wu, and Weiran Xu. 2022. Watch the Neighbors: A Unified K-Nearest Neighbor Contrastive Learn-ing Framework for OOD Intent Discovery. In Proceedings of the 2022 Conference on Empirical Methods in Natural Language Processing , Yoav Goldberg, Zornitsa Kozareva, and Yue Zhang (Eds.). Association for Computational Linguistics, Abu Dhabi, United Arab Emirates, 1517–1529. doi:10.18653/v1/2022.emnlp-main.98 [28] Yutao Mou, Keqing He, Yanan Wu, Pei Wang, Jingang Wang, Wei Wu, Yi Huang, Junlan Feng, and Weiran Xu. 2022. Generalized Intent Discovery: Learning from Open World Dialogue System. In Proceedings of the 29th International Conference on Computational Linguistics , Nicoletta Calzolari, Chu-Ren Huang, Hansaem Kim, James Pustejovsky, Leo Wanner, Key-Sun Choi, Pum-Mo Ryu, Hsin-Hsi Chen, Lucia Donatelli, Heng Ji, Sadao Kurohashi, Patrizia Paggio, Ni-anwen Xue, Seokhwan Kim, Younggyun Hahm, Zhong He, Tony Kyungil Lee, Enrico Santus, Francis Bond, and Seung-Hoon Na (Eds.). International Com-mittee on Computational Linguistics, Gyeongju, Republic of Korea, 707–720. https://aclanthology.org/2022.coling-1.59/ [29] A Padmasundari and Srinivas Bangalore. 2018. Intent Discovery Through Unsu-pervised Semantic Text Clustering. In Interspeech 2018 . 606–610. doi:10.21437/ Interspeech.2018-2436 [30] Anup Pattnaik, Cijo George, Rishabh Kumar Tripathi, Sasanka Vutla, and Jithen-dra Vepa. 2024. Improving Hierarchical Text Clustering with LLM-guided Multi-view Cluster Representation. In Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing: Industry Track , Franck Dernoncourt, Daniel Preoţiuc-Pietro, and Anastasia Shimorina (Eds.). Association for Compu-tational Linguistics, Miami, Florida, US, 719–727. doi:10.18653/v1/2024.emnlp-industry.54 [31] Tulika Saha, Aditya Patra, Sriparna Saha, and Pushpak Bhattacharyya. 2020. Towards Emotion-aided Multi-modal Dialogue Act Classification. In Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics , Dan Jurafsky, Joyce Chai, Natalie Schluter, and Joel Tetreault (Eds.). Association for MM ’26, November 10–14, 2026, Rio de Janeiro, Brazil Trovato et al. 
+
+Computational Linguistics, Online, 4361–4372. doi:10.18653/v1/2020.acl-main.402 [32] Amit Saxena, Mukesh Prasad, Akshansh Gupta, Neha Bharill, Om Prakash Patel, Aruna Tiwari, Meng Joo Er, Weiping Ding, and Chin-Teng Lin. 2017. A Review of Clustering Techniques and Developments. Neurocomputing 267 (2017), 664–681. doi:10.1016/j.neucom.2017.06.053 [33] Wenkai Shi, Wenbin An, Feng Tian, Qinghua Zheng, QianYing Wang, and Ping Chen. 2023. A Diffusion Weighted Graph Framework for New Intent Discovery. In Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing , Houda Bouamor, Juan Pino, and Kalika Bali (Eds.). Association for Computational Linguistics, Singapore, 8033–8042. doi:10.18653/v1/2023.emnlp-main.499 [34] Xiaoshuai Song, Yutao Mou, Keqing He, Yueyan Qiu, Jinxu Zhao, Pei Wang, and Weiran Xu. 2023. Continual Generalized Intent Discovery: Marching Towards Dynamic and Open-world Intent Recognition. In Findings of the Association for Computational Linguistics: EMNLP 2023 , Houda Bouamor, Juan Pino, and Kalika Bali (Eds.). Association for Computational Linguistics, Singapore, 4370–4382. doi:10.18653/v1/2023.findings-emnlp.289 [35] Yao-Hung Hubert Tsai, Shaojie Bai, Paul Pu Liang, J. Zico Kolter, Louis-Philippe Morency, and Ruslan Salakhutdinov. 2019. Multimodal Transformer for Unaligned Multimodal Language Sequences. In Proceedings of the 57th Annual Meeting of the Association for Computational Linguistics , Anna Korhonen, David Traum, and Lluís Màrquez (Eds.). Association for Computational Linguistics, Florence, Italy, 6558–6569. doi:10.18653/v1/P19-1656 [36] Laurens J. P. van der Maaten and Geoffrey E. Hinton. 2008. Visualizing Data Using t-SNE. Journal of Machine Learning Research 9 (2008), 2579–2605. [37] Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N Gomez, Łukasz Kaiser, and Illia Polosukhin. 2017. Attention is all you need. In Advances in neural information processing systems . 5998–6008. http://arxiv.org/abs/1706.03762 [38] Vijay Viswanathan, Kiril Gashteovski, Carolin Lawrence, Tongshuang Wu, and Graham Neubig. 2024. Large Language Models Enable Few-Shot Clustering. 
+
+Transactions of the Association for Computational Linguistics 12 (2024), 321–333. doi:10.1162/tacl_a_00648 [39] Junyuan Xie, Ross Girshick, and Ali Farhadi. 2016. Unsupervised deep embedding for clustering analysis. In Proceedings of the 33rd International Conference on International Conference on Machine Learning - Volume 48 (New York, NY, USA) 
+
+(ICML’16) . JMLR.org, 478–487. [40] Bo Yang, Xiao Fu, Nicholas D. Sidiropoulos, and Mingyi Hong. 2017. Towards K-means-friendly spaces: simultaneous deep learning and clustering. In Proceedings of the 34th International Conference on Machine Learning - Volume 70 (Sydney, NSW, Australia) (ICML’17) . JMLR.org, 3861–3870. [41] Dejiao Zhang, Feng Nan, Xiaokai Wei, Shang-Wen Li, Henghui Zhu, Kathleen McKeown, Ramesh Nallapati, Andrew O. Arnold, and Bing Xiang. 2021. Support-ing Clustering with Contrastive Learning. In Proceedings of the 2021 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies , Kristina Toutanova, Anna Rumshisky, Luke Zettle-moyer, Dilek Hakkani-Tur, Iz Beltagy, Steven Bethard, Ryan Cotterell, Tanmoy Chakraborty, and Yichao Zhou (Eds.). Association for Computational Linguistics, Online, 5419–5430. doi:10.18653/v1/2021.naacl-main.427 [42] Hanlei Zhang, Xiaoteng Li, Hua Xu, Panpan Zhang, Kang Zhao, and Kai Gao. 2021. TEXTOIR: An Integrated and Visualized Platform for Text Open Intent Recognition. In Proceedings of the 59th Annual Meeting of the Association for Computational Linguistics and the 11th International Joint Conference on Natural Language Processing: System Demonstrations , Heng Ji, Jong C. Park, and Rui Xia (Eds.). Association for Computational Linguistics, Online, 167–174. doi:10.18653/ v1/2021.acl-demo.20 [43] Hanlei Zhang, Xin Wang, Hua Xu, Qianrui Zhou, Kai Gao, Jianhua Su, jinyue Zhao, Wenrui Li, and Yanting Chen. 2024. MIntRec2.0: A Large-scale Benchmark Dataset for Multimodal Intent Recognition and Out-of-scope Detection in Conversations. In The Twelfth International Conference on Learning Representations . https: //openreview.net/forum?id=nY9nITZQjc [44] Hanlei Zhang, Hua Xu, Fei Long, Xin Wang, and Kai Gao. 2024. Unsupervised Multimodal Clustering for Semantics Discovery in Multimodal Utterances. In 
+
+Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) , Lun-Wei Ku, Andre Martins, and Vivek Srikumar (Eds.). Association for Computational Linguistics, Bangkok, Thailand, 18–35. doi:10.18653/v1/2024.acl-long.2 [45] Hanlei Zhang, Hua Xu, Xin Wang, Fei Long, and Kai Gao. 2024. A Clustering Framework for Unsupervised and Semi-Supervised New Intent Discovery. IEEE Transactions on Knowledge and Data Engineering 36, 11 (2024), 5468–5481. doi:10. 1109/TKDE.2023.3340732 [46] Hanlei Zhang, Hua Xu, Xin Wang, Qianrui Zhou, Shaojie Zhao, and Jiayan Teng. 2022. MIntRec: A New Dataset for Multimodal Intent Recognition. In Proceedings of the 30th ACM International Conference on Multimedia (Lisboa, Portugal) (MM ’22) . Association for Computing Machinery, New York, NY, USA, 1688–1697. doi:10.1145/3503161.3547906 [47] Yuwei Zhang, Zihan Wang, and Jingbo Shang. 2023. ClusterLLM: Large Language Models as a Guide for Text Clustering. In Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing , Houda Bouamor, Juan Pino, and Kalika Bali (Eds.). Association for Computational Linguistics, Singapore, 13903–13920. doi:10.18653/v1/2023.emnlp-main.858 [48] Yuwei Zhang, Haode Zhang, Li-Ming Zhan, Xiao-Ming Wu, and Albert Y.S. Lam. 2022. New Intent Discovery with Pre-training and Contrastive Learning. ArXiv 
+
+abs/2205.12914 (2022). https://api.semanticscholar.org/CorpusID:248780207 [49] Qianrui Zhou, Hua Xu, Hao Li, Hanlei Zhang, Xiaohan Zhang, Yifan Wang, and Kai Gao. 2024. Token-Level Contrastive Learning with Modality-Aware Prompting for Multimodal Intent Recognition. In Proceedings of the 37th AAAI Conference on Artificial Intelligence . AAAI Press, 17114–17122. doi:10.1609/aaai. v38i15.29656 [50] Xiaojin Zhu, Zoubin Ghahramani, and John Lafferty. 2003. Semi-supervised learning using Gaussian fields and harmonic functions. In Proceedings of the Twentieth International Conference on International Conference on Machine Learn-ing (Washington, DC, USA) (ICML’03) . AAAI Press, 912–919. [51] Zhihong Zhu, Xuxin Cheng, Zhaorun Chen, Yuyan Chen, Yunyan Zhang, Xian Wu, Yefeng Zheng, and Bowen Xing. 2024. InMu-Net: Advancing Multi-modal Intent Detection via Information Bottleneck and Multi-sensory Processing. In 
+
+Proceedings of the 32nd ACM International Conference on Multimedia (Melbourne VIC, Australia) (MM ’24) . Association for Computing Machinery, New York, NY, USA, 515–524. doi:10.1145/3664647.3681623 
+
+## A Appendix Overview 
+
+This appendix provides supplementary materials that strengthen the methodological and empirical foundations of MCSP. It extends the theoretical background, documents implementation and evalu-ation protocols, justifies key design choices, and presents analyses of representation quality, robustness, and computational efficiency. Section B reviews related works on open-world intent discovery and LLM-guided clustering. Section C documents the prompt design, benchmark statistics and clustering metrics used in our experiments. Section D analyzes key design choices, including sample quality scoring, confidence-based filtering, and label-free temperature se-lection. Section E presents t-SNE visualizations on MIntRec2.0 and MELD-DA. Section F evaluates robustness under an estimated cat-egory number and analyzes the stability of clustering results and generated concepts across random seeds. Finally, Section G reports the runtime and resource consumption of MCSP. 
+
+## B Additional Related Works 
+
+To augment the foundational unsupervised methodologies delin-eated in Section 2 and construct a more comprehensive theoretical landscape, we extend our review to encompass the specialized domains of open-world intent discovery and LLM-augmented clus-tering, thereby providing a holistic contextual background. 
+
+## B.1 Open-world Intent Discovery 
+
+Beyond pure clustering, deployed dialogue systems often operate in an open-world regime where in-domain intents coexist with emerging out-of-domain queries. Early studies primarily evaluated a model’s ability to detect out-of-scope inputs at inference time [ 19 ]. In the broader open intent recognition literature, the problem is organized as a two-stage pipeline: open intent detection separates known and unknown instances, and open intent discovery further groups the unknown instances into coherent categories. TEXTOIR provides an integrated and visualized platform that unifies these two modules and supports an end-to-end pipeline implementation [42 ]. Within this family of tasks, New Intent Discovery (NID) typi-cally assumes labeled in-domain intents to facilitate clustering over unlabeled data, while Generalized Intent Discovery (GID) further requires simultaneously recognizing labeled in-domain intents and Unsupervised Multimodal Intent Discovery via MLLM-Guided Concept Generation and Semantic Propagation MM ’26, November 10–14, 2026, Rio de Janeiro, Brazil 
+
+discovering new out-of-domain types under a unified open-world intent set [ 28 ]. To better match streaming deployment, Continual Generalized Intent Discovery extends GID to dynamic stages, re-quiring incremental integration of newly emerging intents with minimal access to historical data [34]. 
+
+## B.2 LLM-Guided Clustering 
+
+Recent progress in large language models has inspired cluster-ing methods that incorporate external semantic knowledge be-yond purely embedding-based pipelines. ClusterLLM leverages instruction-tuned LLMs to provide pairwise and triplet-style guid-ance for refining cluster assignments and selecting appropriate clustering granularity [ 47 ]. Complementary work studies query-efficient or few-shot settings, where limited demonstrations or su-pervision are amplified through LLM-generated guidance to steer clustering with reduced annotation effort [ 38 ]. For hierarchical clustering, Pattnaik et al. introduce LLM-guided multi-view cluster representations to improve the quality of hierarchical text cluster-ing [ 30 ]. Beyond direct assignment refinement, LLMs have also been used to enhance cluster structure at difficult regions, such as refin-ing ambiguous boundary instances to stabilize clustering decisions [12 ]. Related ideas have been explored in adjacent settings such as topic modeling, where LLM guidance is used to inject semantics into the clustering process for more coherent topic discovery [ 23 ]. While LLM-guided clustering has shown promise in text only scenarios through local constraints or post hoc refinement, its ap-plication to multimodal intent discovery remains largely under explored and often faces prohibitive query costs. MCSP addresses this gap by shifting from discrete local signals to propagatable cluster semantics derived from a sparse set of representatives. By disseminating these concepts through a structured propagation mechanism, our method establishes a globally coherent seman-tic structure integrated with representation learning, providing a scalable solution for aligning complex tri modal signals. 
+
+## C Implementation and Evaluation Details 
+
+This section documents the prompt design and evaluation protocol of MCSP, including the multimodal reasoning prompts, benchmark statistics and clustering evaluation metrics. 
+
+## C.1 Details of Prompt Design 
+
+We propose a two stage prompting strategy to generate clus-ter level concepts that are both semantically precise and opera-tionally robust in an unsupervised setting. The first stage, Semantic Discovery, leverages a multimodal large language model to infer communicative functions through contrastive reasoning between a target cluster and its nearest neighbor. The second stage, Stylistic Normalization, ensures output stability by standardizing surface forms without compromising the original meaning. Together, this integrated pipeline transforms raw cluster representatives into a compact, grounded, and discriminative concept inventory. In the semantic discovery stage, we explicitly define target se-mantics as dialogue act level functions, steering the model away from topical summaries toward pragmatic intent. To ensure cluster wide generalization, we impose strict exclusion rules against sam-ple specific entities while enforcing multimodal grounding through 
+
+Prompt for Multimodal Contrastive Reasoning                                     
+
+> Instruction. You are an expert in UNSUPERVISED SEMANTIC DISCOVERY for multimodal dialogues. You will be given short videos and their spoken text for one FOCUS CLUSTER (Group A) and one NEAREST NEIGHBOR CLUSTER (Group B).
+> Goal. Extract ONE ABSTRACT communicative-function label for Group A ONLY. Group B is a contrast set provided ONLY to improve the discriminativeness of the label for Group A.
+> Evidence & Alignment (Video + Spoken Text).
+> •Videos are provided in order: {video_order_str} . Match them to tags (A1/A2/B1).
+> •If video and spoken text conflict, prioritize the video.
+> Definition. The semantic is the communicative function : the speaker’s pragmatic goal or speech act. It should be at the dialogue-act level, not topic, story, or concrete situation.
+> Constraints.
+> •Do not describe scenarios, locations, or concrete events (no specific entities).
+> •Do not describe topic content or summarize the story.
+> •Do not mention dataset label names, codes, or taxonomies.
+> •Do not write a full sentence or mix multiple functions.
+> Style. Output a 2–6 word English phrase using a canonical gerund form
+> (e.g., "requesting help"). It must be generic, reusable, and discriminative.
+> Inputs. Group A (Focus): ID {cid} ; Spoken text: {A_block}
+> Group B (Neighbor): ID {nb} ; Spoken text: {B_block} (Distance: {d} )
+> Task. (1) Infer the shared function in Group A; (2) compare against Group B and remove any function also applicable to B; (3) output one unique fine-grained label for A.
+> Output (strict JSON).
+> [{"cid": {cid}, "intent": "<2-6 word verb+ing phrase>" }]
+
+Figure 7: Prompt cont for multimodal contrastive reasoning, focusing on cluster A against nearest neighbor B. 
+
+an alignment protocol that binds video segments to transcripts. Crucially, a contrastive mechanism tasks the model with isolating unique functions and subtracting shared traits from nearest neigh-bors, thereby avoiding generic outputs in favor of discriminative labels. The output is constrained to a 2 to 6 word gerund phrase in strict JSON format to ensure deterministic parsing. Subsequently, the normalization stage performs format only refinements, such as standardizing casing and length, while strictly prohibiting syn-onym replacement to prevent semantic drift. By integrating deep semantic inference with systematic normalization, our strategy achieves a synergistic effect that enhances the interpretability and discriminativeness of the unsupervised discovery process. 
+
+## C.2 Dataset Details 
+
+Table 3 summarizes the statistics of the three benchmark datasets. MIntRec [ 46 ] is a fine-grained multimodal intent dataset with 20 categories. MIntRec2.0 [ 43 ] extends this benchmark to 30 intent cat-egories. MELD-DA [ 31 ] is a multimodal dialogue-act dataset derived from the Switchboard corpus [ 13 ] and contains 12 categories. For all datasets, we merge the original training and validation splits for MM ’26, November 10–14, 2026, Rio de Janeiro, Brazil Trovato et al. 
+
+Prompt for Global Format Normalization                              
+
+> Instruction. You are an expert in label processing. Your job is FORMAT NORMALIZATION ONLY . This is NOT semantic merging, NOT re-labeling, and NOT re-clustering.
+> Mandatory Edits (Format-Only).
+> •Lowercase the label; remove punctuation, quotes, and articles (a/an/the).
+> •Enforce 2–6 English words in a verb phrase or gerund-style phrase.
+> •Remove extra filler words that do not contribute to the core intent.
+> Negative Constraints.
+> •Do NOT change the underlying meaning or replace words with synonyms.
+> •Do NOT generalize/broaden labels or add new semantic content.
+> •Do NOT make different cid s share the same label unless they were already identical.
+> •Do NOT add, drop, or modify any cid from the input.
+> Inputs. Input JSON: {json_items_block}
+> Output (strict JSON).
+> [{"cid": <int>, "refined_intent": "<normalized label>" }, ... ]
+
+Figure 8: Prompt global used to ensure cross-cluster label con-sistency and syntactical alignment. 
+
+unlabeled training and retain the original test split for evaluation. No ground-truth labels are used during training or clustering. 
+
+## C.3 Evaluation Details 
+
+We evaluate clustering performance using four standard metrics: Accuracy (ACC), Normalized Mutual Information (NMI), Adjusted Rand Index (ARI), and Fowlkes-Mallows Index (FMI). For all metrics, higher values indicate superior quality. 
+
+Accuracy (ACC) measures the maximum alignment between predicted labels and ground-truth via the Hungarian algorithm [41 , 45 ]. It is defined as the proportion of correctly assigned samples under the optimal permutation. 
+
+Normalized Mutual Information (NMI) quantifies the shared information between predicted and true label distributions, normal-ized by their average entropy: NMI (𝑦 𝑔𝑡 , 𝑦 𝑝 ) = MI (𝑦 𝑔𝑡 , 𝑦 𝑝 )
+
+> 12
+
+𝐻 (𝑦 𝑔𝑡 ) + 𝐻 (𝑦 𝑝 ) , (13) where 𝑦 𝑔𝑡 and 𝑦 𝑝 denote ground-truth and predicted labels, re-spectively, MI (·) represents mutual information, and 𝐻 (·) denotes entropy. 
+
+Adjusted Rand Index (ARI) evaluates the similarity between two assignments by considering all pairs of samples and adjusting for chance, let 𝑆 =  Í 𝑖 
+
+ 𝑢 𝑖 
+
+> 2
+
+ Í 𝑗 
+
+ 𝑣 𝑗 
+
+> 2
+
+ / 𝑛 
+
+> 2
+
+:ARI =
+
+Í𝑖,𝑗 
+
+ 𝑛 𝑖,𝑗 
+
+> 2
+
+ − 𝑆 
+
+> 12
+
+Í 𝑖 
+
+ 𝑢 𝑖 
+
+> 2
+
+ + Í𝑗 
+
+ 𝑣 𝑗 
+
+> 2
+
+ − 𝑆 , (14) 
+
+Table 3: Statistics of the benchmark datasets. #C and #U de-note the numbers of categories and utterances, respectively. 
+
+Dataset #C #U Train Test MIntRec 20 2,224 1,779 445 MIntRec2.0 30 9,304 7,271 2,033 MELD-DA 12 9,988 7,990 1,998 
+
+where 𝑛 𝑖,𝑗 is the number of common samples between clusters, while 𝑢 𝑖 and 𝑣 𝑗 are the marginal totals of the contingency table. 
+
+Fowlkes-Mallows Index (FMI) assesses clustering quality by calculating the geometric mean of pairwise precision and recall: FMI = 𝑇 𝑃 √︁ 
+
+(𝑇 𝑃 + 𝐹 𝑃 )( 𝑇 𝑃 + 𝐹 𝑁 ) , (15) where 𝑇 𝑃 , 𝐹 𝑃 , and 𝐹 𝑁 represent the number of true positives, false positives, and false negatives, respectively. 
+
+## D Quality Score and Hyperparameter Analysis 
+
+This section analyzes key design choices and hyperparameters that affect pseudo-label reliability and optimization stability, including sample quality scoring, confidence-based filtering, and label-free temperature selection. 
+
+## D.1 Quality Scores for Sample Selection 
+
+To mitigate the influence of ambiguous instances in overlapping latent regions, we evaluate sample reliability through three dis-tinct scoring functions. The margin score, as defined in Section 3.2, characterizes inter-cluster separability by measuring the distance gap between an instance and its closest competing centroids. Alter-natively, we consider the central score, which favors prototypical instances by calculating the negative distance from an instance z𝑖 
+
+to its assigned centroid 𝝁 𝑎 𝑖 as 
+
+𝑐 𝑖 = −𝑑 (z𝑖 , 𝝁 𝑎 𝑖 ). (16) We also examine the density score to capture local compactness, defined as 
+
+𝜌 𝑖 = − 1
+
+𝑘 ∑︁ z𝑗 ∈ N 𝑘 (𝑖 )
+
+𝑑 (z𝑖 , z𝑗 ), (17) where N𝑘 (𝑖 ) represents the set of 𝑘 nearest neighbors within the same cluster. By ranking instances according to these metrics and selecting the top-𝑚 candidates, we construct a high-confidence pool that provides stable pseudo-label supervision for subsequent reasoning and representation learning. Across all three benchmark datasets, experimental results in Ta-ble 5 demonstrate that the margin score consistently provides the most robust signal for selecting high-quality training samples. On MIntRec and MIntRec2.0, margin-based selection achieves leading average performances of 37.37 and 25.12, respectively, outperform-ing both density and central scores. This superiority is even more pronounced on the MELD-DA dataset, where the margin score reaches an average of 27.73, markedly surpassing the central score 24.53 and the density score 20.20. These consistent gains across diverse benchmarks suggest that prioritizing inter-cluster sepa-rability is significantly more effective for filtering noisy samples Unsupervised Multimodal Intent Discovery via MLLM-Guided Concept Generation and Semantic Propagation MM ’26, November 10–14, 2026, Rio de Janeiro, Brazil 
+
+Table 4: Top-18 label-free temperature stability results on MIntRec. 
+
+(𝜏, 𝜏 𝑐 , 𝜏 𝑔 ) Stab. (𝜏, 𝜏 𝑐 , 𝜏 𝑔 ) Stab. (𝜏, 𝜏 𝑐 , 𝜏 𝑔 ) Stab. (𝜏, 𝜏 𝑐 , 𝜏 𝑔 ) Stab. (𝜏, 𝜏 𝑐 , 𝜏 𝑔 ) Stab. (𝜏, 𝜏 𝑐 , 𝜏 𝑔 ) Stab. 
+
+(0.3, 1.5, 1.0) 0.4000 (0.3, 1.0, 0.5) 0.3978 (0.3, 0.5, 0.5) 0.3977 (0.3, 1.5, 0.5) 0.3972 (0.5, 0.5, 0.7) 0.3933 (0.5, 1.5, 0.7) 0.3921 (0.5, 0.5, 0.5) 0.3914 (0.3, 1.0, 1.0) 0.3908 (0.5, 1.0, 0.7) 0.3906 (0.3, 1.0, 0.7) 0.3905 (0.3, 0.5, 1.0) 0.3880 (0.3, 0.5, 0.7) 0.3865 (0.5, 1.5, 1.0) 0.3831 (0.3, 1.5, 0.7) 0.3828 (0.7, 1.0, 0.5) 0.3816 (0.5, 0.5, 1.0) 0.3800 (0.5, 1.0, 0.5) 0.3794 (0.7, 1.0, 1.0) 0.3749 
+
+Table 5: Comparison of quality scores for sample selection on three benchmark datasets, including density score, central score, and margin score. Best results are in bold and second-best are underlined. 
+
+Datasets MIntRec MIntRec2.0 MELD-DA Score ACC ARI NMI FMI Avg. ACC ARI NMI FMI Avg. ACC ARI NMI FMI Avg. density 45.08 25.19 48.21 30.07 37.14 26.10 12.26 33.36 16.34 22.92 28.49 11.12 16.83 24.38 20.20 central 42.56 23.28 46.89 28.11 35.21 28.91 14.83 36.60 18.72 24.77 31.60 16.71 20.61 29.18 24.53 margin 45.21 25.59 48.42 30.28 37.37 29.19 15.03 37.33 18.92 25.12 34.57 21.57 21.61 33.16 27.73 
+
+than focusing on cluster centroids or local density. The margin score’s ability to identify unambiguous representatives near deci-sion boundaries proves essential for handling complex multimodal distributions. Consequently, we adopt the margin score as our de-fault selection criterion to ensure cleaner pseudo-labels and more stable optimization throughout the learning process. 
+
+## D.2 Effect of Confidence Ratio 
+
+We evaluate the impact of the high-quality confidence ratio 𝜌 by sweeping its value from 0.1 to 0.9, as illustrated in Figure 9. Across all three datasets—MIntRec, MIntRec2.0, and MELD-DA—the clus-tering performance consistently follows a unimodal pattern, reach-ing its peak at 𝜌 = 0.6. Specifically, the ARI metrics achieve their maximum values of 25.59, 15.03, and 21.57, respectively. This con-sistent optimal threshold indicates that a ratio of 0.6 strikes a robust balance between pseudo-label precision and manifold coverage, re-gardless of the dataset’s category granularity. For the fine-grained MIntRec series, this moderate ratio ensures that semantic propaga-tion is guided by sufficiently reliable anchors, thereby preserving distinct boundaries in a dense latent space. Simultaneously, for the coarser-grained MELD-DA, this setting facilitates an extensive semantic flow that aggregates diverse samples into broader cat-egorical structures without introducing excessive noise. Beyond this peak, however, the inclusion of samples with lower certainty begins to dilute the guidance provided by the semantic anchors. As 𝜌 continues to increase toward 0.9, the injection of ambiguous assignments compromises the structural integrity of the manifolds, leading to a noticeable decline in ARI across all benchmarks. 
+
+## D.3 Label-Free Temperature Selection 
+
+The temperatures 𝜏 , 𝜏 𝑐 , and 𝜏 𝑔 control the smoothness of concept-supervised contrastive learning, concept-anchor assignment, and graph propagation, respectively. To avoid tuning these parame-ters with ground-truth labels, we adopt the stability-based crite-rion of [ 2 ]. Specifically, we evaluate all 27 combinations of 𝜏 ∈{0.3, 0.5, 0.7}, 𝜏 𝑐 ∈ { 0.5, 1.0, 1.5}, and 𝜏 𝑔 ∈ { 0.5, 0.7, 1.0} on MIntRec. Each configuration is evaluated across five random seeds, and 
+
+Figure 9: Effect of confidence ratio 𝜌 on the ARI metric. 
+
+its stability is computed as the average pairwise NMI between the resulting pseudo-label assignments. This criterion requires no ground-truth labels and favors configurations that consistently re-cover similar cluster structures across runs. Table 4 reports the top 18 configurations among the 27 candidates. The configuration 
+
+(𝜏, 𝜏 𝑐 , 𝜏 𝑔 ) = (0.3, 1.5, 1.0) achieves the highest stability of 0.4000 ,followed by (0.3, 1.0, 0.5) and (0.3, 0.5, 0.5). These results demon-strate that temperature configurations can be assessed directly from unlabeled data based on clustering consistency. 
+
+## E Representation Visualization on MIntRec2.0 and MELD-DA 
+
+To qualitatively evaluate the clustering quality, this section presents a visualization analysis. We utilize t-SNE projections on the MIntRec2.0 and MELD-DA datasets to examine the resulting representation geometry and distribution patterns. Figure 10 and Figure 11 present the t-SNE visualizations of learned representations on the MIntRec2.0 and MELD-DA datasets, respectively. On the fine-grained MIntRec2.0 dataset, all baselines exhibit significant cluster entanglement due to the increased com-plexity of the intent space. CC and SCCL result in large, continuous MM ’26, November 10–14, 2026, Rio de Janeiro, Brazil Trovato et al. CC  SCCL  USNID  UMC  MCS P    
+
+> CC SCCL USNID UMC MCS P
+
+Figure 10: Visualization of representations on the MIntRec2.0 dataset. CC  SCCL  USNID  UMC  MCS P
+
+CC  SCCL  USNID  UMC  MCS P
+
+Figure 11: Visualization of representations on the MELD-DA dataset. 
+
+regions where multiple intents are heavily intertwined, suggest-ing an inability to capture subtle pragmatic distinctions. While USNID and UMC produce sharper outlines, they still suffer from partial overlaps or fragmented sub-clusters scattered across the latent space. In contrast, MCSP yields a markedly cleaner struc-ture where most intents form single, compact, and well-separated clusters, significantly reducing ambiguity near decision boundaries. A similar performance advantage is observed on the MELD-DA dataset. Despite having fewer categories, MELD-DA presents a chal-lenge in maintaining intra-class cohesion across broad semantic distributions. Baselines such as CC and USNID produce diffused clusters with poorly defined boundaries, particularly for categories like Statement Opinion and Statement Non-Opinion. UMC shows improvement in cluster isolation but still exhibits scattered sample distributions. Conversely, MCSP demonstrates superior semantic aggregation, forming highly concentrated clusters that accurately reflect the underlying dialogue acts. These visualizations across both fine-grained and coarse-grained benchmarks corroborate our quantitative findings, demonstrating that MCSP consistently in-duces semantically coherent and geometrically well-separated in-tent representations regardless of the label space complexity. 
+
+## F Analysis of Robustness 
+
+This section evaluates the robustness of MCSP from three perspec-tives: the unknown category number, clustering stability across random initializations, and the semantic consistency of generated concepts. We first examine the practical setting where 𝐾 is esti-mated from unlabeled data. We then analyze stability of clustering performance and generated concepts across multiple random seeds. 
+
+Table 6: Results on MIntRec2.0 when the category number of MCSP is estimated from unlabeled data.                      
+
+> Method ACC ARI NMI FMI Avg. USNID 21.73 9.93 32.14 14.02 19.50 UMC 27.36 13.50 36.78 17.34 23.75
+> MCSP Estimated 𝐾 28.93 14.19 36.62 18.12 24.47
+
+## F.1 Unknown Category Number 
+
+Following prior work, our main experiments assume that the cate-gory number 𝐾 is known. This ensures consistent clustering gran-ularity across methods without using instance-level annotations or category semantics. To evaluate MCSP in more practical setting, we adopt the estimation strategy of USNID [ 45 ], which first partitions the unlabeled pretrained representations into an intentionally large number of clusters using K-means, discards clusters smaller than the average cluster size, and uses the number of retained clusters as estimated 𝐾 . Across five random seeds, the estimated counts are 
+
+34, 26, 31, 28, and 31 , closely surrounding the true value of 30 . As shown in Table 6, MCSP achieves the best average score of 24 .47% 
+
+with the estimated 𝐾 , outperforming USNID and UMC by 4.97% and 
+
+0.72% , respectively, despite both baselines using the ground-truth category number. These results demonstrate that MCSP remains robust when the true category number is unavailable. 
+
+## F.2 Stability of Intent Discovery 
+
+The experimental results presented in Table 7 demonstrate the consistent stability of the MCSP framework across five random Unsupervised Multimodal Intent Discovery via MLLM-Guided Concept Generation and Semantic Propagation MM ’26, November 10–14, 2026, Rio de Janeiro, Brazil 
+
+Table 7: Stability analysis of MCSP across five random seeds. We report mean ( ± std) on each dataset. 
+
+Dataset ACC ARI NMI FMI Avg. MIntRec 45.21( ±1.89) 25.59( ±1.62) 48.42( ±1.92) 30.28( ±1.64) 37.37( ±1.64) MIntRec2.0 29.19( ±0.81) 15.03( ±0.55) 37.33( ±1.25) 18.92( ±0.55) 25.12( ±0.72) MELD-DA 34.57( ±0.41) 21.57( ±1.58) 21.61( ±0.72) 33.16( ±1.55) 27.73( ±0.81) 
+
+Table 8: Pairwise concept stability between different random seeds on MIntRec2.0.                            
+
+> Seed Pair Stability Seed Pair Stability Seed Pair Stability Seed Pair Stability Seed Pair Stability
+> (0, 1) 0.9344 (0, 2) 0.9289 (0, 3) 0.9349 (0, 4) 0.8870 (1, 2) 0.9198 (1, 3) 0.9291 (1, 4) 0.8913 (2, 3) 0.9399 (2, 4) 0.8927 (3, 4) 0.8910
+
+seeds for all three benchmarks. We evaluate the performance using four standard clustering metrics alongside their average values to provide a comprehensive assessment of reliability. The standard deviation across most metrics remains at a no-tably low level, with values typically ranging from 0.41 to 1.92. On the MIntRec2.0 dataset, the fluctuations in accuracy and average performance are particularly constrained, reaching as low as 0.81 and 0.72 respectively. This high degree of consistency indicates that the proposed framework is robust and largely insensitive to the effects of random initializations. Such reliability can be attrib-uted to the stability of our concept generation module and the structural constraints imposed by the learned manifold. Although MIntRec exhibits a relatively higher standard deviation compared to the other datasets, such as a deviation of 1.89 in accuracy, this is likely due to the inherent sensitivity of its manifold structure. In certain data distributions, the selection of representative sam-ples can be more susceptible to minor shifts in cluster boundaries across different seeds. These subtle variations in the input context for the MLLM lead to a slightly wider range of semantic abstrac-tions. Nevertheless, the stability across all benchmarks remains within a highly acceptable range for unsupervised discovery. These findings provide strong empirical evidence that the concepts and clusters identified by MCSP reflect intrinsic semantic structures in the multimodal data rather than artifacts of a specific random run. 
+
+## F.3 Semantic Consistency of Concepts 
+
+To evaluate the robustness and reproducibility of the semantic con-cepts discovered by MCSP, we perform a stability analysis across five concept sets generated with random seeds 0 through 4. Stability-based evaluation is a standard criterion for assessing the reliability of unsupervised structure discovery, since it measures the consis-tency of outputs across repeated runs [ 3 ]. Inspired by prior stability analysis of semantic components in topic models [ 15 ], we assess the agreement between concept sets by computing the pairwise seman-tic similarity of their generated concept descriptions. Concretely, for each seed, we execute the full concept generation pipeline to ob-tain a set of cluster-level concepts. For each pair of seeds, we encode all generated concept phrases using a pretrained BERT model and construct a pairwise cosine similarity matrix between the two sets. Based on this similarity matrix, we align concepts via one-to-one maximum matching using the Hungarian algorithm, and define stability as the average cosine similarity of the matched pairs. As shown in Table 8, MCSP achieves a high average stability of 0.9149 ± 0.0206 , providing strong empirical evidence that the generated concepts are largely consistent across runs. This robust-ness primarily stems from the concept generation module, which ensures interpretability through two specific advantages. First, the extraction process is grounded on high confidence representatives. By filtering out low certainty samples, the module provides MLLMs with a pristine and noise free context, ensuring that the resulting semantic abstractions are tied to stable regions of the manifold. Second, the reasoning capability of MLLMs allows the framework to synthesize these representatives into discriminative concepts that capture the intrinsic essence of each cluster. Consequently, even when random seeds cause minor shifts in the specific samples selected as representatives, the MLLM consistently converges to the same higher order semantic interpretations. These findings confirm that MCSP concepts represent reproducible, interpretable semantic structures rather than initialization artifacts. 
+
+## G Cost Analysis 
+
+To evaluate the efficiency of MCSP, we analyze its end-to-end run-time and resource consumption. We first decompose the runtime into pre-training, clustering, representative selection, MLLM rea-soning, graph construction, semantic propagation, and contrastive learning. We then examine the resource cost of concept generation in terms of API calls, processed video data, and token consumption. 
+
+## G.1 Time Efficiency 
+
+We provide a detailed runtime breakdown of MCSP across the three benchmarks, as summarized in Table 9. The reported pipeline in-cludes pre-training, clustering, representative selection, MLLM rea-soning, graph construction, semantic propagation, and contrastive learning. The remaining operations, including feature extraction, anchor encoding, warm-up training, quality computation, and book-keeping, are grouped into the “Other” category. The end-to-end runtimes are 2534 .16 s, 4926 .59 s, and 7779 .41 s on MIntRec, MIntRec2.0, and MELD-DA, respectively. The main com-putational cost comes from standard neural training components, including pre-training, feature extraction, and contrastive learn-ing. For example, pre-training takes 1724 .96 s on MIntRec, while MM ’26, November 10–14, 2026, Rio de Janeiro, Brazil Trovato et al. 
+
+Table 9: End-to-end runtime breakdown of MCSP across three benchmarks. All values are reported in seconds.                                     
+
+> Dataset Total Pre-training Clustering Rep. Selection MLLM Reasoning Graph Construction Propagation Contrastive Learning Other MIntRec 2534.16 1724.96 2.74 0.05 583.82 1.54 0.88 81.30 138.87 MIntRec2.0 4926.59 4082.00 46.48 1.71 236.27 12.21 2.38 296.54 248.99 MELD-DA 7779.41 6709.00 30.94 0.44 98.95 13.46 1.85 489.97 434.78
+
+Table 10: Computational consumption of the concept gener-ation stage across three benchmarks.                 
+
+> Dataset Calls Video Data (MB) Input Tokens Output Tokens MIntRec 21 162.68 16,170 29,150 MIntRec2.0 31 224.36 24,461 50,059 MELD-DA 13 56.49 9,966 15,896
+
+contrastive learning takes 81 .30 s, 296 .54 s, and 489 .97 s on the three datasets, respectively. By comparison, the MCSP-specific semantic propagation pipeline is lightweight. Representative selection takes at most 1.71 s, and graph construction together with propagation requires only 2.42 s, 14 .59 s, and 15 .31 s on MIntRec, MIntRec2.0, and MELD-DA, respectively. MLLM reasoning takes 583 .82 s, 236 .27 s, and 98 .95 s, but this cost is incurred only once in the offline discovery stage and is not repeated during iterative representation refinement. These results show that MCSP introduces limited overhead beyond conventional multimodal training, supporting its practical use for scalable multimodal intent discovery. 
+
+## G.2 Resource Consumption 
+
+We next quantify the resource consumption of the concept gen-eration. All reasoning tasks are performed using Gemini-3.0-Pro. To limit MLLM overhead, MCSP selects only the top three high-confidence representatives from each cluster for semantic abstrac-tion. It performs one contrastive reasoning call per cluster, followed by a single global refinement call to ensure consistency across the generated concepts. The results in Table 10 highlight the exceptional efficiency of MCSP in managing multimodal resources. Across the three benchmarks, the volume of video data actually processed re-mains highly condensed, ranging from 56.49 MB to 224.36 MB, with a minimal token footprint. This extreme efficiency is a direct conse-quence of our stratified reasoning protocol. For each dataset, MCSP requires only a single global refining call to synthesize the overall intent structure, while the remaining calls are strictly limited to contrastive reasoning for the selected representatives. By restricting MLLM engagement to this distilled fraction of the data, the total number of API calls is kept remarkably low, such as requiring only 13 calls for the MELD-DA dataset. Detailed usage metrics further reveal that while the reasoning process consumes a certain volume of output tokens, a significant portion of the output tokens is associated with the reasoning process required for pre-cise concept generation. The final generated concept descriptions remain remarkably concise and strictly adhere to the structural constraints defined in our prompt, as detailed in Figure 7.
