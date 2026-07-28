@@ -1,0 +1,2866 @@
+{
+  "top_k": 200,
+  "generated_at": "2026-07-28T09:28:16.297119+00:00",
+  "papers": [
+    {
+      "id": "openreview-icml-2026-wcqevbldlz",
+      "source": "ICML-2026-Accepted",
+      "title": "From Correspondence to Actions: Human-Like Multi-Image Spatial Reasoning in Multi-modal Large Language Models",
+      "abstract": "While multimodal large language models (MLLMs) have made substantial progress in single-image spatial reasoning, multi-image spatial reasoning, which requires integration of information from multiple viewpoints, remains challenging.\nCognitive studies suggest that humans address such tasks through two mechanisms: *cross-view correspondence*, which identifies regions across different views that correspond to the same physical locations, and *stepwise viewpoint transformation*, which composes relative viewpoint changes sequentially.\nHowever, existing studies incorporate these mechanisms only partially and often implicitly, without explicit supervision for both.\nWe propose Human-Aware Training for Cross-view correspondence and viewpoint cHange (HATCH), a training framework with two complementary objectives: (1) Patch-Level Spatial Alignment, which encourages patch representations to align across views for spatially corresponding regions, and (2)  Action-then-Answer Reasoning, which requires the model to generate explicit viewpoint transition actions before predicting the final answer.\nExperiments on three benchmarks demonstrate that HATCH consistently outperforms baselines of comparable size by a clear margin and achieves competitive results against much larger models, while preserving single-image reasoning capabilities.",
+      "authors": [
+        "Masanari Oi",
+        "Koki Maeda",
+        "Ryuto Koike",
+        "Daisuke Oba",
+        "Nakamasa Inoue",
+        "Naoaki Okazaki"
+      ],
+      "primary_category": "Multi-modal Large Language Model",
+      "categories": [
+        "Multi-modal Large Language Model",
+        "Spatial Reasoning"
+      ],
+      "published": "2026-04-30T19:19:33.355+00:00",
+      "link": "https://openreview.net/forum?id=wCQEvBldlz",
+      "pdf_url": "https://openreview.net/pdf/4d496372e769667532976b0954f7d3cc7fe1cb6d.pdf",
+      "tags": [
+        "keyword:lr",
+        "query:lr"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-hpelhqqxxf",
+      "source": "ICML-2026-Accepted",
+      "title": "DR$^2$Seg: Decomposed Two-Stage Rollouts for Efficient Reasoning Segmentation in Multimodal Large Language Models",
+      "abstract": "Reasoning segmentation is an emerging vision-language task that requires reasoning over intricate text queries to precisely segment objects. However, existing methods typically suffer from overthinking, generating verbose reasoning chains that interfere with object localization in multimodal large language models (MLLMs). To address this issue, we propose DR$^2$Seg, a self-rewarding framework that improves both reasoning efficiency and segmentation accuracy without requiring extra thinking supervision. DR$^2$Seg employs a two-stage rollout strategy that decomposes reasoning segmentation into multimodal reasoning and referring segmentation. In the first stage, the model generates a self-contained description that explicitly specifies the target object. In the second stage, this description replaces the original complex query to verify its self-containment. Based on this design, two self-rewards are introduced to mitigate overthinking and the associated attention dispersion. Extensive experiments conducted on 3B and 7B variants of Qwen2.5-VL, as well as on both SAM2 and SAM3, demonstrate that DR$^2$Seg consistently improves reasoning efficiency and overall segmentation accuracy. The source code can be found at https://github.com/harrylin-hyl/DR2Seg.",
+      "authors": [
+        "Yulin He",
+        "Wei Chen",
+        "jian zhikang",
+        "Tianhang Guo",
+        "Wenjuan Zhou",
+        "Minglong Li",
+        "Shaowu Yang",
+        "Wenjing Yang"
+      ],
+      "primary_category": "Reasoning Segmentation",
+      "categories": [
+        "Reasoning Segmentation",
+        "Multimodal Large Language Models",
+        "Self-Rewarding Reinforcement Learning"
+      ],
+      "published": "2026-04-30T19:09:45.16+00:00",
+      "link": "https://openreview.net/forum?id=hpElHQQXXF",
+      "pdf_url": "https://openreview.net/pdf/8224c5ef90ce655affcdd46e5625052c90d619d1.pdf",
+      "tags": [
+        "keyword:lr",
+        "query:lr"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-q7al5vwgos",
+      "source": "ICML-2026-Accepted",
+      "title": "MIND: Multi-rationale INtegrated Discriminative Reasoning Framework for Multi-modal Large Models",
+      "abstract": "Recently, multimodal large language models (MLLMs) have been widely applied to reasoning tasks. However, they suffer from limited multi-rationale semantic modeling, insufficient logical robustness, and susceptibility to misleading cues. Therefore, we propose a Multi-rationale INtegrated Discriminative (MIND) reasoning framework, which is designed to endow MLLMs with human-like cognitive abilities of “Understand → Rethink → Correct”, and achieves a paradigm evolution from passive imitation-based reasoning to active discriminative reasoning. Specifically, we introduce a Rationale Augmentation and Discrimination (RAD) paradigm, which provides a unified and extensible data foundation. Meanwhile, we design a Progressive Two-stage Correction Learning (P2CL) strategy. The first phase enhances multi-rationale positive learning, while the second phase enables active logic discrimination and correction. In addition, to mitigate representation entanglement in the multi-rationale semantic space, we propose a Multi-rationale Contrastive Alignment (MCA) optimization strategy. Extensive experiments show that our MIND achieves SOTA performance on multiple public datasets. Our data and code are available at https://github.com/YuChuang1205/MIND.",
+      "authors": [
+        "Chuang Yu",
+        "Jinmiao Zhao",
+        "Mingxuan Zhao",
+        "Yunpeng Liu",
+        "Xiujun Shu",
+        "Yuanhao Feng",
+        "Bo Wang",
+        "Xiangyu Yue"
+      ],
+      "primary_category": "Multimodal large language models",
+      "categories": [
+        "Multimodal large language models",
+        "Reasoning"
+      ],
+      "published": "2026-04-30T19:14:43.899+00:00",
+      "link": "https://openreview.net/forum?id=q7al5Vwgos",
+      "pdf_url": "https://openreview.net/pdf/a6da5f981d9662081689a139a3664e53aed179be.pdf",
+      "tags": [
+        "keyword:lr",
+        "query:lr"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-jq2drksir0",
+      "source": "ICML-2026-Accepted",
+      "title": "DiffThinker: Towards Generative Multimodal Reasoning with Diffusion Models",
+      "abstract": "While recent Multimodal Large Language Models (MLLMs) have attained significant strides in multimodal reasoning, their reasoning processes remain predominantly text-centric and fail to visualize and track intermediate visual states during the reasoning process, leading to suboptimal performance in complex long-horizon, vision-centric tasks. \nMoving beyond the constraints of text-centric reasoning, we establish Generative Multimodal Reasoning as a novel paradigm and introduce DiffThinker, a diffusion-based reasoning framework.\nConceptually, DiffThinker reformulates multimodal reasoning as a native generative image-to-image task, where the iterative denoising trajectory naturally serves as a visual reasoning path. This enables the model to track the evolution of visual information throughout the reasoning process.\nWe perform a systematic comparison between DiffThinker and MLLMs, providing the first in-depth investigation into the intrinsic characteristics of this paradigm, revealing four core properties: efficiency, controllability, native parallelism, and collaboration. Extensive experiments across \nseven tasks demonstrate that DiffThinker significantly outperforms leading closed-source models, including GPT-5 (+314.2%) and Gemini-3-Flash (+111.6%), as well as the fine-tuned Qwen3-VL-32B baseline (+39.0%), highlighting Generative Multimodal Reasoning as a promising approach for vision-centric reasoning.",
+      "authors": [
+        "Zefeng He",
+        "Xiaoye Qu",
+        "Yafu Li",
+        "Tong Zhu",
+        "Qipeng Guo",
+        "Muxin Fu",
+        "Siyuan Huang",
+        "Yu Cheng"
+      ],
+      "primary_category": "Multimodal Reasoning",
+      "categories": [
+        "Multimodal Reasoning",
+        "MLLM",
+        "Diffusion Models"
+      ],
+      "published": "2026-04-30T19:13:45.928+00:00",
+      "link": "https://openreview.net/forum?id=jQ2DRkSir0",
+      "pdf_url": "https://openreview.net/pdf/1aedc5e5794cd371bc13db64bfecfe23990a3115.pdf",
+      "tags": [
+        "keyword:lr",
+        "query:lr"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-pntxytr2vg",
+      "source": "ICML-2026-Accepted",
+      "title": "Multimodal Latent Language Modeling with Next-Token Diffusion",
+      "abstract": "Multimodal generative models require a unified approach to handle both discrete data (e.g., text and code) and continuous data (e.g., image, audio, video). In this work, we propose Latent Language Modeling (LatentLM), which seamlessly integrates continuous and discrete data using causal Transformers. Specifically, we employ a variational autoencoder (VAE) to represent continuous data as latent vectors and introduce next-token diffusion for autoregressive generation of these vectors. Additionally, we develop $\\sigma$-VAE to address the challenges of variance collapse, which is crucial for autoregressive modeling. Extensive experiments demonstrate the effectiveness of LatentLM across various modalities. In image generation, LatentLM sis competitive with or outperforms DiT-style baselines under matched unified settings. When integrated into multimodal large language models, LatentLM provides a general-purpose interface that unifies multimodal generation and understanding. Experimental results show that LatentLM achieves favorable performance compared to Transfusion and vector quantized models in the setting of scaling up training tokens. In text-to-speech synthesis, LatentLM outperforms the state-of-the-art VALL-E 2 model in speaker similarity and robustness, while requiring 10 fewer decoding steps. The results establish LatentLM as a highly effective and scalable approach to advance large multimodal models.",
+      "authors": [
+        "Yutao Sun",
+        "Hangbo Bao",
+        "Wenhui Wang",
+        "Zhiliang Peng",
+        "Li Dong",
+        "Shaohan Huang",
+        "Yaoyao Chang",
+        "Jianyong Wang",
+        "Furu Wei"
+      ],
+      "primary_category": "Next Token Diffusion",
+      "categories": [
+        "Next Token Diffusion",
+        "MultiModal LLM"
+      ],
+      "published": "2026-04-30T19:10:19.077+00:00",
+      "link": "https://openreview.net/forum?id=PnTXyTR2VG",
+      "pdf_url": "https://openreview.net/pdf/1a5d94b2b364b52bbc9b44ce0db4991b065c79ff.pdf",
+      "tags": [
+        "keyword:lr",
+        "query:lr"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-dtubiehsf3",
+      "source": "ICML-2026-Accepted",
+      "title": "Semantic-Enriched Latent Visual Reasoning",
+      "abstract": "Multimodal latent-space reasoning aims to replace explicit “thinking with images” by performing visual reasoning directly in a compact latent space. However, existing approaches largely rely on visual supervision and produce latent representations that lack sufficient semantic richness, limiting their ability to support diverse region-level reasoning tasks. In this work, we introduce \\textbf{Semantic-Enriched Latent Visual Reasoning (SLVR)}, a two-stage learning framework that enriches latent representations with attribute-level visual semantics and aligns them with diverse reasoning objectives. In the first stage, SLVR learns semantically enriched region-centric latents under fine-grained attribute supervision. In the second stage, we design Multi-query Group Relative Policy Optimization (M-GRPO) to align latent representations across multiple queries grounded in the same region. To support this framework, we construct \\textbf{SLV-Set}, comprising approximately 400K region-level attribute annotations and 800K multi-query question answering samples, and introduce \\textbf{SV-QA}, a benchmark that evaluates latent reasoning under semantic variation. Experiments demonstrate that SLVR improves the robustness and semantic consistency of latent visual reasoning compared to existing baselines. Our code and datasets are available at \\url{https://github.com/tinnel123666888/slvr}.",
+      "authors": [
+        "Tianrun Xu",
+        "Yue Sun",
+        "Qixun Wang",
+        "Jingyi Lu",
+        "Yuan Wang",
+        "Tianren Zhang",
+        "Longteng Guo",
+        "Fengyun Rao",
+        "Jing LYU",
+        "Feng Chen",
+        "Jing Liu"
+      ],
+      "primary_category": "Multimodal Latent Reasoning",
+      "categories": [
+        "Multimodal Latent Reasoning",
+        "Vision–Language Models",
+        "Region-Level Semantics"
+      ],
+      "published": "2026-04-30T19:09:11.761+00:00",
+      "link": "https://openreview.net/forum?id=DTuBIEhSF3",
+      "pdf_url": "https://openreview.net/pdf/8a94bee964c4b897f928a4ac0efa31d08a2231e2.pdf",
+      "tags": [
+        "keyword:lr",
+        "query:lr"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-l1cmerxg1p",
+      "source": "ICML-2026-Accepted",
+      "title": "Imagination Helps Visual Reasoning, But Not Yet in Latent Space",
+      "abstract": "Latent visual reasoning aims to mimic human's *imagination* process by meditating through hidden states of Multimodal Large Language Models.\n  While recognized as a promising paradigm for visual reasoning, the underlying mechanisms driving its effectiveness remain unclear.\n  Motivated to demystify the true source of its efficacy, we investigate the validity of latent reasoning using Causal Mediation Analysis. \n  We model the process as a causal chain: the input as the treatment, the latent tokens as the mediator, and the final answer as the outcome. \n  Our findings uncover two critical disconnections: \n  (a) **Input-Latent Disconnect**: dramatic perturbations on the input result in negligible changes to the latent tokens, suggesting that latent tokens do not effectively attend to the input sequence.\n  (b) **Latent-Answer Disconnect**: perturbations on the latent tokens yield minimal impact on the final answer, indicating the limited causal effect latent tokens imposing on the outcome.\n  Furthermore, extensive probing analysis reveals that latent tokens encode limited visual information and exhibit high similarity.\n  Consequently, we challenge the necessity of latent reasoning and propose a straightforward alternative named *CapImagine*, which teaches the model to explicitly *imagine* using text.\n  Experiments on vision-centric benchmarks show that *CapImagine* significantly outperforms complex latent-space baselines, highlighting the superior potential of visual reasoning through explicit imagination.",
+      "authors": [
+        "You Li",
+        "Chi Chen",
+        "Yanghao Li",
+        "Fanhu Zeng",
+        "Kaiyu Huang",
+        "Jinan Xu",
+        "Maosong Sun"
+      ],
+      "primary_category": "Latent Visual Reasoning",
+      "categories": [
+        "Latent Visual Reasoning",
+        "Multimodal Large Language Models",
+        "Analysis",
+        "Visual Reasoning",
+        "Visual Imagination"
+      ],
+      "published": "2026-04-30T19:10:45.27+00:00",
+      "link": "https://openreview.net/forum?id=l1cMErXg1P",
+      "pdf_url": "https://openreview.net/pdf/7f6016ea2b09072aa8c55b079930b6f2371365ea.pdf",
+      "tags": [
+        "keyword:lr",
+        "query:lr"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-sftfsixo2k",
+      "source": "ICML-2026-Accepted",
+      "title": "Latent Thoughts Tuning: Bridging Context and Reasoning with Fused Information in Latent Tokens",
+      "abstract": "While explicit Chain-of-Thought (CoT) equips Large Language Models (LLMs) with strong reasoning capabilities, it constrains the model's thoughts to a discrete vocabulary space. Recently, reasoning in continuous latent space has emerged as a promising alternative, but current paradigms suffer from feature collapse and instability due to distribution mismatch when recurrently reusing hidden states, or alignment issues when relying on assistant models. To address this, we propose $\\textbf{Latent Thoughts Tuning (\\textit{LT-Tuning})}$, a post-training framework that redefines how latent thoughts are constructed and deployed. Instead of relying solely on raw hidden states, our method introduces a $\\textbf{Context-Prediction-Fusion}$ mechanism that jointly leverages contextual hidden states and predictive semantic guidance from the vocabulary embedding space. Combined with a progressive three-stage curriculum learning pipeline, $\\textit{LT-Tuning}$ also enables dynamic switching between latent and explicit thinking modes. Experiments demonstrate that our method outperforms existing latent reasoning baselines, effectively mitigating feature collapse and achieving robust reasoning accuracy.",
+      "authors": [
+        "Weihao Liu",
+        "Dehai Min",
+        "Lu Cheng"
+      ],
+      "primary_category": "Large Language Models",
+      "categories": [
+        "Large Language Models",
+        "Latent Reasoning",
+        "Continuous Latent Space",
+        "Chain-of-Thought",
+        "Fine-tuning"
+      ],
+      "published": "2026-04-30T19:17:01.724+00:00",
+      "link": "https://openreview.net/forum?id=SFTFsixO2K",
+      "pdf_url": "https://openreview.net/pdf/f85f16168736aac5f82747b7886399845a23ca41.pdf",
+      "tags": [
+        "keyword:lr",
+        "query:lr"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-ppirvueej6",
+      "source": "ICML-2026-Accepted",
+      "title": "AlgoTrace: Algorithmic Primitives and Compositional Geometry of Reasoning in Language Models",
+      "abstract": "How do inference time and latent computations enable large language models (LLMs) to solve multi-step reasoning problems? We introduce AlgoTrace, a framework for tracing and steering algorithmic operations in the model latent space for multi-step reasoning.\nWe operationalize primitives by clustering latent activations of the model when solving four benchmarks: Traveling Salesperson Problem (TSP), 3SAT, AIME, and Graph Navigation. We annotate the clusters using their corresponding tokens in the reasoning trace. We then apply function vector methods to extract primitive vectors as reusable compositional building blocks of reasoning. We find that a) injecting a primitive vector into models (Phi, Qwen, Llama) elicits the associated algorithmic operation in the reasoning trace, b) injecting primitives can steer behavior across tasks, c) primitive vectors can be composed through algebraic operations, revealing a geometric logic in activation space, and d) a fine-tuned model exhibits improved composition of primitives (Phi-4-Reasoning vs. Phi-4). These findings demonstrate that LLM reasoning can be understood as a walk through algorithmic primitives in the latent space governed by compositional geometry. These primitives transfer across tasks, and reasoning finetuning strengthens algorithmic generalization and composition across domains.",
+      "authors": [
+        "Samuel Lippl",
+        "Thomas Austin McGee",
+        "Kimberly Lopez",
+        "Ziwen Pan",
+        "Pierce Zhang",
+        "Salma Ziadi",
+        "Oliver Eberle",
+        "Ida Momennejad"
+      ],
+      "primary_category": "Reasoning",
+      "categories": [
+        "Reasoning",
+        "compositional generalization",
+        "interpretability",
+        "steering",
+        "large language models",
+        "function vectors",
+        "representational geometry",
+        "finetuning",
+        "topic modeling",
+        "foundation models"
+      ],
+      "published": "2026-04-30T19:20:17.122+00:00",
+      "link": "https://openreview.net/forum?id=ppirVueEj6",
+      "pdf_url": "https://openreview.net/pdf/090a04584cb74a87a348821e9ae03b569e2324dc.pdf",
+      "tags": [
+        "keyword:lr"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-56cqpbig4r",
+      "source": "ICML-2026-Accepted",
+      "title": "Contrastive Reasoning Alignment: Reinforcement Learning from Hidden Representations",
+      "abstract": "We propose CRAFT, a red-teaming alignment framework that leverages model reasoning capabilities and hidden representations to improve robustness against jailbreak attacks. \nUnlike prior defenses that operate primarily at the output level, CRAFT aligns large reasoning models to generate safety-aware reasoning traces by explicitly optimizing objectives defined over the hidden state space. \nMethodologically, CRAFT integrates contrastive representation learning with reinforcement learning to separate safe and unsafe reasoning trajectories, yielding a latent-space geometry that supports robust, reasoning-level safety alignment. \nTheoretically, we show that incorporating latent–textual consistency into GRPO eliminates superficially aligned policies by ruling them out as local optima.\nEmpirically, we evaluate CRAFT on multiple safety benchmarks using two strong reasoning models, Qwen3-4B-Thinking and R1-Distill-Llama-8B, where it consistently outperforms state-of-the-art defenses such as IPO and SafeKey. Notably,  CRAFT delivers an average **79.0%** improvement in reasoning safety and **87.7%** improvement in final-response safety\nover the base models, demonstrating the effectiveness of hidden-space reasoning alignment.",
+      "authors": [
+        "Haozheng Luo",
+        "Yimin Wang",
+        "Jiahao Yu",
+        "Binghui Wang",
+        "Yan Chen"
+      ],
+      "primary_category": "Contrastive Learning",
+      "categories": [
+        "Contrastive Learning",
+        "GRPO",
+        "Red-teaming",
+        "LRMs"
+      ],
+      "published": "2026-04-30T19:09:43.377+00:00",
+      "link": "https://openreview.net/forum?id=56cQPBIg4R",
+      "pdf_url": "https://openreview.net/pdf/52925f64fcf245878049971f30f807121aecf743.pdf",
+      "tags": [
+        "keyword:lr"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-pwz7p09w83",
+      "source": "ICML-2026-Accepted",
+      "title": "Show, Don't Tell: Morphing Latent Reasoning into Image Generation",
+      "abstract": "Text-to-image (T2I) generation has achieved remarkable progress, yet existing methods often lack the ability to dynamically reason and refine during generation--a hallmark of human creativity. Current reasoning-augmented paradigms mostly rely on explicit thought processes, where intermediate reasoning is decoded into discrete text at fixed steps with frequent image decoding and re-encoding, leading to inefficiencies, information loss, and cognitive mismatches. To bridge this gap, we introduce **LatentMorph**, a novel framework that seamlessly integrates implicit latent reasoning into the T2I generation process. At its core, LatentMorph introduces four lightweight components: (***i***) a **condenser** for summarizing intermediate generation states into compact visual memory, (***ii***) a **translator** for converting latent thoughts into actionable guidance, (***iii***) a **shaper** for dynamically steering next image token predictions, and (***iv***) an RL-trained **invoker** for adaptively determining when to invoke reasoning. By performing reasoning entirely in continuous latent spaces, LatentMorph avoids the bottlenecks of explicit reasoning and enables more adaptive self-refinement. Extensive experiments demonstrate that LatentMorph **(I)** enhances the base model Janus-Pro by 16% on GenEval and 25% on T2I-CompBench; **(II)** outperforms explicit paradigms (*e.g.*, TwiG) by 15% and 11% on abstract reasoning tasks like WISE and IPV-Txt, **(III)** while reducing inference time by 44% and token consumption by 51%; and **(IV)** exhibits 71% cognitive alignment with human intuition on reasoning invocation.",
+      "authors": [
+        "Harold Haodong Chen",
+        "Xinxiang Yin",
+        "Wen-Jie Shu",
+        "Hongfei Zhang",
+        "Zixin Zhang",
+        "Chenfei Liao",
+        "Litao Guo",
+        "Qifeng Chen",
+        "Ying-Cong Chen"
+      ],
+      "primary_category": "Text-to-Image",
+      "categories": [
+        "Text-to-Image",
+        "Autoregressive",
+        "Latent Reasoning",
+        "Unified Model"
+      ],
+      "published": "2026-04-30T19:09:26.454+00:00",
+      "link": "https://openreview.net/forum?id=pwz7P09W83",
+      "pdf_url": "https://openreview.net/pdf/73e157bb6458e94aa149380b05b0aa3be43609c6.pdf",
+      "tags": [
+        "keyword:lr",
+        "query:lr"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-x21ykf1ufr",
+      "source": "ICML-2026-Accepted",
+      "title": "What Makes Effective Supervision in Latent Chain-of-Thought: An Information-Theoretic Analysis",
+      "abstract": "Latent Chain-of-Thought (CoT) internalizes reasoning within continuous hidden states, offering a promising alternative to verbose discrete reasoning traces. However, robust latent reasoning remains difficult because outcome supervision provides weak learning signals and leaves latent trajectories prone to semantic drift. In this work, we analyze Latent CoT from an information-theoretic perspective and identify this failure as a dual collapse: gradient attenuation along the optimization path and representational drift in the latent space. We further decompose process supervision into two complementary dimensions: Trajectory Supervision, which injects dense stepwise reasoning signals, and Space Supervision, which preserves the semantic structure of the latent manifold. Our analysis shows that rigid geometric compression can collapse the reasoning space, whereas generative reconstruction provides a more flexible semantic anchor that better preserves information capacity. To measure these effects, we introduce the Unified Latent Probe (ULP), which quantifies the mutual information between latent trajectories and explicit reasoning steps. Experiments reveal a clear Information–Performance Binding: reasoning accuracy depends on the information fidelity preserved in the latent chain. These findings provide a principled framework for latent reasoning supervision and suggest shifting from geometric imitation toward mutual information maximization. Our code will be released at: \\url{https://github.com/EIT-NLP/Supervision-in-Latent-CoT}.",
+      "authors": [
+        "Xinghao Chen",
+        "Chak Tou Leong",
+        "Guo Wenjin",
+        "Jian Wang",
+        "Wenjie Li",
+        "Xiaoyu Shen"
+      ],
+      "primary_category": "Latent Chain-of-Thought",
+      "categories": [
+        "Latent Chain-of-Thought",
+        "Information Theory",
+        "Mechanistic Interpretability",
+        "Large Language Models"
+      ],
+      "published": "2026-04-30T19:22:04.261+00:00",
+      "link": "https://openreview.net/forum?id=x21YkF1UfR",
+      "pdf_url": "https://openreview.net/pdf/540cfb8e29b72597a357fcd6f4574117d76ba2c7.pdf",
+      "tags": [
+        "keyword:lr"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-bsgruq0riy",
+      "source": "ICML-2026-Accepted",
+      "title": "Think in Latent, Explain in Language: Self-Explainable Latent Reasoning",
+      "abstract": "Latent reasoning has emerged as a powerful alternative to text-based Chain-of-Thought (CoT), offering significant gains in computational efficiency by compressing verbose reasoning into compact embeddings. However, compressing reasoning into the latent space renders the thinking opaque, hindering its interpretability.\nCurrent methods present a stark trade-off: they either function as unexplainable “black boxes” (e.g., Coconut), where the latent reasoning is not human-readable, or rely on separate post-hoc decoders for explainability (e.g., Heima), introducing architectural overhead and decoupling the explanation from the actual reasoning process.\nIn this work, we present a unified framework for Self-Explainable Latent Reasoning (SELR) that trains a single model to perform efficient and inherently explainable latent reasoning. Our core contribution is a novel multi-task training objective that optimizes for two goals simultaneously: (1) an Answer Loss that optimizes the latent reasoning trajectory to produce accurate final answers, and (2) a CoT Loss that explicitly trains the same model to decode its own latent representations back into human-understandable reasoning steps. This design ensures that generated latent representations are both task-effective and semantically interpretable, eliminating the need for external decoders. We validate the effectiveness of SELR on both Large Language Models (LLMs) and Vision-Language Models (VLMs), demonstrating that SELR achieves superior token efficiency and accuracy compared to baselines, while uniquely providing self-contained explainability without auxiliary models.",
+      "authors": [
+        "Dayuan Zhao",
+        "Shengcao Cao",
+        "Yu-Xiong Wang",
+        "Liangyan Gui"
+      ],
+      "primary_category": "Latent Space Reasoning",
+      "categories": [
+        "Latent Space Reasoning",
+        "Explainability",
+        "Large Language Models",
+        "Vision-Language Models"
+      ],
+      "published": "2026-04-30T19:21:53.404+00:00",
+      "link": "https://openreview.net/forum?id=bsgrUQ0RIY",
+      "pdf_url": "https://openreview.net/pdf/9cbca985aaa3c5008f975c66792937c746462994.pdf",
+      "tags": [
+        "keyword:lr",
+        "query:lr"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-p64x2q1n1h",
+      "source": "ICML-2026-Accepted",
+      "title": "Latent Reasoning VLA: Latent Thinking and Prediction for Vision-Language-Action Models",
+      "abstract": "Vision-Language-Action (VLA) models benefit from Chain-of-Thought (CoT) reasoning, but existing approaches incur high inference overhead and rely on discrete reasoning representations that mismatch continuous perception and control.\nWe propose Latent Reasoning VLA (LaRA-VLA), a unified VLA framework that internalizes multi-modal CoT reasoning into continuous latent representations for embodied action. \nLaRA-VLA performs unified reasoning and prediction in latent space, eliminating explicit CoT generation at inference time and enabling efficient, action-oriented control.\nTo realize latent embodied reasoning, we introduce a curriculum-based training paradigm that progressively transitions from explicit textual and visual CoT supervision to latent reasoning, and finally adapts latent reasoning dynamics to condition action generation.\nWe construct two structured CoT datasets, LIBERO-LaRA and Bridge-LaRA, and evaluate LaRA-VLA across simulation benchmarks and long-horizon real-robot manipulation tasks. Experimental results show that LaRA-VLA outperforms existing state-of-the-art VLA methods while achieving up to a 90\\% reduction in inference latency compared to explicit CoT-based VLA approaches, highlighting latent reasoning as an effective and efficient paradigm for real-time embodied control.",
+      "authors": [
+        "Shuanghao Bai",
+        "Jing Lyu",
+        "Wanqi Zhou",
+        "Zhe Li",
+        "Dakai Wang",
+        "Lei Xing",
+        "Xiaoguang Zhao",
+        "Pengwei Wang",
+        "Zhongyuan Wang",
+        "Cheng Chi",
+        "Badong Chen",
+        "Shanghang Zhang"
+      ],
+      "primary_category": "Vision-Language-Action Models",
+      "categories": [
+        "Vision-Language-Action Models",
+        "Latent Reasoning",
+        "Robotic Manipulation"
+      ],
+      "published": "2026-04-30T19:13:49.864+00:00",
+      "link": "https://openreview.net/forum?id=P64X2q1n1H",
+      "pdf_url": "https://openreview.net/pdf/d1d48bb8ae32dab3bc513e65d14fb7fc84c438ea.pdf",
+      "tags": [
+        "keyword:lr",
+        "query:lr"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-qmvotixsfg",
+      "source": "ICML-2026-Accepted",
+      "title": "Vision-aligned Latent Reasoning for Multi-modal Large Language Model",
+      "abstract": "Despite recent advancements in Multi-modal Large Language Models (MLLMs) on diverse understanding tasks, these models struggle to solve problems which require extensive multi-step reasoning. This is primarily due to the progressive dilution of visual information during long-context generation, which hinders their ability to fully exploit test-time scaling. To address this issue, we introduce Vision-aligned Latent Reasoning (VaLR), a simple, yet effective reasoning framework that dynamically generates vision-aligned latent tokens before each Chain of Thought reasoning step, guiding the model to reason based on perceptual cues in the latent space. Specifically, VaLR is trained to preserve visual knowledge during reasoning by aligning intermediate embeddings of MLLM with those from vision encoders. Empirical results demonstrate that VaLR consistently outperforms existing approaches across a wide range of benchmarks requiring long-context understanding or precise visual perception, while exhibiting test-time scaling behavior not observed in prior MLLMs. In particular, VaLR improves the performance significantly from 33.0\\% to 52.9\\% on VSI-Bench, achieving a 19.9\\%p gain over Qwen2.5-VL.",
+      "authors": [
+        "Byungwoo Jeon",
+        "Yoonwoo Jeong",
+        "Hyunseok Lee",
+        "Minsu Cho",
+        "Jinwoo Shin"
+      ],
+      "primary_category": "multimodal large language models",
+      "categories": [
+        "multimodal large language models",
+        "multimodal reasoning",
+        "vision-language models"
+      ],
+      "published": "2026-04-30T19:15:34.299+00:00",
+      "link": "https://openreview.net/forum?id=qmvoTiXSfG",
+      "pdf_url": "https://openreview.net/pdf/a0ac2f4b0a94d8760cd32d22ef10a355f7ad7452.pdf",
+      "tags": [
+        "keyword:lr",
+        "query:lr"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-5ia4cx8gzz",
+      "source": "ICML-2026-Accepted",
+      "title": "Thinking in Latent Space: Progressive Multimodal Simplification for Visual Reasoning",
+      "abstract": "Recent Multimodal Large Language Models (MLLMs) have advanced cross-modal reasoning by extending Chain-of-Thought (CoT) prompting to visual tasks. However, existing methods still rely heavily on explicit textual reasoning steps, leading to information loss, unstable perception–reasoning interaction, and high computational cost. Inspired by human cognition, we argue that effective visual reasoning emerges from a dynamic interplay between perception and latent thought, rather than a purely linear verbalization process.\nMotivated by this insight, we propose Latent-Driven Progressive Visual Reasoning (LDPVR), a framework that formulates multimodal reasoning as a Markov Chain of Recursive State Simplification, where explicit textual states are progressively refined under the guidance of latent transitions. Central to LDPVR is Interleaved Latent Grounding, which leverages latent semantic intent to actively retrieve fine-grained visual evidence and drive robust state evolution, enabling the model to iteratively reduce uncertainty before committing to simplified textual states.\nTo optimize this process, we introduce a three-stage curriculum combining supervised fine-tuning, latent-text distillation, and reinforcement learning via Group Relative Policy Optimization (GRPO). Experiments on six multimodal reasoning benchmarks demonstrate that LDPVR improves reasoning accuracy while maintaining low inference latency.",
+      "authors": [
+        "Yuesen Tang",
+        "Yiming Yang",
+        "Tengfei Bao",
+        "Yu Tong"
+      ],
+      "primary_category": "Multimodal Large Language Models",
+      "categories": [
+        "Multimodal Large Language Models"
+      ],
+      "published": "2026-04-30T19:22:30.194+00:00",
+      "link": "https://openreview.net/forum?id=5IA4cx8Gzz",
+      "pdf_url": "https://openreview.net/pdf/a03dd4e46f183759793a5f8cb5151637acb17179.pdf",
+      "tags": [
+        "keyword:lr",
+        "query:lr"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-d6bqyajwmj",
+      "source": "ICML-2026-Accepted",
+      "title": "A Formal Comparison Between Chain of Thought and Latent Thought",
+      "abstract": "Chain of thought (CoT) elicits reasoning in large language models by explicitly generating intermediate tokens. In contrast, latent thought reasoning operates directly in the continuous latent space, enabling computation beyond discrete linguistic representations. While both approaches exploit iterative computation, their comparative capabilities remain underexplored. In this work, we present a formal analysis showing that latent thought admits efficient parallel computation, in contrast to the inherently sequential nature of CoT. Conversely, CoT enables approximate counting through stochastic decoding. These separations suggest the tasks for which depth-driven recursion is more suitable, thereby offering practical guidance for choosing between reasoning paradigms.",
+      "authors": [
+        "Kevin Xu",
+        "Issei Sato"
+      ],
+      "primary_category": "chain of thought",
+      "categories": [
+        "chain of thought",
+        "looped transformers",
+        "expressivity",
+        "computational complexity"
+      ],
+      "published": "2026-04-30T19:16:32.167+00:00",
+      "link": "https://openreview.net/forum?id=d6BqyajwMj",
+      "pdf_url": "https://openreview.net/pdf/1d9729d3e37fc724c03007faa8f1983be9ac9ddd.pdf",
+      "tags": [
+        "keyword:lr"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-wqiyx69dfg",
+      "source": "ICML-2026-Accepted",
+      "title": "WorldComp2D: Spatio-semantic Representations of Object Identity and Location from Local Views",
+      "abstract": "Learning latent representations that capture both semantic and spatial information is central to efficient spatio-semantic reasoning. However, many existing approaches rely on implicit latent structures combined with dense feature maps or task-specific heads, limiting computational efficiency and flexibility.\nWe propose WorldComp2D, a novel lightweight representation learning framework that explicitly structures latent space geometry according to object identity and spatial proximity using multiscale \\textit{local} receptive fields. This framework consists of (i) a proximity-dependent encoder that maps a given observation into a spatio-semantic latent space and (ii) a localizer that infers the coordinates of objects in the input from the resulting spatio-semantic representation.\nUsing facial landmark localization as a proof-of-concept, we show that, compared to SoTA lightweight models, WorldComp2D reduces the numbers of parameters and FLOPs by up to $4.0\\times$ and $2.2\\times$, respectively, while maintaining real-time performance on CPU. These results demonstrate that explicitly structured latent spaces provide an efficient and general foundation for spatio-semantic reasoning. This framework is open-sourced at https://github.com/JinSeongmin/WorldComp2D.",
+      "authors": [
+        "Seongmin Jin",
+        "Doo Seok Jeong"
+      ],
+      "primary_category": "spatio-semantic representation",
+      "categories": [
+        "spatio-semantic representation",
+        "proximity-dependent encoder",
+        "localizer"
+      ],
+      "published": "2026-04-30T19:17:10.362+00:00",
+      "link": "https://openreview.net/forum?id=WQIyx69dFg",
+      "pdf_url": "https://openreview.net/pdf/793905231a19b66e2381aa43b58b9762a5702998.pdf",
+      "tags": [
+        "keyword:lr",
+        "query:lr"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-e0wfmuizny",
+      "source": "ICML-2026-Accepted",
+      "title": "Fantastic Reasoning Behaviors and Where to Find Them: Unsupervised Discovery of the Reasoning Process",
+      "abstract": "Despite the growing reasoning capabilities of recent large language models (LLMs), their internal mechanisms during the reasoning process remain underexplored. Prior approaches often rely on human-defined concepts (e.g., overthinking, reflection) at the word level to analyze reasoning in a supervised manner. However, such methods are limited, as it is infeasible to capture the full spectrum of potential reasoning behaviors, many of which are difficult to define in token space. In this work, we propose an unsupervised framework (namely, RISE: Reasoning behavior Interpretability via Sparse auto-Encoder) for discovering reasoning vectors, which we define as directions in the activation space that encode distinct reasoning behaviors. By segmenting chain-of-thought traces into sentence-level 'steps' and training sparse auto-encoders (SAEs) on step-level activations, we uncover disentangled features corresponding to interpretable behaviors such as reflection and backtracking. Visualization and clustering analyses show that these behaviors occupy separable regions in the decoder column space. Moreover, targeted interventions on SAE-derived vectors can controllably amplify or suppress specific reasoning behaviors, altering inference trajectories without retraining. Beyond behavior-specific disentanglement, SAEs capture structural properties such as response length, revealing clusters of long versus short reasoning traces. More interestingly, SAEs enable the discovery of novel behaviors beyond human supervision. We demonstrate the ability to control response confidence by identifying confidence-related vectors in the SAE decoder space. These findings underscore the potential of unsupervised latent discovery for both interpreting and controllably steering reasoning in LLMs.",
+      "authors": [
+        "Zhenyu Zhang",
+        "Shujian Zhang",
+        "John Wheatley Lambert",
+        "Wenxuan Zhou",
+        "Zhangyang Wang",
+        "Mingqing Chen",
+        "Andrew Hard",
+        "Rajiv Mathews",
+        "Lun Wang"
+      ],
+      "primary_category": "Mechanistic Interpretability; Large Language Models; Reasoning",
+      "categories": [
+        "Mechanistic Interpretability; Large Language Models; Reasoning"
+      ],
+      "published": "2026-04-30T19:15:43.172+00:00",
+      "link": "https://openreview.net/forum?id=e0wfMUiZnY",
+      "pdf_url": "https://openreview.net/pdf/68e942e7c758c90b02012db5dacb1bf79c8965e0.pdf",
+      "tags": [
+        "keyword:lr"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-12crabknu6",
+      "source": "ICML-2026-Accepted",
+      "title": "SLQ: Bridging Modalities via Shared Latent Queries for Retrieval with Frozen MLLMs",
+      "abstract": "Multimodal Large Language Models (MLLMs) possess intrinsic reasoning and world-knowledge capabilities, yet adapting them for dense retrieval remains challenging. Existing approaches rely on invasive parameter updates, such as full fine-tuning and LoRA, which may disrupt the pre-trained semantic space and impair the structured knowledge essential for reasoning. To address this, we propose **SLQ**, a parameter-efficient tuning framework that adapts MLLMs for retrieval while keeping the backbone entirely frozen. SLQ introduces a small set of **Shared Latent Queries** that are appended to both text and image tokens, leveraging the model’s native causal attention to aggregate multimodal context into a unified embedding space. Furthermore, to better evaluate retrieval beyond superficial pattern matching, we construct **KARR-Bench**, a benchmark designed for knowledge-aware reasoning retrieval. Extensive experiments show that SLQ outperforms full fine-tuning and LoRA on COCO and Flickr30K, while achieving competitive performance on MMEB and yielding substantial gains on KARR-Bench, validating that preserving the pre-trained representations via non-invasive adaptation is an effective strategy for MLLM-based retrieval. The code is available under: https://github.com/CnFaker/SLQ.",
+      "authors": [
+        "Haoran Lou",
+        "Ziyan Liu",
+        "Chunxiao Fan",
+        "Yuexin Wu",
+        "Yue Ming",
+        "Hao Wu",
+        "Kai Zuo",
+        "Yibo Chen",
+        "Xu Tang"
+      ],
+      "primary_category": "Multimodal Large Language Models",
+      "categories": [
+        "Multimodal Large Language Models",
+        "Cross-modal Retrieval",
+        "Efficient Tuning",
+        "Knowledge Reasoning"
+      ],
+      "published": "2026-04-30T19:13:10.838+00:00",
+      "link": "https://openreview.net/forum?id=12CrabKNu6",
+      "pdf_url": "https://openreview.net/pdf/f5336c9fde56516fb74b3c3522df776ff85aee15.pdf",
+      "tags": [
+        "keyword:lr",
+        "query:lr"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-4arh5kzrgz",
+      "source": "ICML-2026-Accepted",
+      "title": "ExpWeaver: LLM Agents Learn from Experience via Latent RAG",
+      "abstract": "Experience learning has achieved promising results in enhancing LLM agent planning and reasoning by integrating past interactions as reusable knowledge. However, existing methods remain confined to explicit text space—retrieving experiences via semantic similarity and concatenating them into the context window, leading to substantial token overhead and a decoupled architecture that separates retrieval from generation. To address these limitations, we propose ExpWeaver, a framework that enables LLM agents to learn from experience via latent retrieval-augmented generation, without requiring a separate RAG module. ExpWeaver encodes experiences using the LLM’s own hidden states, retrieves relevant experiences directly in latent space at each decoding step, and integrates them through cross-attention aggregation and gated residual mechanisms. The entire pipeline is optimized end-to-end with reinforcement learning, supporting both generative and ranking tasks. We evaluate ExpWeaver on 13 diverse tasks spanning question answering, reasoning, coding, scientific prediction, and recommendation. Results demonstrate that: (1) ExpWeaver achieves state-of-the-art on 12 out of 13 tasks, outperforming the strongest baseline by over 6.8%; (2) ExpWeaver maintains token efficiency comparable to non-retrieval baselines while text-based retrieval methods require 1.5–2× more tokens; and (3) ExpWeaver exhibits superior cross-domain generalization, outperforming the strongest baseline by 16.32% under zero-shot transfer and 15.21% under few-shot transfer. Our code for ExpWeaver is released at https://github.com/ulab-uiuc/ExpWeaver.",
+      "authors": [
+        "Tao Feng",
+        "Tianyang Luo",
+        "Jingjun Xu",
+        "Zhigang Hua",
+        "Yan Xie",
+        "Shuang Yang",
+        "Ge Liu",
+        "Jiaxuan You"
+      ],
+      "primary_category": "Large Language Model Agents",
+      "categories": [
+        "Large Language Model Agents",
+        "Experience Learning",
+        "Reinforcement Learning"
+      ],
+      "published": "2026-04-30T19:21:53.749+00:00",
+      "link": "https://openreview.net/forum?id=4ARH5kZrgz",
+      "pdf_url": "https://openreview.net/pdf/868299e3b83f82e8c4c8baa5f861219b70cb2ec8.pdf",
+      "tags": [
+        "keyword:lr"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-syg9i9ofd8",
+      "source": "ICML-2026-Accepted",
+      "title": "Latent Collaboration in Multi-Agent Systems",
+      "abstract": "Multi-agent systems (MAS) extend large language models (LLMs) from independent single-model reasoning to coordinative system-level intelligence. While existing LLM agents depend on text-based mediation for reasoning and communication, we take a step forward by enabling models to collaborate directly within the continuous latent space. We introduce LatentMAS, an end-to-end training-free framework that enables pure latent collaboration among LLM agents. In LatentMAS, each agent first performs auto-regressive latent thoughts generation through last-layer hidden embeddings instead of text. Then, a shared latent working memory preserves and transfers each agent's internal representations and latent thoughts, ensuring lossless information exchange without re-encoding. We provide detailed theoretical analyses showing that LatentMAS achieves higher expressiveness and lossless information preservation with lower overall complexity than standard text-based MAS. In addition, empirical evaluations across 9 comprehensive benchmarks spanning math and science reasoning, commonsense understanding, and code generation show that LatentMAS outperforms advanced single agents and text-based MAS baselines, achieving up to 14.6\\% higher accuracy, reducing output token usage by 70.8\\%-83.7\\%, and providing 4$\\times$-4.3$\\times$ faster end-to-end inference.",
+      "authors": [
+        "Jiaru Zou",
+        "Ruizhong Qiu",
+        "Gaotang Li",
+        "Xiyuan Yang",
+        "Katherine Tieu",
+        "Pan Lu",
+        "Ke Shen",
+        "Hanghang Tong",
+        "Yejin Choi",
+        "Jingrui He",
+        "James Zou",
+        "Mengdi Wang",
+        "Ling Yang"
+      ],
+      "primary_category": "LLM-based Multi-Agent Systems",
+      "categories": [
+        "LLM-based Multi-Agent Systems",
+        "Agent Collaboration",
+        "Latent Reasoning",
+        "Latent Communication",
+        "Efficient LLM Systems"
+      ],
+      "published": "2026-04-30T19:10:24.215+00:00",
+      "link": "https://openreview.net/forum?id=syG9I9ofd8",
+      "pdf_url": "https://openreview.net/pdf/15bee174811cf963d2bb355c7908653b26d4a7ff.pdf",
+      "tags": [
+        "keyword:lr"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-80nupd5gvb",
+      "source": "ICML-2026-Accepted",
+      "title": "Coevolutionary Continuous Discrete Diffusion: Make Your Diffusion Language Model a Latent Reasoner",
+      "abstract": "Diffusion language models, especially masked discrete diffusion models, have achieved great success recently. While there are some theoretical and primary empirical results showing the advantages of latent reasoning with looped transformers or continuous CoT, continuous diffusion models typically underperform their discrete counterparts. In this paper, we argue that diffusion language models do not necessarily need to be in the discrete space. In particular, we prove that continuous diffusion models have stronger expressivity than discrete diffusions and looped transformers. We attribute the contradiction between the theoretical expressiveness and empirical performance to their practical trainability: while continuous diffusion provides intermediate supervision that looped transformers lack, they are harder to generate and decode tokens in the continuous representation space compared with discrete states. We therefore propose **C**oevolutionary **C**ontinuous **D**iscrete **D**iffusion (CCDD), which defines a joint multimodal diffusion process on the union of a continuous representation space and a discrete token space, leveraging a single model to simultaneously denoise in the joint space. By combining two modalities, CCDD is expressive with rich semantics in the latent space, as well as good trainability and sample quality with the help of explicit discrete tokens. We also propose effective architectures and advanced training/sampling techniques for CCDD, which reveals strong empirical performance in extensive language modeling experiments on real-world tasks.",
+      "authors": [
+        "Cai Zhou",
+        "Chenxiao Yang",
+        "Yi Hu",
+        "Chenyu Wang",
+        "Chubin Zhang",
+        "Muhan Zhang",
+        "Lester Mackey",
+        "Tommi Jaakkola",
+        "Stephen Bates",
+        "Dinghuai Zhang"
+      ],
+      "primary_category": "Diffusion Language Models",
+      "categories": [
+        "Diffusion Language Models",
+        "Computation Theory and Expressiveness",
+        "Multimodal Diffusion",
+        "Latent Reasoning"
+      ],
+      "published": "2026-04-30T19:15:57.819+00:00",
+      "link": "https://openreview.net/forum?id=80nuPd5Gvb",
+      "pdf_url": "https://openreview.net/pdf/11287f47583fcc683b7b1cc53f3fbc3ac678bcf3.pdf",
+      "tags": [
+        "keyword:lr"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-vmsumctgvg",
+      "source": "ICML-2026-Accepted",
+      "title": "From Pixels to Tokens: A Systematic Study of Latent Action Supervision for Vision-Language-Action Models",
+      "abstract": "Latent actions serve as an intermediate representation that enables consistent modeling of vision-language-action (VLA) models across heterogeneous datasets. However, approaches to supervising VLAs with latent actions are fragmented and lack a systematic comparison. This work structures the study of latent action supervision from two perspectives: (i) regularizing the trajectory via image-based latent actions, and (ii) unifying the target space with action-based latent actions. Under a unified VLA baseline, we instantiate and compare four representative integration strategies. Our results reveal a formulation-task correspondence: image-based latent actions benefit long-horizon reasoning, whereas action-based latent actions excel at complex motor coordination. Furthermore, we find that directly supervising the VLM with discrete latent action tokens yields the most effective performance. Finally, our experiments offer initial insights into the benefits of latent action supervision in mixed-data, suggesting a promising direction for VLA training.",
+      "authors": [
+        "Yihan Lin",
+        "Haoyang Li",
+        "Yang Li",
+        "Haitao Shen",
+        "Yihan Zhao",
+        "Chao Shao",
+        "Jing Zhang"
+      ],
+      "primary_category": "Vision-Language-Action (VLA)",
+      "categories": [
+        "Vision-Language-Action (VLA)",
+        "Latent Actions",
+        "Robot Manipulation"
+      ],
+      "published": "2026-04-30T19:12:24.153+00:00",
+      "link": "https://openreview.net/forum?id=VMsumctGvg",
+      "pdf_url": "https://openreview.net/pdf/f0ed77c6a623029eb20128bba00fae60f5443473.pdf",
+      "tags": [
+        "keyword:lr",
+        "query:lr"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-g2yb3lhw4l",
+      "source": "ICML-2026-Accepted",
+      "title": "Spectral-Progressive Thought Flow for Lightweight Multimodal Reasoning",
+      "abstract": "Multimodal reasoning often relies on long chains of intermediate textual and visual thoughts, where accumulating visual tokens and dense cross-modal attention incur substantial computation and memory overhead.\nTo address this challenge, we propose Spectral-Progressive Thought Flow (*SpecFlow*), a *novel* lightweight multimodal reasoning framework that represents intermediate visual thoughts in a fixed-size discrete cosine space.\nBy exploiting strong energy compaction, *SpecFlow* preserves global layout and relational structure while introducing high-frequency details only when increased spatial precision is required.\nTo align visual state evolution with linguistic intent, classifier-free guidance enables autoregressive textual thoughts to steer flow-based updates of the visual workspace without expanding the context.\nAs a result,*SpecFlow* maintains a bounded visual workspace whose updates depend only on the current visual state and accumulated textual trace, enabling long-horizon inference with stable latency and memory usage independent of reasoning depth.\nEmpirical results show that *SpecFlow* achieves competitive or superior reasoning performance while reducing computation and memory costs by up to *$2.1\\times$*.",
+      "authors": [
+        "Yixian Shen",
+        "Zhiheng Yang",
+        "Qi Bi",
+        "Changshuo Wang",
+        "Shuai Wang",
+        "JIA-HONG HUANG",
+        "George Floros",
+        "Prayag Tiwari",
+        "Anuj Pathania"
+      ],
+      "primary_category": "Multimodal reasoning",
+      "categories": [
+        "Multimodal reasoning",
+        "Green AI",
+        "Efficiency"
+      ],
+      "published": "2026-04-30T19:11:05.368+00:00",
+      "link": "https://openreview.net/forum?id=g2yb3LhW4L",
+      "pdf_url": "https://openreview.net/pdf/5de30a739fbbfb8a54e1e8bf1bed5e6a7b1a34e2.pdf",
+      "tags": [
+        "keyword:lr",
+        "query:lr"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-sfwwur9v7c",
+      "source": "ICML-2026-Accepted",
+      "title": "Dual-Latent Memory Routing for Vision-Language Reasoning",
+      "abstract": "Multimodal large language models (MLLMs) have recently made strong progress in vision-language reasoning, yet their performance often degrades as generations grow longer. A key factor is that they frequently lose track of earlier visual evidence and intermediate constraints under a monolithic growing context. Inspired by how humans separately recall what they see and what they infer when solving complex tasks, we propose DLMR, a parameter-efficient mechanism that equips MLLMs with Dual Latent Memories: a visual memory that compresses image evidence and a reasoning memory that tracks intermediate conclusions and constraints. A Router then dynamically decides which memory and how much to reuse during inference, preserving visual grounding while maintaining coherent long-horizon reasoning. DLMR is trained in three stages, from latent memory construction to selective router learning, while keeping the base MLLM frozen, yielding substantial gains on both general and reasoning benchmarks with only a small number of additional trainable parameters. Analyses further show interpretable, state-dependent routing with specialized memory roles and reduced decoding tokens over long generations. Code is available at https://github.com/Hunter-Wrynn/DLMR.",
+      "authors": [
+        "Hao-Xuan Ma",
+        "Jin-Fei Qi",
+        "YiCheng Xiao",
+        "Han-Jia Ye"
+      ],
+      "primary_category": "Vision-Language Reasoning",
+      "categories": [
+        "Vision-Language Reasoning",
+        "MLLM memory"
+      ],
+      "published": "2026-04-30T19:16:13.064+00:00",
+      "link": "https://openreview.net/forum?id=SFWWUr9V7c",
+      "pdf_url": "https://openreview.net/pdf/0efb0c31de9ae7aa2dbb8466913ca46646a146fd.pdf",
+      "tags": [
+        "keyword:lr",
+        "query:lr"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-um6ifyc63p",
+      "source": "ICML-2026-Accepted",
+      "title": "ImgCoT: Compressing Long Chain of Thought into Compact Visual Tokens for Efficient Reasoning of Large Language Model",
+      "abstract": "Compressing long chains of thought (CoT) into compact latent tokens is crucial for efficient reasoning with large language models (LLMs). Recent studies employ autoencoders to achieve this by reconstructing textual CoT from latent tokens, thus encoding CoT semantics. However, treating textual CoT as the reconstruction target forces latent tokens to preserve surface-level linguistic features (e.g., word choice and syntax), introducing a strong linguistic inductive bias that prioritizes linguistic form over reasoning structure and limits logical abstraction. Thus, we propose ImgCoT that replaces the reconstruction target from textual CoT to the visual CoT obtained by rendering CoT into images. This substitutes linguistic bias with spatial inductive bias, i.e., a tendency to model spatial layouts of the reasoning steps in visual CoT, enabling latent tokens to better capture global reasoning structure. Moreover, although visual latent tokens encode abstract reasoning structure, they may blur reasoning details. We thus propose a loose ImgCoT, a hybrid reasoning that augments visual latent tokens with a few key textual reasoning steps, selected based on low token log-likelihood. This design allows LLMs to retain both global reasoning structure and fine-grained reasoning details with fewer tokens than the complete CoT. Extensive experiments across multiple datasets and LLMs demonstrate the effectiveness of the two versions of ImgCoT.",
+      "authors": [
+        "Xiaoshu Chen",
+        "Sihang Zhou",
+        "KE LIANG",
+        "Taichun Zhou",
+        "Yaohua Wang",
+        "Yang Gao",
+        "Xinwang Liu"
+      ],
+      "primary_category": "Chain-of-Thought",
+      "categories": [
+        "Chain-of-Thought",
+        "Latent reasoning",
+        "Efficient Reasoning"
+      ],
+      "published": "2026-04-30T19:09:41.295+00:00",
+      "link": "https://openreview.net/forum?id=UM6ifyC63p",
+      "pdf_url": "https://openreview.net/pdf/0fe3671647332e1e1294c26629f9e17b6be89787.pdf",
+      "tags": [
+        "keyword:lr",
+        "query:lr"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-sxrzomhnfo",
+      "source": "ICML-2026-Accepted",
+      "title": "Don't Overthink with Pixels: Efficient Reasoning for Segmentation",
+      "abstract": "Existing reasoning segmentation approaches typically fine-tune multimodal large language models (MLLMs) using image-text pairs and corresponding mask labels. While recent efforts leverage reinforcement fine-tuning to further enhance reasoning ability, they often suffer from overthinking and produce uniformly verbose reasoning chains irrespective of task complexity. To address this problem, we propose PixelThink, a simple yet effective scheme that integrates externally estimated task difficulty and internally measured model uncertainty to regulate reasoning generation within a reinforcement learning paradigm.  The model learns to compress reasoning length in accordance with scene complexity and predictive confidence. To support comprehensive evaluation, we introduce ReasonSeg-Diff, an extended benchmark with annotated reasoning references and difficulty scores, along with a suite of metrics designed to assess segmentation accuracy, reasoning quality, and efficiency jointly. Experimental results demonstrate that the proposed approach not only improves segmentation performance  but also significantly reduces inference latency by 30.4%, cutting token usage by 48.2%.",
+      "authors": [
+        "Song Wang",
+        "Gongfan Fang",
+        "Lingdong Kong",
+        "Xiangtai Li",
+        "Jianyun Xu",
+        "Sheng Yang",
+        "Qiang Li",
+        "Jianke Zhu",
+        "Xinchao Wang"
+      ],
+      "primary_category": "Efficient Inference",
+      "categories": [
+        "Efficient Inference",
+        "Reasoning Segmentation",
+        "Reinforcement Fine-Tuning"
+      ],
+      "published": "2026-04-30T19:10:37.604+00:00",
+      "link": "https://openreview.net/forum?id=sXRZoMhNFo",
+      "pdf_url": "https://openreview.net/pdf/5abc98ac07845097367867c296107b884b24d180.pdf",
+      "tags": [
+        "keyword:lr",
+        "query:lr"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-tcfta9ci3u",
+      "source": "ICML-2026-Accepted",
+      "title": "Do Sparse Autoencoders Identify Reasoning Features in Language Models?",
+      "abstract": "We study how reliably sparse autoencoders (SAEs) support claims about reasoning-related internal features in large language models. We first give a stylized analysis showing that sparsity-regularized decoding can preferentially retain stable low-dimensional correlates while suppressing high-dimensional within-behavior variation, motivating the possibility that contrastively selected \"reasoning\" features may concentrate on cue-like structure when such cues are coupled with reasoning traces. Building on this perspective, we propose a falsification-based evaluation framework that combines causal token injection with LLM-guided counterexample construction. Across 22 configurations spanning multiple model families, layers, and reasoning datasets, we find that many contrastively selected candidates are highly sensitive to token-level interventions, with 45%–90% activating after injecting only a few associated tokens into non-reasoning text. For the remaining context-dependent candidates, LLM-guided falsification produces targeted non-reasoning inputs that trigger activation and meaning-preserving paraphrases of top-activating reasoning traces that suppress it. A small steering study yields minimal changes on the evaluated benchmarks. Overall, our results suggest that, in the settings we study, sparse decompositions can favor low-dimensional correlates that co-occur with reasoning, underscoring the need for falsification when attributing high-level behaviors to individual SAE features. Code is available at https://github.com/GeorgeMLP/reasoning-probing.",
+      "authors": [
+        "George Ma",
+        "Zhongyuan Liang",
+        "Irene Y. Chen",
+        "Somayeh Sojoudi"
+      ],
+      "primary_category": "Mechanistic Interpretability",
+      "categories": [
+        "Mechanistic Interpretability",
+        "Sparse Autoencoders",
+        "Reasoning",
+        "Large Language Models"
+      ],
+      "published": "2026-04-30T19:10:23.098+00:00",
+      "link": "https://openreview.net/forum?id=TCFtA9CI3U",
+      "pdf_url": "https://openreview.net/pdf/4297760bc39042edb68b477607a58445d049af12.pdf",
+      "tags": [
+        "keyword:lr",
+        "query:lr"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-u7zeiovmgc",
+      "source": "ICML-2026-Accepted",
+      "title": "GRASP: Awakening Latent Spatial Reasoning in LVLMs via Training-free Geometric Rectification",
+      "abstract": "Large Vision-Language Models (LVLMs) exhibit remarkable general capabilities but struggle significantly with spatial reasoning tasks. In this paper, we uncover a critical representation-output misalignment via linear probing: LVLMs correctly encode spatial features internally, but generate incorrect results in the final text. To address this, we pioneer the Inference-time Geometric Manifold Adaptation paradigm and propose **GRASP** (**G**eometric **R**ectification for **A**ctive **S**patial **P**erception), a training-free framework to awaken these latent capabilities. GRASP employs Manifold Differential Search to identify optimal geometric counterfactuals, which then drive a dual-level rectification mechanism: Implicit Trajectory Correction to rectify attenuated intrinsic geometric features in intermediate decoder layers, and Explicit Distribution Alignment to break the dominance of language priors at the output layer. Extensive experiments spanning diverse architectures (LLaVA, Qwen 2.5/3-VL) and positional encoding paradigms (1D APE, 2D/3D RoPE) across image and video benchmarks (WhatsUp, VSR, VSI-Bench) demonstrate that GRASP significantly mitigates spatial hallucinations without parameter updates, achieving accuracy gains of up to 26.1% on image benchmarks and 9.7% on video reasoning tasks, consistently outperforming baseline methods.",
+      "authors": [
+        "Jiadong Yan",
+        "Ke Zhang",
+        "Chenyang Zhao",
+        "Shoushan Li",
+        "Xizhao Luo"
+      ],
+      "primary_category": "Large Vision-Language Models",
+      "categories": [
+        "Large Vision-Language Models",
+        "Spatial Reasoning",
+        "Mechanistic Interpretability",
+        "Inference-time Intervention",
+        "Geometric Manifold"
+      ],
+      "published": "2026-04-30T19:14:06.186+00:00",
+      "link": "https://openreview.net/forum?id=U7ZEioVmGC",
+      "pdf_url": "https://openreview.net/pdf/78724147a2f2e6b9113c34511553f7e45dc0cb4a.pdf",
+      "tags": [
+        "keyword:lr",
+        "query:lr"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-fyle5o8g5f",
+      "source": "ICML-2026-Accepted",
+      "title": "Navigating Massive Visual Context in Retrieval-Augmented Generation via Multimodal Memory Graph",
+      "abstract": "Effectively retrieving, reasoning, and understanding multimodal information remains a critical challenge for agentic systems. Traditional Retrieval-augmented Generation (RAG) methods rely on linear interaction histories, which struggle to handle long-context tasks, especially those involving information-sparse yet token-heavy visual data in iterative reasoning scenarios. To bridge this gap, we introduce VimRAG, a framework tailored for multimodal Retrieval-augmented Reasoning across text, images, and videos. Inspired by our systematic study, we model the reasoning process as a dynamic directed acyclic graph that structures the agent states and retrieved multimodal evidence. Building upon this structured memory, we introduce a Graph-Modulated Visual Memory Encoding mechanism, with which the significance of memory nodes is evaluated via their topological position, allowing the model to dynamically allocate high-resolution tokens to pivotal evidence while compressing or discarding trivial clues. To implement this paradigm, we propose a Graph-Guided Policy Optimization strategy. This strategy disentangles step-wise validity from trajectory-level rewards by pruning memory nodes associated with redundant actions, thereby facilitating fine-grained credit assignment. Extensive experiments demonstrate that VimRAG consistently achieves state-of-the-art performance on diverse multimodal RAG benchmarks.",
+      "authors": [
+        "Qiuchen Wang",
+        "Shihang Wang",
+        "Yu Zeng",
+        "Qiang Zhang",
+        "Fanrui Zhang",
+        "Zhuoning Guo",
+        "Bosi Zhang",
+        "Wenxuan Huang",
+        "Lin Chen",
+        "Zehui Chen",
+        "Pengjun Xie",
+        "Ruixue Ding"
+      ],
+      "primary_category": "Multi-Modal Retrieval-augmented Generation",
+      "categories": [
+        "Multi-Modal Retrieval-augmented Generation"
+      ],
+      "published": "2026-04-30T19:09:13.051+00:00",
+      "link": "https://openreview.net/forum?id=fylE5O8g5F",
+      "pdf_url": "https://openreview.net/pdf/15bcadd889fea39eb43c9100ff8bf6e8f045eccf.pdf",
+      "tags": [
+        "keyword:lr",
+        "query:lr"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-vzuitb6boa",
+      "source": "ICML-2026-Accepted",
+      "title": "Uncovering Grounding IDs: How External Cues Shape Multi-Modal Binding",
+      "abstract": "Large vision–language models (LVLMs) perform well on multimodal tasks, but their ability to reason and precisely align visual and textual information still has room for improvement. In this study, we show that external visual cues, such as symbols or grid lines, help LVLMs form more accurate connections between visual components, such as objects, and their corresponding textual descriptions, improving their grounding and reasoning abilities. We introduce the concept of Grounding IDs, which are latent identifiers that arise within the model as a result of external cues structuring both visual and textual modalities. Our analysis reveals that partition-inducing external cues lead to Grounding IDs that make better alignment between corresponding visual and text representations, helping the model focus on relevant information. We find that Grounding IDs enhance attention between related components, improving cross-modal grounding and reducing hallucinations. Overall, our results show that Grounding IDs are a key mechanism that enables external cues to improve cross-modal alignment, reduce errors, and enhance the overall performance of LVLMs across a range of multimodal tasks.",
+      "authors": [
+        "Amirmohammad Izadi",
+        "Hosein Hasani",
+        "Fatemeh Askari",
+        "Mobin Bagherian",
+        "Sadegh Mohammadian",
+        "Mohammad Izadi",
+        "Mahdieh Soleymani Baghshah"
+      ],
+      "primary_category": "Vision–Language Models",
+      "categories": [
+        "Vision–Language Models",
+        "Symbolic Binding",
+        "External Cues",
+        "Mechanistic Interpretability",
+        "Hallucination Reduction",
+        "Causal Interventions",
+        "Modality Gap"
+      ],
+      "published": "2026-04-30T19:20:35.731+00:00",
+      "link": "https://openreview.net/forum?id=vZuItb6BOA",
+      "pdf_url": "https://openreview.net/pdf/724e8cc7d5e266d83c9e96e20f3149303863321a.pdf",
+      "tags": [
+        "keyword:lr",
+        "query:lr"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-03ztljux0y",
+      "source": "ICML-2026-Accepted",
+      "title": "The Tell-Tale Norm: $\\ell_2$ Magnitude as a Signal for Reasoning Dynamics in Large Language Models",
+      "abstract": "Recent work has sought to understand Large Language Models (LLMs) reasoning, yet a principled, model-intrinsic signal that captures its *layer-wise reasoning dynamics* remains underexplored. We bridge this gap by demonstrating that **the $\\ell_2$ norm of hidden states serves as an endogenous signal of the model's reasoning intensity**. Using Sparse Autoencoders (SAEs) as a diagnostic probe, we observe that LLMs' internal reasoning is marked by a sharp increase in reasoning feature activations concentrated in late layers. Motivated by this pattern, we establish a formal link between reasoning intensity and the model's latent geometry and theoretically prove that the $\\ell_2$ norm of hidden states bounds the activation strength of SAE reasoning features. Empirical correlation analysis and causal interventions further prove $\\ell_2$ norm as a faithful indicator, where heightened norms consistently correspond to critical reasoning steps. We then introduce three test-time scaling techniques guided by $\\ell_2$ norms: Adaptive Layer-wise Reasoning Recursion, (ii) Endogenous Reasoning State Steering, and (iii) $\\ell_2$-guided Response Selection, which requires no additional training or data and is compatible with advanced inference engines. Experiments across model architectures and benchmarks show that $\\ell_2$-norm-based techniques significantly improve reasoning performance, offering a principled yet simple lens to perceive and control LLM latent reasoning dynamics. Our codes are available at https://github.com/zjy1298/The-Tell-Tale-Norm.",
+      "authors": [
+        "Jinyang Zhang",
+        "Hongxin Ding",
+        "Yue Fang",
+        "Weibin Liao",
+        "Muyang Ye",
+        "Junfeng Zhao",
+        "Yasha Wang"
+      ],
+      "primary_category": "LLM reasoning",
+      "categories": [
+        "LLM reasoning",
+        "reasoning dynamics",
+        "LLM interpretability"
+      ],
+      "published": "2026-04-30T19:09:24.605+00:00",
+      "link": "https://openreview.net/forum?id=03ZTlJuX0y",
+      "pdf_url": "https://openreview.net/pdf/8c99eb36bf751b2a852b58cdd3d31a3f6d3c2186.pdf",
+      "tags": [
+        "keyword:lr",
+        "query:lr"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-op2bplsv2o",
+      "source": "ICML-2026-Accepted",
+      "title": "Think Less, Act Early: Reinforced Latent Reasoning with Early Exit in Vision-Language-Action Models",
+      "abstract": "Existing Vision-Language-Action (VLA) models predominantly rely on explicit Chain-of-Thought (CoT) reasoning to bridge perception and action. While effective, this paradigm suffers from high computational costs and error propagation in multi-step tasks. In this paper, we propose Adaptive Variable Alignment VLA (AVA-VLA), a novel Latent Reasoning VLA framework that models reasoning as a sequence of unobservable latent variables, bypassing the need for explicit text generation. However, latent trajectories are inherently susceptible to noise interference and misalignment with downstream objectives. To address this, we introduce a Reinforcement Learning-based Denoising mechanism that treats latent state generation as a sequential decision process, optimizing reasoning trajectories via task-level rewards. Furthermore, we incorporate an Early-Exit Strategy that adaptively terminates reasoning based on state confidence, enabling a dynamic trade-off between depth and efficiency. Extensive experiments on embodied decision benchmarks demonstrate that AVA-VLA significantly reduces inference latency while achieving superior stability and success rates compared to full-reasoning baselines.",
+      "authors": [
+        "Dianqiao Lei",
+        "Lianlei Shan"
+      ],
+      "primary_category": "Vision-Language-Action Models",
+      "categories": [
+        "Vision-Language-Action Models",
+        "Early Exit",
+        "Latent Reasoning",
+        "Reinforcement Learning",
+        "Embodied AI"
+      ],
+      "published": "2026-04-30T19:17:00.698+00:00",
+      "link": "https://openreview.net/forum?id=op2bPlSv2o",
+      "pdf_url": "https://openreview.net/pdf/cc88705cb20d50196be59584f555efe99c90f921.pdf",
+      "tags": [
+        "keyword:lr"
+      ]
+    }
+  ],
+  "queries": [
+    {
+      "type": "intent_query",
+      "tag": "lr",
+      "paper_tag": "query:lr",
+      "query_text": "multimodal large language model reasoning in latent space",
+      "sim_scores": {
+        "openreview-icml-2026-12crabknu6": {
+          "score": 0.032266458495966696,
+          "rank": 1
+        },
+        "openreview-icml-2026-5ia4cx8gzz": {
+          "score": 0.030679156908665108,
+          "rank": 2
+        },
+        "openreview-icml-2026-l1cmerxg1p": {
+          "score": 0.016129032258064516,
+          "rank": 3
+        },
+        "openreview-icml-2026-pntxytr2vg": {
+          "score": 0.016129032258064516,
+          "rank": 4
+        },
+        "openreview-icml-2026-qmvotixsfg": {
+          "score": 0.015873015873015872,
+          "rank": 5
+        },
+        "openreview-icml-2026-hpelhqqxxf": {
+          "score": 0.015151515151515152,
+          "rank": 9
+        },
+        "openreview-icml-2026-dtubiehsf3": {
+          "score": 0.014705882352941176,
+          "rank": 11
+        },
+        "openreview-icml-2026-um6ifyc63p": {
+          "score": 0.013333333333333334,
+          "rank": 17
+        },
+        "openreview-icml-2026-sftfsixo2k": {
+          "score": 0.0125,
+          "rank": 22
+        },
+        "openreview-icml-2026-g2yb3lhw4l": {
+          "score": 0.011764705882352941,
+          "rank": 27
+        },
+        "openreview-icml-2026-sxrzomhnfo": {
+          "score": 0.011627906976744186,
+          "rank": 28
+        },
+        "openreview-icml-2026-tcfta9ci3u": {
+          "score": 0.011235955056179775,
+          "rank": 31
+        }
+      },
+      "ranked": [
+        {
+          "paper_id": "openreview-icml-2026-5ia4cx8gzz",
+          "score": 1.0,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-icml-2026-qmvotixsfg",
+          "score": 1.0,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-icml-2026-l1cmerxg1p",
+          "score": 0.9586435070306036,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-icml-2026-ppirvueej6",
+          "score": 0.9586435070306036,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-icml-2026-dtubiehsf3",
+          "score": 0.9185999185999183,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-icml-2026-sfwwur9v7c",
+          "score": 0.9185999185999183,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-icml-2026-syg9i9ofd8",
+          "score": 0.8798076923076922,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-sftfsixo2k",
+          "score": 0.8798076923076922,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-p64x2q1n1h",
+          "score": 0.8422090729783037,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-12crabknu6",
+          "score": 0.8422090729783037,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-pntxytr2vg",
+          "score": 0.8057498057498057,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-d6bqyajwmj",
+          "score": 0.8057498057498057,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-q7al5vwgos",
+          "score": 0.7703788748564866,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-bsgruq0riy",
+          "score": 0.73604826546003,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-u7zeiovmgc",
+          "score": 0.73604826546003,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-80nupd5gvb",
+          "score": 0.6703296703296702,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-4arh5kzrgz",
+          "score": 0.6703296703296702,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-jq2drksir0",
+          "score": 0.6388587937883712,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-um6ifyc63p",
+          "score": 0.6388587937883712,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-03ztljux0y",
+          "score": 0.608262108262108,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-56cqpbig4r",
+          "score": 0.578503688092729,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-vzuitb6boa",
+          "score": 0.5495495495495496,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-op2bplsv2o",
+          "score": 0.5495495495495496,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-x21ykf1ufr",
+          "score": 0.49392712550607265,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-wcqevbldlz",
+          "score": 0.4411571334648256,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-hpelhqqxxf",
+          "score": 0.4411571334648256,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-pwz7p09w83",
+          "score": 0.41577409931840303,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-sxrzomhnfo",
+          "score": 0.3433395872420263,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-e0wfmuizny",
+          "score": 0.29792429792429775,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-tcfta9ci3u",
+          "score": 0.23371647509578536,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-wqiyx69dfg",
+          "score": 0.11772814998621459,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-vmsumctgvg",
+          "score": 0.0483743061062648,
+          "star_rating": 2
+        },
+        {
+          "paper_id": "openreview-icml-2026-g2yb3lhw4l",
+          "score": 0.015799015799015898,
+          "star_rating": 2
+        }
+      ]
+    },
+    {
+      "type": "intent_query",
+      "tag": "lr",
+      "paper_tag": "query:lr",
+      "query_text": "papers on reasoning in latent space of multimodal large language models",
+      "sim_scores": {
+        "openreview-icml-2026-5ia4cx8gzz": {
+          "score": 0.01639344262295082,
+          "rank": 1
+        },
+        "openreview-icml-2026-qmvotixsfg": {
+          "score": 0.016129032258064516,
+          "rank": 2
+        },
+        "openreview-icml-2026-12crabknu6": {
+          "score": 0.015873015873015872,
+          "rank": 3
+        },
+        "openreview-icml-2026-dtubiehsf3": {
+          "score": 0.015151515151515152,
+          "rank": 6
+        },
+        "openreview-icml-2026-pntxytr2vg": {
+          "score": 0.014925373134328358,
+          "rank": 7
+        },
+        "openreview-icml-2026-hpelhqqxxf": {
+          "score": 0.014705882352941176,
+          "rank": 8
+        },
+        "openreview-icml-2026-g2yb3lhw4l": {
+          "score": 0.013888888888888888,
+          "rank": 12
+        },
+        "openreview-icml-2026-um6ifyc63p": {
+          "score": 0.013333333333333334,
+          "rank": 15
+        },
+        "openreview-icml-2026-tcfta9ci3u": {
+          "score": 0.012345679012345678,
+          "rank": 21
+        },
+        "openreview-icml-2026-sftfsixo2k": {
+          "score": 0.011904761904761904,
+          "rank": 24
+        },
+        "openreview-icml-2026-sxrzomhnfo": {
+          "score": 0.011627906976744186,
+          "rank": 26
+        },
+        "openreview-icml-2026-bsgruq0riy": {
+          "score": 0.011235955056179775,
+          "rank": 29
+        },
+        "openreview-icml-2026-q7al5vwgos": {
+          "score": 0.010752688172043012,
+          "rank": 33
+        },
+        "openreview-icml-2026-wcqevbldlz": {
+          "score": 0.010638297872340425,
+          "rank": 34
+        },
+        "openreview-icml-2026-03ztljux0y": {
+          "score": 0.010416666666666666,
+          "rank": 36
+        },
+        "openreview-icml-2026-sfwwur9v7c": {
+          "score": 0.01020408163265306,
+          "rank": 38
+        },
+        "openreview-icml-2026-fyle5o8g5f": {
+          "score": 0.009900990099009901,
+          "rank": 41
+        }
+      },
+      "ranked": [
+        {
+          "paper_id": "openreview-icml-2026-sftfsixo2k",
+          "score": 1.0,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-icml-2026-5ia4cx8gzz",
+          "score": 1.0,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-icml-2026-qmvotixsfg",
+          "score": 0.9586435070306036,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-icml-2026-ppirvueej6",
+          "score": 0.9586435070306036,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-icml-2026-l1cmerxg1p",
+          "score": 0.9185999185999183,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-icml-2026-q7al5vwgos",
+          "score": 0.9185999185999183,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-icml-2026-dtubiehsf3",
+          "score": 0.8798076923076922,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-d6bqyajwmj",
+          "score": 0.8422090729783037,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-jq2drksir0",
+          "score": 0.8057498057498057,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-e0wfmuizny",
+          "score": 0.73604826546003,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-hpelhqqxxf",
+          "score": 0.73604826546003,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-p64x2q1n1h",
+          "score": 0.702712746191007,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-12crabknu6",
+          "score": 0.702712746191007,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-bsgruq0riy",
+          "score": 0.6703296703296702,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-u7zeiovmgc",
+          "score": 0.6703296703296702,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-sfwwur9v7c",
+          "score": 0.6388587937883712,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-x21ykf1ufr",
+          "score": 0.6388587937883712,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-wcqevbldlz",
+          "score": 0.608262108262108,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-03ztljux0y",
+          "score": 0.608262108262108,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-op2bplsv2o",
+          "score": 0.578503688092729,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-tcfta9ci3u",
+          "score": 0.5495495495495496,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-sxrzomhnfo",
+          "score": 0.5495495495495496,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-56cqpbig4r",
+          "score": 0.5213675213675214,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-syg9i9ofd8",
+          "score": 0.49392712550607265,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-um6ifyc63p",
+          "score": 0.49392712550607265,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-fyle5o8g5f",
+          "score": 0.3910256410256411,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-80nupd5gvb",
+          "score": 0.32035835650293487,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-vzuitb6boa",
+          "score": 0.2760180995475112,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-g2yb3lhw4l",
+          "score": 0.25462134764460337,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-pwz7p09w83",
+          "score": 0.23371647509578536,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-4arh5kzrgz",
+          "score": 0.21328671328671328,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-pntxytr2vg",
+          "score": 0.15469146238377016,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-wqiyx69dfg",
+          "score": 0.06517094017094004,
+          "star_rating": 2
+        }
+      ]
+    },
+    {
+      "type": "intent_query",
+      "tag": "lr",
+      "paper_tag": "query:lr",
+      "query_text": "research about latent space reasoning for multimodal models",
+      "sim_scores": {
+        "openreview-icml-2026-5ia4cx8gzz": {
+          "score": 0.01639344262295082,
+          "rank": 1
+        },
+        "openreview-icml-2026-dtubiehsf3": {
+          "score": 0.016129032258064516,
+          "rank": 2
+        },
+        "openreview-icml-2026-wqiyx69dfg": {
+          "score": 0.015384615384615385,
+          "rank": 5
+        },
+        "openreview-icml-2026-g2yb3lhw4l": {
+          "score": 0.014925373134328358,
+          "rank": 7
+        },
+        "openreview-icml-2026-wcqevbldlz": {
+          "score": 0.014705882352941176,
+          "rank": 8
+        },
+        "openreview-icml-2026-fyle5o8g5f": {
+          "score": 0.014492753623188406,
+          "rank": 9
+        },
+        "openreview-icml-2026-u7zeiovmgc": {
+          "score": 0.014285714285714285,
+          "rank": 10
+        },
+        "openreview-icml-2026-vmsumctgvg": {
+          "score": 0.013513513513513514,
+          "rank": 14
+        },
+        "openreview-icml-2026-p64x2q1n1h": {
+          "score": 0.01282051282051282,
+          "rank": 18
+        },
+        "openreview-icml-2026-vzuitb6boa": {
+          "score": 0.011627906976744186,
+          "rank": 26
+        },
+        "openreview-icml-2026-pwz7p09w83": {
+          "score": 0.010638297872340425,
+          "rank": 34
+        },
+        "openreview-icml-2026-sxrzomhnfo": {
+          "score": 0.010416666666666666,
+          "rank": 36
+        },
+        "openreview-icml-2026-jq2drksir0": {
+          "score": 0.010309278350515464,
+          "rank": 37
+        },
+        "openreview-icml-2026-pntxytr2vg": {
+          "score": 0.009433962264150943,
+          "rank": 46
+        },
+        "openreview-icml-2026-qmvotixsfg": {
+          "score": 0.009259259259259259,
+          "rank": 48
+        }
+      },
+      "ranked": [
+        {
+          "paper_id": "openreview-icml-2026-5ia4cx8gzz",
+          "score": 1.0,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-icml-2026-sftfsixo2k",
+          "score": 1.0,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-icml-2026-l1cmerxg1p",
+          "score": 0.9586435070306036,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-icml-2026-d6bqyajwmj",
+          "score": 0.9586435070306036,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-icml-2026-dtubiehsf3",
+          "score": 0.9185999185999183,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-icml-2026-12crabknu6",
+          "score": 0.9185999185999183,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-icml-2026-qmvotixsfg",
+          "score": 0.8798076923076922,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-p64x2q1n1h",
+          "score": 0.8422090729783037,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-ppirvueej6",
+          "score": 0.8057498057498057,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-u7zeiovmgc",
+          "score": 0.7703788748564866,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-wqiyx69dfg",
+          "score": 0.7703788748564866,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-op2bplsv2o",
+          "score": 0.73604826546003,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-bsgruq0riy",
+          "score": 0.702712746191007,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-56cqpbig4r",
+          "score": 0.702712746191007,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-x21ykf1ufr",
+          "score": 0.6703296703296702,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-fyle5o8g5f",
+          "score": 0.6703296703296702,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-sfwwur9v7c",
+          "score": 0.6388587937883712,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-vmsumctgvg",
+          "score": 0.6388587937883712,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-syg9i9ofd8",
+          "score": 0.578503688092729,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-g2yb3lhw4l",
+          "score": 0.578503688092729,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-pntxytr2vg",
+          "score": 0.5495495495495496,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-pwz7p09w83",
+          "score": 0.5213675213675214,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-jq2drksir0",
+          "score": 0.5213675213675214,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-hpelhqqxxf",
+          "score": 0.49392712550607265,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-q7al5vwgos",
+          "score": 0.46719946719946726,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-80nupd5gvb",
+          "score": 0.4411571334648256,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-wcqevbldlz",
+          "score": 0.41577409931840303,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-sxrzomhnfo",
+          "score": 0.41577409931840303,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-4arh5kzrgz",
+          "score": 0.3668882557771445,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-vzuitb6boa",
+          "score": 0.32035835650293487,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-03ztljux0y",
+          "score": 0.1933160472486314,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-um6ifyc63p",
+          "score": 0.15469146238377016,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-tcfta9ci3u",
+          "score": 0.11772814998621459,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-e0wfmuizny",
+          "score": 0.11772814998621459,
+          "star_rating": 3
+        }
+      ]
+    },
+    {
+      "type": "keyword",
+      "tag": "lr",
+      "paper_tag": "keyword:lr",
+      "query_text": "latent space reasoning",
+      "sim_scores": {
+        "openreview-icml-2026-dtubiehsf3": {
+          "score": 0.01639344262295082,
+          "rank": 1
+        },
+        "openreview-icml-2026-l1cmerxg1p": {
+          "score": 0.016129032258064516,
+          "rank": 2
+        },
+        "openreview-icml-2026-sftfsixo2k": {
+          "score": 0.015873015873015872,
+          "rank": 3
+        },
+        "openreview-icml-2026-ppirvueej6": {
+          "score": 0.015625,
+          "rank": 4
+        },
+        "openreview-icml-2026-56cqpbig4r": {
+          "score": 0.015151515151515152,
+          "rank": 6
+        },
+        "openreview-icml-2026-pwz7p09w83": {
+          "score": 0.014492753623188406,
+          "rank": 9
+        },
+        "openreview-icml-2026-x21ykf1ufr": {
+          "score": 0.014285714285714285,
+          "rank": 10
+        },
+        "openreview-icml-2026-bsgruq0riy": {
+          "score": 0.014084507042253521,
+          "rank": 11
+        },
+        "openreview-icml-2026-p64x2q1n1h": {
+          "score": 0.013888888888888888,
+          "rank": 12
+        },
+        "openreview-icml-2026-qmvotixsfg": {
+          "score": 0.0136986301369863,
+          "rank": 13
+        },
+        "openreview-icml-2026-5ia4cx8gzz": {
+          "score": 0.013513513513513514,
+          "rank": 14
+        },
+        "openreview-icml-2026-d6bqyajwmj": {
+          "score": 0.013333333333333334,
+          "rank": 15
+        },
+        "openreview-icml-2026-wqiyx69dfg": {
+          "score": 0.012987012987012988,
+          "rank": 17
+        },
+        "openreview-icml-2026-e0wfmuizny": {
+          "score": 0.01282051282051282,
+          "rank": 18
+        },
+        "openreview-icml-2026-12crabknu6": {
+          "score": 0.012658227848101266,
+          "rank": 19
+        },
+        "openreview-icml-2026-4arh5kzrgz": {
+          "score": 0.0125,
+          "rank": 20
+        },
+        "openreview-icml-2026-syg9i9ofd8": {
+          "score": 0.012345679012345678,
+          "rank": 21
+        },
+        "openreview-icml-2026-80nupd5gvb": {
+          "score": 0.011627906976744186,
+          "rank": 26
+        },
+        "openreview-icml-2026-vmsumctgvg": {
+          "score": 0.011235955056179775,
+          "rank": 29
+        }
+      }
+    },
+    {
+      "type": "keyword",
+      "tag": "lr",
+      "paper_tag": "keyword:lr",
+      "query_text": "latent space reasoning for multimodal models",
+      "sim_scores": {
+        "openreview-icml-2026-dtubiehsf3": {
+          "score": 0.01639344262295082,
+          "rank": 1
+        },
+        "openreview-icml-2026-5ia4cx8gzz": {
+          "score": 0.016129032258064516,
+          "rank": 2
+        },
+        "openreview-icml-2026-wqiyx69dfg": {
+          "score": 0.015625,
+          "rank": 4
+        },
+        "openreview-icml-2026-g2yb3lhw4l": {
+          "score": 0.015151515151515152,
+          "rank": 6
+        },
+        "openreview-icml-2026-wcqevbldlz": {
+          "score": 0.014705882352941176,
+          "rank": 8
+        },
+        "openreview-icml-2026-u7zeiovmgc": {
+          "score": 0.014492753623188406,
+          "rank": 9
+        },
+        "openreview-icml-2026-fyle5o8g5f": {
+          "score": 0.014285714285714285,
+          "rank": 10
+        },
+        "openreview-icml-2026-vmsumctgvg": {
+          "score": 0.012987012987012988,
+          "rank": 17
+        },
+        "openreview-icml-2026-sxrzomhnfo": {
+          "score": 0.012345679012345678,
+          "rank": 21
+        },
+        "openreview-icml-2026-p64x2q1n1h": {
+          "score": 0.011627906976744186,
+          "rank": 26
+        },
+        "openreview-icml-2026-vzuitb6boa": {
+          "score": 0.011111111111111112,
+          "rank": 30
+        },
+        "openreview-icml-2026-jq2drksir0": {
+          "score": 0.01020408163265306,
+          "rank": 38
+        },
+        "openreview-icml-2026-hpelhqqxxf": {
+          "score": 0.009345794392523364,
+          "rank": 47
+        }
+      }
+    },
+    {
+      "type": "keyword",
+      "tag": "lr",
+      "paper_tag": "keyword:lr",
+      "query_text": "multimodal large language model",
+      "sim_scores": {
+        "openreview-icml-2026-wcqevbldlz": {
+          "score": 0.014084507042253521,
+          "rank": 11
+        },
+        "openreview-icml-2026-hpelhqqxxf": {
+          "score": 0.012987012987012988,
+          "rank": 17
+        },
+        "openreview-icml-2026-q7al5vwgos": {
+          "score": 0.012195121951219513,
+          "rank": 22
+        },
+        "openreview-icml-2026-jq2drksir0": {
+          "score": 0.011904761904761904,
+          "rank": 24
+        },
+        "openreview-icml-2026-pntxytr2vg": {
+          "score": 0.010309278350515464,
+          "rank": 37
+        }
+      }
+    },
+    {
+      "type": "keyword",
+      "tag": "lr",
+      "paper_tag": "keyword:lr",
+      "query_text": "multimodal large language model reasoning in latent space",
+      "sim_scores": {
+        "openreview-icml-2026-12crabknu6": {
+          "score": 0.01639344262295082,
+          "rank": 1
+        },
+        "openreview-icml-2026-pntxytr2vg": {
+          "score": 0.016129032258064516,
+          "rank": 2
+        },
+        "openreview-icml-2026-qmvotixsfg": {
+          "score": 0.015873015873015872,
+          "rank": 3
+        },
+        "openreview-icml-2026-hpelhqqxxf": {
+          "score": 0.015151515151515152,
+          "rank": 6
+        },
+        "openreview-icml-2026-dtubiehsf3": {
+          "score": 0.014705882352941176,
+          "rank": 8
+        },
+        "openreview-icml-2026-5ia4cx8gzz": {
+          "score": 0.014285714285714285,
+          "rank": 10
+        },
+        "openreview-icml-2026-um6ifyc63p": {
+          "score": 0.013333333333333334,
+          "rank": 15
+        },
+        "openreview-icml-2026-sftfsixo2k": {
+          "score": 0.0125,
+          "rank": 20
+        },
+        "openreview-icml-2026-g2yb3lhw4l": {
+          "score": 0.011764705882352941,
+          "rank": 25
+        },
+        "openreview-icml-2026-sxrzomhnfo": {
+          "score": 0.011627906976744186,
+          "rank": 26
+        },
+        "openreview-icml-2026-tcfta9ci3u": {
+          "score": 0.011235955056179775,
+          "rank": 29
+        }
+      }
+    },
+    {
+      "type": "keyword",
+      "tag": "lr",
+      "paper_tag": "keyword:lr",
+      "query_text": "multimodal reasoning",
+      "sim_scores": {
+        "openreview-icml-2026-jq2drksir0": {
+          "score": 0.01639344262295082,
+          "rank": 1
+        },
+        "openreview-icml-2026-g2yb3lhw4l": {
+          "score": 0.015384615384615385,
+          "rank": 5
+        },
+        "openreview-icml-2026-5ia4cx8gzz": {
+          "score": 0.014705882352941176,
+          "rank": 8
+        },
+        "openreview-icml-2026-hpelhqqxxf": {
+          "score": 0.013888888888888888,
+          "rank": 12
+        },
+        "openreview-icml-2026-dtubiehsf3": {
+          "score": 0.012658227848101266,
+          "rank": 19
+        },
+        "openreview-icml-2026-sfwwur9v7c": {
+          "score": 0.011111111111111112,
+          "rank": 30
+        }
+      }
+    },
+    {
+      "type": "keyword",
+      "tag": "lr",
+      "paper_tag": "keyword:lr",
+      "query_text": "multimodal reasoning with latent variables",
+      "sim_scores": {
+        "openreview-icml-2026-dtubiehsf3": {
+          "score": 0.01639344262295082,
+          "rank": 1
+        },
+        "openreview-icml-2026-5ia4cx8gzz": {
+          "score": 0.016129032258064516,
+          "rank": 2
+        },
+        "openreview-icml-2026-g2yb3lhw4l": {
+          "score": 0.015873015873015872,
+          "rank": 3
+        },
+        "openreview-icml-2026-qmvotixsfg": {
+          "score": 0.015151515151515152,
+          "rank": 6
+        },
+        "openreview-icml-2026-bsgruq0riy": {
+          "score": 0.014925373134328358,
+          "rank": 7
+        },
+        "openreview-icml-2026-p64x2q1n1h": {
+          "score": 0.014705882352941176,
+          "rank": 8
+        },
+        "openreview-icml-2026-op2bplsv2o": {
+          "score": 0.014492753623188406,
+          "rank": 9
+        },
+        "openreview-icml-2026-pwz7p09w83": {
+          "score": 0.014285714285714285,
+          "rank": 10
+        },
+        "openreview-icml-2026-sftfsixo2k": {
+          "score": 0.012987012987012988,
+          "rank": 17
+        },
+        "openreview-icml-2026-12crabknu6": {
+          "score": 0.012658227848101266,
+          "rank": 19
+        },
+        "openreview-icml-2026-um6ifyc63p": {
+          "score": 0.011904761904761904,
+          "rank": 24
+        },
+        "openreview-icml-2026-hpelhqqxxf": {
+          "score": 0.011764705882352941,
+          "rank": 25
+        },
+        "openreview-icml-2026-fyle5o8g5f": {
+          "score": 0.011627906976744186,
+          "rank": 26
+        },
+        "openreview-icml-2026-syg9i9ofd8": {
+          "score": 0.011363636363636364,
+          "rank": 28
+        },
+        "openreview-icml-2026-q7al5vwgos": {
+          "score": 0.010638297872340425,
+          "rank": 34
+        },
+        "openreview-icml-2026-sxrzomhnfo": {
+          "score": 0.010309278350515464,
+          "rank": 37
+        },
+        "openreview-icml-2026-ppirvueej6": {
+          "score": 0.009433962264150943,
+          "rank": 46
+        },
+        "openreview-icml-2026-pntxytr2vg": {
+          "score": 0.009345794392523364,
+          "rank": 47
+        },
+        "openreview-icml-2026-jq2drksir0": {
+          "score": 0.00909090909090909,
+          "rank": 50
+        }
+      }
+    },
+    {
+      "type": "keyword",
+      "tag": "lr",
+      "paper_tag": "keyword:lr",
+      "query_text": "reasoning in latent space",
+      "sim_scores": {
+        "openreview-icml-2026-dtubiehsf3": {
+          "score": 0.01639344262295082,
+          "rank": 1
+        },
+        "openreview-icml-2026-l1cmerxg1p": {
+          "score": 0.016129032258064516,
+          "rank": 2
+        },
+        "openreview-icml-2026-sftfsixo2k": {
+          "score": 0.015873015873015872,
+          "rank": 3
+        },
+        "openreview-icml-2026-ppirvueej6": {
+          "score": 0.015625,
+          "rank": 4
+        },
+        "openreview-icml-2026-56cqpbig4r": {
+          "score": 0.015151515151515152,
+          "rank": 6
+        },
+        "openreview-icml-2026-pwz7p09w83": {
+          "score": 0.014492753623188406,
+          "rank": 9
+        },
+        "openreview-icml-2026-x21ykf1ufr": {
+          "score": 0.014285714285714285,
+          "rank": 10
+        },
+        "openreview-icml-2026-bsgruq0riy": {
+          "score": 0.014084507042253521,
+          "rank": 11
+        },
+        "openreview-icml-2026-p64x2q1n1h": {
+          "score": 0.013888888888888888,
+          "rank": 12
+        },
+        "openreview-icml-2026-qmvotixsfg": {
+          "score": 0.0136986301369863,
+          "rank": 13
+        },
+        "openreview-icml-2026-5ia4cx8gzz": {
+          "score": 0.013513513513513514,
+          "rank": 14
+        },
+        "openreview-icml-2026-d6bqyajwmj": {
+          "score": 0.013333333333333334,
+          "rank": 15
+        },
+        "openreview-icml-2026-wqiyx69dfg": {
+          "score": 0.012987012987012988,
+          "rank": 17
+        },
+        "openreview-icml-2026-e0wfmuizny": {
+          "score": 0.01282051282051282,
+          "rank": 18
+        },
+        "openreview-icml-2026-12crabknu6": {
+          "score": 0.012658227848101266,
+          "rank": 19
+        },
+        "openreview-icml-2026-4arh5kzrgz": {
+          "score": 0.0125,
+          "rank": 20
+        },
+        "openreview-icml-2026-syg9i9ofd8": {
+          "score": 0.012345679012345678,
+          "rank": 21
+        },
+        "openreview-icml-2026-80nupd5gvb": {
+          "score": 0.011627906976744186,
+          "rank": 26
+        },
+        "openreview-icml-2026-vmsumctgvg": {
+          "score": 0.011235955056179775,
+          "rank": 29
+        }
+      }
+    },
+    {
+      "type": "keyword",
+      "tag": "lr",
+      "paper_tag": "keyword:lr",
+      "query_text": "reasoning in latent space of large models",
+      "sim_scores": {
+        "openreview-icml-2026-dtubiehsf3": {
+          "score": 0.01639344262295082,
+          "rank": 1
+        },
+        "openreview-icml-2026-12crabknu6": {
+          "score": 0.015625,
+          "rank": 4
+        },
+        "openreview-icml-2026-qmvotixsfg": {
+          "score": 0.014285714285714285,
+          "rank": 10
+        },
+        "openreview-icml-2026-03ztljux0y": {
+          "score": 0.013333333333333334,
+          "rank": 15
+        },
+        "openreview-icml-2026-syg9i9ofd8": {
+          "score": 0.013157894736842105,
+          "rank": 16
+        },
+        "openreview-icml-2026-bsgruq0riy": {
+          "score": 0.012345679012345678,
+          "rank": 21
+        },
+        "openreview-icml-2026-5ia4cx8gzz": {
+          "score": 0.011764705882352941,
+          "rank": 25
+        },
+        "openreview-icml-2026-ppirvueej6": {
+          "score": 0.011363636363636364,
+          "rank": 28
+        },
+        "openreview-icml-2026-um6ifyc63p": {
+          "score": 0.010416666666666666,
+          "rank": 36
+        },
+        "openreview-icml-2026-g2yb3lhw4l": {
+          "score": 0.010309278350515464,
+          "rank": 37
+        },
+        "openreview-icml-2026-op2bplsv2o": {
+          "score": 0.009900990099009901,
+          "rank": 41
+        }
+      }
+    }
+  ],
+  "global_candidate_ids": [
+    "openreview-icml-2026-12crabknu6",
+    "openreview-icml-2026-5ia4cx8gzz",
+    "openreview-icml-2026-qmvotixsfg",
+    "openreview-icml-2026-dtubiehsf3",
+    "openreview-icml-2026-l1cmerxg1p",
+    "openreview-icml-2026-2cgy0p2v8s",
+    "openreview-icml-2026-dxq3hh4s5o",
+    "openreview-icml-2026-pntxytr2vg",
+    "openreview-icml-2026-jq2drksir0",
+    "openreview-icml-2026-jo7tsly51f",
+    "openreview-icml-2026-xwhzf6wrge",
+    "openreview-icml-2026-g2yb3lhw4l",
+    "openreview-icml-2026-z7ivdflnsc",
+    "openreview-icml-2026-hrslirehlx",
+    "openreview-icml-2026-hpelhqqxxf",
+    "openreview-icml-2026-sftfsixo2k",
+    "openreview-icml-2026-zzjqcpo5ga",
+    "openreview-icml-2026-3v1dg9jp8e",
+    "openreview-icml-2026-ij7bjubbgq",
+    "openreview-icml-2026-sxrzomhnfo",
+    "openreview-icml-2026-p64x2q1n1h",
+    "openreview-icml-2026-bsgruq0riy",
+    "openreview-icml-2026-um6ifyc63p",
+    "openreview-icml-2026-2ujrwcrqbw",
+    "openreview-icml-2026-gngjw18lrq",
+    "openreview-icml-2026-gjy2pip7gt",
+    "openreview-icml-2026-wqiyx69dfg",
+    "openreview-icml-2026-kbvnxhcich",
+    "openreview-icml-2026-wcqevbldlz",
+    "openreview-icml-2026-pwz7p09w83",
+    "openreview-icml-2026-ppirvueej6",
+    "openreview-icml-2026-cqthecicn0",
+    "openreview-icml-2026-fyle5o8g5f",
+    "openreview-icml-2026-hgrxohliwb",
+    "openreview-icml-2026-syg9i9ofd8",
+    "openreview-icml-2026-vmsumctgvg",
+    "openreview-icml-2026-mumdbz6eao",
+    "openreview-icml-2026-8heuwrvliu",
+    "openreview-icml-2026-u3qqoozk6p",
+    "openreview-icml-2026-krrrnq3e1w",
+    "openreview-icml-2026-0cndtttymr",
+    "openreview-icml-2026-isnhlylxsw",
+    "openreview-icml-2026-evpmzc0bzs",
+    "openreview-icml-2026-iedc7yfple",
+    "openreview-icml-2026-pespqc7wmf",
+    "openreview-icml-2026-7bsbqr6djd",
+    "openreview-icml-2026-ot1vp0ar0j",
+    "openreview-icml-2026-tgmyewfvuu",
+    "openreview-icml-2026-tskdiqicj4",
+    "openreview-icml-2026-z3rqmlk4io",
+    "openreview-icml-2026-pn7l7mbpdo",
+    "openreview-icml-2026-1skfoivmyg",
+    "openreview-icml-2026-jeymwdghvp",
+    "openreview-icml-2026-tcfta9ci3u",
+    "openreview-icml-2026-qzw67bofsq",
+    "openreview-icml-2026-rjqvlksejl",
+    "openreview-icml-2026-1ytbhxugef",
+    "openreview-icml-2026-q7al5vwgos",
+    "openreview-icml-2026-z2qlxu0yf9",
+    "openreview-icml-2026-auki7ikovo",
+    "openreview-icml-2026-yfumcotuyd",
+    "openreview-icml-2026-ojt8l0dk2q",
+    "openreview-icml-2026-orjnt28vp6",
+    "openreview-icml-2026-mtma9yvsnx",
+    "openreview-icml-2026-56cqpbig4r",
+    "openreview-icml-2026-shdjbvmwrp",
+    "openreview-icml-2026-843gqudig7",
+    "openreview-icml-2026-8tjgapjq5j",
+    "openreview-icml-2026-xrqmnac6ft",
+    "openreview-icml-2026-g6wvlldh1l",
+    "openreview-icml-2026-u7zeiovmgc",
+    "openreview-icml-2026-x21ykf1ufr",
+    "openreview-icml-2026-im2dw94hjx",
+    "openreview-icml-2026-rhlcygxb2x",
+    "openreview-icml-2026-fcjkhj6z4v",
+    "openreview-icml-2026-d6bqyajwmj",
+    "openreview-icml-2026-lwoobzjykl",
+    "openreview-icml-2026-nz5kjt0qla",
+    "openreview-icml-2026-yjhbbarwhv",
+    "openreview-icml-2026-e0wfmuizny",
+    "openreview-icml-2026-po9vqnit8b",
+    "openreview-icml-2026-eeo0ubd5mt",
+    "openreview-icml-2026-206p2ygdyn",
+    "openreview-icml-2026-pz9xukurig",
+    "openreview-icml-2026-4arh5kzrgz",
+    "openreview-icml-2026-9hydfckhlv",
+    "openreview-icml-2026-op2bplsv2o",
+    "openreview-icml-2026-gbq6eiste4",
+    "openreview-icml-2026-0us3p0dlh9",
+    "openreview-icml-2026-axagpgfhgc",
+    "openreview-icml-2026-03ztljux0y",
+    "openreview-icml-2026-4mu4aa14jr",
+    "openreview-icml-2026-lybcbh3y76",
+    "openreview-icml-2026-rl7yairt04",
+    "openreview-icml-2026-92tssj0p1s",
+    "openreview-icml-2026-trugngxtey",
+    "openreview-icml-2026-pgkm5bjfd1",
+    "openreview-icml-2026-80nupd5gvb",
+    "openreview-icml-2026-zezi4serw0",
+    "openreview-icml-2026-vzuitb6boa",
+    "openreview-icml-2026-okizuop7e4",
+    "openreview-icml-2026-muu7k4bn97",
+    "openreview-icml-2026-76infmvmba",
+    "openreview-icml-2026-9h7ssje4jn",
+    "openreview-icml-2026-xrzeaihvas",
+    "openreview-icml-2026-bcn12ukfty",
+    "openreview-icml-2026-0cq8cqvuq4",
+    "openreview-icml-2026-khb8m3ojge",
+    "openreview-icml-2026-rslh9nuykk",
+    "openreview-icml-2026-gbod25ia88",
+    "openreview-icml-2026-tmt8mhuq2p",
+    "openreview-icml-2026-uvwzfng1np",
+    "openreview-icml-2026-hdf5semiab",
+    "openreview-icml-2026-uqivj2vkhl",
+    "openreview-icml-2026-sfwwur9v7c",
+    "openreview-icml-2026-cqbg0vf0gz",
+    "openreview-icml-2026-53we3ebrgk",
+    "openreview-icml-2026-chavqrn1x9",
+    "openreview-icml-2026-s4eaypxw4m",
+    "openreview-icml-2026-iw1obbo72s",
+    "openreview-icml-2026-clzxiwy7eu",
+    "openreview-icml-2026-llmmmrz4lg",
+    "openreview-icml-2026-fzrob6jcpn"
+  ],
+  "global_pool_lane_top_k": 30,
+  "global_pool_limit": 120,
+  "global_pool_guaranteed_per_lane": 2,
+  "global_pool_effective_size": 123,
+  "reranked_at": "2026-07-28T09:29:07.655141+00:00",
+  "llm_ranked": [
+    {
+      "paper_id": "openreview-icml-2026-5ia4cx8gzz",
+      "score": 10.0,
+      "evidence_en": "Proposes latent-driven progressive visual reasoning framework",
+      "evidence_cn": "提出隐空间驱动的渐进式视觉推理框架",
+      "canonical_evidence": "提出隐空间驱动的渐进式视觉推理框架",
+      "tldr_en": "Proposes Latent-Driven Progressive Visual Reasoning (LDPVR) which formulates multimodal reasoning as a Markov Chain of Recursive State Simplification in latent space.",
+      "tldr_cn": "这篇论文针对多模态大语言模型推理中过度依赖显式文本推理步骤导致信息损失和计算成本高的问题，提出了隐空间驱动的渐进式视觉推理框架（LDPVR）。该方法将多模态推理建模为隐空间中递归状态简化的马尔可夫链，实现感知与推理的动态交互。实验表明该方法在视觉推理任务上有效提升了效率。",
+      "title_zh": "在隐空间中思考：渐进式多模态简化用于视觉推理",
+      "motivation_cn": "现有MLLM推理依赖显式文本步骤，导致信息损失和计算开销大。",
+      "method_cn": "提出LDPVR框架，将推理建模为隐空间中递归状态简化的马尔可夫链。",
+      "result_cn": "在视觉推理基准上，LDPVR在效率和准确性上均优于基线。",
+      "conclusion_cn": "隐空间推理可有效替代显式文本步骤，提升多模态推理性能。",
+      "matched_requirement_id": "req-composite-lr",
+      "matched_query_tag": "query:lr:composite",
+      "matched_query_text": "Papers central to 请帮我查找多模态大模型隐空间推理的相关论文。, especially work that connects or combines: multimodal large language model reasoning in latent space; latent space reasoning for multimodal models; reasoning in latent space of large models; multimodal reasoning with latent variables; papers on reasoning in latent space of multimodal large language models; research about latent space reasoning for multimodal models."
+    },
+    {
+      "paper_id": "openreview-icml-2026-dtubiehsf3",
+      "score": 10.0,
+      "evidence_en": "Enriches latent representations with semantics for multimodal reasoning",
+      "evidence_cn": "用语义丰富隐空间表示以支持多模态推理",
+      "canonical_evidence": "用语义丰富隐空间表示以支持多模态推理",
+      "tldr_en": "Proposes Semantic-Enriched Latent Visual Reasoning (SLVR), a two-stage framework that learns semantically enriched region-centric latents for diverse reasoning objectives.",
+      "tldr_cn": "本文针对现有隐空间推理方法语义丰富度不足的问题，提出语义增强的隐空间视觉推理（SLVR）。该方法通过两阶段学习：先学习属性级语义丰富的区域隐表示，再通过多查询组相对策略优化对齐推理目标。实验表明SLVR在区域级推理任务上表现优异。",
+      "title_zh": "语义增强的隐空间视觉推理",
+      "motivation_cn": "现有隐空间推理缺乏足够的语义信息，难以支持细粒度区域推理。",
+      "method_cn": "两阶段框架：先学习语义丰富的区域隐表示，再通过多查询优化对齐推理目标。",
+      "result_cn": "在多个区域推理数据集上取得最先进结果。",
+      "conclusion_cn": "语义增强的隐表示能显著提升多模态推理能力。",
+      "matched_requirement_id": "req-composite-lr",
+      "matched_query_tag": "query:lr:composite",
+      "matched_query_text": "Papers central to 请帮我查找多模态大模型隐空间推理的相关论文。, especially work that connects or combines: multimodal large language model reasoning in latent space; latent space reasoning for multimodal models; reasoning in latent space of large models; multimodal reasoning with latent variables; papers on reasoning in latent space of multimodal large language models; research about latent space reasoning for multimodal models."
+    },
+    {
+      "paper_id": "openreview-icml-2026-bsgruq0riy",
+      "score": 10.0,
+      "evidence_en": "Unified framework for self-explainable latent reasoning",
+      "evidence_cn": "统一的自解释隐空间推理框架",
+      "canonical_evidence": "统一的自解释隐空间推理框架",
+      "tldr_en": "Proposes Self-Explainable Latent Reasoning (SELR) which trains a shared latent reasoning path that is both efficient and interpretable.",
+      "tldr_cn": "本文针对隐空间推理不可解释的问题，提出自解释隐空间推理（SELR）。该方法训练统一的隐推理路径，同时保持高效性和可解释性，无需后处理解码器。实验证明SELR在保持效率的同时提供了可读的推理解释。",
+      "title_zh": "在隐空间中思考，用语言解释：自解释隐空间推理",
+      "motivation_cn": "隐空间推理虽高效但不可解释，现有方法增加了解耦的后期解码器。",
+      "method_cn": "训练共享的隐推理路径，同时进行推理和解释生成。",
+      "result_cn": "在多个推理数据集上效率与可解释性均优于基线。",
+      "conclusion_cn": "隐空间推理可以同时实现高效和自解释。",
+      "matched_requirement_id": "req-composite-lr",
+      "matched_query_tag": "query:lr:composite",
+      "matched_query_text": "Papers central to 请帮我查找多模态大模型隐空间推理的相关论文。, especially work that connects or combines: multimodal large language model reasoning in latent space; latent space reasoning for multimodal models; reasoning in latent space of large models; multimodal reasoning with latent variables; papers on reasoning in latent space of multimodal large language models; research about latent space reasoning for multimodal models."
+    },
+    {
+      "paper_id": "openreview-icml-2026-sxrzomhnfo",
+      "score": 10.0,
+      "evidence_en": "Efficient reasoning for segmentation via MLLM with reinforcement learning",
+      "evidence_cn": "通过强化学习实现基于MLLM的高效分割推理",
+      "canonical_evidence": "通过强化学习实现基于MLLM的高效分割推理",
+      "tldr_en": "Proposes PixelThink, which regulates reasoning generation length based on task difficulty and model uncertainty for efficient reasoning segmentation.",
+      "tldr_cn": "本文针对现有推理分割方法生成的推理链冗长且缺乏效率的问题，提出PixelThink。该方法在强化学习框架中整合任务难度和模型不确定性来动态压缩推理长度。实验表明PixelThink在不牺牲准确性的情况下显著减少了推理步骤。",
+      "title_zh": "不要用像素过度思考：分割的高效推理",
+      "motivation_cn": "现有推理分割方法无论任务复杂度都生成统一冗长的推理链。",
+      "method_cn": "基于强化学习，用外部任务难度和内部不确定性调节推理长度。",
+      "result_cn": "在多个分割推理基准上实现了更短推理链且保持性能。",
+      "conclusion_cn": "推理长度可根据任务复杂度自适应调节，提升效率。",
+      "matched_requirement_id": "req-composite-seg-llm",
+      "matched_query_tag": "query:seg-llm:composite",
+      "matched_query_text": "Papers central to 请帮我搜集有关语义分割和大模型推理结合的论文, especially work that connects or combines: semantic segmentation; large language model reasoning; vision language model segmentation; segmentation with language model reasoning; semantic segmentation guided by language model; semantic segmentation with large language model reasoning; use large language model to enhance semantic segmentation; reasoning based semantic segmentation using vision language models."
+    },
+    {
+      "paper_id": "openreview-icml-2026-p64x2q1n1h",
+      "score": 10.0,
+      "evidence_en": "Latent reasoning for vision-language-action models in continuous latent space",
+      "evidence_cn": "面向视觉-语言-动作模型的连续隐空间推理",
+      "canonical_evidence": "面向视觉-语言-动作模型的连续隐空间推理",
+      "tldr_en": "Proposes Latent Reasoning VLA (LaRA-VLA) that internalizes multi-modal CoT reasoning into continuous latent representations for embodied action.",
+      "tldr_cn": "本文针对VLA模型中使用显式CoT推理导致高开销和表示不匹配的问题，提出LaRA-VLA，将多模态推理内化到连续隐空间。通过课程训练逐步从显式CoT过渡到隐推理。实验表明LaRA-VLA在保持性能的同时大幅降低推理成本。",
+      "title_zh": "隐推理VLA：面向视觉-语言-动作模型的隐空间思考与预测",
+      "motivation_cn": "现有VLA模型使用显式CoT推理，开销大且表示不匹配。",
+      "method_cn": "将多模态CoT推理内化到连续隐空间，通过课程学习过渡。",
+      "result_cn": "在具身控制任务上，LaRA-VLA降低推理成本且保持性能。",
+      "conclusion_cn": "隐空间推理可有效替代显式CoT用于VLA模型。",
+      "matched_requirement_id": "req-composite-lr",
+      "matched_query_tag": "query:lr:composite",
+      "matched_query_text": "Papers central to 请帮我查找多模态大模型隐空间推理的相关论文。, especially work that connects or combines: multimodal large language model reasoning in latent space; latent space reasoning for multimodal models; reasoning in latent space of large models; multimodal reasoning with latent variables; papers on reasoning in latent space of multimodal large language models; research about latent space reasoning for multimodal models."
+    },
+    {
+      "paper_id": "openreview-icml-2026-qmvotixsfg",
+      "score": 10.0,
+      "evidence_en": "vision-aligned latent reasoning for MLLMs",
+      "evidence_cn": "面向多模态大模型的视觉对齐隐空间推理",
+      "canonical_evidence": "面向多模态大模型的视觉对齐隐空间推理",
+      "tldr_en": "Proposes VaLR, generating vision-aligned latent tokens before each CoT step to preserve visual knowledge during reasoning in latent space.",
+      "tldr_cn": "针对多模态大模型在长上下文推理中视觉信息逐渐稀释的问题，提出视觉对齐隐空间推理框架VaLR，在每一步思维链前动态生成与视觉对齐的隐token，指导模型基于感知线索在隐空间中进行推理。实验表明该方法有效缓解了视觉信息稀释，提升了多步推理的准确性。",
+      "title_zh": "面向多模态大模型的视觉对齐隐空间推理",
+      "motivation_cn": "MLLMs在长上下文生成中视觉信息逐渐稀释，限制了测试时扩展的潜力。",
+      "method_cn": "在每一步思维链前生成视觉对齐的隐token，将视觉知识保留在隐空间。",
+      "result_cn": "在多个多步推理基准上显著优于基线，尤其在长序列推理中表现突出。",
+      "conclusion_cn": "隐空间中的视觉对齐token能有效保持感知信息，提升推理深度。",
+      "matched_requirement_id": "req-1",
+      "matched_query_tag": "query:lr",
+      "matched_query_text": "multimodal large language model reasoning in latent space"
+    },
+    {
+      "paper_id": "openreview-icml-2026-op2bplsv2o",
+      "score": 10.0,
+      "evidence_en": "latent reasoning in vision-language-action models with reinforcement learning",
+      "evidence_cn": "视觉-语言-动作模型中的隐推理，结合强化学习",
+      "canonical_evidence": "视觉-语言-动作模型中的隐推理，结合强化学习",
+      "tldr_en": "Proposes AVA-VLA, a latent reasoning VLA framework that models reasoning as a sequence of latent variables with RL-based denoising and early exit, bypassing explicit text generation to reduce cost and error propagation.",
+      "tldr_cn": "针对VLA模型中显式链式推理计算开销大、错误传播的问题，提出AVA-VLA框架。该框架将推理建模为隐变量序列，引入强化学习去噪机制和提前退出策略。在多个机器人操作任务上，AVA-VLA在更低的计算成本下实现了与显式推理相当的性能，验证了隐推理在具身任务中的有效性。",
+      "title_zh": "少想早动：强化隐推理与视觉-语言-动作模型的提前退出",
+      "motivation_cn": "显式链式推理在VLA中计算成本高且容易错误传播。",
+      "method_cn": "提出隐推理VLA框架，用强化学习去噪隐轨迹，并支持提前退出。",
+      "result_cn": "在机器人操作任务上降低计算开销同时保持性能。",
+      "conclusion_cn": "隐推理结合强化学习是具身任务的高效解决方案。",
+      "matched_requirement_id": "req-4",
+      "matched_query_tag": "query:lr",
+      "matched_query_text": "multimodal reasoning with latent variables"
+    },
+    {
+      "paper_id": "openreview-icml-2026-sftfsixo2k",
+      "score": 9.0,
+      "evidence_en": "Latent Thoughts Tuning for reasoning in continuous latent space",
+      "evidence_cn": "隐思维调优实现连续隐空间推理",
+      "canonical_evidence": "隐思维调优实现连续隐空间推理",
+      "tldr_en": "Latent Thoughts Tuning (LT-Tuning) enables LLMs to reason in continuous latent space via a Context-Prediction-Fusion mechanism, overcoming feature collapse and distribution mismatch.",
+      "tldr_cn": "针对显式思维链将思考限制在离散词汇空间的问题，LT-Tuning提出后训练框架，通过上下文-预测-融合机制构建和部署隐思维。该方法避免了循环使用隐藏状态的分布不匹配和特征坍缩，在多个复杂推理基准上优于隐空间推理基线，同时保持与显式CoT相当的性能。",
+      "title_zh": "隐思维调优：通过隐令牌中的融合信息桥接上下文与推理",
+      "motivation_cn": "显式链式思维限制于离散空间，而现有隐空间推理存在特征坍缩和分布不匹配问题。",
+      "method_cn": "提出LT-Tuning框架，引入上下文-预测-融合机制，从模型隐藏状态构造高质量的隐思维。",
+      "result_cn": "在多个推理基准上，LT-Tuning显著优于现有隐空间推理方法，并与显式CoT性能相当。",
+      "conclusion_cn": "LT-Tuning提供了一种稳定有效的隐空间推理后训练方法，拓展了LLM的推理能力。",
+      "matched_requirement_id": "req-3",
+      "matched_query_tag": "query:lr",
+      "matched_query_text": "reasoning in latent space of large models"
+    },
+    {
+      "paper_id": "openreview-icml-2026-sfwwur9v7c",
+      "score": 9.0,
+      "evidence_en": "Dual-Latent Memory Router for vision-language reasoning in latent space",
+      "evidence_cn": "双隐记忆路由用于视觉语言推理的隐空间",
+      "canonical_evidence": "双隐记忆路由用于视觉语言推理的隐空间",
+      "tldr_en": "DLMR equips MLLMs with Dual Latent Memories (visual and reasoning) and a Router to dynamically reuse them, preserving visual grounding and long-range coherence.",
+      "tldr_cn": "针对多模态大模型长文本推理中丢失早期视觉证据和中间约束的问题，DLMR提出参数高效机制，为模型配备视觉隐记忆和推理隐记忆，并动态路由决定何时重用哪些记忆。该方法在保持视觉对位的同时维持推理连贯性，在视觉语言推理任务中显著提升长序列性能。",
+      "title_zh": "双隐记忆路由用于视觉语言推理",
+      "motivation_cn": "多模态大模型在长生成中容易丢失早期视觉证据和中间约束，导致性能退化。",
+      "method_cn": "提出DLMR机制，分别压缩图像证据为视觉隐记忆、跟踪推理状态为推理隐记忆，并通过路由器动态决定使用哪种记忆及使用量。",
+      "result_cn": "在视觉语言推理基准上，DLMR在长序列设置下显著提升准确性，同时保持推理连贯性。",
+      "conclusion_cn": "隐记忆路由为多模态大模型提供了一种低成本的长期视觉推理增强方法。",
+      "matched_requirement_id": "req-1",
+      "matched_query_tag": "query:lr",
+      "matched_query_text": "multimodal large language model reasoning in latent space"
+    },
+    {
+      "paper_id": "openreview-icml-2026-80nupd5gvb",
+      "score": 9.0,
+      "evidence_en": "Continuous diffusion language model as a latent reasoner",
+      "evidence_cn": "连续扩散语言模型作为隐推理器",
+      "canonical_evidence": "连续扩散语言模型作为隐推理器",
+      "tldr_en": "Proof that continuous diffusion models have stronger expressivity than discrete ones for latent reasoning, with a coevolutionary training method to bridge theory and practice.",
+      "tldr_cn": "针对连续扩散模型理论表达力强但实践性能弱于离散模型的矛盾，本文证明连续扩散在隐推理上具有更强表达力，并归因于训练性问题。提出协同进化的连续-离散扩散训练方法，使连续模型在推理任务上首次超越离散模型，验证了隐空间推理的潜力。",
+      "title_zh": "协同进化连续离散扩散：让扩散语言模型成为隐推理器",
+      "motivation_cn": "连续扩散模型理论上表达力更强，但在语言推理任务上实际表现不如离散模型。",
+      "method_cn": "提出协同进化的连续-离散扩散框架，结合连续空间的高表达力和离散训练的稳定性。",
+      "result_cn": "连续扩散模型在多个推理基准上超越离散扩散和循环Transformer，展现隐推理优势。",
+      "conclusion_cn": "连续扩散模型可成为有效的隐推理器，通过合适的训练策略可释放其理论潜力。",
+      "matched_requirement_id": "req-3",
+      "matched_query_tag": "query:lr",
+      "matched_query_text": "reasoning in latent space of large models"
+    },
+    {
+      "paper_id": "openreview-icml-2026-d6bqyajwmj",
+      "score": 9.0,
+      "evidence_en": "formal comparison between CoT and latent thought reasoning in LLMs",
+      "evidence_cn": "大模型中思维链与隐空间推理的正式比较",
+      "canonical_evidence": "大模型中思维链与隐空间推理的正式比较",
+      "tldr_en": "Provides formal analysis showing latent thought enables parallel computation while CoT is sequential, offering guidance for choosing reasoning paradigms.",
+      "tldr_cn": "本文对思维链与隐空间推理进行了形式化比较，证明隐空间推理支持高效的并行计算，而思维链本质上是顺序的。通过理论分离揭示了两者在计算特性上的本质区别，为在不同任务中选择推理范式提供了理论指导。",
+      "title_zh": "思维链与隐空间推理的形式化比较",
+      "motivation_cn": "尽管CoT和隐空间推理都被用于大模型推理，但它们的计算能力比较尚未被严格分析。",
+      "method_cn": "通过理论分析比较两种推理范式的并行性、计数能力等特性。",
+      "result_cn": "证明隐空间推理可实现高效并行，而CoT支持通过随机解码进行近似计数。",
+      "conclusion_cn": "为不同推理需求提供了选择依据，深度递归更适合隐空间推理。",
+      "matched_requirement_id": "req-3",
+      "matched_query_tag": "query:lr",
+      "matched_query_text": "reasoning in latent space of large models"
+    },
+    {
+      "paper_id": "openreview-icml-2026-pwz7p09w83",
+      "score": 9.0,
+      "evidence_en": "implicit latent reasoning integrated into text-to-image generation",
+      "evidence_cn": "将隐式隐推理集成到文本到图像生成中",
+      "canonical_evidence": "将隐式隐推理集成到文本到图像生成中",
+      "tldr_en": "Introduces LatentMorph, a framework that seamlessly integrates implicit latent reasoning into text-to-image generation, using a condenser and other components to avoid explicit text decoding and re-encoding inefficiencies.",
+      "tldr_cn": "针对现有文本到图像生成缺乏动态推理能力、中间过程需频繁解码编码导致效率低的问题，提出LatentMorph框架。该框架将隐式隐推理无缝融入生成过程，通过冷凝器等组件在隐空间中迭代优化视觉表示。实验表明，相比传统方法，LatentMorph在生成质量和推理效率上均有显著提升，实现了更自然的生成式推理。",
+      "title_zh": "别说出来：将隐式推理融入图像生成",
+      "motivation_cn": "现有文本到图像生成缺乏动态推理能力，中间解码编码导致信息丢失和效率低下。",
+      "method_cn": "提出LatentMorph，在隐空间中进行迭代推理，通过冷凝器组件汇总中间状态。",
+      "result_cn": "在多个文本到图像基准上取得更优的生成质量和推理速度。",
+      "conclusion_cn": "隐式隐推理能有效提升图像生成的动态性和效率。",
+      "matched_requirement_id": "req-5",
+      "matched_query_tag": "query:lr",
+      "matched_query_text": "papers on reasoning in latent space of multimodal large language models"
+    },
+    {
+      "paper_id": "openreview-icml-2026-u7zeiovmgc",
+      "score": 9.0,
+      "evidence_en": "awakens latent spatial reasoning in LVLMs via geometric rectification",
+      "evidence_cn": "通过几何矫正唤醒LVLMs中的隐式空间推理",
+      "canonical_evidence": "通过几何矫正唤醒LVLMs中的隐式空间推理",
+      "tldr_en": "Proposes GRASP, a training-free framework that uses Manifold Differential Search to identify geometric counterfactuals and then rectifies latent spatial representations, enabling LVLMs to correctly output spatial reasoning results.",
+      "tldr_cn": "针对LVLMs在空间推理任务中内部表示正确但输出错误的问题，提出GRASP框架。该方法无需训练，通过流形微分搜索找到最优几何反事实，驱动隐空间轨迹矫正。实验表明GRASP能有效释放LVLMs已有的隐式空间能力，在多个空间推理基准上取得显著提升。",
+      "title_zh": "GRASP：通过无训练几何矫正唤醒LVLMs中的隐式空间推理",
+      "motivation_cn": "LVLMs在空间推理中内部编码正确但输出错误，存在表征-输出错位。",
+      "method_cn": "提出推理时几何流形适应范式GRASP，使用流形微分搜索和双重矫正。",
+      "result_cn": "在空间推理任务上显著提升准确率，无需额外训练。",
+      "conclusion_cn": "利用隐空间矫正可有效激活模型已有能力。",
+      "matched_requirement_id": "req-1",
+      "matched_query_tag": "query:lr",
+      "matched_query_text": "multimodal large language model reasoning in latent space"
+    },
+    {
+      "paper_id": "openreview-icml-2026-x21ykf1ufr",
+      "score": 9.0,
+      "evidence_en": "information-theoretic analysis of latent chain-of-thought reasoning",
+      "evidence_cn": "对隐链式推理的信息论分析",
+      "canonical_evidence": "对隐链式推理的信息论分析",
+      "tldr_en": "Analyzes Latent CoT from an information-theoretic perspective, identifying dual collapse (gradient attenuation and representational drift) and decomposing process supervision into trajectory and space supervision to improve robustness.",
+      "tldr_cn": "针对隐链式推理中结果监督信号弱、语义漂移的问题，从信息论角度分析其失败原因：梯度衰减和表征漂移的双重崩溃。提出将过程监督分解为轨迹监督和空间监督两个互补维度。理论分析和实验表明，该方法能有效稳定隐推理轨迹，提升隐链式推理的鲁棒性。",
+      "title_zh": "隐链式推理中的有效监督：一项信息论分析",
+      "motivation_cn": "隐链式推理中结果监督信号弱，隐轨迹容易语义漂移。",
+      "method_cn": "从信息论角度分析失败原因，提出轨迹监督和空间监督的二维分解。",
+      "result_cn": "在多个推理任务上稳定隐轨迹并提升性能。",
+      "conclusion_cn": "合理的隐空间监督能显著增强隐推理的可靠性。",
+      "matched_requirement_id": "req-5",
+      "matched_query_tag": "query:lr",
+      "matched_query_text": "papers on reasoning in latent space of multimodal large language models"
+    },
+    {
+      "paper_id": "openreview-icml-2026-hpelhqqxxf",
+      "score": 9.0,
+      "evidence_en": "reasoning segmentation with MLLM",
+      "evidence_cn": "多模态大语言模型推理分割",
+      "canonical_evidence": "多模态大语言模型推理分割",
+      "tldr_en": "DR²Seg proposes a two-stage rollout that decomposes reasoning segmentation into multimodal reasoning and referring segmentation, using self-rewarding to improve efficiency and accuracy without extra supervision.",
+      "tldr_cn": "本文针对多模态大语言模型在推理分割任务中生成冗长推理链、干扰物体定位的问题，提出了DR²Seg框架。该方法采用分解的两阶段滚动策略，先将推理分割拆解为多模态推理阶段（生成自包含描述）和指代分割阶段（进行精确分割），并通过自奖励机制优化，无需额外的思维监督。在多个标准分割基准上的实验表明，DR²Seg在显著提升推理效率的同时保持甚至提高了分割准确性，有效缓解了过度思考问题。这项研究为高效推理分割提供了新范式。",
+      "title_zh": "DR²Seg：分解的两阶段滚动策略用于多模态大语言模型的高效推理分割",
+      "motivation_cn": "现有推理分割方法生成冗长推理链干扰定位，效率低下。",
+      "method_cn": "提出DR²Seg，采用两阶段滚动策略将推理分割分解为多模态推理和指代分割，并通过自奖励机制优化。",
+      "result_cn": "在多个标准分割基准上，DR²Seg显著提升推理效率并保持高分割准确率。",
+      "conclusion_cn": "本文方法有效缓解了多模态大模型推理分割中的过度思考问题，为高效推理分割提供了新思路。",
+      "matched_requirement_id": "req-composite-seg-llm",
+      "matched_query_tag": "query:seg-llm:composite",
+      "matched_query_text": "Papers central to 请帮我搜集有关语义分割和大模型推理结合的论文, especially work that connects or combines: semantic segmentation; large language model reasoning; vision language model segmentation; segmentation with language model reasoning; semantic segmentation guided by language model; semantic segmentation with large language model reasoning; use large language model to enhance semantic segmentation; reasoning based semantic segmentation using vision language models."
+    },
+    {
+      "paper_id": "openreview-icml-2026-ppirvueej6",
+      "score": 8.0,
+      "evidence_en": "Tracing and steering algorithmic operations in model latent space for multi-step reasoning",
+      "evidence_cn": "在模型隐空间追踪和引导算法操作以进行多步推理",
+      "canonical_evidence": "在模型隐空间追踪和引导算法操作以进行多步推理",
+      "tldr_en": "AlgoTrace discovers algorithmic primitives in LLM latent space and uses function vectors to steer reasoning, showing that primitive vectors can be injected to elicit specific reasoning behaviors.",
+      "tldr_cn": "为理解LLM如何利用隐空间计算进行多步推理，AlgoTrace框架通过聚类隐激活识别算法原语，并利用函数向量提取可复用的原语向量。实验证明注入这些原语向量能激发模型执行对应算法操作，如旅行商问题求解，揭示了隐空间中推理的组成几何。",
+      "title_zh": "AlgoTrace：语言模型中推理的算法原语与组合几何",
+      "motivation_cn": "LLM推理过程中的内部机制不明确，缺乏对隐空间中算法操作的理解。",
+      "method_cn": "通过聚类隐激活识别算法原语，使用函数向量提取可复用的原语向量。",
+      "result_cn": "注入原语向量可以稳定地引导模型执行对应算法步骤，提升推理可靠性和可解释性。",
+      "conclusion_cn": "AlgoTrace提供了一种在隐空间中发现和操控推理原语的方法，促进了可解释和可引导的推理。",
+      "matched_requirement_id": "req-3",
+      "matched_query_tag": "query:lr",
+      "matched_query_text": "reasoning in latent space of large models"
+    },
+    {
+      "paper_id": "openreview-icml-2026-um6ifyc63p",
+      "score": 8.0,
+      "evidence_en": "compressing CoT into latent visual tokens for LLM reasoning",
+      "evidence_cn": "将长思维链压缩为隐视觉token用于大模型推理",
+      "canonical_evidence": "将长思维链压缩为隐视觉token用于大模型推理",
+      "tldr_en": "Proposes ImgCoT which replaces textual CoT reconstruction with visual CoT as target to compress reasoning into compact latent tokens, avoiding linguistic bias.",
+      "tldr_cn": "针对现有方法将思维链压缩为隐token时受语言归纳偏差影响的问题，提出ImgCoT，将文本思维链渲染为图像，以视觉思维链作为重构目标，从而保留推理结构而非语言形式。实验表明该方法在保持推理质量的同时大幅降低token数，提升了推理效率。",
+      "title_zh": "ImgCoT：将长思维链压缩为紧凑视觉token用于大语言模型高效推理",
+      "motivation_cn": "现有隐token压缩方法因重构文本CoT而保留语言特征，忽视了推理结构。",
+      "method_cn": "将文本CoT渲染为图像，以视觉CoT作为重构目标训练自编码器。",
+      "result_cn": "在多个推理任务上，以更少的token数达到或超过原始CoT性能。",
+      "conclusion_cn": "视觉化重构目标能更有效地编码推理结构，避免语言偏差。",
+      "matched_requirement_id": "req-3",
+      "matched_query_tag": "query:lr",
+      "matched_query_text": "reasoning in latent space of large models"
+    },
+    {
+      "paper_id": "openreview-icml-2026-l1cmerxg1p",
+      "score": 8.0,
+      "evidence_en": "latent visual reasoning in MLLMs analyzed via causal mediation",
+      "evidence_cn": "通过因果中介分析多模态大模型的隐空间视觉推理",
+      "canonical_evidence": "通过因果中介分析多模态大模型的隐空间视觉推理",
+      "tldr_en": "Uses causal mediation analysis to reveal input-latent disconnect and latent-answer disconnect in latent visual reasoning of MLLMs.",
+      "tldr_cn": "针对多模态大模型中的隐空间视觉推理，本文通过因果中介分析发现两个关键问题：输入扰动对隐token影响极小（输入-隐空间脱节），以及隐token变化与输出答案不匹配（隐空间-答案脱节）。这些发现揭示了当前隐空间推理方法的局限性。",
+      "title_zh": "想象有助于视觉推理，但尚不能在隐空间中实现",
+      "motivation_cn": "隐空间视觉推理的机制尚未明确，其有效性来源存疑。",
+      "method_cn": "使用因果中介分析，将输入、隐token、输出建模为因果链进行检验。",
+      "result_cn": "发现输入-隐空间和隐空间-答案之间存在显著脱节。",
+      "conclusion_cn": "当前隐空间推理并未真正利用视觉信息，需进一步改进。",
+      "matched_requirement_id": "req-1",
+      "matched_query_tag": "query:lr",
+      "matched_query_text": "multimodal large language model reasoning in latent space"
+    },
+    {
+      "paper_id": "openreview-icml-2026-syg9i9ofd8",
+      "score": 8.0,
+      "evidence_en": "latent collaboration in multi-agent systems using continuous latent space",
+      "evidence_cn": "多智能体在连续隐空间中协作",
+      "canonical_evidence": "多智能体在连续隐空间中协作",
+      "tldr_en": "Proposes LatentMAS, a training-free framework enabling LLM agents to collaborate purely in latent space via auto-regressive latent thoughts and shared latent working memory, achieving efficient information exchange without text decoding.",
+      "tldr_cn": "针对现有LLM智能体依赖文本推理通信效率低的问题，提出LatentMAS框架，让智能体在连续隐空间中通过自回归隐式思考直接协作，无需文本解码。共享隐工作记忆实现无损信息交换。实验表明该方法在保持性能的同时显著提升通信效率，为多智能体系统提供了新的隐空间交互范式。",
+      "title_zh": "多智能体系统中的隐式协作",
+      "motivation_cn": "现有LLM智能体依赖文本中介进行推理和通信，效率低且信息有损。",
+      "method_cn": "提出LatentMAS，智能体生成隐式思考嵌入，通过共享隐工作记忆协作，无需训练。",
+      "result_cn": "在多个推理任务上实现高效通信，性能与文本基线相当。",
+      "conclusion_cn": "隐空间协作是可行且高效的多智能体交互方式。",
+      "matched_requirement_id": "req-composite-lr",
+      "matched_query_tag": "query:lr:composite",
+      "matched_query_text": "Papers central to 请帮我查找多模态大模型隐空间推理的相关论文。, especially work that connects or combines: multimodal large language model reasoning in latent space; latent space reasoning for multimodal models; reasoning in latent space of large models; multimodal reasoning with latent variables; papers on reasoning in latent space of multimodal large language models; research about latent space reasoning for multimodal models."
+    },
+    {
+      "paper_id": "openreview-icml-2026-12crabknu6",
+      "score": 7.0,
+      "evidence_en": "Shared Latent Queries for multimodal context aggregation in frozen MLLMs",
+      "evidence_cn": "共享隐查询用于冻结多模态大模型的跨模态聚合",
+      "canonical_evidence": "共享隐查询用于冻结多模态大模型的跨模态聚合",
+      "tldr_en": "SLQ introduces Shared Latent Queries to adapt frozen MLLMs for dense retrieval, leveraging latent space to aggregate multimodal context without parameter updates.",
+      "tldr_cn": "针对冻结多模态大模型在密集检索中参数更新破坏语义空间的问题，SLQ提出参数高效的微调框架，通过少量共享隐查询附加到文本和图像token后，利用模型原生因果注意力在隐空间统一聚合多模态上下文。实验表明该方法在保持推理能力的同时实现高性能检索，且不更新主干参数。",
+      "title_zh": "共享隐查询：通过冻结多模态大模型的隐检索桥接模态",
+      "motivation_cn": "现有方法通过全微调或LoRA更新参数会破坏预训练语义空间，影响结构化推理知识。",
+      "method_cn": "提出SLQ框架，引入共享隐查询(Shared Latent Queries)附加到文本和图像token后，利用因果注意力在隐空间聚合多模态上下文实现检索。",
+      "result_cn": "在冻结主干参数条件下，SLQ在密集检索任务上达到与微调方法相当甚至更好的性能。",
+      "conclusion_cn": "共享隐查询提供了一种非侵入式的隐空间适配方法，保留了MLLM的推理能力同时在检索任务上高效。",
+      "matched_requirement_id": "req-1",
+      "matched_query_tag": "query:lr",
+      "matched_query_text": "multimodal large language model reasoning in latent space"
+    },
+    {
+      "paper_id": "openreview-icml-2026-e0wfmuizny",
+      "score": 7.0,
+      "evidence_en": "Discovery of reasoning vectors in activation space (latent space) for LLMs",
+      "evidence_cn": "在LLM激活空间（隐空间）中发现推理向量",
+      "canonical_evidence": "在LLM激活空间（隐空间）中发现推理向量",
+      "tldr_en": "RISE uses sparse autoencoders to discover reasoning vectors in LLMs' activation space, enabling unsupervised identification of reasoning behaviors.",
+      "tldr_cn": "针对现有推理行为分析依赖人工定义和词级别监督的问题，RISE框架利用稀疏自编码器在LLM激活空间中无监督发现推理向量（编码不同推理行为的方向）。该方法无需先验标签，可自动识别反思、回溯等行为，为理解隐空间推理机制提供新工具。",
+      "title_zh": "奇妙的推理行为及其发现之处：推理过程的无监督发现",
+      "motivation_cn": "现有推理分析依赖人工定义的词级别概念，无法覆盖隐空间中多样的推理行为。",
+      "method_cn": "利用稀疏自编码器在LLM激活空间中无监督学习推理向量，每个向量编码一种推理行为。",
+      "result_cn": "发现多个有意义的推理行为向量，可解释模型内部推理过程，且能用于行为控制。",
+      "conclusion_cn": "隐空间中的推理向量为理解LLM推理提供了无监督、细粒度的分析维度。",
+      "matched_requirement_id": "req-3",
+      "matched_query_tag": "query:lr",
+      "matched_query_text": "reasoning in latent space of large models"
+    },
+    {
+      "paper_id": "openreview-icml-2026-jq2drksir0",
+      "score": 7.0,
+      "evidence_en": "diffusion-based generative multimodal reasoning with visual trajectory in latent space",
+      "evidence_cn": "基于扩散的生成式多模态推理，在隐空间中生成视觉推理轨迹",
+      "canonical_evidence": "基于扩散的生成式多模态推理，在隐空间中生成视觉推理轨迹",
+      "tldr_en": "Introduces DiffThinker, a diffusion-based framework that reformulates multimodal reasoning as an image-to-image task, using iterative denoising trajectories as visual reasoning paths to track and visualize intermediate states.",
+      "tldr_cn": "针对现有MLLMs推理过程仅以文本为中心、无法可视化中间视觉状态的问题，提出DiffThinker框架。该框架将多模态推理重构成生成式图像到图像任务，利用扩散模型的迭代去噪轨迹作为视觉推理路径。实验证明DiffThinker在复杂长时视觉推理任务上显著优于文本中心方法，实现了更直观的推理过程。",
+      "title_zh": "DiffThinker：基于扩散模型的生成式多模态推理",
+      "motivation_cn": "现有MLLMs推理缺乏中间视觉状态追踪，在视觉密集型任务中表现不佳。",
+      "method_cn": "将多模态推理重构成图像到图像的扩散生成任务，去噪轨迹即推理路径。",
+      "result_cn": "在多个视觉推理基准上达到最优，推理过程可视化。",
+      "conclusion_cn": "生成式多模态推理范式能有效提升视觉推理性能。",
+      "matched_requirement_id": "req-composite-lr",
+      "matched_query_tag": "query:lr:composite",
+      "matched_query_text": "Papers central to 请帮我查找多模态大模型隐空间推理的相关论文。, especially work that connects or combines: multimodal large language model reasoning in latent space; latent space reasoning for multimodal models; reasoning in latent space of large models; multimodal reasoning with latent variables; papers on reasoning in latent space of multimodal large language models; research about latent space reasoning for multimodal models."
+    },
+    {
+      "paper_id": "openreview-icml-2026-vmsumctgvg",
+      "score": 6.0,
+      "evidence_en": "Latent action supervision for vision-language-action models, involving latent space reasoning",
+      "evidence_cn": "隐动作监督用于视觉-语言-动作模型，涉及隐空间推理",
+      "canonical_evidence": "隐动作监督用于视觉-语言-动作模型，涉及隐空间推理",
+      "tldr_en": "A systematic study of latent action supervision strategies for VLA models, revealing that image-based latent actions benefit long-horizon reasoning.",
+      "tldr_cn": "针对视觉-语言-动作模型中隐动作监督的碎片化现状，该工作从图像基和动作基两个视角系统比较了四种集成策略。实验表明图像基隐动作有利于长程推理，而动作基隐动作统一目标空间，揭示了隐动作表征与任务之间的对应关系，为VLA模型设计提供指导。",
+      "title_zh": "从像素到令牌：视觉-语言-动作模型隐动作监督的系统研究",
+      "motivation_cn": "现有隐动作监督方法碎片化，缺乏系统比较，不同策略对推理的影响不明确。",
+      "method_cn": "在统一VLA基线框架下，从图像基隐动作和动作基隐动作两个维度实例化和比较四种集成策略。",
+      "result_cn": "图像基隐动作显著提升长程推理任务性能，动作基隐动作则提升动作预测一致性。",
+      "conclusion_cn": "隐动作监督的选择应与任务需求匹配，图像基隐动作适合长程推理场景。",
+      "matched_requirement_id": "req-1",
+      "matched_query_tag": "query:lr",
+      "matched_query_text": "multimodal large language model reasoning in latent space"
+    },
+    {
+      "paper_id": "openreview-icml-2026-4arh5kzrgz",
+      "score": 6.0,
+      "evidence_en": "Latent retrieval-augmented generation using LLM hidden states for experience learning in latent space",
+      "evidence_cn": "利用LLM隐藏状态在隐空间进行潜在检索增强生成以学习经验",
+      "canonical_evidence": "利用LLM隐藏状态在隐空间进行潜在检索增强生成以学习经验",
+      "tldr_en": "ExpWeaver enables LLM agents to learn from past experiences via latent RAG, retrieving relevant experiences directly in latent space at each decoding step.",
+      "tldr_cn": "针对现有经验学习方法依赖显式文本检索导致大量标记开销和检索与生成分离的问题，ExpWeaver提出隐空间检索增强生成框架。它将经验编码为LLM的隐藏状态，在解码每一步直接在隐空间检索相关经验并融合，无需独立RAG模块。在多种Agent任务上降低了成本同时提升了规划推理能力。",
+      "title_zh": "ExpWeaver：LLM智能体通过隐RAG从经验中学习",
+      "motivation_cn": "现有经验学习方法将经验以文本形式检索并拼接，导致高昂的标记消耗和分离架构。",
+      "method_cn": "提出ExpWeaver，利用LLM自身的隐藏状态编码经验，在解码每一步直接在隐空间检索并融合相关经验。",
+      "result_cn": "在多个Agent规划任务上，ExpWeaver以更低开销提升了推理性能和泛化能力。",
+      "conclusion_cn": "隐空间检索增强生成为LLM智能体提供了高效的经验利用方式。",
+      "matched_requirement_id": "req-3",
+      "matched_query_tag": "query:lr",
+      "matched_query_text": "reasoning in latent space of large models"
+    },
+    {
+      "paper_id": "openreview-icml-2026-wqiyx69dfg",
+      "score": 6.0,
+      "evidence_en": "Learns structured latent representations for spatio-semantic reasoning",
+      "evidence_cn": "学习结构化的隐空间表示用于空间语义推理",
+      "canonical_evidence": "学习结构化的隐空间表示用于空间语义推理",
+      "tldr_en": "Proposes WorldComp2D, a lightweight representation learning framework that explicitly structures latent space geometry for spatio-semantic reasoning.",
+      "tldr_cn": "本文针对现有隐表示方法缺乏显式结构的问题，提出WorldComp2D，通过多尺度局部感受野显式组织隐空间几何。该框架包括近距编码器和定位器，高效捕获空间语义信息。实验表明在空间推理任务上性能优越且计算效率高。",
+      "title_zh": "WorldComp2D：从局部视图学习目标身份与位置的空间语义表示",
+      "motivation_cn": "现有隐表示方法隐式且计算效率低，缺乏显式空间结构。",
+      "method_cn": "构建依赖空间距离的编码器和定位器，显式组织隐空间几何。",
+      "result_cn": "在目标定位和空间推理任务上取得高效结果。",
+      "conclusion_cn": "显式结构化隐空间能有效支持空间语义推理。",
+      "matched_requirement_id": "req-composite-lr",
+      "matched_query_tag": "query:lr:composite",
+      "matched_query_text": "Papers central to 请帮我查找多模态大模型隐空间推理的相关论文。, especially work that connects or combines: multimodal large language model reasoning in latent space; latent space reasoning for multimodal models; reasoning in latent space of large models; multimodal reasoning with latent variables; papers on reasoning in latent space of multimodal large language models; research about latent space reasoning for multimodal models."
+    },
+    {
+      "paper_id": "openreview-icml-2026-03ztljux0y",
+      "score": 6.0,
+      "evidence_en": "l2 norm of hidden states as signal for reasoning dynamics in LLMs",
+      "evidence_cn": "隐藏状态l2范数作为大模型推理动态的信号",
+      "canonical_evidence": "隐藏状态l2范数作为大模型推理动态的信号",
+      "tldr_en": "Demonstrates that the l2 norm of hidden states bounds reasoning feature activations, providing a model-intrinsic signal for reasoning dynamics in LLMs.",
+      "tldr_cn": "本文发现大语言模型隐藏状态的l2范数可以作为推理强度的内生信号，利用稀疏自编码器观察到推理特征激活在后期层中急剧上升。理论上证明了隐藏状态范数约束了推理特征的激活强度，为理解模型内部推理动态提供了新的分析工具。",
+      "title_zh": "告密范数：l2幅度作为大语言模型推理动态的信号",
+      "motivation_cn": "缺乏一种模型内生的、能捕捉逐层推理动态的原则性信号。",
+      "method_cn": "通过稀疏自编码器探测推理特征，并建立l2范数与推理强度的理论联系。",
+      "result_cn": "验证了l2范数在后期层与推理特征激活高度相关。",
+      "conclusion_cn": "l2范数是一种有效的推理动态指示器，可用于分析模型行为。",
+      "matched_requirement_id": "req-3",
+      "matched_query_tag": "query:lr",
+      "matched_query_text": "reasoning in latent space of large models"
+    },
+    {
+      "paper_id": "openreview-icml-2026-56cqpbig4r",
+      "score": 6.0,
+      "evidence_en": "latent-space optimization for safety reasoning alignment",
+      "evidence_cn": "隐空间优化用于安全推理对齐",
+      "canonical_evidence": "隐空间优化用于安全推理对齐",
+      "tldr_en": "Proposes CRAFT, a red-teaming alignment framework that leverages hidden representations and contrastive RL to separate safe and unsafe reasoning trajectories in latent space, improving robustness against jailbreak attacks.",
+      "tldr_cn": "针对大模型安全对齐仅在输出层操作、缺乏对推理过程引导的问题，提出CRAFT框架。该框架利用对比表征学习和强化学习，在隐空间中分离安全与不安全的推理轨迹。理论分析表明隐文本一致性约束能消除表面对齐策略。实验证明CRAFT能有效提升模型对越狱攻击的鲁棒性。",
+      "title_zh": "对比推理对齐：从隐藏表示中进行强化学习",
+      "motivation_cn": "现有安全对齐仅在输出层操作，无法纠正内部不安全推理。",
+      "method_cn": "CRAFT在隐状态空间优化安全轨迹，结合对比学习和强化学习。",
+      "result_cn": "在多个红队测试中显著提升模型安全性。",
+      "conclusion_cn": "隐空间推理对齐是一种有效的安全防御手段。",
+      "matched_requirement_id": "req-composite-lr",
+      "matched_query_tag": "query:lr:composite",
+      "matched_query_text": "Papers central to 请帮我查找多模态大模型隐空间推理的相关论文。, especially work that connects or combines: multimodal large language model reasoning in latent space; latent space reasoning for multimodal models; reasoning in latent space of large models; multimodal reasoning with latent variables; papers on reasoning in latent space of multimodal large language models; research about latent space reasoning for multimodal models."
+    },
+    {
+      "paper_id": "openreview-icml-2026-g2yb3lhw4l",
+      "score": 6.0,
+      "evidence_en": "lightweight multimodal reasoning via fixed-size discrete cosine space for visual thoughts",
+      "evidence_cn": "通过固定大小离散余弦空间表示视觉思想，实现轻量多模态推理",
+      "canonical_evidence": "通过固定大小离散余弦空间表示视觉思想，实现轻量多模态推理",
+      "tldr_en": "Proposes SpecFlow, a lightweight multimodal reasoning framework that represents intermediate visual thoughts in a fixed-size discrete cosine space, using classifier-free guidance to align visual evolution with linguistic intent.",
+      "tldr_cn": "针对多模态推理中视觉token累积和跨模态注意力导致计算开销大的问题，提出SpecFlow框架。该框架将中间视觉思想压缩到固定大小的离散余弦空间，利用强能量压缩保留全局结构，并通过无分类器引导对齐文本意图。实验表明SpecFlow在显著降低计算和内存开销的同时保持了推理质量。",
+      "title_zh": "谱渐进思维流：面向轻量多模态推理",
+      "motivation_cn": "多模态推理中视觉token和跨模态注意导致高计算和内存开销。",
+      "method_cn": "提出SpecFlow，在固定大小离散余弦空间表示视觉思想，渐进引入高频细节。",
+      "result_cn": "在多个基准上以更低资源消耗取得相近或更好的性能。",
+      "conclusion_cn": "频域压缩的隐式视觉表示能有效降低多模态推理成本。",
+      "matched_requirement_id": "req-composite-lr",
+      "matched_query_tag": "query:lr:composite",
+      "matched_query_text": "Papers central to 请帮我查找多模态大模型隐空间推理的相关论文。, especially work that connects or combines: multimodal large language model reasoning in latent space; latent space reasoning for multimodal models; reasoning in latent space of large models; multimodal reasoning with latent variables; papers on reasoning in latent space of multimodal large language models; research about latent space reasoning for multimodal models."
+    },
+    {
+      "paper_id": "openreview-icml-2026-vzuitb6boa",
+      "score": 6.0,
+      "evidence_en": "latent grounding IDs improve multimodal binding and reasoning",
+      "evidence_cn": "隐式接地ID改善多模态绑定和推理",
+      "canonical_evidence": "隐式接地ID改善多模态绑定和推理",
+      "tldr_en": "Shows that external visual cues induce latent Grounding IDs in LVLMs, which improve alignment between visual and textual modalities and boost grounding and reasoning performance.",
+      "tldr_cn": "针对大视觉-语言模型在多模态对齐和推理中的不足，发现外部视觉线索能诱发模型内部产生隐式接地ID。这些隐标识符通过结构化视觉和文本模态，改善了对应视觉元素与文本描述的绑定。实验证明引入外部线索能显著提升模型的接地和推理能力。",
+      "title_zh": "揭示接地ID：外部线索如何塑造多模态绑定",
+      "motivation_cn": "LVLMs在视觉和文本对齐上仍有提升空间。",
+      "method_cn": "引入接地ID概念，通过外部视觉线索在隐空间中形成结构化标识。",
+      "result_cn": "在有外部线索的任务中，模型对齐和推理性能显著提高。",
+      "conclusion_cn": "外部线索通过隐式ID改善了多模态表示。",
+      "matched_requirement_id": "req-composite-lr",
+      "matched_query_tag": "query:lr:composite",
+      "matched_query_text": "Papers central to 请帮我查找多模态大模型隐空间推理的相关论文。, especially work that connects or combines: multimodal large language model reasoning in latent space; latent space reasoning for multimodal models; reasoning in latent space of large models; multimodal reasoning with latent variables; papers on reasoning in latent space of multimodal large language models; research about latent space reasoning for multimodal models."
+    },
+    {
+      "paper_id": "openreview-icml-2026-wcqevbldlz",
+      "score": 5.0,
+      "evidence_en": "multi-image spatial reasoning in MLLMs",
+      "evidence_cn": "多图像空间推理与多模态大模型",
+      "canonical_evidence": "多图像空间推理与多模态大模型",
+      "tldr_en": "Proposes Human-Aware Training for cross-view correspondence and stepwise viewpoint transformation to improve multi-image spatial reasoning in MLLMs.",
+      "tldr_cn": "针对多模态大模型在多图像空间推理中的局限性，提出人类感知训练方法，显式建模跨视图对应和逐步视角变换机制，使模型能够像人类一样整合多视角信息，在多个基准上显著提升了空间推理能力。",
+      "title_zh": "从对应到动作：多模态大模型中类似人类的多图像空间推理",
+      "motivation_cn": "现有MLLMs在多图像空间推理中无法有效整合多视角信息，缺乏对人类认知机制的显式建模。",
+      "method_cn": "提出Human-Aware Training，通过交叉视图对应和逐步视角变换两个监督信号训练MLLM。",
+      "result_cn": "在多个多图像推理任务上取得了显著性能提升，超越了先前方法。",
+      "conclusion_cn": "显式引入人类空间认知机制能有效提升MLLMs的多图像推理能力。",
+      "matched_requirement_id": "req-composite-lr",
+      "matched_query_tag": "query:lr:composite",
+      "matched_query_text": "Papers central to 请帮我查找多模态大模型隐空间推理的相关论文。, especially work that connects or combines: multimodal large language model reasoning in latent space; latent space reasoning for multimodal models; reasoning in latent space of large models; multimodal reasoning with latent variables; papers on reasoning in latent space of multimodal large language models; research about latent space reasoning for multimodal models."
+    },
+    {
+      "paper_id": "openreview-icml-2026-fyle5o8g5f",
+      "score": 5.0,
+      "evidence_en": "multimodal retrieval-augmented reasoning with graph memory",
+      "evidence_cn": "基于图记忆的多模态检索增强推理",
+      "canonical_evidence": "基于图记忆的多模态检索增强推理",
+      "tldr_en": "Introduces VimRAG, a framework using dynamic directed acyclic graph for multimodal retrieval-augmented reasoning across text, images, and videos.",
+      "tldr_cn": "针对传统RAG在线性交互中难以处理长上下文多模态推理的问题，提出VimRAG框架，将推理过程建模为动态有向无环图，结构化存储智能体状态和检索到的多模态证据。实验证明该方法在长上下文多模态推理任务上显著优于现有RAG方法。",
+      "title_zh": "通过多模态记忆图导航海量视觉上下文的检索增强生成",
+      "motivation_cn": "现有RAG方法依赖线性交互历史，难以处理信息稀疏但token密集的视觉数据。",
+      "method_cn": "提出VimRAG，使用动态有向无环图对推理过程进行结构化建模。",
+      "result_cn": "在多个长上下文多模态推理基准上取得了最佳性能。",
+      "conclusion_cn": "图结构记忆能有效组织多模态证据，提升推理鲁棒性。",
+      "matched_requirement_id": "req-composite-lr",
+      "matched_query_tag": "query:lr:composite",
+      "matched_query_text": "Papers central to 请帮我查找多模态大模型隐空间推理的相关论文。, especially work that connects or combines: multimodal large language model reasoning in latent space; latent space reasoning for multimodal models; reasoning in latent space of large models; multimodal reasoning with latent variables; papers on reasoning in latent space of multimodal large language models; research about latent space reasoning for multimodal models."
+    },
+    {
+      "paper_id": "openreview-icml-2026-q7al5vwgos",
+      "score": 5.0,
+      "evidence_en": "multi-rationale discriminative reasoning framework for MLLMs",
+      "evidence_cn": "多模态大模型的多理由判别式推理框架",
+      "canonical_evidence": "多模态大模型的多理由判别式推理框架",
+      "tldr_en": "Proposes MIND framework with Rationale Augmentation and Discrimination and progressive two-stage correction for robust multi-modal reasoning.",
+      "tldr_cn": "针对多模态大模型在多理由语义建模不足、逻辑鲁棒性差等问题，提出多理由集成判别推理框架MIND，包含理由增强与判别范式及渐进式两阶段修正，使模型从被动模仿转向主动判别推理。在多个推理基准上验证了其有效性。",
+      "title_zh": "MIND：面向多模态大模型的多理由集成判别推理框架",
+      "motivation_cn": "现有MLLMs在多理由语义建模和逻辑鲁棒性方面存在不足，易受误导线索影响。",
+      "method_cn": "提出理由增强与判别（RAD）范式和渐进式两阶段修正流程。",
+      "result_cn": "在多个多模态推理任务上取得了显著改进，尤其在对抗性样本上鲁棒性提升。",
+      "conclusion_cn": "主动判别推理范式能有效提升MLLMs的鲁棒性和准确性。",
+      "matched_requirement_id": "req-composite-lr",
+      "matched_query_tag": "query:lr:composite",
+      "matched_query_text": "Papers central to 请帮我查找多模态大模型隐空间推理的相关论文。, especially work that connects or combines: multimodal large language model reasoning in latent space; latent space reasoning for multimodal models; reasoning in latent space of large models; multimodal reasoning with latent variables; papers on reasoning in latent space of multimodal large language models; research about latent space reasoning for multimodal models."
+    },
+    {
+      "paper_id": "openreview-icml-2026-tcfta9ci3u",
+      "score": 4.0,
+      "evidence_en": "Analyzes reasoning features in LLM internal representations",
+      "evidence_cn": "分析语言模型内部表示中的推理特征",
+      "canonical_evidence": "分析语言模型内部表示中的推理特征",
+      "tldr_en": "Investigates reliability of sparse autoencoders for identifying reasoning features in LLMs, proposing a falsification-based evaluation framework.",
+      "tldr_cn": "本文研究稀疏自编码器（SAE）能否可靠地识别语言模型中的推理特征。通过理论分析和因果注入评估，发现SAE可能聚焦于相关线索而非真正推理特征。该工作为隐空间推理分析提供了方法论参考。",
+      "title_zh": "稀疏自编码器能否识别语言模型中的推理特征？",
+      "motivation_cn": "需要验证SAE是否真正捕获了推理相关的内部特征。",
+      "method_cn": "提出基于反证的评估框架，结合因果令牌注入和LLM引导的反例构建。",
+      "result_cn": "在多种模型和配置中发现SAE倾向于保留低级线索。",
+      "conclusion_cn": "SAE未必能可靠识别推理特征，需谨慎解读。",
+      "matched_requirement_id": "req-3",
+      "matched_query_tag": "query:lr",
+      "matched_query_text": "reasoning in latent space of large models"
+    },
+    {
+      "paper_id": "openreview-icml-2026-pntxytr2vg",
+      "score": 4.0,
+      "evidence_en": "Multimodal latent generative modeling with diffusion, not reasoning",
+      "evidence_cn": "多模态隐空间生成建模，非推理",
+      "canonical_evidence": "多模态隐空间生成建模，非推理",
+      "tldr_en": "Proposes Latent Language Modeling (LatentLM) for unified multimodal generation using latent vectors and next-token diffusion.",
+      "tldr_cn": "本文提出LatentLM，将连续和离散数据统一到因果Transformer中，使用VAE编码为隐向量并通过下一个令牌扩散生成。重点是多模态生成而非推理，但隐空间表示方法对隐推理有借鉴意义。",
+      "title_zh": "多模态隐语言建模与下一个令牌扩散",
+      "motivation_cn": "多模态生成需要统一处理离散和连续数据。",
+      "method_cn": "使用VAE将连续数据表示为隐向量，结合下一个令牌扩散进行自回归生成。",
+      "result_cn": "在图像生成上达到竞争性能。",
+      "conclusion_cn": "隐空间生成模型可有效统一多模态表示。",
+      "matched_requirement_id": "req-composite-lr",
+      "matched_query_tag": "query:lr:composite",
+      "matched_query_text": "Papers central to 请帮我查找多模态大模型隐空间推理的相关论文。, especially work that connects or combines: multimodal large language model reasoning in latent space; latent space reasoning for multimodal models; reasoning in latent space of large models; multimodal reasoning with latent variables; papers on reasoning in latent space of multimodal large language models; research about latent space reasoning for multimodal models."
+    }
+  ],
+  "llm_ranked_at": "2026-07-28T09:30:46.962510+00:00",
+  "display_min_score": 4.0,
+  "pruned_at": "2026-07-28T09:30:47.001398+00:00"
+}
